@@ -1,9 +1,11 @@
 import Layout from '../../components/Layout'
+import CrosswordGame from './components/CrosswordGame'
 import { DictChapterButton } from './components/DictChapterButton'
 import { ExerciseModeSwitcher } from './components/ExerciseModeSwitcher'
 import PronunciationSwitcher from './components/PronunciationSwitcher'
 import ResultScreen from './components/ResultScreen'
 import Speed from './components/Speed'
+import SpellerGame from './components/SpellerGame'
 import StartButton from './components/StartButton'
 import Switcher from './components/Switcher'
 import VirtualKeyboard from './components/VirtualKeyboard'
@@ -142,11 +144,11 @@ const App: React.FC = () => {
 
       dispatch({
         type: TypingStateActionType.SETUP_CHAPTER,
-        payload: { words, shouldShuffle: randomConfig.isOpen, initialIndex },
+        payload: { words, shouldShuffle: randomConfig.isOpen || exerciseMode === 'speller', initialIndex },
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [words])
+  }, [words, exerciseMode])
 
   useEffect(() => {
     // 当用户完成章节后且完成 word Record 数据保存，记录 chapter Record 数据,
@@ -209,10 +211,17 @@ const App: React.FC = () => {
                   <p className="mt-2 text-sm italic">请在练习中产生错题后再来挑战，或切换到包含错题的词库</p>
                 </div>
               ) : (
-                !state.isFinished && <WordPanel />
+                !state.isFinished &&
+                (exerciseMode === 'speller' ? <SpellerGame /> : exerciseMode === 'crossword' ? <CrosswordGame /> : <WordPanel />)
               )}
             </div>
             {!isLoading && <VirtualKeyboard />}
+
+            {/* 预加载 SpellerGame 和 CrosswordGame 组件，避免切换时的白屏 */}
+            <div className="hidden">
+              <SpellerGame />
+              <CrosswordGame />
+            </div>
           </div>
         </div>
       </Layout>

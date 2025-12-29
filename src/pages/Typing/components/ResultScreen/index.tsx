@@ -9,6 +9,7 @@ import Tooltip from '@/components/Tooltip'
 import {
   currentChapterAtom,
   currentDictInfoAtom,
+  exerciseModeAtom,
   infoPanelStateAtom,
   isReviewModeAtom,
   randomConfigAtom,
@@ -35,6 +36,7 @@ const ResultScreen = () => {
   const { state, dispatch } = useContext(TypingContext)!
 
   const setWordDictationConfig = useSetAtom(wordDictationConfigAtom)
+  const exerciseMode = useAtomValue(exerciseModeAtom)
   const currentDictInfo = useAtomValue(currentDictInfoAtom)
   const [selectedChapters, setSelectedChapters] = useAtom(selectedChaptersAtom)
   const setCurrentChapter = useSetAtom(currentChapterAtom)
@@ -240,9 +242,13 @@ const ResultScreen = () => {
             </button>
             <div className="mt-10 flex flex-row gap-2 overflow-hidden">
               <div className="flex flex-shrink-0 flex-grow-0 flex-col gap-3 px-4 sm:px-1 md:px-2 lg:px-4">
-                <RemarkRing remark={`${state.timerData.accuracy}%`} caption="正确率" percentage={state.timerData.accuracy} />
+                <RemarkRing
+                  remark={`${state.timerData.accuracy}%`}
+                  caption={exerciseMode === 'speller' ? '得分' : '正确率'}
+                  percentage={state.timerData.accuracy}
+                />
                 <RemarkRing remark={timeString} caption="单元耗时" />
-                <RemarkRing remark={state.timerData.wpm + ''} caption="WPM" />
+                {exerciseMode !== 'speller' && <RemarkRing remark={state.timerData.wpm + ''} caption="WPM" />}
               </div>
               <div className="z-10 ml-6 flex-1 overflow-visible rounded-xl bg-indigo-50 dark:bg-gray-700">
                 <div className="customized-scrollbar z-20 ml-8 mr-1 flex h-80 flex-row flex-wrap content-start gap-4 overflow-y-auto overflow-x-hidden pr-7 pt-9">

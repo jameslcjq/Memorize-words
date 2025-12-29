@@ -15,6 +15,8 @@ export const ExerciseModeSwitcher = () => {
     { id: 'typing', name: '背默单词' },
     { id: 'word-to-trans', name: '英译中' },
     { id: 'trans-to-word', name: '中译英' },
+    { id: 'speller', name: '单词填空' },
+    { id: 'crossword', name: '填字闯关' },
   ]
 
   const scopes: { id: QuizScope; name: string }[] = [

@@ -49,7 +49,7 @@ export type WordDictationType = 'hideAll' | 'hideVowel' | 'hideConsonant' | 'ran
  */
 export type WordDictationOpenBy = 'user' | 'auto'
 
-export type ExerciseMode = 'typing' | 'word-to-trans' | 'trans-to-word'
+export type ExerciseMode = 'typing' | 'word-to-trans' | 'trans-to-word' | 'speller' | 'crossword'
 
 export type QuizScope = 'unit' | 'dict'
 
