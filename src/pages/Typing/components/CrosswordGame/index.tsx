@@ -46,6 +46,10 @@ const CrosswordGame: React.FC = () => {
   const [activeCell, setActiveCell] = useState<{ x: number; y: number } | null>(null)
   const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: number }[]>([])
 
+  // Drag State
+  const [draggedItem, setDraggedItem] = useState<{ char: string; id: number } | null>(null)
+  const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null)
+
   const THEMES = {
     beige: { name: '羊皮纸', value: '#e8e4c9', border: 'border-stone-300' },
     blue: { name: '护眼蓝', value: '#e0f2fe', border: 'border-sky-200' },
@@ -240,53 +244,62 @@ const CrosswordGame: React.FC = () => {
   }
 
   // Check Word Completion
-  const checkWord = (wordId: string, currentCells: Record<string, CellState>) => {
-    if (!gridData || solvedWordIds.has(wordId)) return
+  const checkWord = useCallback(
+    (wordId: string, currentCells: Record<string, CellState>) => {
+      if (!gridData || solvedWordIds.has(wordId)) return
 
-    const wordObj = gridData.words.find((w) => w.id === wordId)
-    if (!wordObj) return
+      const wordObj = gridData.words.find((w) => w.id === wordId)
+      if (!wordObj) return
 
-    const dx = wordObj.direction === 'across' ? 1 : 0
-    const dy = wordObj.direction === 'across' ? 0 : 1
+      const dx = wordObj.direction === 'across' ? 1 : 0
+      const dy = wordObj.direction === 'across' ? 0 : 1
 
-    let isCorrect = true
+      let isCorrect = true
 
-    for (let i = 0; i < wordObj.word.length; i++) {
-      const key = `${wordObj.x + i * dx},${wordObj.y + i * dy}`
-      const cell = currentCells[key]
-      if (!cell || cell.userInput === '') {
-        isCorrect = false
-        break
+      for (let i = 0; i < wordObj.word.length; i++) {
+        const key = `${wordObj.x + i * dx},${wordObj.y + i * dy}`
+        const cell = currentCells[key]
+        if (!cell || cell.userInput === '') {
+          isCorrect = false
+          break
+        }
+        if (cell.userInput.toUpperCase() !== cell.char.toUpperCase()) {
+          isCorrect = false
+        }
       }
-      if (cell.userInput.toUpperCase() !== cell.char.toUpperCase()) {
-        isCorrect = false
-      }
-    }
 
-    if (isCorrect) {
-      setSolvedWordIds((prev) => {
-        const next = new Set(prev)
-        next.add(wordId)
-        return next
-      })
-      playHintSound()
-      // Optional: Speak prompt or word? Maybe word.
-      speakWord(wordObj.word)
-
-      // Check victory
-      const totalWords = gridData.words.length
-      // Check if all correct (we need to be careful with async state, but localized is fine)
-      // A safer check is if new size == total
-      if (solvedWordIds.size + 1 === totalWords) {
-        setShowVictory(true)
-        confetti({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 },
+      if (isCorrect) {
+        setSolvedWordIds((prev) => {
+          const next = new Set(prev)
+          next.add(wordId)
+          return next
         })
+        playHintSound()
+        // Optional: Speak prompt or word? Maybe word.
+        speakWord(wordObj.word)
+
+        // Check victory
+        const totalWords = gridData.words.length
+        // Check if all correct (we need to be careful with async state, but localized is fine)
+        // A safer check is if new size == total
+        // solvedWordIds is stale here inside callback if we use the state directly, but we are using setter.
+        // But for victory check we need the NEW size.
+        // We can't see the new size immediately.
+        // We can recalculate based on prev size? No, `solvedWordIds` is from closure.
+        // Better strategy: Check against `solvedWordIds.size + 1` assuming it wasn't there (we checked has(wordId) at start).
+
+        if (solvedWordIds.size + 1 === totalWords) {
+          setShowVictory(true)
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+          })
+        }
       }
-    }
-  }
+    },
+    [gridData, solvedWordIds, playHintSound],
+  )
 
   const handleCellClick = (x: number, y: number) => {
     const key = `${x},${y}`
@@ -308,65 +321,74 @@ const CrosswordGame: React.FC = () => {
     setTimeout(() => inputRefs.current[key]?.focus(), 0)
   }
 
-  const handleInput = (x: number, y: number, val: string) => {
-    const key = `${x},${y}`
-    if (!cells[key] || cells[key].isHint) return // Can't edit hints
+  const handleInput = useCallback(
+    (x: number, y: number, val: string) => {
+      const key = `${x},${y}`
+      if (!cells[key] || cells[key].isHint) return // Can't edit hints
 
-    // Allow letters only
-    if (!/^[a-zA-Z]$/.test(val) && val !== '') return
+      // Allow letters only
+      if (!/^[a-zA-Z]$/.test(val) && val !== '') return
 
-    const newCells = { ...cells }
-    // Store as raw input (case insensitive logic handles check)
-    // But we display based on isUpperCase state
-    newCells[key] = { ...newCells[key], userInput: val }
-    setCells(newCells)
+      const newCells = { ...cells }
+      // Store as raw input (case insensitive logic handles check)
+      // But we display based on isUpperCase state
+      newCells[key] = { ...newCells[key], userInput: val }
+      setCells(newCells)
 
-    if (val !== '') {
-      playKeySound()
-      // Check if this input completed any words
-      const cell = newCells[key]
-      cell.wordIds.forEach((wid) => checkWord(wid, newCells))
+      if (val !== '') {
+        playKeySound()
+        // Check if this input completed any words
+        const cell = newCells[key]
+        cell.wordIds.forEach((wid) => checkWord(wid, newCells))
 
-      // Auto-move cursor to next editable cell
-      if (selectedWordId) {
-        const wordObj = gridData?.words.find((w) => w.id === selectedWordId)
-        if (wordObj) {
-          const dx = wordObj.direction === 'across' ? 1 : 0
-          const dy = wordObj.direction === 'across' ? 0 : 1
+        // Auto-move cursor to next editable cell
+        if (selectedWordId) {
+          const wordObj = gridData?.words.find((w) => w.id === selectedWordId)
+          if (wordObj) {
+            const dx = wordObj.direction === 'across' ? 1 : 0
+            const dy = wordObj.direction === 'across' ? 0 : 1
 
-          // Find index of current cell in word
-          let idx = -1
-          for (let i = 0; i < wordObj.word.length; i++) {
-            if (wordObj.x + i * dx === x && wordObj.y + i * dy === y) {
-              idx = i
-              break
+            // Find index of current cell in word
+            let idx = -1
+            for (let i = 0; i < wordObj.word.length; i++) {
+              if (wordObj.x + i * dx === x && wordObj.y + i * dy === y) {
+                idx = i
+                break
+              }
             }
-          }
 
-          // Look for next editable cell
-          let nextIdx = -1
-          for (let i = idx + 1; i < wordObj.word.length; i++) {
-            const nextX = wordObj.x + i * dx
-            const nextY = wordObj.y + i * dy
-            const nextKey = `${nextX},${nextY}`
-            const nextCell = newCells[nextKey]
-            // Skip if hint
-            if (nextCell && !nextCell.isHint && !solvedWordIds.has(selectedWordId)) {
-              nextIdx = i
-              break
+            // Look for next editable cell
+            let nextIdx = -1
+            for (let i = idx + 1; i < wordObj.word.length; i++) {
+              const nextX = wordObj.x + i * dx
+              const nextY = wordObj.y + i * dy
+              const nextKey = `${nextX},${nextY}`
+              const nextCell = newCells[nextKey]
+              // Skip if hint
+              if (nextCell && !nextCell.isHint && !solvedWordIds.has(selectedWordId)) {
+                nextIdx = i
+                break
+              }
             }
-          }
 
-          if (nextIdx !== -1) {
-            const nextX = wordObj.x + nextIdx * dx
-            const nextY = wordObj.y + nextIdx * dy
-            const nextKey = `${nextX},${nextY}`
-            inputRefs.current[nextKey]?.focus()
+            if (nextIdx !== -1) {
+              const nextX = wordObj.x + nextIdx * dx
+              const nextY = wordObj.y + nextIdx * dy
+              const nextKey = `${nextX},${nextY}`
+              inputRefs.current[nextKey]?.focus()
+            }
           }
         }
       }
-    }
-  }
+    },
+    [cells, gridData, selectedWordId, solvedWordIds, playKeySound, checkWord],
+  )
+  // Ideally checkWord should be useCallback too OR included.
+  // We can include checkWord in deps if we make checkWord stable or just suppress warning if we accept re-creation.
+  // Actually, checkWord is not stable. Let's make it stable too or just leave it.
+  // In this simple edit, I will just leave checkWord implicitly captured if I don't use useCallback, OR I update checkWord.
+  // To avoid complexity, I'll update checkWord to be useCallback first in a separate chunk or just inline the dependency.
+  // Actually, let's wrap checkWord in useCallback too.
 
   const handleKeyDown = (e: React.KeyboardEvent, x: number, y: number) => {
     if (e.key === 'Backspace') {
@@ -400,8 +422,62 @@ const CrosswordGame: React.FC = () => {
           }
         }
       }
+    } else if (/^[a-zA-Z]$/.test(e.key)) {
+      e.preventDefault()
+      handleInput(x, y, e.key)
     }
   }
+
+  // Global Drag Events
+  useEffect(() => {
+    if (!draggedItem) return
+
+    const handlePointerMove = (e: PointerEvent) => {
+      setDragPos({ x: e.clientX, y: e.clientY })
+    }
+
+    const handlePointerUp = (e: PointerEvent) => {
+      const elements = document.elementsFromPoint(e.clientX, e.clientY)
+      // Find dropped target by data attributes
+      const target = elements.find((el) => el.hasAttribute('data-crossword-x'))
+
+      if (target) {
+        const xStr = target.getAttribute('data-crossword-x')
+        const yStr = target.getAttribute('data-crossword-y')
+
+        if (xStr && yStr) {
+          const x = parseInt(xStr, 10)
+          const y = parseInt(yStr, 10)
+          if (!isNaN(x) && !isNaN(y)) {
+            // Ensure valid cell
+            handleInput(x, y, draggedItem.char)
+          }
+        }
+      }
+
+      setDraggedItem(null)
+      setDragPos(null)
+    }
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+    }
+  }, [draggedItem, handleInput])
+
+  // Custom Drag Style
+  const dragStyle: React.CSSProperties = dragPos
+    ? {
+        position: 'fixed',
+        left: dragPos.x,
+        top: dragPos.y,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 9999,
+      }
+    : { display: 'none' }
 
   // Global Keydown for Virtual Keyboard
   useEffect(() => {
@@ -553,6 +629,9 @@ const CrosswordGame: React.FC = () => {
               return (
                 <div
                   key={key}
+                  // ADDED for drop logic
+                  data-crossword-x={cell.x}
+                  data-crossword-y={cell.y}
                   className={`absolute flex h-[${CELL_SIZE - 4}px] w-[${
                     CELL_SIZE - 4
                   }px] items-center justify-center rounded-md border-2 text-2xl font-bold shadow-sm transition-all duration-200
@@ -579,8 +658,8 @@ const CrosswordGame: React.FC = () => {
                     ref={(el) => (inputRefs.current[key] = el)}
                     className="h-full w-full cursor-default bg-transparent text-center outline-none"
                     value={displayChar}
-                    readOnly={cell.isHint || isSolved}
-                    onChange={(e) => handleInput(cell.x, cell.y, e.target.value.slice(-1))}
+                    readOnly={true} // Disable system keyboard
+                    // removed onChange, use onKeyDown
                     onKeyDown={(e) => handleKeyDown(e, cell.x, cell.y)}
                   />
                 </div>
@@ -657,9 +736,15 @@ const CrosswordGame: React.FC = () => {
                   <button
                     key={`${item.char}-${i}-${item.id}`}
                     onClick={() => handleLetterClick(item.char)}
-                    className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
+                    onPointerDown={(e) => {
+                      const box = e.currentTarget.getBoundingClientRect()
+                      setDraggedItem(item)
+                      setDragPos({ x: box.left + box.width / 2, y: box.top + box.height / 2 })
+                    }}
+                    className="flex h-10 w-10 cursor-grab items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
                     style={{
                       transform: `rotate(${item.rotation}deg)`,
+                      opacity: draggedItem?.id === item.id ? 0.4 : 1,
                     }}
                   >
                     {isUpperCase ? item.char.toUpperCase() : item.char.toLowerCase()}
@@ -671,6 +756,16 @@ const CrosswordGame: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Drag Ghost for Crossword */}
+      {draggedItem && dragPos && (
+        <div
+          className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-indigo-400 bg-indigo-50 text-lg font-bold text-indigo-700 shadow-xl dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
+          style={dragStyle}
+        >
+          {isUpperCase ? draggedItem.char.toUpperCase() : draggedItem.char.toLowerCase()}
+        </div>
+      )}
 
       {/* Victory Modal */}
       {showVictory && (

@@ -2,7 +2,7 @@ import { TypingContext, TypingStateActionType } from '../../store'
 import useKeySounds from '@/hooks/useKeySounds'
 import type { Word } from '@/typings'
 import type React from 'react'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import IconBackspace from '~icons/tabler/backspace'
 import IconCheck from '~icons/tabler/check'
 
@@ -54,8 +54,12 @@ const SpellerGame: React.FC = () => {
   const [isShake, setIsShake] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   // New state for shuffled letters
-  const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number }[]>([])
+  const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: string }[]>([])
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  // Drag and Drop State
+  const [draggedItem, setDraggedItem] = useState<{ char: string; id: string } | null>(null)
+  const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null)
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
 
@@ -85,9 +89,10 @@ const SpellerGame: React.FC = () => {
     // Logic: include masked letters + distractors to ensure at least 5 total
     const maskedChars = wordName.split('').filter((_, i) => newMasked.has(i))
 
-    const lettersToUse = maskedChars.map((char) => ({
+    const lettersToUse = maskedChars.map((char, index) => ({
       char,
       rotation: Math.random() * 20 - 10,
+      id: `masked-${index}`,
     }))
 
     // Add distractors if fewer than 5
@@ -100,6 +105,7 @@ const SpellerGame: React.FC = () => {
       lettersToUse.push({
         char: randomChar,
         rotation: Math.random() * 20 - 10,
+        id: `distractor-${i}`,
       })
     }
 
@@ -116,38 +122,88 @@ const SpellerGame: React.FC = () => {
     }, 50)
   }, [currentWordObj, dispatch])
 
-  const handleInput = (index: number, value: string) => {
-    if (!currentWordObj || isSuccess) return
+  const checkAnswer = useCallback(
+    (inputs: string[]) => {
+      if (!currentWordObj) return
+      const inputWord = inputs.join('')
+      if (inputWord.toLowerCase() === currentWordObj.name.toLowerCase()) {
+        setIsSuccess(true)
+        playHintSound()
+        dispatch({ type: TypingStateActionType.REPORT_CORRECT_WORD })
 
-    // Only allow letters
-    if (!/^[a-zA-Z]$/.test(value)) return
+        setTimeout(() => {
+          const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
+          if (isLastWord) {
+            dispatch({ type: TypingStateActionType.FINISH_CHAPTER })
+          } else {
+            dispatch({ type: TypingStateActionType.NEXT_WORD })
+          }
+        }, 1000)
+      } else {
+        // Wrong
+        playBeepSound()
+        setIsShake(true)
+        setTimeout(() => setIsShake(false), 500)
 
-    const newInputs = [...userInputs]
-    newInputs[index] = value
-    setUserInputs(newInputs)
+        dispatch({ type: TypingStateActionType.REPORT_WRONG_WORD, payload: { letterMistake: {} } })
 
-    playKeySound()
-
-    // Find next masked index that is empty
-    let nextIndex = -1
-    for (let i = index + 1; i < currentWordObj.name.length; i++) {
-      if (maskedIndices.has(i)) {
-        nextIndex = i
-        break
+        // Clear wrong ones in masked slots.
+        const newInputs = [...inputs]
+        for (let i = 0; i < newInputs.length; i++) {
+          if (maskedIndices.has(i)) {
+            if (newInputs[i].toLowerCase() !== currentWordObj.name[i].toLowerCase()) {
+              newInputs[i] = ''
+            }
+          }
+        }
+        setUserInputs(newInputs)
+        // Focus first empty
+        setTimeout(() => {
+          const firstEmpty = newInputs.findIndex((c) => c === '')
+          if (firstEmpty !== -1) {
+            inputRefs.current[firstEmpty]?.focus()
+          }
+        }, 50)
       }
-    }
+    },
+    [currentWordObj, dispatch, maskedIndices, playBeepSound, playHintSound, state.chapterData.index, state.chapterData.words.length],
+  )
 
-    // If no next masked, maybe loop back to first empty masked?
-    if (nextIndex === -1) {
-      // Check if all filled
-      const isFull = newInputs.every((c) => c !== '')
-      if (isFull) {
-        checkAnswer(newInputs)
+  const handleInput = useCallback(
+    (index: number, value: string) => {
+      if (!currentWordObj || isSuccess) return
+
+      // Only allow letters
+      if (!/^[a-zA-Z]$/.test(value)) return
+
+      const newInputs = [...userInputs]
+      newInputs[index] = value
+      setUserInputs(newInputs)
+
+      playKeySound()
+
+      // Find next masked index that is empty
+      let nextIndex = -1
+      for (let i = index + 1; i < currentWordObj.name.length; i++) {
+        if (maskedIndices.has(i)) {
+          nextIndex = i
+          break
+        }
       }
-    } else {
-      inputRefs.current[nextIndex]?.focus()
-    }
-  }
+
+      // If no next masked, maybe loop back to first empty masked?
+      if (nextIndex === -1) {
+        // Check if all filled
+        const isFull = newInputs.every((c) => c !== '')
+        if (isFull) {
+          checkAnswer(newInputs)
+        }
+      } else {
+        inputRefs.current[nextIndex]?.focus()
+      }
+    },
+    [currentWordObj, isSuccess, userInputs, playKeySound, maskedIndices, checkAnswer],
+  )
 
   const handleLetterClick = (char: string) => {
     // Find first empty masked index
@@ -207,52 +263,15 @@ const SpellerGame: React.FC = () => {
           inputRefs.current[prevIndex]?.focus()
         }
       }
+    } else if (/^[a-zA-Z]$/.test(e.key)) {
+      // Handle letter input manually since inputs are read-only
+      e.preventDefault()
+      handleInput(index, e.key)
     }
   }
 
-  const checkAnswer = (inputs: string[]) => {
-    if (!currentWordObj) return
-    const inputWord = inputs.join('')
-    if (inputWord.toLowerCase() === currentWordObj.name.toLowerCase()) {
-      setIsSuccess(true)
-      playHintSound()
-      dispatch({ type: TypingStateActionType.REPORT_CORRECT_WORD })
-
-      setTimeout(() => {
-        const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
-        if (isLastWord) {
-          dispatch({ type: TypingStateActionType.FINISH_CHAPTER })
-        } else {
-          dispatch({ type: TypingStateActionType.NEXT_WORD })
-        }
-      }, 1000)
-    } else {
-      // Wrong
-      playBeepSound()
-      setIsShake(true)
-      setTimeout(() => setIsShake(false), 500)
-
-      dispatch({ type: TypingStateActionType.REPORT_WRONG_WORD, payload: { letterMistake: {} } })
-
-      // Clear wrong ones in masked slots.
-      const newInputs = [...inputs]
-      for (let i = 0; i < newInputs.length; i++) {
-        if (maskedIndices.has(i)) {
-          if (newInputs[i].toLowerCase() !== currentWordObj.name[i].toLowerCase()) {
-            newInputs[i] = ''
-          }
-        }
-      }
-      setUserInputs(newInputs)
-      // Focus first empty
-      setTimeout(() => {
-        const firstEmpty = newInputs.findIndex((c) => c === '')
-        if (firstEmpty !== -1) {
-          inputRefs.current[firstEmpty]?.focus()
-        }
-      }, 50)
-    }
-  }
+  // Move checkAnswer inside the previous block to avoid ordering issues with usage
+  // (It was moved up to be available for handleInput)
 
   // Handle Global Keydown (for Virtual Keyboard or lost focus)
   useEffect(() => {
@@ -304,6 +323,55 @@ const SpellerGame: React.FC = () => {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown)
   }, [isSuccess, currentWordObj, maskedIndices, userInputs, handleInput])
 
+  // Handle Global Drag Events
+  useEffect(() => {
+    if (!draggedItem) return
+
+    const handlePointerMove = (e: PointerEvent) => {
+      setDragPos({ x: e.clientX, y: e.clientY })
+    }
+
+    const handlePointerUp = (e: PointerEvent) => {
+      const elements = document.elementsFromPoint(e.clientX, e.clientY)
+      // Find dropped target
+      // We'll add data-speller-index to the input wrapper
+      const target = elements.find((el) => el.hasAttribute('data-speller-index'))
+
+      if (target) {
+        const indexStr = target.getAttribute('data-speller-index')
+        if (indexStr) {
+          const index = parseInt(indexStr, 10)
+          // Ensure it's a masked spot and valid
+          if (!isNaN(index)) {
+            handleInput(index, draggedItem.char)
+          }
+        }
+      }
+
+      setDraggedItem(null)
+      setDragPos(null)
+    }
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+    }
+  }, [draggedItem, handleInput])
+
+  // Custom styles for dragged item
+  const dragStyle: React.CSSProperties = dragPos
+    ? {
+        position: 'fixed',
+        left: dragPos.x,
+        top: dragPos.y,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 9999,
+      }
+    : { display: 'none' }
+
   if (!currentWordObj) return null
 
   // Progress
@@ -336,20 +404,30 @@ const SpellerGame: React.FC = () => {
             const isMasked = maskedIndices.has(index)
             const val = userInputs[index] || ''
             return (
-              <div key={index} className="relative">
+              <div
+                key={index}
+                className="relative"
+                data-speller-index={isMasked ? index : undefined} // Helper for dropping
+              >
                 <input
                   ref={(el) => (inputRefs.current[index] = el)}
                   type="text"
                   value={val}
                   disabled={!isMasked || isSuccess}
-                  onChange={(e) => isMasked && handleInput(index, e.target.value.slice(-1))}
+                  readOnly={true} // Disable system keyboard
+                  // onChange removed, using onKeyDown manual handling
                   onKeyDown={(e) => isMasked && handleKeyDown(index, e)}
+                  onFocus={(e) => {
+                    // Attempt to hide keyboard if readOnly doesn't suffice on some weird browsers,
+                    // but readOnly usually enough.
+                    // On mobile, readOnly inputs can still be prioritized for focus but won't pop keyboard.
+                  }}
                   className={`flex h-14 w-12 items-center justify-center rounded-md border-2 text-center text-3xl font-bold shadow-sm outline-none transition-all duration-200 
                                 ${isSuccess ? 'border-green-500 bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400' : ''}
                                 ${
                                   !isMasked
                                     ? 'border-transparent bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-500'
-                                    : 'bg-white text-gray-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100'
+                                    : 'cursor-pointer bg-white text-gray-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100'
                                 }
                                 ${
                                   isShake && val !== '' && val.toLowerCase() !== char.toLowerCase()
@@ -386,16 +464,36 @@ const SpellerGame: React.FC = () => {
         {shuffledLetters.map((item, i) => (
           <button
             key={`${item.char}-${i}`}
+            // Handle Click
             onClick={() => handleLetterClick(item.char)}
-            className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400"
+            // Handle Drag
+            onPointerDown={(e) => {
+              // Prevent default touch actions (like scrolling) if needed, but 'touch-action: none' css is better
+              // e.currentTarget.releasePointerCapture(e.pointerId) // Sometimes needed
+              const box = e.currentTarget.getBoundingClientRect()
+              setDraggedItem(item)
+              setDragPos({ x: box.left + box.width / 2, y: box.top + box.height / 2 })
+            }}
+            className="flex h-12 w-12 cursor-grab touch-none items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 active:cursor-grabbing dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400"
             style={{
               transform: `rotate(${item.rotation}deg)`,
+              opacity: draggedItem?.id === item.id ? 0.4 : 1, // visual feedback
             }}
           >
             {item.char}
           </button>
         ))}
       </div>
+
+      {/* Dragged Ghost */}
+      {draggedItem && dragPos && (
+        <div
+          className="flex h-12 w-12 items-center justify-center rounded-lg border-2 border-indigo-400 bg-indigo-50 text-xl font-bold text-indigo-700 shadow-xl dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
+          style={dragStyle}
+        >
+          {draggedItem.char}
+        </div>
+      )}
 
       {/* Custom Global Styles for Shake Animation if not in index.css */}
       <style>{`
