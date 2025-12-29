@@ -53,6 +53,8 @@ const SpellerGame: React.FC = () => {
   const [userInputs, setUserInputs] = useState<string[]>([])
   const [isShake, setIsShake] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  // New state for shuffled letters
+  const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number }[]>([])
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
@@ -78,6 +80,31 @@ const SpellerGame: React.FC = () => {
     setUserInputs(initialInputs)
     setIsSuccess(false)
     setIsShake(false)
+
+    // Generate shuffled letters necessary for the word
+    // Logic: include masked letters + distractors to ensure at least 5 total
+    const maskedChars = wordName.split('').filter((_, i) => newMasked.has(i))
+
+    const lettersToUse = maskedChars.map((char) => ({
+      char,
+      rotation: Math.random() * 20 - 10,
+    }))
+
+    // Add distractors if fewer than 5
+    const MIN_LETTERS = 5
+    const distractorsNeeded = Math.max(0, MIN_LETTERS - lettersToUse.length)
+
+    for (let i = 0; i < distractorsNeeded; i++) {
+      // Generate random letter
+      const randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26)) // a-z
+      lettersToUse.push({
+        char: randomChar,
+        rotation: Math.random() * 20 - 10,
+      })
+    }
+
+    // Shuffle them
+    setShuffledLetters(lettersToUse.sort(() => Math.random() - 0.5))
 
     // Auto-focus first empty slot
     // We need a slight delay or effect to ensure refs are ready
@@ -119,6 +146,14 @@ const SpellerGame: React.FC = () => {
       }
     } else {
       inputRefs.current[nextIndex]?.focus()
+    }
+  }
+
+  const handleLetterClick = (char: string) => {
+    // Find first empty masked index
+    const firstEmpty = userInputs.findIndex((val, idx) => maskedIndices.has(idx) && val === '')
+    if (firstEmpty !== -1) {
+      handleInput(firstEmpty, char)
     }
   }
 
@@ -346,7 +381,21 @@ const SpellerGame: React.FC = () => {
         )}
       </div>
 
-      {/* Hint Button Removed */}
+      {/* Shuffle Letters Bank */}
+      <div className="mt-8 flex flex-wrap justify-center gap-4">
+        {shuffledLetters.map((item, i) => (
+          <button
+            key={`${item.char}-${i}`}
+            onClick={() => handleLetterClick(item.char)}
+            className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400"
+            style={{
+              transform: `rotate(${item.rotation}deg)`,
+            }}
+          >
+            {item.char}
+          </button>
+        ))}
+      </div>
 
       {/* Custom Global Styles for Shake Animation if not in index.css */}
       <style>{`

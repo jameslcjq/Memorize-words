@@ -44,6 +44,7 @@ const CrosswordGame: React.FC = () => {
   const [scale, setScale] = useState(1)
   const [theme, setTheme] = useState<'beige' | 'blue' | 'gray'>('beige')
   const [activeCell, setActiveCell] = useState<{ x: number; y: number } | null>(null)
+  const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: number }[]>([])
 
   const THEMES = {
     beige: { name: '羊皮纸', value: '#e8e4c9', border: 'border-stone-300' },
@@ -127,6 +128,109 @@ const CrosswordGame: React.FC = () => {
   useEffect(() => {
     generateLevel()
   }, [generateLevel])
+
+  // Generate scrambled letters for the selected word
+  const prevSelectedRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    if (!selectedWordId || !gridData) return
+
+    // Avoid re-shuffling when typing (cells change)
+    if (selectedWordId === prevSelectedRef.current && shuffledLetters.length > 0) return
+    prevSelectedRef.current = selectedWordId
+
+    const wordObj = gridData.words.find((w) => w.id === selectedWordId)
+    if (!wordObj) return
+
+    const dx = wordObj.direction === 'across' ? 1 : 0
+    const dy = wordObj.direction === 'across' ? 0 : 1
+    const newLetters: { char: string; rotation: number; id: number }[] = []
+
+    for (let i = 0; i < wordObj.word.length; i++) {
+      const x = wordObj.x + i * dx
+      const y = wordObj.y + i * dy
+      const key = `${x},${y}`
+      const cell = cells[key]
+
+      // Only include if not hint
+      if (cell && !cell.isHint) {
+        newLetters.push({
+          char: cell.char,
+          rotation: Math.random() * 20 - 10,
+          id: i,
+        })
+      }
+    }
+
+    // Add distractors if fewer than 5
+    const MIN_LETTERS = 5
+    const distractorsNeeded = Math.max(0, MIN_LETTERS - newLetters.length)
+
+    for (let i = 0; i < distractorsNeeded; i++) {
+      // Generate random letter
+      const randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26)) // a-z
+      newLetters.push({
+        char: randomChar,
+        rotation: Math.random() * 20 - 10,
+        id: 100 + i, // safe fake id
+      })
+    }
+
+    setShuffledLetters(newLetters.sort(() => Math.random() - 0.5))
+  }, [selectedWordId, gridData, cells, shuffledLetters.length])
+
+  const handleLetterClick = (char: string) => {
+    if (!selectedWordId || !gridData) return
+
+    const wordObj = gridData.words.find((w) => w.id === selectedWordId)
+    if (!wordObj) return
+
+    const dx = wordObj.direction === 'across' ? 1 : 0
+    const dy = wordObj.direction === 'across' ? 0 : 1
+
+    // Find first empty cell in the selected word (or current active if empty?)
+    // Let's iterate through the word and find first empty non-hint cell.
+    let targetX = -1
+    let targetY = -1
+
+    // Check if active cell is empty and in current word
+    if (activeCell) {
+      const { x, y } = activeCell
+      const key = `${x},${y}`
+      // Verify if active cell belongs to current word
+      // Simple check: is it on the line?
+      let isJoin = false
+      for (let i = 0; i < wordObj.word.length; i++) {
+        if (wordObj.x + i * dx === x && wordObj.y + i * dy === y) {
+          isJoin = true
+          break
+        }
+      }
+
+      if (isJoin && cells[key] && !cells[key].isHint && cells[key].userInput === '') {
+        targetX = x
+        targetY = y
+      }
+    }
+
+    // If active cell wasn't suitable, find first empty
+    if (targetX === -1) {
+      for (let i = 0; i < wordObj.word.length; i++) {
+        const x = wordObj.x + i * dx
+        const y = wordObj.y + i * dy
+        const key = `${x},${y}`
+        if (cells[key] && !cells[key].isHint && cells[key].userInput === '') {
+          targetX = x
+          targetY = y
+          break
+        }
+      }
+    }
+
+    if (targetX !== -1) {
+      handleInput(targetX, targetY, char)
+    }
+  }
 
   // TTS
   const speakWord = (text: string) => {
@@ -543,6 +647,28 @@ const CrosswordGame: React.FC = () => {
               })}
             </div>
           </div>
+
+          {/* Shuffled Letters Bank */}
+          {selectedWordId && (
+            <div className="rounded-xl bg-white p-4 shadow-md dark:bg-gray-800">
+              <div className="mb-2 text-sm font-bold uppercase text-indigo-500">拼写字母</div>
+              <div className="flex flex-wrap justify-center gap-3">
+                {shuffledLetters.map((item, i) => (
+                  <button
+                    key={`${item.char}-${i}-${item.id}`}
+                    onClick={() => handleLetterClick(item.char)}
+                    className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
+                    style={{
+                      transform: `rotate(${item.rotation}deg)`,
+                    }}
+                  >
+                    {isUpperCase ? item.char.toUpperCase() : item.char.toLowerCase()}
+                  </button>
+                ))}
+                {shuffledLetters.length === 0 && <span className="text-sm text-gray-400">无需填写</span>}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
