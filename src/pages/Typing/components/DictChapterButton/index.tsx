@@ -22,7 +22,7 @@ export const DictChapterButton = () => {
     <>
       <Tooltip content="词典切换">
         <NavLink
-          className="block rounded-lg px-3 py-1 text-lg transition-colors duration-300 ease-in-out hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100"
+          className="block rounded-lg px-3 py-1 text-lg text-gray-700 transition-colors duration-300 ease-in-out hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100"
           to="/gallery"
         >
           {currentDictInfo.name} {isReviewMode && '错题复习'}
@@ -110,7 +110,7 @@ export const DictChapterButton = () => {
           >
             <Listbox.Button
               onKeyDown={handleKeyDown}
-              className="rounded-lg px-3 py-1 text-lg transition-colors duration-300 ease-in-out hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100"
+              className="rounded-lg px-3 py-1 text-lg text-gray-700 transition-colors duration-300 ease-in-out hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100"
             >
               {selectedChapters.includes(-1) && '整个词库'}
               {selectedChapters.includes(-2) && '错题本'}

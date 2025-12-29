@@ -30,7 +30,7 @@ export const ExerciseModeSwitcher = () => {
       <Tooltip content="切换练习模式">
         <Listbox value={mode} onChange={setMode}>
           <div className="relative">
-            <Listbox.Button className="flex items-center gap-1 rounded-lg border border-transparent px-3 py-1 text-lg transition-colors duration-300 ease-in-out hover:border-indigo-400 hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100">
+            <Listbox.Button className="flex items-center gap-1 rounded-lg border border-transparent px-3 py-1 text-lg text-gray-700 transition-colors duration-300 ease-in-out hover:border-indigo-400 hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100">
               <span>{modes.find((m) => m.id === mode)?.name}</span>
               <IconChevronDown className="h-4 w-4 opacity-50" />
             </Listbox.Button>
