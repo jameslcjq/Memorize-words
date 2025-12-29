@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { useEffect, useState } from 'react'
+import IconBackspace from '~icons/tabler/backspace'
 
 export const virtualKeyboardLayoutAtom = atomWithStorage<'qwerty' | 'alphabetical'>('virtualKeyboardLayout', 'qwerty')
 
@@ -13,13 +14,13 @@ export default function VirtualKeyboard() {
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
     ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-    ["'", '-', '__EMPTY__', '.', ' '],
+    ["'", '-', '.', ' ', 'Backspace'],
   ]
 
   const alphaRows = [
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', '|', 'h', 'i', 'j', 'k', 'l', 'm', 'n'],
     ['o', 'p', 'q', 'r', 's', 't', '|', 'u', 'v', 'w', 'x', 'y', 'z'],
-    ["'", '-', '__EMPTY__', '.', ' '],
+    ["'", '-', '.', ' ', 'Backspace'],
   ]
 
   const currentRows = layout === 'qwerty' ? qwertyRows : alphaRows
@@ -57,17 +58,21 @@ export default function VirtualKeyboard() {
     const isPressed = pressedKey === key
     const displayKey = isUppercase ? key.toUpperCase() : key
     const isSpace = key === ' '
+    const isBackspace = key === 'Backspace'
+
     return (
       <div
         key={key}
         onClick={() => handleKeyClick(key)}
-        className={`flex h-10 w-10 cursor-pointer select-none items-center justify-center rounded-lg text-lg font-bold transition-all duration-100 ${
+        className={`flex h-10 ${
+          isSpace ? 'w-20' : 'w-10'
+        } cursor-pointer select-none items-center justify-center rounded-lg text-lg font-bold transition-all duration-100 ${
           isPressed
             ? 'scale-95 bg-indigo-500 text-white shadow-none'
             : 'bg-white text-gray-700 shadow-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
         }`}
       >
-        {isSpace ? '␣' : displayKey}
+        {isSpace ? '␣' : isBackspace ? <IconBackspace /> : displayKey}
       </div>
     )
   }

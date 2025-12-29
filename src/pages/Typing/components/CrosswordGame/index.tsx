@@ -76,7 +76,7 @@ const CrosswordGame: React.FC = () => {
 
   // Generate Level
   const generateLevel = useCallback(() => {
-    const words = state.chapterData.words as Word[]
+    const words = (state.chapterData.words as Word[]).filter((w) => w.name.length > 1)
     if (words.length === 0) return
 
     const count = LEVELS[level].count
@@ -223,7 +223,7 @@ const CrosswordGame: React.FC = () => {
       const cell = newCells[key]
       cell.wordIds.forEach((wid) => checkWord(wid, newCells))
 
-      // Auto-move cursor
+      // Auto-move cursor to next editable cell
       if (selectedWordId) {
         const wordObj = gridData?.words.find((w) => w.id === selectedWordId)
         if (wordObj) {
@@ -232,16 +232,30 @@ const CrosswordGame: React.FC = () => {
 
           // Find index of current cell in word
           let idx = -1
-          // This is slightly inefficient (searching), but fine for small words
           for (let i = 0; i < wordObj.word.length; i++) {
             if (wordObj.x + i * dx === x && wordObj.y + i * dy === y) {
               idx = i
               break
             }
           }
-          if (idx !== -1 && idx < wordObj.word.length - 1) {
-            const nextX = wordObj.x + (idx + 1) * dx
-            const nextY = wordObj.y + (idx + 1) * dy
+
+          // Look for next editable cell
+          let nextIdx = -1
+          for (let i = idx + 1; i < wordObj.word.length; i++) {
+            const nextX = wordObj.x + i * dx
+            const nextY = wordObj.y + i * dy
+            const nextKey = `${nextX},${nextY}`
+            const nextCell = newCells[nextKey]
+            // Skip if hint
+            if (nextCell && !nextCell.isHint && !solvedWordIds.has(selectedWordId)) {
+              nextIdx = i
+              break
+            }
+          }
+
+          if (nextIdx !== -1) {
+            const nextX = wordObj.x + nextIdx * dx
+            const nextY = wordObj.y + nextIdx * dy
             const nextKey = `${nextX},${nextY}`
             inputRefs.current[nextKey]?.focus()
           }

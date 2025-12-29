@@ -186,13 +186,22 @@ export class CrosswordGenerator {
         const pick = candidates[Math.floor(Math.random() * candidates.length)]
         this.place(nextWord, pick.x, pick.y, pick.dir)
       } else {
-        // If can't intersect, should we place it standalone?
-        // For a "Crossword", unconnected words are usually bad.
-        // But Level 1 might just vary.
-        // Let's skip if can't place (or try harder).
-        // For this MVP, we skip unconnected words to ensure a single connect component.
-        // Or we could try placing it nearby. The prompt says "Auto-Layout Algorithm".
-        // Let's stick to connected only for now.
+        // Fallback: If can't intersect, place disjointly at the bottom
+        // This ensures we include the word even if it doesn't fit the crossword structure perfectly.
+        // Better to have disjoint words than missing words/single-word game.
+
+        // Try placing 'across' at (minX, maxY + 2)
+        // Ensure even spacing
+        const fallbackX = this.minX
+        const fallbackY = this.maxY + 2
+
+        if (this.canPlace(nextWord.word, fallbackX, fallbackY, 'across')) {
+          this.place(nextWord, fallbackX, fallbackY, 'across')
+        } else {
+          // If somehow that fails, try shifting right?
+          // Unlikely to fail if we are strictly below, unless width constraints?
+          // (No width constraints in this class)
+        }
       }
     }
 

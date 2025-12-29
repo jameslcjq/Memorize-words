@@ -3,6 +3,7 @@ import useKeySounds from '@/hooks/useKeySounds'
 import type { Word } from '@/typings'
 import type React from 'react'
 import { useContext, useEffect, useRef, useState } from 'react'
+import IconBackspace from '~icons/tabler/backspace'
 import IconCheck from '~icons/tabler/check'
 
 // Utility to determine which indices to mask
@@ -121,6 +122,34 @@ const SpellerGame: React.FC = () => {
     }
   }
 
+  const handleBackspace = () => {
+    // Find last filled masked index (or current if focused?)
+    // Simple logic: erase last filled masked char.
+    // Or if we track active index, erase that?
+    // Let's stick to "erase last filled" for the button.
+    let lastFilled = -1
+    for (let i = userInputs.length - 1; i >= 0; i--) {
+      if (maskedIndices.has(i) && userInputs[i] !== '') {
+        lastFilled = i
+        break
+      }
+    }
+
+    if (lastFilled !== -1) {
+      const newInputs = [...userInputs]
+      newInputs[lastFilled] = ''
+      setUserInputs(newInputs)
+      inputRefs.current[lastFilled]?.focus()
+    } else {
+      // If nothing filled, maybe focus the first masked?
+      // find first masked
+      const firstMasked = Array.from(maskedIndices).sort((a, b) => a - b)[0]
+      if (firstMasked !== undefined) {
+        inputRefs.current[firstMasked]?.focus()
+      }
+    }
+  }
+
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (isSuccess) return
 
@@ -141,9 +170,6 @@ const SpellerGame: React.FC = () => {
         }
         if (prevIndex !== -1) {
           inputRefs.current[prevIndex]?.focus()
-          // Optionally clear that one too?
-          // "Backspace delete back" usually implies verifying previous char too.
-          // For now just focus.
         }
       }
     }
@@ -268,7 +294,9 @@ const SpellerGame: React.FC = () => {
 
       {/* Speller Area */}
       <div className="relative">
-        <div className={`flex flex-wrap justify-center gap-3 transition-transform duration-300 ${isShake ? 'animate-shake' : ''}`}>
+        <div
+          className={`flex flex-wrap items-center justify-center gap-2 transition-transform duration-300 ${isShake ? 'animate-shake' : ''}`}
+        >
           {currentWordObj.name.split('').map((char, index) => {
             const isMasked = maskedIndices.has(index)
             const val = userInputs[index] || ''
@@ -281,7 +309,7 @@ const SpellerGame: React.FC = () => {
                   disabled={!isMasked || isSuccess}
                   onChange={(e) => isMasked && handleInput(index, e.target.value.slice(-1))}
                   onKeyDown={(e) => isMasked && handleKeyDown(index, e)}
-                  className={`flex h-16 w-14 items-center justify-center rounded-lg border-2 text-center text-3xl font-bold shadow-sm outline-none transition-all duration-200 
+                  className={`flex h-14 w-12 items-center justify-center rounded-md border-2 text-center text-3xl font-bold shadow-sm outline-none transition-all duration-200 
                                 ${isSuccess ? 'border-green-500 bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400' : ''}
                                 ${
                                   !isMasked
@@ -295,10 +323,20 @@ const SpellerGame: React.FC = () => {
                                 }
                             `}
                 />
-                {/* Underline for masked slots visual cue if empty? Maybe input box is enough. */}
               </div>
             )
           })}
+
+          {/* Backspace Button */}
+          {!isSuccess && (
+            <button
+              onClick={handleBackspace}
+              className="flex h-14 w-12 items-center justify-center rounded-md bg-stone-100 text-stone-500 shadow-sm transition-all hover:bg-stone-200 active:scale-95 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+              title="Backspace"
+            >
+              <IconBackspace className="h-6 w-6" />
+            </button>
+          )}
         </div>
 
         {isSuccess && (
