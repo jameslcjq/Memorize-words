@@ -261,7 +261,12 @@ export default function WordComponent({ word, onFinish }: { word: Word; onFinish
         letterMistake: wordState.letterMistake,
       })
 
-      onFinish()
+      // Add delay to prevent jumping too fast
+      const timer = setTimeout(() => {
+        onFinish()
+      }, 300)
+
+      return () => clearTimeout(timer)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordState.isFinished])
