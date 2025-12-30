@@ -422,7 +422,7 @@ const SpellerGame: React.FC = () => {
                     // but readOnly usually enough.
                     // On mobile, readOnly inputs can still be prioritized for focus but won't pop keyboard.
                   }}
-                  className={`flex h-14 w-12 appearance-none items-center justify-center rounded-md border-2 p-0 text-center text-3xl font-bold shadow-sm outline-none transition-all duration-200 
+                  className={`flex h-14 w-14 appearance-none items-center justify-center rounded-md border-2 p-0 text-center text-2xl font-bold shadow-sm outline-none transition-all duration-200 
                                 ${isSuccess ? 'border-green-500 bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400' : ''}
                                 ${
                                   !isMasked
