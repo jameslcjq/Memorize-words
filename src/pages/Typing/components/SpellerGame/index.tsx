@@ -1,11 +1,12 @@
-import { TypingContext, TypingStateActionType } from '../../store'
 import useKeySounds from '@/hooks/useKeySounds'
 import usePronunciationSound from '@/hooks/usePronunciation'
+import { TypingContext, TypingStateActionType } from '@/pages/Typing/store'
 import type { Word } from '@/typings'
 import type React from 'react'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import IconBackspace from '~icons/tabler/backspace'
-import IconCheck from '~icons/tabler/check'
+
+// import IconBackspace from '~icons/tabler/backspace'
+// import IconCheck from '~icons/tabler/check'
 
 // Utility to determine which indices to mask
 const getMaskedIndices = (word: string): Set<number> => {
@@ -47,9 +48,23 @@ const getMaskedIndices = (word: string): Set<number> => {
 }
 
 const SpellerGame: React.FC = () => {
-  // ... (existing hooks)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const { state, dispatch } = useContext(TypingContext)!
   const currentWordObj = state.chapterData.words[state.chapterData.index] as Word | undefined
-  // ... (other state)
+
+  const [maskedIndices, setMaskedIndices] = useState<Set<number>>(new Set())
+  const [userInputs, setUserInputs] = useState<string[]>([])
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [isShake, setIsShake] = useState(false)
+
+  // Shuffled letters for the bottom bank
+  const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: string }[]>([])
+
+  // Drag and drop state
+  const [draggedItem, setDraggedItem] = useState<{ char: string; rotation: number; id: string } | null>(null)
+  const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null)
+
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
   const { play: playWord } = usePronunciationSound(currentWordObj?.name || '')
@@ -57,7 +72,7 @@ const SpellerGame: React.FC = () => {
   // Initialize word state
   useEffect(() => {
     if (!currentWordObj) return
-    const wordName = currentWordObj.name
+    const wordName = currentWordObj.name || ''
 
     // Fix: Skip single-letter words (e.g. "I")
     if (wordName.length <= 1) {
@@ -441,14 +456,14 @@ const SpellerGame: React.FC = () => {
               className="flex h-14 w-12 items-center justify-center rounded-md bg-stone-100 text-stone-500 shadow-sm transition-all hover:bg-stone-200 active:scale-95 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
               title="Backspace"
             >
-              <IconBackspace className="h-6 w-6" />
+              <span className="text-xl">⌫</span>
             </button>
           )}
         </div>
 
         {isSuccess && (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-green-500 drop-shadow-md">
-            <IconCheck className="h-32 w-32 opacity-80 animate-in zoom-in spin-in-3 duration-300" />
+            <span className="text-9xl">✓</span>
           </div>
         )}
       </div>

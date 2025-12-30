@@ -218,12 +218,6 @@ const App: React.FC = () => {
               exerciseMode !== 'trans-to-word' &&
               exerciseMode !== 'speller' &&
               exerciseMode !== 'crossword' && <VirtualKeyboard />}
-
-            {/* 预加载 SpellerGame 和 CrosswordGame 组件，避免切换时的白屏 */}
-            <div className="hidden">
-              <SpellerGame />
-              <CrosswordGame />
-            </div>
           </div>
         </div>
       </Layout>
