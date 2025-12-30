@@ -1,67 +1,16 @@
-import { TypingContext, TypingStateActionType } from '../../store'
-import useKeySounds from '@/hooks/useKeySounds'
-import type { Word } from '@/typings'
-import type React from 'react'
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import usePronunciationSound from '@/hooks/usePronunciation'
 import IconBackspace from '~icons/tabler/backspace'
 import IconCheck from '~icons/tabler/check'
 
-// Utility to determine which indices to mask
-const getMaskedIndices = (word: string): Set<number> => {
-  const len = word.length
-  const indices = new Set<number>()
-  if (len <= 4) {
-    // Keep 1st, mask rest
-    for (let i = 1; i < len; i++) {
-      // Skip spaces or non-alpha if any, though usually words are just letters
-      if (/[a-zA-Z]/.test(word[i])) {
-        indices.add(i)
-      }
-    }
-  } else {
-    // Keep 1st and last
-    // Mask 50-60% of middle
-    const middleIndices: number[] = []
-    for (let i = 1; i < len - 1; i++) {
-      if (/[a-zA-Z]/.test(word[i])) {
-        middleIndices.push(i)
-      }
-    }
-
-    // Shuffle middle indices
-    for (let i = middleIndices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[middleIndices[i], middleIndices[j]] = [middleIndices[j], middleIndices[i]]
-    }
-
-    const countToMask = Math.floor(middleIndices.length * (0.5 + Math.random() * 0.1))
-    // Ensure at least one is masked if middle exists
-    const finalCount = countToMask === 0 && middleIndices.length > 0 ? 1 : countToMask
-
-    for (let i = 0; i < finalCount; i++) {
-      indices.add(middleIndices[i])
-    }
-  }
-  return indices
-}
+// ... (existing imports)
 
 const SpellerGame: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { state, dispatch } = useContext(TypingContext)!
+  // ... (existing hooks)
   const currentWordObj = state.chapterData.words[state.chapterData.index] as Word | undefined
-  const [maskedIndices, setMaskedIndices] = useState<Set<number>>(new Set())
-  const [userInputs, setUserInputs] = useState<string[]>([])
-  const [isShake, setIsShake] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  // New state for shuffled letters
-  const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: string }[]>([])
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
-
-  // Drag and Drop State
-  const [draggedItem, setDraggedItem] = useState<{ char: string; id: string } | null>(null)
-  const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null)
+  // ... (other state)
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
+  const { play: playWord } = usePronunciationSound(currentWordObj?.name || '')
 
   // Initialize word state
   useEffect(() => {
@@ -130,6 +79,9 @@ const SpellerGame: React.FC = () => {
         setIsSuccess(true)
         playHintSound()
         dispatch({ type: TypingStateActionType.REPORT_CORRECT_WORD })
+
+        // Play Pronunciation
+        playWord()
 
         setTimeout(() => {
           const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
@@ -417,7 +369,7 @@ const SpellerGame: React.FC = () => {
                   readOnly={true} // Disable system keyboard
                   // onChange removed, using onKeyDown manual handling
                   onKeyDown={(e) => isMasked && handleKeyDown(index, e)}
-                  onFocus={(e) => {
+                  onFocus={() => {
                     // Attempt to hide keyboard if readOnly doesn't suffice on some weird browsers,
                     // but readOnly usually enough.
                     // On mobile, readOnly inputs can still be prioritized for focus but won't pop keyboard.
