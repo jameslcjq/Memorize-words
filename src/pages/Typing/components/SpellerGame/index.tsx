@@ -175,7 +175,16 @@ const SpellerGame: React.FC = () => {
         }, 50)
       }
     },
-    [currentWordObj, dispatch, maskedIndices, playBeepSound, playHintSound, state.chapterData.index, state.chapterData.words.length],
+    [
+      currentWordObj,
+      dispatch,
+      maskedIndices,
+      playBeepSound,
+      playHintSound,
+      state.chapterData.index,
+      state.chapterData.words.length,
+      playWord,
+    ],
   )
 
   const handleInput = useCallback(

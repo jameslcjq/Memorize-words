@@ -45,6 +45,8 @@ const CrosswordGame: React.FC = () => {
   const [theme, setTheme] = useState<'beige' | 'blue' | 'gray'>('beige')
   const [activeCell, setActiveCell] = useState<{ x: number; y: number } | null>(null)
   const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: number }[]>([])
+  const [startTime, setStartTime] = useState<number>(0)
+  const [endTime, setEndTime] = useState<number>(0)
 
   // Drag State
   const [draggedItem, setDraggedItem] = useState<{ char: string; id: number } | null>(null)
@@ -65,23 +67,42 @@ const CrosswordGame: React.FC = () => {
 
   // Fit grid to container
   useEffect(() => {
+    // Basic response to resize, using ResizeObserver would be better but simple scale on data/resize is okay
     if (!gridData || !containerRef.current) return
 
-    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect()
-    const gridW = gridData.width * CELL_SIZE + GRID_PADDING * 2
-    const gridH = gridData.height * CELL_SIZE + GRID_PADDING * 2
+    const updateScale = () => {
+      if (!containerRef.current || !gridData) return
+      const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect()
 
-    const scaleW = containerW / gridW
-    const scaleH = containerH / gridH
+      // We want to fit within the container with some padding logic
+      // But the container is now flex-1, so it might change size.
+      const gridW = gridData.width * CELL_SIZE + GRID_PADDING * 2
+      const gridH = gridData.height * CELL_SIZE + GRID_PADDING * 2
 
-    // Take smaller scale to fit, max at 1.2 for "big" feeling but not absurd
-    const newScale = Math.min(scaleW, scaleH, 1.2)
-    setScale(newScale)
-  }, [gridData, containerRef.current?.offsetWidth, containerRef.current?.offsetHeight]) // Basic response to resize
+      const scaleW = containerW / gridW
+      const scaleH = containerH / gridH
+
+      // Take smaller scale to fit, max at 1.2
+      const newScale = Math.min(scaleW, scaleH, 1.2)
+      setScale(newScale)
+    }
+
+    // Initial calculation
+    updateScale()
+
+    // Add resize listener
+    const resizeObserver = new ResizeObserver(() => {
+      updateScale()
+    })
+    resizeObserver.observe(containerRef.current)
+
+    return () => resizeObserver.disconnect()
+  }, [gridData])
 
   // Generate Level
   const generateLevel = useCallback(() => {
-    const words = (state.chapterData.words as Word[]).filter((w) => w.name.length > 1)
+    // FILTER: Exclude words with spaces
+    const words = (state.chapterData.words as Word[]).filter((w) => w.name.length > 1 && !w.name.includes(' '))
     if (words.length === 0) return
 
     const count = LEVELS[level].count
@@ -123,10 +144,40 @@ const CrosswordGame: React.FC = () => {
       }
     })
 
+    // Post-process: Ensure every word has at least one non-hint cell
+    data.words.forEach((w) => {
+      const dx = w.direction === 'across' ? 1 : 0
+      const dy = w.direction === 'across' ? 0 : 1
+      let allHints = true
+      const cellKeys: string[] = []
+
+      for (let i = 0; i < w.word.length; i++) {
+        const key = `${w.x + i * dx},${w.y + i * dy}`
+        cellKeys.push(key)
+        if (!newCells[key].isHint) {
+          allHints = false
+          break
+        }
+      }
+
+      if (allHints) {
+        // Force one cell to be non-hint
+        // Prefer cells that are not start of other words if possible, or just random
+        // Simple strategy: pick random index
+        const randomIdx = Math.floor(Math.random() * w.word.length)
+        const keyToReveal = cellKeys[randomIdx]
+        newCells[keyToReveal].isHint = false
+        newCells[keyToReveal].userInput = ''
+      }
+    })
+
     setCells(newCells)
     setSolvedWordIds(new Set())
     setShowVictory(false)
+    setSolvedWordIds(new Set())
+    setShowVictory(false)
     setSelectedWordId(data.words[0].id)
+    setStartTime(Date.now())
   }, [level, state.chapterData.words, generator])
 
   useEffect(() => {
@@ -280,15 +331,9 @@ const CrosswordGame: React.FC = () => {
 
         // Check victory
         const totalWords = gridData.words.length
-        // Check if all correct (we need to be careful with async state, but localized is fine)
-        // A safer check is if new size == total
-        // solvedWordIds is stale here inside callback if we use the state directly, but we are using setter.
-        // But for victory check we need the NEW size.
-        // We can't see the new size immediately.
-        // We can recalculate based on prev size? No, `solvedWordIds` is from closure.
-        // Better strategy: Check against `solvedWordIds.size + 1` assuming it wasn't there (we checked has(wordId) at start).
 
         if (solvedWordIds.size + 1 === totalWords) {
+          setEndTime(Date.now())
           setShowVictory(true)
           confetti({
             particleCount: 150,
@@ -383,12 +428,6 @@ const CrosswordGame: React.FC = () => {
     },
     [cells, gridData, selectedWordId, solvedWordIds, playKeySound, checkWord],
   )
-  // Ideally checkWord should be useCallback too OR included.
-  // We can include checkWord in deps if we make checkWord stable or just suppress warning if we accept re-creation.
-  // Actually, checkWord is not stable. Let's make it stable too or just leave it.
-  // In this simple edit, I will just leave checkWord implicitly captured if I don't use useCallback, OR I update checkWord.
-  // To avoid complexity, I'll update checkWord to be useCallback first in a separate chunk or just inline the dependency.
-  // Actually, let's wrap checkWord in useCallback too.
 
   const handleKeyDown = (e: React.KeyboardEvent, x: number, y: number) => {
     if (e.key === 'Backspace') {
@@ -602,69 +641,68 @@ const CrosswordGame: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex w-full max-w-6xl flex-1 gap-6 overflow-hidden">
+      {/* Main Content - Full Height Flex Container */}
+      <div className="flex w-full flex-1 gap-6 overflow-hidden pb-4">
         {/* Grid Area - Auto-Scaled, No Scrollbars */}
         <div
           ref={containerRef}
           className={`relative flex-1 overflow-hidden rounded-xl border-4 ${THEMES[theme].border} flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] transition-colors duration-500 dark:border-gray-700 dark:bg-gray-800`}
           style={{ backgroundColor: THEMES[theme].value }}
         >
-          <div
-            className="relative origin-center transition-transform duration-300 ease-out"
-            style={{
-              width: gridData.width * CELL_SIZE,
-              height: gridData.height * CELL_SIZE,
-              transform: `scale(${scale})`,
-            }}
-          >
-            {Object.values(cells).map((cell) => {
-              const isSelected = selectedWordId && cell.wordIds.includes(selectedWordId)
-              const isSolved = cell.wordIds.some((id) => solvedWordIds.has(id))
-              const key = `${cell.x},${cell.y}`
+          {/* Wrapper for transform centered */}
+          <div className="flex h-full w-full items-center justify-center overflow-hidden">
+            <div
+              className="relative origin-center transition-transform duration-300 ease-out"
+              style={{
+                width: gridData.width * CELL_SIZE,
+                height: gridData.height * CELL_SIZE,
+                transform: `scale(${scale})`,
+              }}
+            >
+              {Object.values(cells).map((cell) => {
+                const isSelected = selectedWordId && cell.wordIds.includes(selectedWordId)
+                const isSolved = cell.wordIds.some((id) => solvedWordIds.has(id))
+                const key = `${cell.x},${cell.y}`
 
-              // Display logic
-              const displayChar = isUpperCase ? cell.userInput.toUpperCase() : cell.userInput.toLowerCase()
+                // Display logic
+                const displayChar = isUpperCase ? cell.userInput.toUpperCase() : cell.userInput.toLowerCase()
 
-              return (
-                <div
-                  key={key}
-                  // ADDED for drop logic
-                  data-crossword-x={cell.x}
-                  data-crossword-y={cell.y}
-                  className={`absolute flex h-[${CELL_SIZE - 4}px] w-[${
-                    CELL_SIZE - 4
-                  }px] items-center justify-center rounded-md border-2 text-2xl font-bold shadow-sm transition-all duration-200
-                                        ${
-                                          cell.isHint
-                                            ? 'bg-stone-200 text-stone-500 dark:bg-gray-700 dark:text-gray-500'
-                                            : 'bg-white text-gray-800 dark:bg-gray-600 dark:text-gray-100'
-                                        }
-                                        ${
-                                          isSelected ? 'z-10 ring-2 ring-indigo-400 ring-offset-1' : 'border-stone-400 dark:border-gray-500'
-                                        }
-                                        ${isSolved ? '!border-green-400 !bg-green-100 !text-green-600 dark:!bg-green-900/30' : ''}
-                                    `}
-                  onClick={() => handleCellClick(cell.x, cell.y)}
-                  // Set fixed sizes explicitly via style to avoid tailwind purge issues with dynamic values if any
-                  style={{
-                    left: cell.x * CELL_SIZE,
-                    top: cell.y * CELL_SIZE,
-                    width: CELL_SIZE - 4,
-                    height: CELL_SIZE - 4,
-                  }}
-                >
-                  <input
-                    ref={(el) => (inputRefs.current[key] = el)}
-                    className="h-full w-full cursor-default appearance-none bg-transparent p-0 text-center outline-none"
-                    value={displayChar}
-                    readOnly={true} // Disable system keyboard
-                    // removed onChange, use onKeyDown
-                    onKeyDown={(e) => handleKeyDown(e, cell.x, cell.y)}
-                  />
-                </div>
-              )
-            })}
+                return (
+                  <div
+                    key={key}
+                    // ADDED for drop logic
+                    data-crossword-x={cell.x}
+                    data-crossword-y={cell.y}
+                    className={`absolute flex h-[${CELL_SIZE - 4}px] w-[${
+                      CELL_SIZE - 4
+                    }px] items-center justify-center rounded-md border-2 text-2xl font-bold shadow-sm transition-all duration-200
+                                      ${
+                                        cell.isHint
+                                          ? 'bg-stone-200 text-stone-500 dark:bg-gray-700 dark:text-gray-500'
+                                          : 'bg-white text-gray-800 dark:bg-gray-600 dark:text-gray-100'
+                                      }
+                                      ${isSelected ? 'z-10 ring-2 ring-indigo-400 ring-offset-1' : 'border-stone-400 dark:border-gray-500'}
+                                      ${isSolved ? '!border-green-400 !bg-green-100 !text-green-600 dark:!bg-green-900/30' : ''}
+                                  `}
+                    onClick={() => handleCellClick(cell.x, cell.y)}
+                    style={{
+                      left: cell.x * CELL_SIZE,
+                      top: cell.y * CELL_SIZE,
+                      width: CELL_SIZE - 4,
+                      height: CELL_SIZE - 4,
+                    }}
+                  >
+                    <input
+                      ref={(el) => (inputRefs.current[key] = el)}
+                      className="h-full w-full cursor-default appearance-none bg-transparent p-0 text-center outline-none"
+                      value={displayChar}
+                      readOnly={true} // Disable system keyboard
+                      onKeyDown={(e) => handleKeyDown(e, cell.x, cell.y)}
+                    />
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
 
@@ -773,11 +811,36 @@ const CrosswordGame: React.FC = () => {
           <div className="flex scale-100 flex-col items-center rounded-2xl bg-white p-10 shadow-2xl animate-in zoom-in-95 duration-200 dark:bg-gray-800">
             <IconTrophy className="mb-6 h-24 w-24 text-yellow-400 drop-shadow-lg" />
             <h2 className="mb-2 text-4xl font-black text-gray-800 dark:text-white">闯关成功！</h2>
-            <p className="mb-8 max-w-xs text-center text-gray-500 dark:text-gray-400">你已完成所有单词填空，太棒了！</p>
+            <div className="mb-8 flex w-full max-w-xs flex-col gap-2 rounded-xl bg-gray-50 p-4 dark:bg-gray-700">
+              <div className="flex justify-between text-lg text-gray-600 dark:text-gray-300">
+                <span>用时:</span>
+                <span className="font-bold">
+                  {(() => {
+                    const diff = (endTime - startTime) / 1000
+                    const m = Math.floor(diff / 60)
+                    const s = Math.floor(diff % 60)
+                    return `${m}分${s}秒`
+                  })()}
+                </span>
+              </div>
+              <div className="flex justify-between text-lg text-indigo-600 dark:text-indigo-400">
+                <span>得分:</span>
+                <span className="text-2xl font-black">
+                  {(() => {
+                    const wordCount = gridData?.words.length || 0
+                    const baseScore = wordCount * 100
+                    const diff = (endTime - startTime) / 1000
+                    // Bonus: 10 points for every second under target (15s per word)
+                    const targetTime = wordCount * 15
+                    const bonus = Math.max(0, Math.floor((targetTime - diff) * 10))
+                    return baseScore + bonus
+                  })()}
+                </span>
+              </div>
+            </div>
             <div className="flex gap-4">
               <button
                 onClick={() => {
-                  // Generate next one (maybe increase difficulty?)
                   generateLevel()
                 }}
                 className="rounded-full bg-indigo-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition hover:scale-105 hover:bg-indigo-700 active:scale-95"
