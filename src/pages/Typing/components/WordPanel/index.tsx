@@ -172,10 +172,19 @@ export default function WordPanel() {
         {currentWord && (
           <div className="relative flex w-full justify-center">
             {!state.isTyping && (
-              <div className="absolute flex h-full w-full justify-center">
-                <div className="z-10 flex w-full items-center backdrop-blur-sm">
+              <div
+                className="absolute z-20 flex h-full w-full cursor-pointer justify-center"
+                onClick={() => {
+                  if (exerciseMode === 'word-to-trans' || exerciseMode === 'trans-to-word') {
+                    dispatch({ type: TypingStateActionType.SET_IS_TYPING, payload: true })
+                  }
+                }}
+              >
+                <div className="flex w-full items-center backdrop-blur-sm">
                   <p className="w-full select-none text-center text-xl text-gray-600 dark:text-gray-50">
-                    按任意键{state.timerData.time ? '继续' : '开始'}
+                    {exerciseMode === 'word-to-trans' || exerciseMode === 'trans-to-word'
+                      ? '点击屏幕开始'
+                      : `按任意键${state.timerData.time ? '继续' : '开始'}`}
                   </p>
                 </div>
               </div>

@@ -40,10 +40,13 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
 
   const playSound = useCallback(() => {
     playWord()
+    // 中译英模式下，只读英文，不读释义
+    if (mode === 'trans-to-word') return
+
     setTimeout(() => {
       speakDef()
     }, 800)
-  }, [playWord, speakDef])
+  }, [playWord, speakDef, mode])
 
   // Cleanup speech on unmount or word change
   useEffect(() => {
