@@ -40,8 +40,8 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
 
   const playSound = useCallback(() => {
     playWord()
-    // 中译英模式下，只读英文，不读释义
-    if (mode === 'trans-to-word') return
+    // 中译英、英译中模式下，只读英文，不读释义
+    if (mode === 'trans-to-word' || mode === 'word-to-trans') return
 
     setTimeout(() => {
       speakDef()

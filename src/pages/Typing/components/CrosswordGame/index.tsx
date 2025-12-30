@@ -656,7 +656,7 @@ const CrosswordGame: React.FC = () => {
                 >
                   <input
                     ref={(el) => (inputRefs.current[key] = el)}
-                    className="h-full w-full cursor-default bg-transparent text-center outline-none"
+                    className="h-full w-full cursor-default appearance-none bg-transparent p-0 text-center outline-none"
                     value={displayChar}
                     readOnly={true} // Disable system keyboard
                     // removed onChange, use onKeyDown
