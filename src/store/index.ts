@@ -128,3 +128,7 @@ export const exerciseModeAtom = atomWithStorage<ExerciseMode>('exerciseMode', 't
 export const quizConfigAtom = atomWithStorage<QuizConfig>('quizConfig', {
   scope: 'unit',
 })
+
+// Cloudflare Auth Atoms
+export const userInfoAtom = atomWithStorage<{ userId: string; openid: string; nickname: string } | null>('userInfo', null)
+export const isSyncingAtom = atom(false)

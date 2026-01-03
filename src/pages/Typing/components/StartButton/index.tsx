@@ -40,9 +40,7 @@ export default function StartButton({ isLoading }: { isLoading: boolean }) {
           state.isTyping
             ? 'bg-gray-400 shadow-gray-200 dark:bg-gray-600  dark:shadow-none'
             : 'bg-indigo-500 shadow-indigo-300 dark:shadow-indigo-500/60'
-        } ${
-          isShowReStartButton ? 'h-20' : 'h-auto'
-        } flex-column absolute left-0 top-0 w-20 rounded-lg shadow-lg transition-colors duration-200`}
+        } ${isShowReStartButton ? 'h-20' : 'h-auto'} flex-column relative w-20 rounded-lg shadow-lg transition-colors duration-200`}
       >
         <button
           className={`${

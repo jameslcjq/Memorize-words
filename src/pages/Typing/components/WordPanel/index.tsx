@@ -173,7 +173,7 @@ export default function WordPanel() {
           <div className="relative flex w-full justify-center">
             {!state.isTyping && (
               <div
-                className="absolute z-20 flex h-full w-full cursor-pointer justify-center"
+                className="absolute z-10 flex h-full w-full cursor-pointer justify-center"
                 onClick={() => {
                   if (exerciseMode === 'word-to-trans' || exerciseMode === 'trans-to-word') {
                     dispatch({ type: TypingStateActionType.SET_IS_TYPING, payload: true })

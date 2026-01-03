@@ -29,10 +29,10 @@ export default defineConfig(async ({ mode }) => {
       }),
     ],
     build: {
-      minify: true,
       outDir: 'build',
       sourcemap: false,
-    },
+    }, // base defaults to '/' which is what we want, or explicit base: '/'
+    base: '/',
     esbuild: {
       drop: mode === 'development' ? [] : ['console', 'debugger'],
     },

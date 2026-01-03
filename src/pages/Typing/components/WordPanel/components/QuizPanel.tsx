@@ -80,7 +80,7 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
           setSelectedIdx(null)
           setIsCorrect(null)
           cancelDef()
-        }, 2500)
+        }, 800)
       } else {
         dispatch({ type: TypingStateActionType.REPORT_WRONG_WORD, payload: { letterMistake: {} } })
         saveWordRecord({

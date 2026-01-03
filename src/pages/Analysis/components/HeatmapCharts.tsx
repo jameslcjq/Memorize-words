@@ -10,9 +10,10 @@ import 'react-tooltip/dist/react-tooltip.css'
 interface HeatmapChartsProps {
   title: string
   data: Activity[]
+  onClick?: (date: string) => void
 }
 
-const HeatmapCharts: FC<HeatmapChartsProps> = ({ data, title }) => {
+const HeatmapCharts: FC<HeatmapChartsProps> = ({ data, title, onClick }) => {
   const [isOpenDarkMode] = useAtom(isOpenDarkModeAtom)
 
   return (
@@ -36,6 +37,8 @@ const HeatmapCharts: FC<HeatmapChartsProps> = ({ data, title }) => {
           React.cloneElement(block, {
             'data-tooltip-id': 'react-tooltip',
             'data-tooltip-html': `${activity.date} 练习 ${activity.count} 次`,
+            onClick: () => onClick?.(activity.date),
+            style: { cursor: 'pointer' },
           })
         }
         showWeekdayLabels={true}

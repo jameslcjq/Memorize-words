@@ -15,6 +15,7 @@ import { useWordList } from './hooks/useWordList'
 import { TypingContext, TypingStateActionType, initialState, typingReducer } from './store'
 import { DonateCard } from '@/components/DonateCard'
 import Header from '@/components/Header'
+import LoginModal from '@/components/LoginModal'
 import Tooltip from '@/components/Tooltip'
 import { idDictionaryMap } from '@/resources/dictionary'
 import {
@@ -181,6 +182,7 @@ const App: React.FC = () => {
           <ExerciseModeSwitcher />
           <PronunciationSwitcher />
           <Switcher />
+          <LoginModal />
           <StartButton isLoading={isLoading} />
           <Tooltip content="跳过该词">
             <button
