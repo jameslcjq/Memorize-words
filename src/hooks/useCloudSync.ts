@@ -1,5 +1,5 @@
 import { useWordStats } from '@/pages/Analysis/hooks/useWordStats'
-import { userInfoAtom, isSyncingAtom } from '@/store'
+import { isSyncingAtom, userInfoAtom } from '@/store'
 import dayjs from 'dayjs'
 import { useAtom, useAtomValue } from 'jotai'
 import { useCallback, useState } from 'react'

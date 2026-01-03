@@ -1,6 +1,7 @@
 import styles from './CalendarCard.module.css'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 
 interface CalendarCardProps {
   practicedDates: string[] // List of dates 'YYYY-MM-DD'

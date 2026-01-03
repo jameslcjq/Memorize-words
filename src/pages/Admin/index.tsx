@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout'
-import React, { useState, useEffect } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 
 const Admin = () => {
   const [password, setPassword] = useState('')
