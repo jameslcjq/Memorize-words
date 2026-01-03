@@ -2,6 +2,7 @@ import useKeySounds from '@/hooks/useKeySounds'
 import usePronunciationSound from '@/hooks/usePronunciation'
 import { TypingContext, TypingStateActionType } from '@/pages/Typing/store'
 import type { Word } from '@/typings'
+import { useSaveWordRecord } from '@/utils/db'
 import type React from 'react'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 
@@ -12,36 +13,10 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 const getMaskedIndices = (word: string): Set<number> => {
   const len = word.length
   const indices = new Set<number>()
-  if (len <= 4) {
-    // Keep 1st, mask rest
-    for (let i = 1; i < len; i++) {
-      // Skip spaces or non-alpha if any, though usually words are just letters
-      if (/[a-zA-Z]/.test(word[i])) {
-        indices.add(i)
-      }
-    }
-  } else {
-    // Keep 1st and last
-    // Mask 50-60% of middle
-    const middleIndices: number[] = []
-    for (let i = 1; i < len - 1; i++) {
-      if (/[a-zA-Z]/.test(word[i])) {
-        middleIndices.push(i)
-      }
-    }
-
-    // Shuffle middle indices
-    for (let i = middleIndices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[middleIndices[i], middleIndices[j]] = [middleIndices[j], middleIndices[i]]
-    }
-
-    const countToMask = Math.floor(middleIndices.length * (0.5 + Math.random() * 0.1))
-    // Ensure at least one is masked if middle exists
-    const finalCount = countToMask === 0 && middleIndices.length > 0 ? 1 : countToMask
-
-    for (let i = 0; i < finalCount; i++) {
-      indices.add(middleIndices[i])
+  // Mask ALL alphabet characters
+  for (let i = 0; i < len; i++) {
+    if (/[a-zA-Z]/.test(word[i])) {
+      indices.add(i)
     }
   }
   return indices
@@ -55,6 +30,7 @@ const SpellerGame: React.FC = () => {
   const [maskedIndices, setMaskedIndices] = useState<Set<number>>(new Set())
   const [userInputs, setUserInputs] = useState<string[]>([])
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isShowAnswer, setIsShowAnswer] = useState(false)
   const [isShake, setIsShake] = useState(false)
 
   // Shuffled letters for the bottom bank
@@ -68,6 +44,8 @@ const SpellerGame: React.FC = () => {
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
   const { play: playWord } = usePronunciationSound(currentWordObj?.name || '')
+
+  const saveWordRecord = useSaveWordRecord()
 
   // Initialize word state
   useEffect(() => {
@@ -85,10 +63,11 @@ const SpellerGame: React.FC = () => {
     const newMasked = getMaskedIndices(wordName)
     setMaskedIndices(newMasked)
 
-    // Pre-fill unmasked chars
+    // Pre-fill unmasked chars (usually none now, unless spaces/punctuation)
     const initialInputs = wordName.split('').map((char, index) => (newMasked.has(index) ? '' : char))
     setUserInputs(initialInputs)
     setIsSuccess(false)
+    setIsShowAnswer(false)
     setIsShake(false)
 
     // Generate shuffled letters necessary for the word
@@ -133,6 +112,7 @@ const SpellerGame: React.FC = () => {
       if (!currentWordObj) return
       const inputWord = inputs.join('')
       if (inputWord.toLowerCase() === currentWordObj.name.toLowerCase()) {
+        // Correct
         setIsSuccess(true)
         playHintSound()
         dispatch({ type: TypingStateActionType.REPORT_CORRECT_WORD })
@@ -149,47 +129,60 @@ const SpellerGame: React.FC = () => {
           }
         }, 1000)
       } else {
-        // Wrong
+        // Wrong -> Fail Fast
         playBeepSound()
         setIsShake(true)
+        setIsShowAnswer(true) // Show correct answer
+
+        // Record Error
+        const letterMistake: any = {}
+        // Basic diff for mistakes
+        inputs.forEach((char, idx) => {
+          if (char.toLowerCase() !== currentWordObj.name[idx].toLowerCase()) {
+            letterMistake[idx] = 1
+          }
+        })
+
+        dispatch({ type: TypingStateActionType.REPORT_WRONG_WORD, payload: { letterMistake } })
+
+        // Save to error book (IndexedDB)
+        saveWordRecord({
+          word: currentWordObj.name,
+          wrongCount: 1, // At least 1 wrong
+          letterTimeArray: [],
+          letterMistake,
+        })
+
+        playWord() // Play sound of correct word so they know what it was
+
         setTimeout(() => setIsShake(false), 500)
 
-        dispatch({ type: TypingStateActionType.REPORT_WRONG_WORD, payload: { letterMistake: {} } })
-
-        // Clear wrong ones in masked slots.
-        const newInputs = [...inputs]
-        for (let i = 0; i < newInputs.length; i++) {
-          if (maskedIndices.has(i)) {
-            if (newInputs[i].toLowerCase() !== currentWordObj.name[i].toLowerCase()) {
-              newInputs[i] = ''
-            }
-          }
-        }
-        setUserInputs(newInputs)
-        // Focus first empty
+        // Move to next word after delay
         setTimeout(() => {
-          const firstEmpty = newInputs.findIndex((c) => c === '')
-          if (firstEmpty !== -1) {
-            inputRefs.current[firstEmpty]?.focus()
+          const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
+          if (isLastWord) {
+            dispatch({ type: TypingStateActionType.FINISH_CHAPTER })
+          } else {
+            dispatch({ type: TypingStateActionType.NEXT_WORD })
           }
-        }, 50)
+        }, 2500) // 2.5s delay to read correct answer
       }
     },
     [
       currentWordObj,
       dispatch,
-      maskedIndices,
       playBeepSound,
       playHintSound,
       state.chapterData.index,
       state.chapterData.words.length,
       playWord,
+      saveWordRecord,
     ],
   )
 
   const handleInput = useCallback(
     (index: number, value: string) => {
-      if (!currentWordObj || isSuccess) return
+      if (!currentWordObj || isSuccess || isShowAnswer) return
 
       // Only allow letters
       if (!/^[a-zA-Z]$/.test(value)) return
@@ -220,10 +213,11 @@ const SpellerGame: React.FC = () => {
         inputRefs.current[nextIndex]?.focus()
       }
     },
-    [currentWordObj, isSuccess, userInputs, playKeySound, maskedIndices, checkAnswer],
+    [currentWordObj, isSuccess, isShowAnswer, userInputs, playKeySound, maskedIndices, checkAnswer],
   )
 
   const handleLetterClick = (char: string) => {
+    if (isShowAnswer) return
     // Find first empty masked index
     const firstEmpty = userInputs.findIndex((val, idx) => maskedIndices.has(idx) && val === '')
     if (firstEmpty !== -1) {
@@ -232,6 +226,7 @@ const SpellerGame: React.FC = () => {
   }
 
   const handleBackspace = () => {
+    if (isShowAnswer) return
     // Find last filled masked index (or current if focused?)
     // Simple logic: erase last filled masked char.
     // Or if we track active index, erase that?
@@ -260,7 +255,7 @@ const SpellerGame: React.FC = () => {
   }
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (isSuccess) return
+    if (isSuccess || isShowAnswer) return
 
     if (e.key === 'Backspace') {
       e.preventDefault()
@@ -288,13 +283,10 @@ const SpellerGame: React.FC = () => {
     }
   }
 
-  // Move checkAnswer inside the previous block to avoid ordering issues with usage
-  // (It was moved up to be available for handleInput)
-
   // Handle Global Keydown (for Virtual Keyboard or lost focus)
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      if (isSuccess || !currentWordObj) return
+      if (isSuccess || isShowAnswer || !currentWordObj) return
       // If already focused on an input, let that input handle it naturally
       if (document.activeElement?.tagName === 'INPUT') return
 
@@ -339,7 +331,7 @@ const SpellerGame: React.FC = () => {
 
     window.addEventListener('keydown', handleGlobalKeyDown)
     return () => window.removeEventListener('keydown', handleGlobalKeyDown)
-  }, [isSuccess, currentWordObj, maskedIndices, userInputs, handleInput])
+  }, [isSuccess, isShowAnswer, currentWordObj, maskedIndices, userInputs, handleInput])
 
   // Handle Global Drag Events
   useEffect(() => {
@@ -420,7 +412,12 @@ const SpellerGame: React.FC = () => {
         >
           {currentWordObj.name.split('').map((char, index) => {
             const isMasked = maskedIndices.has(index)
-            const val = userInputs[index] || ''
+            // If showing answer, show correct char. Otherwise user input.
+            const val = isShowAnswer ? char : userInputs[index] || ''
+
+            // Check if user input was correct for this index (for color coding)
+            // const isUserCorrect = userInputs[index] && userInputs[index].toLowerCase() === char.toLowerCase()
+
             return (
               <div
                 key={index}
@@ -431,7 +428,7 @@ const SpellerGame: React.FC = () => {
                   ref={(el) => (inputRefs.current[index] = el)}
                   type="text"
                   value={val}
-                  disabled={!isMasked || isSuccess}
+                  disabled={!isMasked || isSuccess || isShowAnswer}
                   readOnly={true} // Disable system keyboard
                   // onChange removed, using onKeyDown manual handling
                   onKeyDown={(e) => isMasked && handleKeyDown(index, e)}
@@ -447,11 +444,7 @@ const SpellerGame: React.FC = () => {
                                     ? 'border-transparent bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-500'
                                     : 'cursor-pointer bg-white text-gray-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100'
                                 }
-                                ${
-                                  isShake && val !== '' && val.toLowerCase() !== char.toLowerCase()
-                                    ? 'border-red-500 bg-red-50 text-red-600'
-                                    : ''
-                                }
+                                ${isShowAnswer ? 'border-red-500 bg-red-50 text-red-600 dark:bg-red-900/20' : ''}
                             `}
                 />
               </div>
@@ -459,7 +452,7 @@ const SpellerGame: React.FC = () => {
           })}
 
           {/* Backspace Button */}
-          {!isSuccess && (
+          {!isSuccess && !isShowAnswer && (
             <button
               onClick={handleBackspace}
               className="flex h-14 w-12 items-center justify-center rounded-md bg-stone-100 text-stone-500 shadow-sm transition-all hover:bg-stone-200 active:scale-95 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
@@ -475,6 +468,12 @@ const SpellerGame: React.FC = () => {
             <span className="text-9xl">✓</span>
           </div>
         )}
+
+        {isShowAnswer && (
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500 drop-shadow-md">
+            <span className="text-9xl">✗</span>
+          </div>
+        )}
       </div>
 
       {/* Shuffle Letters Bank */}
@@ -486,17 +485,21 @@ const SpellerGame: React.FC = () => {
             onClick={() => handleLetterClick(item.char)}
             // Handle Drag
             onPointerDown={(e) => {
+              if (isShowAnswer) return
               // Prevent default touch actions (like scrolling) if needed, but 'touch-action: none' css is better
               // e.currentTarget.releasePointerCapture(e.pointerId) // Sometimes needed
               const box = e.currentTarget.getBoundingClientRect()
               setDraggedItem(item)
               setDragPos({ x: box.left + box.width / 2, y: box.top + box.height / 2 })
             }}
-            className="flex h-12 w-12 cursor-grab touch-none items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 active:cursor-grabbing dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400"
+            className={`flex h-12 w-12 cursor-grab touch-none items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 active:cursor-grabbing dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400
+             ${isShowAnswer ? 'cursor-not-allowed opacity-50' : ''}
+            `}
             style={{
               transform: `rotate(${item.rotation}deg)`,
-              opacity: draggedItem?.id === item.id ? 0.4 : 1, // visual feedback
+              opacity: draggedItem?.id === item.id ? 0.4 : isShowAnswer ? 0.5 : 1, // visual feedback
             }}
+            disabled={isShowAnswer}
           >
             {item.char}
           </button>
