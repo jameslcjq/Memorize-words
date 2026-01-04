@@ -97,14 +97,7 @@ const SpellerGame: React.FC = () => {
     // Shuffle them
     setShuffledLetters(lettersToUse.sort(() => Math.random() - 0.5))
 
-    // Auto-focus first empty slot
-    // We need a slight delay or effect to ensure refs are ready
-    setTimeout(() => {
-      const firstEmpty = initialInputs.findIndex((c) => c === '')
-      if (firstEmpty !== -1 && inputRefs.current[firstEmpty]) {
-        inputRefs.current[firstEmpty]?.focus()
-      }
-    }, 50)
+    // Auto-focus first empty slot happens via the effect below automatically
   }, [currentWordObj, dispatch])
 
   const checkAnswer = useCallback(
@@ -180,6 +173,33 @@ const SpellerGame: React.FC = () => {
     ],
   )
 
+  // Robust Auto-Focus and Check Answer Effect
+  useEffect(() => {
+    if (!currentWordObj || isSuccess || isShowAnswer) return
+
+    // 1. Check if full
+    const isFull = userInputs.length > 0 && userInputs.every((c) => c !== '')
+    if (isFull) {
+      // Delay slightly to allow render to show the last letter?
+      // Or immediately check. Immediate is fine, the render happened.
+      checkAnswer(userInputs)
+      return
+    }
+
+    // 2. Focus first empty masked input
+    let firstEmpty = -1
+    for (let i = 0; i < currentWordObj.name.length; i++) {
+      if (maskedIndices.has(i) && userInputs[i] === '') {
+        firstEmpty = i
+        break
+      }
+    }
+
+    if (firstEmpty !== -1) {
+      inputRefs.current[firstEmpty]?.focus()
+    }
+  }, [userInputs, isSuccess, isShowAnswer, currentWordObj, maskedIndices, checkAnswer])
+
   const handleInput = useCallback(
     (index: number, value: string) => {
       if (!currentWordObj || isSuccess || isShowAnswer) return
@@ -193,30 +213,9 @@ const SpellerGame: React.FC = () => {
 
       playKeySound()
 
-      // Find next masked index that is empty
-      let nextIndex = -1
-      for (let i = index + 1; i < currentWordObj.name.length; i++) {
-        if (maskedIndices.has(i)) {
-          nextIndex = i
-          break
-        }
-      }
-
-      // If no next masked, maybe loop back to first empty masked?
-      if (nextIndex === -1) {
-        // Check if all filled
-        const isFull = newInputs.every((c) => c !== '')
-        if (isFull) {
-          checkAnswer(newInputs)
-        }
-      } else {
-        // Use setTimeout to ensure focus happens after render/updates
-        setTimeout(() => {
-          inputRefs.current[nextIndex]?.focus()
-        }, 10)
-      }
+      // Removed: Manual focus logic. The Effect will handle moving to next empty slot.
     },
-    [currentWordObj, isSuccess, isShowAnswer, userInputs, playKeySound, maskedIndices, checkAnswer],
+    [currentWordObj, isSuccess, isShowAnswer, userInputs, playKeySound],
   )
 
   const handleLetterClick = (char: string) => {
@@ -230,10 +229,7 @@ const SpellerGame: React.FC = () => {
 
   const handleBackspace = () => {
     if (isShowAnswer) return
-    // Find last filled masked index (or current if focused?)
-    // Simple logic: erase last filled masked char.
-    // Or if we track active index, erase that?
-    // Let's stick to "erase last filled" for the button.
+    // Find last filled masked index
     let lastFilled = -1
     for (let i = userInputs.length - 1; i >= 0; i--) {
       if (maskedIndices.has(i) && userInputs[i] !== '') {
@@ -246,10 +242,9 @@ const SpellerGame: React.FC = () => {
       const newInputs = [...userInputs]
       newInputs[lastFilled] = ''
       setUserInputs(newInputs)
-      inputRefs.current[lastFilled]?.focus()
+      // Focus will be handled by Effect (jumping to this newly empty slot)
     } else {
-      // If nothing filled, maybe focus the first masked?
-      // find first masked
+      // If nothing filled, focus first masked
       const firstMasked = Array.from(maskedIndices).sort((a, b) => a - b)[0]
       if (firstMasked !== undefined) {
         inputRefs.current[firstMasked]?.focus()
@@ -264,10 +259,12 @@ const SpellerGame: React.FC = () => {
       e.preventDefault()
       const newInputs = [...userInputs]
       if (newInputs[index] !== '') {
+        // Clear current
         newInputs[index] = ''
         setUserInputs(newInputs)
+        // Effect will focus this slot
       } else {
-        // Move to previous masked slot
+        // Move to previous masked slot (Navigation only)
         let prevIndex = -1
         for (let i = index - 1; i >= 0; i--) {
           if (maskedIndices.has(i)) {
@@ -310,7 +307,7 @@ const SpellerGame: React.FC = () => {
           const newInputs = [...userInputs]
           newInputs[lastFilled] = ''
           setUserInputs(newInputs)
-          inputRefs.current[lastFilled]?.focus()
+          // Effect will focus
         }
         return
       }
