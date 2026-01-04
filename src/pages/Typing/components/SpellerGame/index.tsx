@@ -220,8 +220,11 @@ const SpellerGame: React.FC = () => {
         }
       }
 
+      console.log(`[DEBUG] handleInput index=${index} val=${value} nextIndex=${nextIndex} masked=${Array.from(maskedIndices)}`)
+
       if (nextIndex !== -1) {
         requestAnimationFrame(() => {
+          console.log(`[DEBUG] Focusing input ${nextIndex}`, inputRefs.current[nextIndex] ? 'Ref exists' : 'Ref missing')
           inputRefs.current[nextIndex]?.focus()
         })
       }
@@ -401,6 +404,7 @@ const SpellerGame: React.FC = () => {
       {/* Progress */}
       <div className="text-xl font-bold text-gray-400 dark:text-gray-500">
         {finishedCount + 1} / {totalCount}
+        <span className="ml-2 text-xs text-red-500">vDebug-RAF</span>
       </div>
 
       {/* Meaning - Giant */}
