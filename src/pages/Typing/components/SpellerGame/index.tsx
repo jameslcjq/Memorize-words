@@ -210,7 +210,10 @@ const SpellerGame: React.FC = () => {
           checkAnswer(newInputs)
         }
       } else {
-        inputRefs.current[nextIndex]?.focus()
+        // Use setTimeout to ensure focus happens after render/updates
+        setTimeout(() => {
+          inputRefs.current[nextIndex]?.focus()
+        }, 10)
       }
     },
     [currentWordObj, isSuccess, isShowAnswer, userInputs, playKeySound, maskedIndices, checkAnswer],
