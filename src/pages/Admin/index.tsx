@@ -45,6 +45,34 @@ const Admin = () => {
     }
   }, [])
 
+  const handleResetPassword = async (userId: string) => {
+    const newPassword = prompt('请输入新密码：')
+    if (!newPassword) return
+
+    const adminPwd = sessionStorage.getItem('admin_pwd')
+    if (!adminPwd) return
+
+    try {
+      const res = await fetch('/api/admin/reset_password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-password': adminPwd,
+        },
+        body: JSON.stringify({ userId, newPassword }),
+      })
+
+      if (res.ok) {
+        alert('密码重置成功')
+      } else {
+        const data = await res.json()
+        alert('重置失败: ' + data.error)
+      }
+    } catch (e: any) {
+      alert('操作失败: ' + e.message)
+    }
+  }
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     checkAuth(password)
@@ -119,6 +147,7 @@ const Admin = () => {
                   <th className="px-6 py-3">账号</th>
                   <th className="px-6 py-3">注册时间</th>
                   <th className="px-6 py-3">用户ID</th>
+                  <th className="px-6 py-3">操作</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-700 dark:text-gray-300">
@@ -128,6 +157,14 @@ const Admin = () => {
                     <td className="px-6 py-4">{u.username}</td>
                     <td className="px-6 py-4">{new Date(u.createdAt).toLocaleString()}</td>
                     <td className="px-6 py-4 font-mono text-xs text-gray-400">{u.id}</td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleResetPassword(u.id)}
+                        className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+                      >
+                        重置密码
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
