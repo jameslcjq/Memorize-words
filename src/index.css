@@ -25,6 +25,7 @@ html,
 body,
 :global(#root) {
   height: 100%;
+  overscroll-behavior: none;
 }
 
 .my-card {
