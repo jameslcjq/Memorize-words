@@ -142,14 +142,17 @@ async function getChapterStats(startTimeStamp: number, endTimeStamp: number): Pr
     data: Record<string, { words: string[]; wrongWordsList: string[]; totalDuration: number; moduleDurations: Record<string, number> }>,
   ) => {
     return Object.entries(data)
-      .map(([date, { words, wrongWordsList, totalDuration, moduleDurations }]) => ({
-        date,
-        totalWordsCount: words.length,
-        practicedWords: words, // 这里如果不去重，则显示所有练习记录；如果去重则: Array.from(new Set(words))
-        wrongWords: Array.from(new Set(wrongWordsList)), // 错词通常去重更有意义，或者也可以不去重
-        duration: Math.round(totalDuration / 1000 / 60), // Convert ms to minutes
-        moduleDurations: Object.fromEntries(Object.entries(moduleDurations).map(([k, v]) => [k, Math.round(v / 1000 / 60)])),
-      }))
+      .map(([date, { words, wrongWordsList, totalDuration, moduleDurations }]) => {
+        const uniqueWords = Array.from(new Set(words))
+        return {
+          date,
+          totalWordsCount: uniqueWords.length,
+          practicedWords: uniqueWords,
+          wrongWords: Array.from(new Set(wrongWordsList)), // 错词通常去重更有意义，或者也可以不去重
+          duration: Math.round(totalDuration / 1000 / 60), // Convert ms to minutes
+          moduleDurations: Object.fromEntries(Object.entries(moduleDurations).map(([k, v]) => [k, Math.round(v / 1000 / 60)])),
+        }
+      })
       .filter((detail) => detail.totalWordsCount > 0)
       .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? 1 : -1)) // 按日期倒序
   }
