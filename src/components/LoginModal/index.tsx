@@ -106,7 +106,14 @@ const LoginModal = () => {
               {mode === 'register' ? '创建新账号' : '账号登录'}
             </Dialog.Title>
 
-            <div className="mt-4 flex flex-col gap-3">
+            <form
+              className="mt-4 flex flex-col gap-3"
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleAuth()
+              }}
+              onKeyDown={(e) => e.stopPropagation()}
+            >
               <input
                 type="text"
                 autoFocus
@@ -133,8 +140,8 @@ const LoginModal = () => {
               )}
 
               <button
+                type="submit"
                 disabled={isLoading}
-                onClick={handleAuth}
                 className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:opacity-50"
               >
                 {isLoading ? '处理中...' : mode === 'register' ? '注册并登录' : '登录'}
@@ -142,13 +149,14 @@ const LoginModal = () => {
 
               <div className="mt-2 flex justify-center text-sm">
                 <button
+                  type="button"
                   className="text-indigo-600 hover:underline dark:text-indigo-400"
                   onClick={() => setMode(mode === 'register' ? 'login' : 'register')}
                 >
                   {mode === 'register' ? '已有账号？去登录' : '没有账号？去注册'}
                 </button>
               </div>
-            </div>
+            </form>
 
             <div className="mt-4 flex justify-end">
               <button onClick={() => setIsOpen(false)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
