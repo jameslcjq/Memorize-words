@@ -1,5 +1,5 @@
 import useKeySounds from '@/hooks/useKeySounds'
-import usePronunciationSound from '@/hooks/usePronunciation'
+import usePronunciationSound, { usePrefetchPronunciationSound } from '@/hooks/usePronunciation'
 import { TypingContext, TypingStateActionType } from '@/pages/Typing/store'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
@@ -26,6 +26,8 @@ const SpellerGame: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { state, dispatch } = useContext(TypingContext)!
   const currentWordObj = state.chapterData.words[state.chapterData.index] as Word | undefined
+
+  usePrefetchPronunciationSound(currentWordObj?.name)
 
   const [maskedIndices, setMaskedIndices] = useState<Set<number>>(new Set())
   const [userInputs, setUserInputs] = useState<string[]>([])
@@ -119,7 +121,7 @@ const SpellerGame: React.FC = () => {
         // Play Pronunciation
         setTimeout(() => {
           playWord()
-        }, 300)
+        }, 100)
 
         setTimeout(() => {
           const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
