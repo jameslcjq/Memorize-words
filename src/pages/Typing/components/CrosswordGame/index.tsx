@@ -675,7 +675,7 @@ const CrosswordGame: React.FC = () => {
                     data-crossword-y={cell.y}
                     className={`absolute flex h-[${CELL_SIZE - 4}px] w-[${
                       CELL_SIZE - 4
-                    }px] items-center justify-center rounded-md border-2 text-2xl font-bold shadow-sm transition-all duration-200
+                    }px] items-center justify-center rounded-md border-2 font-mono text-2xl font-bold shadow-sm transition-all duration-200
                                       ${
                                         cell.isHint
                                           ? 'bg-stone-200 text-stone-500 dark:bg-gray-700 dark:text-gray-500'
@@ -779,7 +779,7 @@ const CrosswordGame: React.FC = () => {
                       setDraggedItem(item)
                       setDragPos({ x: box.left + box.width / 2, y: box.top + box.height / 2 })
                     }}
-                    className="flex h-10 w-10 cursor-grab items-center justify-center rounded-lg border-2 border-indigo-200 bg-white text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
+                    className="flex h-10 w-10 cursor-grab items-center justify-center rounded-lg border-2 border-indigo-200 bg-white font-mono text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
                     style={{
                       transform: `rotate(${item.rotation}deg)`,
                       opacity: draggedItem?.id === item.id ? 0.4 : 1,
