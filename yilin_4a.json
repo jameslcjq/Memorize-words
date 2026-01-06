@@ -72,7 +72,7 @@
     "ukphone": ""
   },
   {
-    "name": "It's time for ...",
+    "name": "It's time for ..",
     "trans": ["是……的时候了。"],
     "usphone": "",
     "ukphone": ""
@@ -84,7 +84,7 @@
     "ukphone": ""
   },
   {
-    "name": "Welcome back to ...",
+    "name": "Welcome back to ..",
     "trans": ["欢迎回到……"],
     "usphone": "",
     "ukphone": ""
@@ -234,7 +234,7 @@
     "ukphone": ""
   },
   {
-    "name": "I'm coming!",
+    "name": "I'm coming",
     "trans": ["我来了！"],
     "usphone": "",
     "ukphone": ""
@@ -246,7 +246,7 @@
     "ukphone": ""
   },
   {
-    "name": "Come on!",
+    "name": "Come on",
     "trans": ["赶快！加把劲！"],
     "usphone": "",
     "ukphone": ""
@@ -276,7 +276,7 @@
     "ukphone": ""
   },
   {
-    "name": "It's time to ...",
+    "name": "It's time to ..",
     "trans": ["到了……的时间了。"],
     "usphone": "",
     "ukphone": ""
@@ -288,7 +288,7 @@
     "ukphone": ""
   },
   {
-    "name": "Good night!",
+    "name": "Good night",
     "trans": ["晚安！"],
     "usphone": "",
     "ukphone": ""
@@ -432,7 +432,7 @@
     "ukphone": ""
   },
   {
-    "name": "See you tomorrow!",
+    "name": "See you tomorrow",
     "trans": ["明天见！"],
     "usphone": "",
     "ukphone": ""
@@ -486,7 +486,7 @@
     "ukphone": ""
   },
   {
-    "name": "Have a go!",
+    "name": "Have a go",
     "trans": ["试一试！"],
     "usphone": "",
     "ukphone": ""
@@ -498,7 +498,7 @@
     "ukphone": ""
   },
   {
-    "name": "It's OK.",
+    "name": "It's OK",
     "trans": ["没关系。"],
     "usphone": "",
     "ukphone": ""
@@ -510,7 +510,7 @@
     "ukphone": ""
   },
   {
-    "name": "Well played!",
+    "name": "Well played",
     "trans": ["好球！"],
     "usphone": "",
     "ukphone": ""
@@ -720,7 +720,7 @@
     "ukphone": ""
   },
   {
-    "name": "It's raining.",
+    "name": "It's raining",
     "trans": ["下雨了。"],
     "usphone": "",
     "ukphone": ""

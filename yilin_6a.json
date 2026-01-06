@@ -600,37 +600,37 @@
     "ukphone": ""
   },
   {
-    "name": "No eating or drinking.",
+    "name": "No eating or drinking",
     "trans": ["请勿饮食。"],
     "usphone": "",
     "ukphone": ""
   },
   {
-    "name": "No littering.",
+    "name": "No littering",
     "trans": ["请勿乱扔垃圾。"],
     "usphone": "",
     "ukphone": ""
   },
   {
-    "name": "No parking.",
+    "name": "No parking",
     "trans": ["请勿停车。"],
     "usphone": "",
     "ukphone": ""
   },
   {
-    "name": "No smoking.",
+    "name": "No smoking",
     "trans": ["请勿吸烟。"],
     "usphone": "",
     "ukphone": ""
   },
   {
-    "name": "Danger!",
+    "name": "Danger",
     "trans": ["危险！"],
     "usphone": "",
     "ukphone": ""
   },
   {
-    "name": "Wet floor.",
+    "name": "Wet floor",
     "trans": ["小心地滑。"],
     "usphone": "",
     "ukphone": ""

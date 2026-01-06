@@ -216,7 +216,7 @@
     "ukphone": ""
   },
   {
-    "name": "sec.",
+    "name": "sec",
     "trans": ["秒"],
     "usphone": "",
     "ukphone": ""
@@ -372,7 +372,7 @@
     "ukphone": ""
   },
   {
-    "name": "as ... as ...",
+    "name": "as ... as ..",
     "trans": ["和……一样……"],
     "usphone": "",
     "ukphone": ""
@@ -1314,7 +1314,7 @@
     "ukphone": ""
   },
   {
-    "name": "not only ... but also ...",
+    "name": "not only ... but also ..",
     "trans": ["不仅……而且……"],
     "usphone": "",
     "ukphone": ""
@@ -1872,7 +1872,7 @@
     "ukphone": ""
   },
   {
-    "name": "divide ... into ...",
+    "name": "divide ... into ..",
     "trans": ["把……分成……"],
     "usphone": "",
     "ukphone": ""

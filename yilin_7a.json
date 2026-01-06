@@ -372,7 +372,7 @@
     "ukphone": ""
   },
   {
-    "name": "p.m.",
+    "name": "p.m",
     "trans": ["下午"],
     "usphone": "",
     "ukphone": ""
@@ -798,7 +798,7 @@
     "ukphone": ""
   },
   {
-    "name": "a.m.",
+    "name": "a.m",
     "trans": ["上午"],
     "usphone": "",
     "ukphone": ""

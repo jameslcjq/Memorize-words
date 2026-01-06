@@ -72,7 +72,7 @@
     "ukphone": ""
   },
   {
-    "name": "Help!",
+    "name": "Help",
     "trans": ["救命啊！"],
     "usphone": "",
     "ukphone": ""
@@ -204,7 +204,7 @@
     "ukphone": ""
   },
   {
-    "name": "one ... the other ...",
+    "name": "one ... the other ..",
     "trans": ["一个……，另一个……"],
     "usphone": "",
     "ukphone": ""
@@ -372,7 +372,7 @@
     "ukphone": ""
   },
   {
-    "name": "Look out!",
+    "name": "Look out",
     "trans": ["当心！注意！"],
     "usphone": "",
     "ukphone": ""
@@ -492,7 +492,7 @@
     "ukphone": ""
   },
   {
-    "name": "Wait a minute.",
+    "name": "Wait a minute",
     "trans": ["等一会儿。"],
     "usphone": "",
     "ukphone": ""
@@ -588,7 +588,7 @@
     "ukphone": ""
   },
   {
-    "name": "Don’t worry.",
+    "name": "Don’t worry",
     "trans": ["别担心。"],
     "usphone": "",
     "ukphone": ""
@@ -600,7 +600,7 @@
     "ukphone": ""
   },
   {
-    "name": "by ...",
+    "name": "by ..",
     "trans": ["在……旁边"],
     "usphone": "",
     "ukphone": ""
@@ -840,7 +840,7 @@
     "ukphone": ""
   },
   {
-    "name": "Merry Christmas!",
+    "name": "Merry Christmas",
     "trans": ["圣诞快乐!"],
     "usphone": "",
     "ukphone": ""
