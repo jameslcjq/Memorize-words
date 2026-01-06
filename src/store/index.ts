@@ -123,7 +123,7 @@ export const hasSeenEnhancedPromotionAtom = atomWithStorage('hasSeenEnhancedProm
 // for dev test
 //   dismissStartCardDateAtom = atom<Date | null>(new Date())
 
-export const exerciseModeAtom = atomWithStorage<ExerciseMode>('exerciseMode', 'typing')
+export const exerciseModeAtom = atomWithStorage<ExerciseMode>('exerciseMode', 'speller')
 
 export const quizConfigAtom = atomWithStorage<QuizConfig>('quizConfig', {
   scope: 'unit',

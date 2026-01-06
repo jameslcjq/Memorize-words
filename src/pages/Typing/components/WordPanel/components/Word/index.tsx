@@ -293,7 +293,11 @@ export default function WordComponent({ word, onFinish }: { word: Word; onFinish
         >
           <div className={`flex items-center ${isTextSelectable && 'select-all'} justify-center ${wordState.hasWrong ? style.wrong : ''}`}>
             {wordState.displayWord.split('').map((t, index) => {
-              return <Letter key={`${index}-${t}`} letter={t} visible={getLetterVisible(index)} state={wordState.letterStates[index]} />
+              const isWrong = wordState.letterStates[index] === 'wrong'
+              const letterToShow = isWrong && wordState.inputWord[index] ? wordState.inputWord[index] : t
+              // If wrong, we always show what the user typed, otherwise fallback to visibility rules
+              const isVisible = isWrong || getLetterVisible(index)
+              return <Letter key={`${index}-${t}`} letter={letterToShow} visible={isVisible} state={wordState.letterStates[index]} />
             })}
           </div>
           {pronunciationIsOpen && (

@@ -104,7 +104,7 @@ const SpellerGame: React.FC = () => {
         inputRefs.current[firstEmpty]?.focus()
       }
     }, 100)
-  }, [currentWordObj, dispatch])
+  }, [currentWordObj?.name, dispatch])
 
   const checkAnswer = useCallback(
     (inputs: string[]) => {
@@ -134,11 +134,13 @@ const SpellerGame: React.FC = () => {
         setIsShowAnswer(true) // Show correct answer
 
         // Record Error
-        const letterMistake: any = {}
+        // Use 'any' temporarily or import LetterMistakes if available, but correct structure is key
+        const letterMistake: Record<number, string[]> = {}
         // Basic diff for mistakes
         inputs.forEach((char, idx) => {
           if (char.toLowerCase() !== currentWordObj.name[idx].toLowerCase()) {
-            letterMistake[idx] = 1
+            // Store the wrong char in an array
+            letterMistake[idx] = [char]
           }
         })
 
@@ -179,6 +181,7 @@ const SpellerGame: React.FC = () => {
     ],
   )
 
+  // Cleaned up handleInput without debug logic
   const handleInput = useCallback(
     (index: number, value: string) => {
       if (!currentWordObj || isSuccess || isShowAnswer) return
@@ -220,17 +223,22 @@ const SpellerGame: React.FC = () => {
         }
       }
 
-      console.log(`[DEBUG] handleInput index=${index} val=${value} nextIndex=${nextIndex} masked=${Array.from(maskedIndices)}`)
-
       if (nextIndex !== -1) {
         requestAnimationFrame(() => {
-          console.log(`[DEBUG] Focusing input ${nextIndex}`, inputRefs.current[nextIndex] ? 'Ref exists' : 'Ref missing')
           inputRefs.current[nextIndex]?.focus()
         })
       }
     },
     [currentWordObj, isSuccess, isShowAnswer, userInputs, playKeySound, maskedIndices, checkAnswer],
   )
+
+  // ... (rest of the file)
+
+  // Need to verify where to cut.
+  // I will replace from useEffect line 51 to end of handleInput line 235 (in original).
+  // I must be careful with line matching.
+  // The original has `const safePlay` block which I added.
+  // I will remove `safePlay` and revert `checkAnswer` and `handleInput` to clean versions.
 
   const handleLetterClick = (char: string) => {
     if (isShowAnswer) return
@@ -404,7 +412,6 @@ const SpellerGame: React.FC = () => {
       {/* Progress */}
       <div className="text-xl font-bold text-gray-400 dark:text-gray-500">
         {finishedCount + 1} / {totalCount}
-        <span className="ml-2 text-xs text-red-500">vDebug-RAF</span>
       </div>
 
       {/* Meaning - Giant */}
@@ -424,8 +431,11 @@ const SpellerGame: React.FC = () => {
         >
           {currentWordObj.name.split('').map((char, index) => {
             const isMasked = maskedIndices.has(index)
-            // If showing answer, show correct char. Otherwise user input.
-            const val = isShowAnswer ? char : userInputs[index] || ''
+            const val = userInputs[index] || ''
+
+            // Only highlight correctness if we are showing the answer (fail state)
+            const isErrorChar = isShowAnswer && val.toLowerCase() !== char.toLowerCase()
+            const isCorrectChar = isShowAnswer && val.toLowerCase() === char.toLowerCase()
 
             return (
               <div
@@ -451,7 +461,8 @@ const SpellerGame: React.FC = () => {
                                     ? 'border-transparent bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-500'
                                     : 'cursor-pointer bg-white text-gray-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:bg-gray-700 dark:text-gray-100'
                                 }
-                                ${isShowAnswer ? 'border-red-500 bg-red-50 text-red-600 dark:bg-red-900/20' : ''}
+                                ${isErrorChar ? 'border-red-500 bg-red-50 text-red-600 dark:bg-red-900/20' : ''}
+                                ${isCorrectChar ? 'border-green-500 text-green-600 dark:text-green-400' : ''}
                             `}
                 />
               </div>
@@ -479,6 +490,15 @@ const SpellerGame: React.FC = () => {
         {isShowAnswer && (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500 drop-shadow-md">
             <span className="text-9xl">✗</span>
+          </div>
+        )}
+
+        {/* Show Correct Answer when failed */}
+        {isShowAnswer && (
+          <div className="absolute -bottom-16 left-0 right-0 animate-bounce text-center">
+            <span className="rounded bg-white px-4 py-2 text-2xl font-bold text-green-600 shadow dark:bg-gray-800 dark:text-green-400">
+              {currentWordObj.name}
+            </span>
           </div>
         )}
       </div>
