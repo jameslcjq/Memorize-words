@@ -46,17 +46,19 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       `)
 
       // Limit batch size if necessary, but for now assuming reasonable size
-      const batchWord = wordRecords.map(r => stmtWord.bind(
-        userId,
-        r.word,
-        r.dict,
-        r.chapter,
-        r.wrongCount,
-        r.correctCount,
-        JSON.stringify(r.mistakes || {}),
-        r.timeStamp,
-        r.mode || 'typing'
-      ))
+      const batchWord = wordRecords.map((r) =>
+        stmtWord.bind(
+          userId,
+          r.word,
+          r.dict,
+          r.chapter,
+          r.wrongCount,
+          r.correctCount,
+          JSON.stringify(r.mistakes || {}),
+          r.timeStamp,
+          r.mode || 'typing',
+        ),
+      )
       await env.DB.batch(batchWord)
     }
 
@@ -68,18 +70,20 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         ON CONFLICT(user_id, dict, chapter, timestamp) DO NOTHING
       `)
 
-      const batchChapter = chapterRecords.map(r => stmtChapter.bind(
-        userId,
-        r.dict,
-        r.chapter,
-        r.timeStamp,
-        r.time,
-        r.correctCount,
-        r.wrongCount,
-        r.wordCount,
-        JSON.stringify(r.correctWordIndexes || []),
-        r.wordNumber
-      ))
+      const batchChapter = chapterRecords.map((r) =>
+        stmtChapter.bind(
+          userId,
+          r.dict,
+          r.chapter,
+          r.timeStamp,
+          r.time,
+          r.correctCount,
+          r.wrongCount,
+          r.wordCount,
+          JSON.stringify(r.correctWordIndexes || []),
+          r.wordNumber,
+        ),
+      )
       await env.DB.batch(batchChapter)
     }
 
