@@ -1,5 +1,6 @@
 import { useWordStats } from '@/pages/Analysis/hooks/useWordStats'
 import { isSyncingAtom, userInfoAtom } from '@/store'
+import { db } from '@/utils/db'
 import dayjs from 'dayjs'
 import { useAtom, useAtomValue } from 'jotai'
 import { useCallback, useState } from 'react'
@@ -24,12 +25,20 @@ export const useCloudSync = () => {
         wordCount: item.totalWordsCount,
       })) || []
 
-    if (records.length === 0) return
+    const wordRecords = await db.wordRecords.toArray()
+    const chapterRecords = await db.chapterRecords.toArray()
+
+    const payload = {
+      userId: userInfo.userId,
+      records,
+      wordRecords,
+      chapterRecords,
+    }
 
     await fetch('/api/sync/upload', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: userInfo.userId, records }),
+      body: JSON.stringify(payload),
     })
   }, [userInfo, localStats])
 
@@ -40,7 +49,19 @@ export const useCloudSync = () => {
     if (res.ok) {
       const json = await res.json()
       if (json.success) {
-        setCloudStats(json.data)
+        setCloudStats(json.data) // Existing stats
+
+        // Sync detailed records if available
+        if (json.wordRecords || json.chapterRecords) {
+          await db.transaction('rw', db.wordRecords, db.chapterRecords, async () => {
+            if (json.wordRecords && json.wordRecords.length > 0) {
+              await db.wordRecords.bulkPut(json.wordRecords)
+            }
+            if (json.chapterRecords && json.chapterRecords.length > 0) {
+              await db.chapterRecords.bulkPut(json.chapterRecords)
+            }
+          })
+        }
       }
     }
   }, [userInfo])

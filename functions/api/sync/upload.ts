@@ -16,21 +16,74 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     // Process records in a transaction? D1 supports batch.
     // Logic: simpler to iterate for now or use batch if D1 client supports it nicely via prepared statements.
 
-    // We expect records to be [{ date: '2023-10-01', duration: 10, wordCount: 50 }, ...]
-    const stmt = env.DB.prepare(`
-      INSERT INTO study_records (user_id, date, duration, word_count, updated_at) 
-      VALUES (?, ?, ?, ?, ?)
-      ON CONFLICT(user_id, date) DO UPDATE SET
-        duration = excluded.duration,
-        word_count = excluded.word_count,
-        updated_at = excluded.updated_at
-    `)
+    // 1. Study Records (Existing)
+    if (records && records.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO study_records (user_id, date, duration, word_count, updated_at) 
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, date) DO UPDATE SET
+          duration = excluded.duration,
+          word_count = excluded.word_count,
+          updated_at = excluded.updated_at
+      `)
+      const batch = records.map((r) => stmt.bind(userId, r.date, r.duration || 0, r.wordCount || 0, Date.now()))
+      await env.DB.batch(batch)
+    }
 
-    const batch = records.map((r) => stmt.bind(userId, r.date, r.duration || 0, r.wordCount || 0, Date.now()))
+    // 2. Word Records (Sync Details)
+    const { wordRecords, chapterRecords } = body as any
 
-    const results = await env.DB.batch(batch)
+    if (Array.isArray(wordRecords) && wordRecords.length > 0) {
+      const stmtWord = env.DB.prepare(`
+        INSERT INTO word_records (user_id, word, dict, chapter, wrong_count, correct_count, mistakes, timestamp, mode)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, dict, word) DO UPDATE SET
+          wrong_count = excluded.wrong_count,
+          correct_count = excluded.correct_count,
+          mistakes = excluded.mistakes,
+          timestamp = excluded.timestamp,
+          mode = excluded.mode
+      `)
 
-    return new Response(JSON.stringify({ success: true, count: results.length }), {
+      // Limit batch size if necessary, but for now assuming reasonable size
+      const batchWord = wordRecords.map(r => stmtWord.bind(
+        userId,
+        r.word,
+        r.dict,
+        r.chapter,
+        r.wrongCount,
+        r.correctCount,
+        JSON.stringify(r.mistakes || {}),
+        r.timeStamp,
+        r.mode || 'typing'
+      ))
+      await env.DB.batch(batchWord)
+    }
+
+    // 3. Chapter Records
+    if (Array.isArray(chapterRecords) && chapterRecords.length > 0) {
+      const stmtChapter = env.DB.prepare(`
+        INSERT INTO chapter_records (user_id, dict, chapter, timestamp, time, correct_count, wrong_count, word_count, correct_word_indexes, word_number)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, dict, chapter, timestamp) DO NOTHING
+      `)
+
+      const batchChapter = chapterRecords.map(r => stmtChapter.bind(
+        userId,
+        r.dict,
+        r.chapter,
+        r.timeStamp,
+        r.time,
+        r.correctCount,
+        r.wrongCount,
+        r.wordCount,
+        JSON.stringify(r.correctWordIndexes || []),
+        r.wordNumber
+      ))
+      await env.DB.batch(batchChapter)
+    }
+
+    return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (err: any) {

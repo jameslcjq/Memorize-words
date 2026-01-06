@@ -54,7 +54,7 @@ export function useWordList(): UseWordListResult {
       db.wordRecords
         .where('dict')
         .equals(currentDictInfo.id)
-        .and((r) => r.wrongCount >= 2 && (r.correctCount || 0) < 3)
+        .and((r) => r.wrongCount > 0)
         .toArray()
         .then((records) => {
           // 对单词进行去重，因为同一个单词可能有多个错误记录
