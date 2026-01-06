@@ -111,14 +111,14 @@ const LoginModal = () => {
                 type="text"
                 autoFocus
                 placeholder="账号 / 用户名"
-                className="rounded-md border p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="rounded-md border bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
               <input
                 type="password"
                 placeholder="密码"
-                className="rounded-md border p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="rounded-md border bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -126,7 +126,7 @@ const LoginModal = () => {
                 <input
                   type="text"
                   placeholder="昵称 (展示用)"
-                  className="rounded-md border p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="rounded-md border bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
                 />

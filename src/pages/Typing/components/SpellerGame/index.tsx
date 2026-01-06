@@ -117,7 +117,9 @@ const SpellerGame: React.FC = () => {
         dispatch({ type: TypingStateActionType.REPORT_CORRECT_WORD })
 
         // Play Pronunciation
-        playWord()
+        setTimeout(() => {
+          playWord()
+        }, 300)
 
         setTimeout(() => {
           const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
@@ -126,7 +128,7 @@ const SpellerGame: React.FC = () => {
           } else {
             dispatch({ type: TypingStateActionType.NEXT_WORD })
           }
-        }, 1000)
+        }, 1300) // Increase delay to accommodate pronunciation
       } else {
         // Wrong -> Fail Fast
         playBeepSound()
