@@ -102,6 +102,9 @@ const Statistics: React.FC = () => {
     return { modeStats, checkedDates, hasData: records.length > 0, dailyDuration, dailyCount, dailyRecords }
   }, [records, selectedDate])
 
+  const dailyWordIds = React.useMemo(() => dailyRecords.flatMap((r) => r.wordRecordIds || []), [dailyRecords])
+  const dailyWordRecords = useLiveQuery(() => db.wordRecords.where('id').anyOf(dailyWordIds).toArray(), [dailyWordIds])
+
   useEffect(() => {
     if (!chartRef.current) return
     const chart = echarts.init(chartRef.current)
