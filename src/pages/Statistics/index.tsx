@@ -33,7 +33,7 @@ const calculateStreak = (checkedDates: Set<string>): number => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   let streak = 0
-  let currentDate = new Date(today)
+  const currentDate = new Date(today)
 
   // Check if today is checked, if not start from yesterday
   const todayStr = getLocalDateString(today)
