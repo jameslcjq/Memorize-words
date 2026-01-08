@@ -80,6 +80,7 @@ export interface IChapterRecord {
   wordNumber: number
   // 单词 record 的 id 列表
   wordRecordIds: number[]
+  mode?: string
 }
 
 export class ChapterRecord implements IChapterRecord {
@@ -93,6 +94,7 @@ export class ChapterRecord implements IChapterRecord {
   correctWordIndexes: number[]
   wordNumber: number
   wordRecordIds: number[]
+  mode: string
 
   constructor(
     dict: string,
@@ -104,6 +106,7 @@ export class ChapterRecord implements IChapterRecord {
     correctWordIndexes: number[],
     wordNumber: number,
     wordRecordIds: number[],
+    mode = 'typing',
   ) {
     this.dict = dict
     this.chapter = chapter
@@ -115,6 +118,7 @@ export class ChapterRecord implements IChapterRecord {
     this.correctWordIndexes = correctWordIndexes
     this.wordNumber = wordNumber
     this.wordRecordIds = wordRecordIds
+    this.mode = mode
   }
 
   get wpm() {

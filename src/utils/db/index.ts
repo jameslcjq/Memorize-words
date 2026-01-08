@@ -41,6 +41,11 @@ class RecordDB extends Dexie {
       chapterRecords: '++id,timeStamp,dict,chapter,time,[dict+chapter]',
       reviewRecords: '++id,dict,createTime,isFinished',
     })
+    this.version(6).stores({
+      wordRecords: '++id,word,timeStamp,dict,chapter,wrongCount,correctCount,mode,[word+dict]',
+      chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter]',
+      reviewRecords: '++id,dict,createTime,isFinished',
+    })
   }
 }
 
@@ -54,6 +59,7 @@ export function useSaveChapterRecord() {
   const currentChapter = useAtomValue(currentChapterAtom)
   const isRevision = useAtomValue(isReviewModeAtom)
   const dictID = useAtomValue(currentDictIdAtom)
+  const exerciseMode = useAtomValue(exerciseModeAtom)
 
   const saveChapterRecord = useCallback(
     (typingState: TypingState) => {
@@ -73,10 +79,11 @@ export function useSaveChapterRecord() {
         correctWordIndexes,
         words.length,
         wordRecordIds ?? [],
+        exerciseMode,
       )
       db.chapterRecords.add(chapterRecord)
     },
-    [currentChapter, dictID, isRevision],
+    [currentChapter, dictID, isRevision, exerciseMode],
   )
 
   return saveChapterRecord

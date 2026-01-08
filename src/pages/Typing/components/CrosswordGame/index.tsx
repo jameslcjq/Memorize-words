@@ -1,9 +1,13 @@
 import { TypingContext } from '../../store'
 import useKeySounds from '@/hooks/useKeySounds'
+import { currentDictIdAtom } from '@/store'
 import type { Word } from '@/typings'
 import type { CrosswordData } from '@/utils/crosswordLayout'
 import { CrosswordGenerator } from '@/utils/crosswordLayout'
+import { db } from '@/utils/db'
+import { ChapterRecord } from '@/utils/db/record'
 import confetti from 'canvas-confetti'
+import { useAtomValue } from 'jotai'
 import type React from 'react'
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import IconCheck from '~icons/tabler/check'
@@ -47,6 +51,8 @@ const CrosswordGame: React.FC = () => {
   const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: number }[]>([])
   const [startTime, setStartTime] = useState<number>(0)
   const [endTime, setEndTime] = useState<number>(0)
+
+  const currentDictId = useAtomValue(currentDictIdAtom)
 
   // Drag State
   const [draggedItem, setDraggedItem] = useState<{ char: string; id: number } | null>(null)
@@ -333,17 +339,34 @@ const CrosswordGame: React.FC = () => {
         const totalWords = gridData.words.length
 
         if (solvedWordIds.size + 1 === totalWords) {
-          setEndTime(Date.now())
+          const now = Date.now()
+          setEndTime(now)
           setShowVictory(true)
           confetti({
             particleCount: 150,
             spread: 70,
             origin: { y: 0.6 },
           })
+
+          // Save Record
+          const duration = (now - startTime) / 1000
+          const record = new ChapterRecord(
+            currentDictId,
+            state.chapterData.index, // current chapter index
+            duration,
+            totalWords, // treat words as correct count roughly
+            0, // wrong count not tracked perfectly yet
+            totalWords,
+            [], // correctWordIndexes
+            totalWords,
+            [], // wordRecordIds
+            'crossword',
+          )
+          db.chapterRecords.add(record)
         }
       }
     },
-    [gridData, solvedWordIds, playHintSound],
+    [gridData, solvedWordIds, playHintSound, startTime, currentDictId, state.chapterData.index],
   )
 
   const handleCellClick = (x: number, y: number) => {
