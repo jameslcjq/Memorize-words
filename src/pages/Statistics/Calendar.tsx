@@ -1,5 +1,6 @@
 import './Calendar.css'
-import React, { useMemo, useState } from 'react'
+import type React from 'react'
+import { useMemo, useState } from 'react'
 
 interface CalendarProps {
   // A Set of date strings 'YYYY-MM-DD' that have practice records
