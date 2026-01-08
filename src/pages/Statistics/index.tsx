@@ -17,9 +17,14 @@ const MODE_NAMES: Record<string, string> = {
   typing: '背默单词',
   speller: '单词拼写',
   crossword: '填字游戏',
-  'word-to-trans': '英译中',
-  'trans-to-word': '中译英',
+  selection: '词义选择',
   unknown: '未知模式',
+}
+
+const mapModeToGroup = (mode: string): string => {
+  if (mode === 'word-to-trans' || mode === 'trans-to-word') return 'selection'
+  if (MODE_NAMES[mode]) return mode
+  return 'unknown'
 }
 
 const Statistics: React.FC = () => {
@@ -36,14 +41,27 @@ const Statistics: React.FC = () => {
     if (!records) return { modeStats: [], activityData: [] }
 
     // Mode Stats
-    const statsMap = new Map<string, number>()
+    const statsMap = new Map<string, { duration: number; count: number }>()
+    // Initialize with 0 for main modes
+    Object.keys(MODE_NAMES).forEach((k) => {
+      if (k !== 'unknown') {
+        statsMap.set(k, { duration: 0, count: 0 })
+      }
+    })
+
     // Activity Calendar
     const dateMap = new Map<string, number>()
 
     records.forEach((r) => {
-      const mode = r.mode || 'unknown'
+      const rawMode = r.mode || 'unknown'
+      const mode = mapModeToGroup(rawMode)
       const duration = r.time || 0
-      statsMap.set(mode, (statsMap.get(mode) || 0) + duration)
+
+      const current = statsMap.get(mode) || { duration: 0, count: 0 }
+      statsMap.set(mode, {
+        duration: current.duration + duration,
+        count: current.count + 1,
+      })
 
       // Activity
       const date = new Date(r.timeStamp).toISOString().split('T')[0]
@@ -51,10 +69,14 @@ const Statistics: React.FC = () => {
       dateMap.set(date, currentCount + 1)
     })
 
-    const modeStats = Array.from(statsMap.entries()).map(([name, value]) => ({
-      name: MODE_NAMES[name] || name,
-      value,
-    }))
+    const modeStats = Array.from(statsMap.entries())
+      .filter(([name]) => name !== 'unknown')
+      .map(([name, stats]) => ({
+        name: MODE_NAMES[name] || name,
+        value: stats.duration, // For Pie Chart
+        count: stats.count,
+        duration: stats.duration,
+      }))
 
     // Activity Data
     const activityData = Array.from(dateMap.entries())
@@ -139,6 +161,28 @@ const Statistics: React.FC = () => {
     <div className="container mx-auto min-h-screen p-8">
       <h1 className="mb-8 text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
 
+      {/* Mode Stats Cards */}
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {modeStats.map((stat) => (
+          <div
+            key={stat.name}
+            className="flex flex-col rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+          >
+            <h3 className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-200">{stat.name}</h3>
+            <div className="mt-auto">
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm text-gray-500 dark:text-gray-400">练习时长</span>
+                <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatDuration(stat.duration)}</span>
+              </div>
+              <div className="mt-2 flex items-baseline justify-between">
+                <span className="text-sm text-gray-500 dark:text-gray-400">练习次数</span>
+                <span className="text-lg font-medium text-gray-800 dark:text-gray-100">{stat.count} 次</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {modeStats.length === 0 && activityData.length === 0 ? (
         <div className="flex flex-col items-center justify-center p-12 text-center">
           <p className="mb-4 text-xl text-gray-500 dark:text-gray-400">暂无练习数据</p>
@@ -192,7 +236,7 @@ const Statistics: React.FC = () => {
                         <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.word}</td>
                         <td className="px-6 py-4 font-bold text-red-500">{item.wrongCount}</td>
                         <td className="px-6 py-4 text-green-500">{item.correctCount || 0}</td>
-                        <td className="px-6 py-4">{MODE_NAMES[item.mode] || item.mode || '-'}</td>
+                        <td className="px-6 py-4">{MODE_NAMES[mapModeToGroup(item.mode || 'unknown')] || item.mode || '-'}</td>
                         <td className="px-6 py-4">{item.dict}</td>
                       </tr>
                     ))}
