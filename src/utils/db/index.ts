@@ -1,5 +1,9 @@
+import { getUTCUnixTimestamp } from '../index'
+import { calculateQuality, updateSpacedRepetition } from '../spaced-repetition'
 import type { IChapterRecord, IReviewRecord, IRevisionDictRecord, IWordRecord, LetterMistakes } from './record'
 import { ChapterRecord, ReviewRecord, WordRecord } from './record'
+import type { ISpacedRepetitionRecord } from './spaced-repetition-record'
+import { SpacedRepetitionRecord } from './spaced-repetition-record'
 import { TypingContext, TypingStateActionType } from '@/pages/Typing/store'
 import type { TypingState } from '@/pages/Typing/store/type'
 import { currentChapterAtom, currentDictIdAtom, exerciseModeAtom, isReviewModeAtom } from '@/store'
@@ -12,6 +16,7 @@ class RecordDB extends Dexie {
   wordRecords!: Table<IWordRecord, number>
   chapterRecords!: Table<IChapterRecord, number>
   reviewRecords!: Table<IReviewRecord, number>
+  spacedRepetitionRecords!: Table<ISpacedRepetitionRecord, number>
 
   revisionDictRecords!: Table<IRevisionDictRecord, number>
   revisionWordRecords!: Table<IWordRecord, number>
@@ -46,6 +51,12 @@ class RecordDB extends Dexie {
       chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter]',
       reviewRecords: '++id,dict,createTime,isFinished',
     })
+    this.version(7).stores({
+      wordRecords: '++id,word,timeStamp,dict,chapter,wrongCount,correctCount,mode,[word+dict]',
+      chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter]',
+      reviewRecords: '++id,dict,createTime,isFinished',
+      spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[dict+word]',
+    })
   }
 }
 
@@ -54,6 +65,7 @@ export const db = new RecordDB()
 db.wordRecords.mapToClass(WordRecord)
 db.chapterRecords.mapToClass(ChapterRecord)
 db.reviewRecords.mapToClass(ReviewRecord)
+db.spacedRepetitionRecords.mapToClass(SpacedRepetitionRecord)
 
 export function useSaveChapterRecord() {
   const currentChapter = useAtomValue(currentChapterAtom)
@@ -152,6 +164,32 @@ export function useSaveWordRecord() {
         dbID > 0 && dispatch({ type: TypingStateActionType.ADD_WORD_RECORD_ID, payload: dbID })
         dispatch({ type: TypingStateActionType.SET_IS_SAVING_RECORD, payload: false })
       }
+
+      // --- Spaced Repetition Logic ---
+      try {
+        // Find existing Spaced Repetition record
+        let srRecord = await db.spacedRepetitionRecords.where({ word, dict: dictID }).first()
+
+        // If not exists, create initial
+        if (!srRecord) {
+          srRecord = new SpacedRepetitionRecord(word, dictID, getUTCUnixTimestamp())
+          // We don't save it yet, we update it first
+        }
+
+        // Calculate Quality
+        const quality = calculateQuality(wrongCount)
+
+        // Update with SM-2
+        const updatedRecord = updateSpacedRepetition(srRecord, quality)
+
+        // Save back to DB
+        // If it was new, id is undefined, put() will add it.
+        // If it existing, id is present, put() will update it.
+        await db.spacedRepetitionRecords.put(updatedRecord)
+      } catch (e) {
+        console.error('Error updating Spaced Repetition record:', e)
+      }
+      // -------------------------------
     },
     [currentChapter, dictID, dispatch, isRevision, exerciseMode],
   )

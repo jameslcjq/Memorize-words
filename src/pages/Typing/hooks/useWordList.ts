@@ -1,4 +1,5 @@
 import { CHAPTER_LENGTH } from '@/constants'
+import { useSpacedRepetition } from '@/hooks/useSpacedRepetition'
 import {
   currentDictInfoAtom,
   exerciseModeAtom,
@@ -83,6 +84,40 @@ export function useWordList(): UseWordListResult {
     }
   }, [selectedChapters, currentDictInfo.id, wordList])
 
+  const [smartReviewWords, setSmartReviewWords] = useState<Word[]>([])
+  const { getTodayReviewWords } = useSpacedRepetition()
+
+  useEffect(() => {
+    if (selectedChapters.includes(-3)) {
+      setIsDatabaseLoading(true)
+      getTodayReviewWords(currentDictInfo.id)
+        .then((records) => {
+          const uniqueWordsMap = new Map<string, Word>()
+          // Initialize with basic info from record
+          records.forEach((r) => {
+            if (!uniqueWordsMap.has(r.word)) {
+              uniqueWordsMap.set(r.word, { name: r.word, trans: [], usphone: '', ukphone: '' })
+            }
+          })
+
+          // Hydrate with full details from wordList
+          if (wordList) {
+            uniqueWordsMap.forEach((val, key) => {
+              const fullWord = wordList.find((w) => w.name === key)
+              if (fullWord) {
+                uniqueWordsMap.set(key, fullWord)
+              }
+            })
+          }
+
+          setSmartReviewWords(shuffle(Array.from(uniqueWordsMap.values())).slice(0, CHAPTER_LENGTH))
+        })
+        .finally(() => {
+          setIsDatabaseLoading(false)
+        })
+    }
+  }, [selectedChapters, currentDictInfo.id, wordList, getTodayReviewWords])
+
   const words: WordWithIndex[] = useMemo(() => {
     let newWords: Word[]
     if (isFirstChapter) {
@@ -95,6 +130,8 @@ export function useWordList(): UseWordListResult {
         newWords = shuffle(wordList).slice(0, CHAPTER_LENGTH)
       } else if (selectedChapters.includes(-2)) {
         newWords = errorWords
+      } else if (selectedChapters.includes(-3)) {
+        newWords = smartReviewWords
       } else {
         // Multi-chapter selection logic
         const selectedWords: Word[] = []
@@ -180,7 +217,7 @@ export function useWordList(): UseWordListResult {
     })
   }, [isFirstChapter, isReviewMode, wordList, reviewRecord?.words, selectedChapters, errorWords, currentDictInfo, loopWordConfig.times])
 
-  const isLoading = selectedChapters.includes(-2) ? isDatabaseLoading : isSwrLoading
+  const isLoading = selectedChapters.includes(-2) || selectedChapters.includes(-3) ? isDatabaseLoading : isSwrLoading
 
   return { words, isLoading, error: swrError }
 }
