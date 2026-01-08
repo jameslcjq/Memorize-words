@@ -2,7 +2,7 @@ import { pronunciationConfigAtom } from '@/store'
 import { useAtomValue } from 'jotai'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-export default function usePronunciationSound(word: string, isLoop: boolean = false) {
+export default function usePronunciationSound(word: string, isLoop = false) {
   const pronunciationConfig = useAtomValue(pronunciationConfigAtom)
   // Use the passed isLoop if strictly boolean, otherwise fallback to config (though config might not have isLoop for all types)
   // safe fallback
