@@ -3,7 +3,6 @@ import ErrorBookButton from '../ErrorBookButton'
 import LoopWordSwitcher from '../LoopWordSwitcher'
 import Setting from '../Setting'
 import SoundSwitcher from '../SoundSwitcher'
-import StatisticsButton from '../StatisticsButton'
 import WordDictationSwitcher from '../WordDictationSwitcher'
 import Tooltip from '@/components/Tooltip'
 import { exerciseModeAtom, isOpenDarkModeAtom } from '@/store'
@@ -52,10 +51,6 @@ export default function Switcher() {
 
       <Tooltip content="错题本">
         <ErrorBookButton />
-      </Tooltip>
-
-      <Tooltip className="h-7 w-7" content="查看数据统计">
-        <StatisticsButton />
       </Tooltip>
 
       <Tooltip className="h-7 w-7" content="开关深色模式">

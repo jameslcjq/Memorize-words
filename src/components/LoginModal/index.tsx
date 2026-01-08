@@ -75,7 +75,7 @@ const LoginModal = () => {
         onClick={handleClick}
         className="text-sm font-medium text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400"
       >
-        {userInfo ? `已登录: ${userInfo.nickname}` : '登录 / 同步'}
+        {userInfo ? '个人中心' : '登录 / 同步'}
       </button>
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Portal>
