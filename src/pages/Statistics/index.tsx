@@ -3,7 +3,9 @@ import { db } from '@/utils/db'
 import { ChapterRecord } from '@/utils/db/record'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as echarts from 'echarts'
+import { ArrowLeft } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Helper to format duration
 const formatDuration = (seconds: number) => {
@@ -13,8 +15,7 @@ const formatDuration = (seconds: number) => {
   return `${h > 0 ? h + '小时 ' : ''}${m}分 ${s}秒`
 }
 
-// Helper to format short duration (e.g. for small cards)
-// const formatDurationShort = (seconds: number) => { ... } // Optional if needed
+// ... helper ...
 
 const MODE_NAMES: Record<string, string> = {
   typing: '背默单词',
@@ -31,6 +32,7 @@ const mapModeToGroup = (mode: string): string => {
 }
 
 const Statistics: React.FC = () => {
+  const navigate = useNavigate()
   const chartRef = useRef<HTMLDivElement>(null)
   const [myChart, setMyChart] = useState<echarts.ECharts | null>(null)
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
@@ -41,22 +43,27 @@ const Statistics: React.FC = () => {
   const topErrors = useLiveQuery(() => db.wordRecords.orderBy('wrongCount').reverse().limit(20).toArray(), [])
 
   // Process data for charts
-  // Process data for charts
   const { modeStats, checkedDates, hasData, dailyDuration, dailyCount } = React.useMemo(() => {
     if (!records) return { modeStats: [], checkedDates: new Set<string>(), hasData: false, dailyDuration: 0, dailyCount: 0 }
 
-    // Mode Stats
+    const checkedDates = new Set<string>()
+    records.forEach((r) => {
+      const date = new Date(r.timeStamp).toISOString().split('T')[0]
+      checkedDates.add(date)
+    })
+
+    // Filter by selected Date
+    const dailyRecords = records.filter((r) => new Date(r.timeStamp).toISOString().split('T')[0] === selectedDate)
+
+    // Mode Stats based on DAILY records
     const statsMap = new Map<string, { duration: number; count: number }>()
-    // Initialize with 0 for main modes
     Object.keys(MODE_NAMES).forEach((k) => {
       if (k !== 'unknown') {
         statsMap.set(k, { duration: 0, count: 0 })
       }
     })
 
-    const checkedDates = new Set<string>()
-
-    records.forEach((r) => {
+    dailyRecords.forEach((r) => {
       const rawMode = r.mode || 'unknown'
       const mode = mapModeToGroup(rawMode)
       const duration = r.time || 0
@@ -66,9 +73,6 @@ const Statistics: React.FC = () => {
         duration: current.duration + duration,
         count: current.count + 1,
       })
-
-      const date = new Date(r.timeStamp).toISOString().split('T')[0]
-      checkedDates.add(date)
     })
 
     const modeStats = Array.from(statsMap.entries())
@@ -80,8 +84,6 @@ const Statistics: React.FC = () => {
         duration: stats.duration,
       }))
 
-    // Filter daily stats
-    const dailyRecords = records.filter((r) => new Date(r.timeStamp).toISOString().split('T')[0] === selectedDate)
     const dailyDuration = dailyRecords.reduce((acc, r) => acc + (r.time || 0), 0)
     const dailyCount = dailyRecords.length
 
@@ -104,9 +106,12 @@ const Statistics: React.FC = () => {
 
   useEffect(() => {
     if (!myChart) return
+    // Only update chart if we have some duration data, otherwise it looks empty/weird
+    // Or we keep it 0.
+
     myChart.setOption({
       title: {
-        text: '各模式练习时长',
+        text: '各模式练习时长 (当日)',
         left: 'center',
         textStyle: {
           color: document.documentElement.classList.contains('dark') ? '#ccc' : '#333',
@@ -130,7 +135,9 @@ const Statistics: React.FC = () => {
           name: '时长',
           type: 'pie',
           radius: '50%',
-          data: modeStats,
+          data: modeStats.filter((s) => s.value > 0).length > 0 ? modeStats : [{ name: '无数据', value: 0 }], // Handle empty case gracefully?
+          // Actually echarts handles empty data usually fine, or we can just pass modeStats.
+          // If all 0, pie might disappear.
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
@@ -156,7 +163,16 @@ const Statistics: React.FC = () => {
 
   return (
     <div className="container mx-auto min-h-screen p-8">
-      <h1 className="mb-8 text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
+      <div className="mb-8 flex items-center gap-4">
+        <button
+          onClick={() => navigate('/')}
+          className="rounded-full p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+          title="返回首页"
+        >
+          <ArrowLeft className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+        </button>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
+      </div>
 
       {/* Mode Stats Cards */}
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
