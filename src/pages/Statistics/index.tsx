@@ -29,7 +29,6 @@ const MODE_NAMES: Record<string, string> = {
   'word-to-trans': '英译中',
   'trans-to-word': '中译英',
   crossword: '填字游戏',
-  typing: '背默单词',
   unknown: '未知模式',
 }
 
