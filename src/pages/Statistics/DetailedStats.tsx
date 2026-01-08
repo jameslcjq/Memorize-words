@@ -6,15 +6,15 @@ interface DetailedStatsProps {
 }
 
 const MODE_NAMES: Record<string, string> = {
-  typing: '背默单词',
-  speller: '单词拼写',
+  speller: '单词填空',
+  'word-to-trans': '英译中',
+  'trans-to-word': '中译英',
   crossword: '填字游戏',
-  selection: '词义选择',
+  typing: '背默单词',
   unknown: '未知模式',
 }
 
 const mapModeToGroup = (mode: string): string => {
-  if (mode === 'word-to-trans' || mode === 'trans-to-word') return 'selection'
   if (MODE_NAMES[mode]) return mode
   return 'unknown'
 }
