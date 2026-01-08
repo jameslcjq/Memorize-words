@@ -802,7 +802,7 @@ const CrosswordGame: React.FC = () => {
                       setDraggedItem(item)
                       setDragPos({ x: box.left + box.width / 2, y: box.top + box.height / 2 })
                     }}
-                    className="flex h-10 w-10 cursor-grab items-center justify-center rounded-lg border-2 border-indigo-200 bg-white font-mono text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
+                    className="flex h-12 w-12 cursor-grab touch-none items-center justify-center rounded-lg border-2 border-indigo-200 bg-white font-mono text-lg font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-indigo-400"
                     style={{
                       transform: `rotate(${item.rotation}deg)`,
                       opacity: draggedItem?.id === item.id ? 0.4 : 1,
@@ -821,7 +821,7 @@ const CrosswordGame: React.FC = () => {
       {/* Drag Ghost for Crossword */}
       {draggedItem && dragPos && (
         <div
-          className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-indigo-400 bg-indigo-50 text-lg font-bold text-indigo-700 shadow-xl dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
+          className="flex h-12 w-12 items-center justify-center rounded-lg border-2 border-indigo-400 bg-indigo-50 text-lg font-bold text-indigo-700 shadow-xl dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100"
           style={dragStyle}
         >
           {isUpperCase ? draggedItem.char.toUpperCase() : draggedItem.char.toLowerCase()}

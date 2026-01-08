@@ -1,10 +1,12 @@
 import Calendar from './Calendar'
 import { DetailedStats } from './DetailedStats'
+import { learningPlanAtom } from '@/store'
 import { db } from '@/utils/db'
 import { ChapterRecord } from '@/utils/db/record'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as echarts from 'echarts'
-import { ArrowLeft } from 'lucide-react'
+import { useAtomValue } from 'jotai'
+import { ArrowLeft, Flame, Target } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -22,6 +24,30 @@ const getLocalDateString = (dateInput: number | Date) => {
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
+}
+
+// Calculate consecutive streak from a set of date strings
+const calculateStreak = (checkedDates: Set<string>): number => {
+  if (checkedDates.size === 0) return 0
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  let streak = 0
+  let currentDate = new Date(today)
+
+  // Check if today is checked, if not start from yesterday
+  const todayStr = getLocalDateString(today)
+  if (!checkedDates.has(todayStr)) {
+    currentDate.setDate(currentDate.getDate() - 1)
+  }
+
+  // Count consecutive days backwards
+  while (checkedDates.has(getLocalDateString(currentDate))) {
+    streak++
+    currentDate.setDate(currentDate.getDate() - 1)
+  }
+
+  return streak
 }
 
 const MODE_NAMES: Record<string, string> = {
@@ -42,12 +68,13 @@ const Statistics: React.FC = () => {
   const chartRef = useRef<HTMLDivElement>(null)
   const [myChart, setMyChart] = useState<echarts.ECharts | null>(null)
   const [selectedDate, setSelectedDate] = useState(getLocalDateString(new Date()))
+  const learningPlan = useAtomValue(learningPlanAtom)
 
   // Fetch chapter records
   const records = useLiveQuery(() => db.chapterRecords.toArray(), [])
 
   // Process data for charts
-  const { modeStats, checkedDates, hasData, dailyDuration, dailyCount, dailyRecords } = React.useMemo(() => {
+  const { modeStats, checkedDates, hasData, dailyDuration, dailyCount, dailyRecords, streak, todayWordCount } = React.useMemo(() => {
     if (!records)
       return {
         modeStats: [],
@@ -56,6 +83,8 @@ const Statistics: React.FC = () => {
         dailyDuration: 0,
         dailyCount: 0,
         dailyRecords: [],
+        streak: 0,
+        todayWordCount: 0,
       }
 
     const checkedDates = new Set<string>()
@@ -63,6 +92,14 @@ const Statistics: React.FC = () => {
       const date = getLocalDateString(r.timeStamp)
       checkedDates.add(date)
     })
+
+    // Calculate streak
+    const streak = calculateStreak(checkedDates)
+
+    // Calculate today's word count
+    const todayStr = getLocalDateString(new Date())
+    const todayRecords = records.filter((r) => getLocalDateString(r.timeStamp) === todayStr)
+    const todayWordCount = todayRecords.reduce((acc, r) => acc + (r.wordCount || 0), 0)
 
     // Filter by selected Date
     const dailyRecords = records.filter((r) => getLocalDateString(r.timeStamp) === selectedDate)
@@ -99,7 +136,7 @@ const Statistics: React.FC = () => {
     const dailyDuration = dailyRecords.reduce((acc, r) => acc + (r.time || 0), 0)
     const dailyCount = dailyRecords.length
 
-    return { modeStats, checkedDates, hasData: records.length > 0, dailyDuration, dailyCount, dailyRecords }
+    return { modeStats, checkedDates, hasData: records.length > 0, dailyDuration, dailyCount, dailyRecords, streak, todayWordCount }
   }, [records, selectedDate])
 
   const dailyWordIds = React.useMemo(() => dailyRecords.flatMap((r) => r.wordRecordIds || []), [dailyRecords])
@@ -187,6 +224,46 @@ const Statistics: React.FC = () => {
           <ArrowLeft className="h-6 w-6 text-gray-600 dark:text-gray-300" />
         </button>
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
+      </div>
+
+      {/* Streak & Daily Progress Card */}
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Streak Card */}
+        <div className="flex items-center gap-4 rounded-xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50 p-6 shadow-sm dark:border-orange-900/30 dark:from-orange-900/20 dark:to-amber-900/20">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30">
+            <Flame className="h-8 w-8 text-orange-500" />
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">连续打卡</div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-3xl font-black text-orange-600 dark:text-orange-400">{streak}</span>
+              <span className="text-lg text-orange-500">天</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Daily Progress Card */}
+        <div className="flex flex-col gap-2 rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-purple-50 p-6 shadow-sm dark:border-indigo-900/30 dark:from-indigo-900/20 dark:to-purple-900/20">
+          <div className="flex items-center gap-2">
+            <Target className="h-5 w-5 text-indigo-500" />
+            <span className="text-sm text-gray-500 dark:text-gray-400">今日目标</span>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{todayWordCount}</span>
+            <span className="text-gray-400">/</span>
+            <span className="text-lg text-gray-500 dark:text-gray-400">{learningPlan.dailyGoal} 词</span>
+          </div>
+          {/* Progress Bar */}
+          <div className="mt-1 h-3 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500"
+              style={{ width: `${Math.min(100, (todayWordCount / learningPlan.dailyGoal) * 100)}%` }}
+            />
+          </div>
+          {todayWordCount >= learningPlan.dailyGoal && (
+            <div className="text-center text-sm font-medium text-green-600 dark:text-green-400">🎉 今日目标已完成！</div>
+          )}
+        </div>
       </div>
 
       {modeStats.length === 0 && !hasData ? (

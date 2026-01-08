@@ -132,3 +132,24 @@ export const quizConfigAtom = atomWithStorage<QuizConfig>('quizConfig', {
 // Cloudflare Auth Atoms
 export const userInfoAtom = atomWithStorage<{ userId: string; username: string; nickname: string } | null>('userInfo', null)
 export const isSyncingAtom = atom(false)
+
+// Learning Plan Atoms (Phase 2)
+export interface LearningPlanConfig {
+  dailyGoal: number // Target number of words per day
+  reminderEnabled: boolean
+  reminderTime: string // HH:mm format
+}
+
+export const learningPlanAtom = atomWithStorage<LearningPlanConfig>('learningPlan', {
+  dailyGoal: 20,
+  reminderEnabled: false,
+  reminderTime: '20:00',
+})
+
+export const dailyGoalAtom = atom(
+  (get) => get(learningPlanAtom).dailyGoal,
+  (get, set, newGoal: number) => {
+    const current = get(learningPlanAtom)
+    set(learningPlanAtom, { ...current, dailyGoal: newGoal })
+  },
+)

@@ -463,7 +463,7 @@ const SpellerGame: React.FC = () => {
                   onFocus={() => {
                     // Attempt to hide keyboard if readOnly doesn't suffice on some weird browsers
                   }}
-                  className={`flex h-14 w-14 appearance-none items-center justify-center rounded-md border-2 p-0 text-center font-mono text-2xl font-bold shadow-sm outline-none transition-all duration-200 
+                  className={`flex h-12 w-12 appearance-none items-center justify-center rounded-md border-2 p-0 text-center font-mono text-xl font-bold shadow-sm outline-none transition-all duration-200 md:h-14 md:w-14 md:text-2xl 
                                 ${isSuccess ? 'border-green-500 bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400' : ''}
                                 ${
                                   !isMasked
@@ -482,7 +482,7 @@ const SpellerGame: React.FC = () => {
           {!isSuccess && !isShowAnswer && (
             <button
               onClick={handleBackspace}
-              className="flex h-14 w-12 items-center justify-center rounded-md bg-stone-100 text-stone-500 shadow-sm transition-all hover:bg-stone-200 active:scale-95 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+              className="flex h-12 w-12 items-center justify-center rounded-md bg-stone-100 text-stone-500 shadow-sm transition-all hover:bg-stone-200 active:scale-95 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 md:h-14 md:w-14"
               title="Backspace"
             >
               <span className="text-xl">⌫</span>
@@ -527,7 +527,7 @@ const SpellerGame: React.FC = () => {
               setDraggedItem(item)
               setDragPos({ x: box.left + box.width / 2, y: box.top + box.height / 2 })
             }}
-            className={`flex h-12 w-12 cursor-grab touch-none items-center justify-center rounded-lg border-2 border-indigo-200 bg-white font-mono text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 active:cursor-grabbing dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400
+            className={`flex h-14 w-14 cursor-grab touch-none items-center justify-center rounded-lg border-2 border-indigo-200 bg-white font-mono text-xl font-bold text-indigo-600 shadow-sm transition-all hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md active:scale-95 active:cursor-grabbing dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-indigo-400 md:h-12 md:w-12
              ${isShowAnswer ? 'cursor-not-allowed opacity-50' : ''}
             `}
             style={{

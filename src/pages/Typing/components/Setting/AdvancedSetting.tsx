@@ -1,5 +1,12 @@
 import styles from './index.module.css'
-import { isIgnoreCaseAtom, isShowAnswerOnHoverAtom, isShowPrevAndNextWordAtom, isTextSelectableAtom, randomConfigAtom } from '@/store'
+import {
+  isIgnoreCaseAtom,
+  isShowAnswerOnHoverAtom,
+  isShowPrevAndNextWordAtom,
+  isTextSelectableAtom,
+  learningPlanAtom,
+  randomConfigAtom,
+} from '@/store'
 import { Switch } from '@headlessui/react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { useAtom } from 'jotai'
@@ -11,6 +18,7 @@ export default function AdvancedSetting() {
   const [isIgnoreCase, setIsIgnoreCase] = useAtom(isIgnoreCaseAtom)
   const [isTextSelectable, setIsTextSelectable] = useAtom(isTextSelectableAtom)
   const [isShowAnswerOnHover, setIsShowAnswerOnHover] = useAtom(isShowAnswerOnHoverAtom)
+  const [learningPlan, setLearningPlan] = useAtom(learningPlanAtom)
 
   const onToggleRandom = useCallback(
     (checked: boolean) => {
@@ -112,6 +120,52 @@ export default function AdvancedSetting() {
                 isShowAnswerOnHover ? '开启' : '关闭'
               }`}</span>
             </div>
+          </div>
+
+          {/* Learning Plan Section */}
+          <div className={styles.section}>
+            <span className={styles.sectionLabel}>每日学习目标</span>
+            <span className={styles.sectionDescription}>设置每天需要完成的单词练习数量</span>
+            <div className="mt-2 flex items-center gap-4">
+              <input
+                type="range"
+                min="5"
+                max="100"
+                step="5"
+                value={learningPlan.dailyGoal}
+                onChange={(e) => setLearningPlan((prev) => ({ ...prev, dailyGoal: Number(e.target.value) }))}
+                className="h-2 w-48 cursor-pointer appearance-none rounded-lg bg-gray-200 accent-indigo-500"
+              />
+              <span className="min-w-[60px] text-lg font-bold text-indigo-600">{learningPlan.dailyGoal} 词/天</span>
+            </div>
+          </div>
+
+          <div className={styles.section}>
+            <span className={styles.sectionLabel}>学习提醒</span>
+            <span className={styles.sectionDescription}>开启后，将在设定时间提醒你学习</span>
+            <div className={styles.switchBlock}>
+              <Switch
+                checked={learningPlan.reminderEnabled}
+                onChange={(checked) => setLearningPlan((prev) => ({ ...prev, reminderEnabled: checked }))}
+                className="switch-root"
+              >
+                <span aria-hidden="true" className="switch-thumb" />
+              </Switch>
+              <span className="text-right text-xs font-normal leading-tight text-gray-600">
+                {learningPlan.reminderEnabled ? `已开启 (${learningPlan.reminderTime})` : '已关闭'}
+              </span>
+            </div>
+            {learningPlan.reminderEnabled && (
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-sm text-gray-500">提醒时间:</span>
+                <input
+                  type="time"
+                  value={learningPlan.reminderTime}
+                  onChange={(e) => setLearningPlan((prev) => ({ ...prev, reminderTime: e.target.value }))}
+                  className="rounded border border-gray-300 px-2 py-1 text-sm dark:border-gray-600 dark:bg-gray-700"
+                />
+              </div>
+            )}
           </div>
         </div>
       </ScrollArea.Viewport>
