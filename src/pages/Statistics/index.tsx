@@ -1,4 +1,5 @@
 import Calendar from './Calendar'
+import { DetailedStats } from './DetailedStats'
 import { db } from '@/utils/db'
 import { ChapterRecord } from '@/utils/db/record'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -15,7 +16,13 @@ const formatDuration = (seconds: number) => {
   return `${h > 0 ? h + '小时 ' : ''}${m}分 ${s}秒`
 }
 
-// ... helper ...
+const getLocalDateString = (dateInput: number | Date) => {
+  const date = typeof dateInput === 'number' ? new Date(dateInput * 1000) : dateInput
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 
 const MODE_NAMES: Record<string, string> = {
   typing: '背默单词',
@@ -35,25 +42,31 @@ const Statistics: React.FC = () => {
   const navigate = useNavigate()
   const chartRef = useRef<HTMLDivElement>(null)
   const [myChart, setMyChart] = useState<echarts.ECharts | null>(null)
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const [selectedDate, setSelectedDate] = useState(getLocalDateString(new Date()))
 
   // Fetch chapter records
   const records = useLiveQuery(() => db.chapterRecords.toArray(), [])
-  // Fetch top error words (top 20)
-  const topErrors = useLiveQuery(() => db.wordRecords.orderBy('wrongCount').reverse().limit(20).toArray(), [])
 
   // Process data for charts
-  const { modeStats, checkedDates, hasData, dailyDuration, dailyCount } = React.useMemo(() => {
-    if (!records) return { modeStats: [], checkedDates: new Set<string>(), hasData: false, dailyDuration: 0, dailyCount: 0 }
+  const { modeStats, checkedDates, hasData, dailyDuration, dailyCount, dailyRecords } = React.useMemo(() => {
+    if (!records)
+      return {
+        modeStats: [],
+        checkedDates: new Set<string>(),
+        hasData: false,
+        dailyDuration: 0,
+        dailyCount: 0,
+        dailyRecords: [],
+      }
 
     const checkedDates = new Set<string>()
     records.forEach((r) => {
-      const date = new Date(r.timeStamp).toISOString().split('T')[0]
+      const date = getLocalDateString(r.timeStamp)
       checkedDates.add(date)
     })
 
     // Filter by selected Date
-    const dailyRecords = records.filter((r) => new Date(r.timeStamp).toISOString().split('T')[0] === selectedDate)
+    const dailyRecords = records.filter((r) => getLocalDateString(r.timeStamp) === selectedDate)
 
     // Mode Stats based on DAILY records
     const statsMap = new Map<string, { duration: number; count: number }>()
@@ -87,7 +100,7 @@ const Statistics: React.FC = () => {
     const dailyDuration = dailyRecords.reduce((acc, r) => acc + (r.time || 0), 0)
     const dailyCount = dailyRecords.length
 
-    return { modeStats, checkedDates, hasData: records.length > 0, dailyDuration, dailyCount }
+    return { modeStats, checkedDates, hasData: records.length > 0, dailyDuration, dailyCount, dailyRecords }
   }, [records, selectedDate])
 
   useEffect(() => {
@@ -235,40 +248,8 @@ const Statistics: React.FC = () => {
             </div>
           </div>
 
-          {/* Top Errors Table */}
-          <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">高频错词（历史累计）</h2>
-            {topErrors && topErrors.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                  <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th className="px-6 py-3">单词</th>
-                      <th className="px-6 py-3">错误次数</th>
-                      <th className="px-6 py-3">正确次数</th>
-                      <th className="px-6 py-3">最后练习模式</th>
-                      <th className="px-6 py-3">所属词库</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {topErrors.map((item) => (
-                      <tr
-                        key={item.id}
-                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
-                      >
-                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.word}</td>
-                        <td className="px-6 py-4 font-bold text-red-500">{item.wrongCount}</td>
-                        <td className="px-6 py-4 text-green-500">{item.correctCount || 0}</td>
-                        <td className="px-6 py-4">{MODE_NAMES[mapModeToGroup(item.mode || 'unknown')] || item.mode || '-'}</td>
-                        <td className="px-6 py-4">{item.dict}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">暂无错题记录。</p>
-            )}
+          <div className="mb-8">
+            <DetailedStats records={dailyRecords} />
           </div>
         </>
       )}
