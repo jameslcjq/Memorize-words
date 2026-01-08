@@ -1,9 +1,9 @@
+import Calendar from './Calendar'
 import { db } from '@/utils/db'
 import { ChapterRecord } from '@/utils/db/record'
 import { useLiveQuery } from 'dexie-react-hooks'
 import * as echarts from 'echarts'
 import React, { useEffect, useRef, useState } from 'react'
-import ActivityCalendar from 'react-activity-calendar'
 
 // Helper to format duration
 const formatDuration = (seconds: number) => {
@@ -37,8 +37,9 @@ const Statistics: React.FC = () => {
   const topErrors = useLiveQuery(() => db.wordRecords.orderBy('wrongCount').reverse().limit(20).toArray(), [])
 
   // Process data for charts
-  const { modeStats, activityData } = React.useMemo(() => {
-    if (!records) return { modeStats: [], activityData: [] }
+  // Process data for charts
+  const { modeStats, checkedDates, hasData } = React.useMemo(() => {
+    if (!records) return { modeStats: [], checkedDates: new Set<string>(), hasData: false }
 
     // Mode Stats
     const statsMap = new Map<string, { duration: number; count: number }>()
@@ -49,8 +50,7 @@ const Statistics: React.FC = () => {
       }
     })
 
-    // Activity Calendar
-    const dateMap = new Map<string, number>()
+    const checkedDates = new Set<string>()
 
     records.forEach((r) => {
       const rawMode = r.mode || 'unknown'
@@ -63,10 +63,8 @@ const Statistics: React.FC = () => {
         count: current.count + 1,
       })
 
-      // Activity
       const date = new Date(r.timeStamp).toISOString().split('T')[0]
-      const currentCount = dateMap.get(date) || 0
-      dateMap.set(date, currentCount + 1)
+      checkedDates.add(date)
     })
 
     const modeStats = Array.from(statsMap.entries())
@@ -78,17 +76,7 @@ const Statistics: React.FC = () => {
         duration: stats.duration,
       }))
 
-    // Activity Data
-    const activityData = Array.from(dateMap.entries())
-      .map(([date, count]) => ({
-        date,
-        count,
-        // Level logic: 0=0, 1=1-2, 2=3-5, 3=6-9, 4=10+
-        level: count === 0 ? 0 : count <= 2 ? 1 : count <= 5 ? 2 : count <= 9 ? 3 : 4,
-      }))
-      .sort((a, b) => a.date.localeCompare(b.date)) as any[]
-
-    return { modeStats, activityData }
+    return { modeStats, checkedDates, hasData: records.length > 0 }
   }, [records])
 
   useEffect(() => {
@@ -183,7 +171,7 @@ const Statistics: React.FC = () => {
         ))}
       </div>
 
-      {modeStats.length === 0 && activityData.length === 0 ? (
+      {modeStats.length === 0 && !hasData ? (
         <div className="flex flex-col items-center justify-center p-12 text-center">
           <p className="mb-4 text-xl text-gray-500 dark:text-gray-400">暂无练习数据</p>
           <p className="text-gray-400 dark:text-gray-500">快去练习一些单词吧！</p>
@@ -197,18 +185,8 @@ const Statistics: React.FC = () => {
             </div>
 
             {/* Activity Calendar */}
-            <div className="flex flex-col items-center justify-center rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <h2 className="mb-6 self-start text-xl font-semibold text-gray-700 dark:text-gray-200">打卡日历</h2>
-              <ActivityCalendar
-                data={activityData}
-                labels={{
-                  totalCount: '过去一年共练习 {{count}} 次',
-                }}
-                theme={{
-                  light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-                  dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
-                }}
-              />
+            <div className="flex flex-col items-center justify-center">
+              <Calendar checkedDates={checkedDates} />
             </div>
           </div>
 

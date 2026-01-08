@@ -1,0 +1,161 @@
+/* Scoped styles for the Calendar component */
+.minimal-calendar-wrapper {
+  --primary-color: #2563eb; /* 选中时的蓝色 */
+  --primary-hover: #1d4ed8;
+  --bg-color: #f9fafb; /* 整体背景灰 */
+  --card-bg: #ffffff; /* 卡片背景白 */
+  --text-main: #1f2937; /* 主文字色 */
+  --text-light: #9ca3af; /* 浅色文字 */
+  --border-color: #f3f4f6; /* 边框色 */
+  --radius: 12px; /* 圆角大小 */
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-main);
+  /* Centering logic handled by parent in app layout */
+}
+
+/* Dark mode overrides if parent has dark class, or handle via media query if preferred. 
+   Assuming app handles dark mode via 'dark' class on html/body. 
+   We'll add some basic dark mode support based on common practices. */
+:global(.dark) .minimal-calendar-wrapper {
+  --bg-color: #111827;
+  --card-bg: #1f2937;
+  --text-main: #f3f4f6;
+  --text-light: #9ca3af;
+  --border-color: #374151;
+}
+
+.minimal-calendar-wrapper .calendar-card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  width: 360px; /* Fixed width as per design, or make valid max-width */
+  max-width: 100%;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.minimal-calendar-wrapper header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.minimal-calendar-wrapper h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-main);
+}
+
+.minimal-calendar-wrapper .sub-text {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  font-weight: normal;
+  margin-top: 4px;
+}
+
+.minimal-calendar-wrapper button.nav-btn {
+  background-color: #111827; /* 深黑色按钮 */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+:global(.dark) .minimal-calendar-wrapper button.nav-btn {
+  background-color: #374151;
+}
+
+.minimal-calendar-wrapper button.nav-btn:hover {
+  background-color: #374151;
+}
+
+.minimal-calendar-wrapper .grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.minimal-calendar-wrapper .days-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px; /* 格子间距 */
+}
+
+.minimal-calendar-wrapper .day {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: default; /* Changed from pointer as it's primarily read-only visualization, but can remain pointer if interactive */
+  user-select: none;
+  background-color: var(--card-bg); /* Use card bg instead of white for dark mode support */
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* 悬停效果 */
+.minimal-calendar-wrapper .day:hover:not(.checked) {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+/* --- 状态样式 --- */
+
+/* 已打卡 */
+.minimal-calendar-wrapper .day.checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  transform: scale(1.05); /* 轻微放大 */
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+}
+
+/* 今天 (未打卡时) */
+.minimal-calendar-wrapper .day.today:not(.checked) {
+  box-shadow: 0 0 0 2px #bfdbfe; /* 浅蓝色光环 */
+}
+:global(.dark) .minimal-calendar-wrapper .day.today:not(.checked) {
+  box-shadow: 0 0 0 2px #1d4ed8;
+}
+
+/* 勾选图标 (纯CSS绘制) */
+.minimal-calendar-wrapper .day.checked::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0.3;
+  display: none; /* 极简风格可以选择不显示勾选图标，保持数字清晰，或者去掉这行注释显示 */
+}
+
+.minimal-calendar-wrapper .footer-tip {
+  margin-top: 30px;
+  font-size: 0.75rem;
+  color: #d1d5db;
+  text-align: center;
+}
