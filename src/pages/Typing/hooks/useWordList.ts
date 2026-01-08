@@ -23,6 +23,40 @@ export type UseWordListResult = {
 }
 
 /**
+ * Helper function to apply loop times and shuffle words
+ * Also reduces consecutive duplicates
+ */
+function applyLoopAndShuffle(words: Word[], loopTimes: number): Word[] {
+  if (words.length === 0) return []
+  if (loopTimes <= 1) return words
+
+  // Duplicate words based on loop times
+  const loopedWords: Word[] = []
+  for (let i = 0; i < loopTimes; i++) {
+    loopedWords.push(...words)
+  }
+
+  // Apply shuffle
+  const shuffled = shuffle(loopedWords)
+
+  // Heuristic to reduce consecutive duplicates
+  for (let i = 1; i < shuffled.length; i++) {
+    if (shuffled[i].name === shuffled[i - 1].name) {
+      // Collision found. Look for a swap candidate ahead.
+      for (let j = i + 1; j < shuffled.length; j++) {
+        if (shuffled[j].name !== shuffled[i].name) {
+          const temp = shuffled[i]
+          shuffled[i] = shuffled[j]
+          shuffled[j] = temp
+          break
+        }
+      }
+    }
+  }
+  return shuffled
+}
+
+/**
  * Use word lists from the current selected dictionary.
  */
 export function useWordList(): UseWordListResult {
@@ -90,31 +124,50 @@ export function useWordList(): UseWordListResult {
   useEffect(() => {
     if (selectedChapters.includes(-3)) {
       setIsDatabaseLoading(true)
-      getTodayReviewWords(currentDictInfo.id)
-        .then((records) => {
-          const uniqueWordsMap = new Map<string, Word>()
-          // Initialize with basic info from record
-          records.forEach((r) => {
-            if (!uniqueWordsMap.has(r.word)) {
-              uniqueWordsMap.set(r.word, { name: r.word, trans: [], usphone: '', ukphone: '' })
+
+      const loadSmartReviewWords = async () => {
+        // First, try to get words from spacedRepetitionRecords
+        const srRecords = await getTodayReviewWords(currentDictInfo.id)
+
+        let wordNames: string[] = []
+
+        if (srRecords.length > 0) {
+          // We have SR records, use them
+          wordNames = srRecords.map((r) => r.word)
+        } else {
+          // No SR records yet - fallback to error words from wordRecords
+          // This provides backward compatibility for existing error words
+          const errorRecords = await db.wordRecords
+            .where('dict')
+            .equals(currentDictInfo.id)
+            .and((r) => r.wrongCount > 0)
+            .toArray()
+          wordNames = [...new Set(errorRecords.map((r) => r.word))]
+        }
+
+        // Build unique words map
+        const uniqueWordsMap = new Map<string, Word>()
+        wordNames.forEach((name) => {
+          if (!uniqueWordsMap.has(name)) {
+            uniqueWordsMap.set(name, { name, trans: [], usphone: '', ukphone: '' })
+          }
+        })
+
+        // Hydrate with full details from wordList
+        if (wordList) {
+          uniqueWordsMap.forEach((val, key) => {
+            const fullWord = wordList.find((w) => w.name === key)
+            if (fullWord) {
+              uniqueWordsMap.set(key, fullWord)
             }
           })
+        }
 
-          // Hydrate with full details from wordList
-          if (wordList) {
-            uniqueWordsMap.forEach((val, key) => {
-              const fullWord = wordList.find((w) => w.name === key)
-              if (fullWord) {
-                uniqueWordsMap.set(key, fullWord)
-              }
-            })
-          }
+        setSmartReviewWords(shuffle(Array.from(uniqueWordsMap.values())).slice(0, CHAPTER_LENGTH))
+        setIsDatabaseLoading(false)
+      }
 
-          setSmartReviewWords(shuffle(Array.from(uniqueWordsMap.values())).slice(0, CHAPTER_LENGTH))
-        })
-        .finally(() => {
-          setIsDatabaseLoading(false)
-        })
+      loadSmartReviewWords()
     }
   }, [selectedChapters, currentDictInfo.id, wordList, getTodayReviewWords])
 
@@ -129,9 +182,9 @@ export function useWordList(): UseWordListResult {
         // 全词库随机模式：从完整的 wordList 中随机选取 CHAPTER_LENGTH 个
         newWords = shuffle(wordList).slice(0, CHAPTER_LENGTH)
       } else if (selectedChapters.includes(-2)) {
-        newWords = errorWords
+        newWords = applyLoopAndShuffle(errorWords, loopWordConfig.times || 1)
       } else if (selectedChapters.includes(-3)) {
-        newWords = smartReviewWords
+        newWords = applyLoopAndShuffle(smartReviewWords, loopWordConfig.times || 1)
       } else {
         // Multi-chapter selection logic
         const selectedWords: Word[] = []
@@ -152,48 +205,7 @@ export function useWordList(): UseWordListResult {
           selectedWords.push(...chapterWords)
         })
 
-        // Loop Logic: Duplicate words based on loop times, then shuffle all together
-        // loopWordConfig.times is 1, 2, 3, 4, 5
-        const loopTimes = loopWordConfig.times || 1
-
-        if (loopTimes > 1) {
-          const loopedWords: Word[] = []
-          for (let i = 0; i < loopTimes; i++) {
-            loopedWords.push(...selectedWords)
-          }
-
-          // Apply shuffle first
-          const shuffled = shuffle(loopedWords)
-
-          // Heuristic to reduce consecutive duplicates
-          // Iterate through the array, if current == previous, swap current with a random candidate ahead
-          for (let i = 1; i < shuffled.length; i++) {
-            if (shuffled[i].name === shuffled[i - 1].name) {
-              // Collision found. Look for a swap candidate ahead.
-              // We want an index j > i such that shuffled[j] != shuffled[i] (which is also != shuffled[i-1])
-              // Ideally shuffled[j] should also not match shuffled[i-1] (obvious) and usually we should check if putting shuffled[i] at j causes conflict there,
-              // but simple forward swap is usually sufficient for low density collisions.
-              let swapped = false
-              for (let j = i + 1; j < shuffled.length; j++) {
-                if (shuffled[j].name !== shuffled[i].name) {
-                  // Check if swapping j to i causes conflict at i? No, we checked shuffled[j] != shuffled[i].
-                  // Check if putting shuffled[i] at j causes conflict with j+1? (and j-1, but j-1 is... i... or in between)
-                  // Let's just swap.
-                  const temp = shuffled[i]
-                  shuffled[i] = shuffled[j]
-                  shuffled[j] = temp
-                  swapped = true
-                  break
-                }
-              }
-              // If not swapped (tail end clump), try swapping with something behind? (i-2, etc)
-              // Or just leave it.
-            }
-          }
-          newWords = shuffled
-        } else {
-          newWords = selectedWords
-        }
+        newWords = applyLoopAndShuffle(selectedWords, loopWordConfig.times || 1)
       }
     } else {
       newWords = []
