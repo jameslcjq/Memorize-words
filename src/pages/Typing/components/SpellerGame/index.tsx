@@ -46,6 +46,11 @@ const SpellerGame: React.FC = () => {
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
   const { play: playWord } = usePronunciationSound(currentWordObj?.name || '')
+  // Fix: Use ref to keep track of the latest playWord function to avoid stale closures in setTimeout
+  const playWordRef = useRef(playWord)
+  useEffect(() => {
+    playWordRef.current = playWord
+  }, [playWord])
 
   const saveWordRecord = useSaveWordRecord()
 
@@ -120,7 +125,7 @@ const SpellerGame: React.FC = () => {
 
         // Play Pronunciation
         setTimeout(() => {
-          playWord()
+          playWordRef.current()
         }, 100)
 
         setTimeout(() => {
@@ -158,7 +163,7 @@ const SpellerGame: React.FC = () => {
           letterMistake,
         })
 
-        playWord() // Play sound of correct word so they know what it was
+        playWordRef.current() // Play sound of correct word so they know what it was
 
         setTimeout(() => setIsShake(false), 500)
 

@@ -39,13 +39,18 @@ export default function usePronunciationSound(word: string, isLoop?: boolean) {
   const loop = useMemo(() => (typeof isLoop === 'boolean' ? isLoop : pronunciationConfig.isLoop), [isLoop, pronunciationConfig.isLoop])
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const [play, { stop, sound }] = useSound(generateWordSoundSrc(word, pronunciationConfig.type), {
-    html5: true,
-    format: ['mp3'],
-    loop,
-    volume: pronunciationConfig.volume,
-    rate: pronunciationConfig.rate,
-  } as HookOptions)
+  const soundOptions = useMemo(
+    () => ({
+      html5: true,
+      format: ['mp3'],
+      loop,
+      volume: pronunciationConfig.volume,
+      rate: pronunciationConfig.rate,
+    }),
+    [loop, pronunciationConfig.volume, pronunciationConfig.rate],
+  )
+
+  const [play, { stop, sound }] = useSound(generateWordSoundSrc(word, pronunciationConfig.type), soundOptions as HookOptions)
 
   useEffect(() => {
     if (!sound) return
