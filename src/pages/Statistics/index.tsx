@@ -189,28 +189,6 @@ const Statistics: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
       </div>
 
-      {/* Mode Stats Cards */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {modeStats.map((stat) => (
-          <div
-            key={stat.name}
-            className="flex flex-col rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
-          >
-            <h3 className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-200">{stat.name}</h3>
-            <div className="mt-auto">
-              <div className="flex items-baseline justify-between">
-                <span className="text-sm text-gray-500 dark:text-gray-400">练习时长</span>
-                <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatDuration(stat.duration)}</span>
-              </div>
-              <div className="mt-2 flex items-baseline justify-between">
-                <span className="text-sm text-gray-500 dark:text-gray-400">练习次数</span>
-                <span className="text-lg font-medium text-gray-800 dark:text-gray-100">{stat.count} 次</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
       {modeStats.length === 0 && !hasData ? (
         <div className="flex flex-col items-center justify-center p-12 text-center">
           <p className="mb-4 text-xl text-gray-500 dark:text-gray-400">暂无练习数据</p>
@@ -218,40 +196,66 @@ const Statistics: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {/* Duration Chart */}
-            <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div ref={chartRef} style={{ width: '100%', height: '400px' }} />
-            </div>
+          {/* Activity Calendar & Summary (Moved to Top) */}
+          <div className="mb-8 flex flex-col items-start gap-8 md:flex-row md:items-start md:justify-center">
+            <Calendar checkedDates={checkedDates} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
 
-            {/* Activity Calendar */}
-            <div className="flex flex-col items-center justify-center">
-              <Calendar checkedDates={checkedDates} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
-
-              {/* Daily Summary */}
-              <div className="mt-6 w-full max-w-[360px] rounded-xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{selectedDate}</span>
-                  <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
-                    {modeStats && dailyCount > 0 ? '已打卡' : '未打卡'}
-                  </span>
+            {/* Daily Summary */}
+            <div className="mt-0 w-full max-w-[360px] rounded-xl border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800/50">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-lg font-medium text-gray-700 dark:text-gray-200">{selectedDate}</span>
+                <span
+                  className={`rounded-full px-3 py-1 text-sm ${
+                    modeStats && dailyCount > 0
+                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                      : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+                  }`}
+                >
+                  {modeStats && dailyCount > 0 ? '已完成' : '未打卡'}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <span className="block text-sm text-gray-500 dark:text-gray-400">当日时长</span>
+                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{formatDuration(dailyDuration || 0)}</span>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <span className="block text-xs text-gray-400">当日时长</span>
-                    <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{formatDuration(dailyDuration || 0)}</span>
-                  </div>
-                  <div>
-                    <span className="block text-xs text-gray-400">当日练习</span>
-                    <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{dailyCount || 0} 次</span>
-                  </div>
+                <div>
+                  <span className="block text-sm text-gray-500 dark:text-gray-400">当日练习</span>
+                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{dailyCount || 0} 次</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mb-8">
-            <DetailedStats records={dailyRecords} />
+          {/* Mode Stats Cards */}
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {modeStats.map((stat) => (
+              <div
+                key={stat.name}
+                className="flex flex-col rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+              >
+                <h3 className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-200">{stat.name}</h3>
+                <div className="mt-auto">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">练习时长</span>
+                    <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatDuration(stat.duration)}</span>
+                  </div>
+                  <div className="mt-2 flex items-baseline justify-between">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">练习次数</span>
+                    <span className="text-lg font-medium text-gray-800 dark:text-gray-100">{stat.count} 次</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Duration Chart (Full Width) */}
+          <div className="mb-8 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <div ref={chartRef} style={{ width: '100%', height: '400px' }} />
+          </div>
+
+          <div className="mb-12">
+            <DetailedStats records={dailyRecords} wordRecords={dailyWordRecords || []} />
           </div>
         </>
       )}
