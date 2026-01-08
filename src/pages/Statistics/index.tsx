@@ -10,7 +10,16 @@ const formatDuration = (seconds: number) => {
   const h = Math.floor(seconds / 3600)
   const m = Math.floor((seconds % 3600) / 60)
   const s = seconds % 60
-  return `${h > 0 ? h + 'h ' : ''}${m}m ${s}s`
+  return `${h > 0 ? h + '小时 ' : ''}${m}分 ${s}秒`
+}
+
+const MODE_NAMES: Record<string, string> = {
+  typing: '背默单词',
+  speller: '单词拼写',
+  crossword: '填字游戏',
+  'word-to-trans': '英译中',
+  'trans-to-word': '中译英',
+  unknown: '未知模式',
 }
 
 const Statistics: React.FC = () => {
@@ -42,7 +51,10 @@ const Statistics: React.FC = () => {
       dateMap.set(date, currentCount + 1)
     })
 
-    const modeStats = Array.from(statsMap.entries()).map(([name, value]) => ({ name, value }))
+    const modeStats = Array.from(statsMap.entries()).map(([name, value]) => ({
+      name: MODE_NAMES[name] || name,
+      value,
+    }))
 
     // Activity Data
     const activityData = Array.from(dateMap.entries())
@@ -75,7 +87,7 @@ const Statistics: React.FC = () => {
     if (!myChart) return
     myChart.setOption({
       title: {
-        text: 'Practice Duration by Mode',
+        text: '各模式练习时长',
         left: 'center',
         textStyle: {
           color: document.documentElement.classList.contains('dark') ? '#ccc' : '#333',
@@ -96,7 +108,7 @@ const Statistics: React.FC = () => {
       },
       series: [
         {
-          name: 'Duration',
+          name: '时长',
           type: 'pie',
           radius: '50%',
           data: modeStats,
@@ -118,19 +130,19 @@ const Statistics: React.FC = () => {
   if (!records) {
     return (
       <div className="container mx-auto flex min-h-screen items-center justify-center p-8">
-        <div className="text-xl text-gray-500 dark:text-gray-400">Loading statistics...</div>
+        <div className="text-xl text-gray-500 dark:text-gray-400">正在加载统计数据...</div>
       </div>
     )
   }
 
   return (
     <div className="container mx-auto min-h-screen p-8">
-      <h1 className="mb-8 text-3xl font-bold text-gray-800 dark:text-gray-100">Statistics</h1>
+      <h1 className="mb-8 text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
 
       {modeStats.length === 0 && activityData.length === 0 ? (
         <div className="flex flex-col items-center justify-center p-12 text-center">
-          <p className="mb-4 text-xl text-gray-500 dark:text-gray-400">No practice data found yet.</p>
-          <p className="text-gray-400 dark:text-gray-500">Go practice some words and come back!</p>
+          <p className="mb-4 text-xl text-gray-500 dark:text-gray-400">暂无练习数据</p>
+          <p className="text-gray-400 dark:text-gray-500">快去练习一些单词吧！</p>
         </div>
       ) : (
         <>
@@ -142,11 +154,11 @@ const Statistics: React.FC = () => {
 
             {/* Activity Calendar */}
             <div className="flex flex-col items-center justify-center rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <h2 className="mb-6 self-start text-xl font-semibold text-gray-700 dark:text-gray-200">Activity Calendar</h2>
+              <h2 className="mb-6 self-start text-xl font-semibold text-gray-700 dark:text-gray-200">打卡日历</h2>
               <ActivityCalendar
                 data={activityData}
                 labels={{
-                  totalCount: '{{count}} sessions in last year',
+                  totalCount: '过去一年共练习 {{count}} 次',
                 }}
                 theme={{
                   light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
@@ -158,17 +170,17 @@ const Statistics: React.FC = () => {
 
           {/* Top Errors Table */}
           <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Top Error Words (All Time)</h2>
+            <h2 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">高频错词（历史累计）</h2>
             {topErrors && topErrors.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
                   <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th className="px-6 py-3">Word</th>
-                      <th className="px-6 py-3">Wrong Count</th>
-                      <th className="px-6 py-3">Correct Count</th>
-                      <th className="px-6 py-3">Last Mode</th>
-                      <th className="px-6 py-3">Dictionary</th>
+                      <th className="px-6 py-3">单词</th>
+                      <th className="px-6 py-3">错误次数</th>
+                      <th className="px-6 py-3">正确次数</th>
+                      <th className="px-6 py-3">最后练习模式</th>
+                      <th className="px-6 py-3">所属词库</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -180,7 +192,7 @@ const Statistics: React.FC = () => {
                         <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.word}</td>
                         <td className="px-6 py-4 font-bold text-red-500">{item.wrongCount}</td>
                         <td className="px-6 py-4 text-green-500">{item.correctCount || 0}</td>
-                        <td className="px-6 py-4">{item.mode || '-'}</td>
+                        <td className="px-6 py-4">{MODE_NAMES[item.mode] || item.mode || '-'}</td>
                         <td className="px-6 py-4">{item.dict}</td>
                       </tr>
                     ))}
@@ -188,7 +200,7 @@ const Statistics: React.FC = () => {
                 </table>
               </div>
             ) : (
-              <p className="text-gray-500 dark:text-gray-400">No error records found.</p>
+              <p className="text-gray-500 dark:text-gray-400">暂无错题记录。</p>
             )}
           </div>
         </>
