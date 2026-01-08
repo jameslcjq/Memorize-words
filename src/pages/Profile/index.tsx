@@ -8,7 +8,8 @@ import { Tab } from '@headlessui/react'
 import classNames from 'classnames'
 import { useAtom } from 'jotai'
 import { ArrowLeft, BarChart2, LogOut, Settings, User } from 'lucide-react'
-import React, { lazy, Suspense, useState } from 'react'
+import type React from 'react'
+import { Suspense, lazy, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Statistics = lazy(() => import('@/pages/Statistics'))
