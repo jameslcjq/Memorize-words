@@ -1,4 +1,4 @@
-import { IChapterRecord } from '@/utils/db/record'
+import type { IChapterRecord } from '@/utils/db/record'
 import React from 'react'
 
 interface DetailedStatsProps {
