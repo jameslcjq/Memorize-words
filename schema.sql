@@ -47,3 +47,10 @@ CREATE TABLE chapter_records (
   word_number INTEGER,
   UNIQUE(user_id, dict, chapter, timestamp)
 );
+
+DROP TABLE IF EXISTS sync_data;
+CREATE TABLE sync_data (
+  user_id TEXT PRIMARY KEY,
+  data TEXT, -- JSON string of the entire export
+  updated_at INTEGER
+);

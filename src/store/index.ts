@@ -130,5 +130,5 @@ export const quizConfigAtom = atomWithStorage<QuizConfig>('quizConfig', {
 })
 
 // Cloudflare Auth Atoms
-export const userInfoAtom = atomWithStorage<{ userId: string; openid: string; nickname: string } | null>('userInfo', null)
+export const userInfoAtom = atomWithStorage<{ userId: string; username: string; nickname: string } | null>('userInfo', null)
 export const isSyncingAtom = atom(false)

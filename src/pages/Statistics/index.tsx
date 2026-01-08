@@ -13,6 +13,9 @@ const formatDuration = (seconds: number) => {
   return `${h > 0 ? h + '小时 ' : ''}${m}分 ${s}秒`
 }
 
+// Helper to format short duration (e.g. for small cards)
+// const formatDurationShort = (seconds: number) => { ... } // Optional if needed
+
 const MODE_NAMES: Record<string, string> = {
   typing: '背默单词',
   speller: '单词拼写',
@@ -30,6 +33,7 @@ const mapModeToGroup = (mode: string): string => {
 const Statistics: React.FC = () => {
   const chartRef = useRef<HTMLDivElement>(null)
   const [myChart, setMyChart] = useState<echarts.ECharts | null>(null)
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
 
   // Fetch chapter records
   const records = useLiveQuery(() => db.chapterRecords.toArray(), [])
@@ -38,8 +42,8 @@ const Statistics: React.FC = () => {
 
   // Process data for charts
   // Process data for charts
-  const { modeStats, checkedDates, hasData } = React.useMemo(() => {
-    if (!records) return { modeStats: [], checkedDates: new Set<string>(), hasData: false }
+  const { modeStats, checkedDates, hasData, dailyDuration, dailyCount } = React.useMemo(() => {
+    if (!records) return { modeStats: [], checkedDates: new Set<string>(), hasData: false, dailyDuration: 0, dailyCount: 0 }
 
     // Mode Stats
     const statsMap = new Map<string, { duration: number; count: number }>()
@@ -76,8 +80,13 @@ const Statistics: React.FC = () => {
         duration: stats.duration,
       }))
 
-    return { modeStats, checkedDates, hasData: records.length > 0 }
-  }, [records])
+    // Filter daily stats
+    const dailyRecords = records.filter((r) => new Date(r.timeStamp).toISOString().split('T')[0] === selectedDate)
+    const dailyDuration = dailyRecords.reduce((acc, r) => acc + (r.time || 0), 0)
+    const dailyCount = dailyRecords.length
+
+    return { modeStats, checkedDates, hasData: records.length > 0, dailyDuration, dailyCount }
+  }, [records, selectedDate])
 
   useEffect(() => {
     if (!chartRef.current) return
@@ -186,7 +195,27 @@ const Statistics: React.FC = () => {
 
             {/* Activity Calendar */}
             <div className="flex flex-col items-center justify-center">
-              <Calendar checkedDates={checkedDates} />
+              <Calendar checkedDates={checkedDates} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+
+              {/* Daily Summary */}
+              <div className="mt-6 w-full max-w-[360px] rounded-xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{selectedDate}</span>
+                  <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+                    {modeStats && dailyCount > 0 ? '已打卡' : '未打卡'}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="block text-xs text-gray-400">当日时长</span>
+                    <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{formatDuration(dailyDuration || 0)}</span>
+                  </div>
+                  <div>
+                    <span className="block text-xs text-gray-400">当日练习</span>
+                    <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{dailyCount || 0} 次</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

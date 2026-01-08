@@ -5,9 +5,11 @@ import { useMemo, useState } from 'react'
 interface CalendarProps {
   // A Set of date strings 'YYYY-MM-DD' that have practice records
   checkedDates: Set<string>
+  selectedDate: string
+  onSelectDate: (date: string) => void
 }
 
-const Calendar: React.FC<CalendarProps> = ({ checkedDates }) => {
+const Calendar: React.FC<CalendarProps> = ({ checkedDates, selectedDate, onSelectDate }) => {
   const [currentDate, setCurrentDate] = useState(new Date())
 
   const year = currentDate.getFullYear()
@@ -42,6 +44,7 @@ const Calendar: React.FC<CalendarProps> = ({ checkedDates }) => {
       const dateKey = getDateKey(year, month, day)
       const isChecked = checkedDates.has(dateKey)
       const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear()
+      const isSelected = dateKey === selectedDate
 
       days.push({
         type: 'day',
@@ -49,12 +52,13 @@ const Calendar: React.FC<CalendarProps> = ({ checkedDates }) => {
         dateKey,
         isChecked,
         isToday,
+        isSelected,
         key: dateKey,
       })
     }
 
     return days
-  }, [year, month, checkedDates])
+  }, [year, month, checkedDates, selectedDate])
 
   const streakCount = useMemo(() => {
     let count = 0
@@ -101,7 +105,11 @@ const Calendar: React.FC<CalendarProps> = ({ checkedDates }) => {
               return <div key={item.key} />
             }
             return (
-              <div key={item.key} className={`day ${item.isChecked ? 'checked' : ''} ${item.isToday ? 'today' : ''}`}>
+              <div
+                key={item.key}
+                className={`day ${item.isChecked ? 'checked' : ''} ${item.isToday ? 'today' : ''} ${item.isSelected ? 'selected' : ''}`}
+                onClick={() => onSelectDate(item.dateKey!)}
+              >
                 {item.day}
               </div>
             )
