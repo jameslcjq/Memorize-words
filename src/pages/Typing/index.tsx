@@ -1,6 +1,7 @@
 import Layout from '../../components/Layout'
 import CrosswordGame from './components/CrosswordGame'
 import { DictChapterButton } from './components/DictChapterButton'
+import DictationGame from './components/DictationGame'
 import { ExerciseModeSwitcher } from './components/ExerciseModeSwitcher'
 import PronunciationSwitcher from './components/PronunciationSwitcher'
 import ResultScreen from './components/ResultScreen'
@@ -13,9 +14,11 @@ import WordPanel from './components/WordPanel'
 import { useConfetti } from './hooks/useConfetti'
 import { useWordList } from './hooks/useWordList'
 import { TypingContext, TypingStateActionType, initialState, typingReducer } from './store'
+import AchievementToast from '@/components/AchievementToast'
 import Header from '@/components/Header'
 import LoginModal from '@/components/LoginModal'
 import Tooltip from '@/components/Tooltip'
+import { useGamification } from '@/hooks/useGamification'
 import { idDictionaryMap } from '@/resources/dictionary'
 import {
   currentChapterAtom,
@@ -49,6 +52,9 @@ const App: React.FC = () => {
   const isReviewMode = useAtomValue(isReviewModeAtom)
   const [wordDictationConfig, setWordDictationConfig] = useAtom(wordDictationConfigAtom)
   const exerciseMode = useAtomValue(exerciseModeAtom)
+
+  // Gamification
+  const { awardChapterPoints, checkAchievements, newlyUnlockedAchievement, clearAchievementToast } = useGamification()
 
   // Enforce defaults for "Back-Recite" (typing mode)
   useEffect(() => {
@@ -153,6 +159,12 @@ const App: React.FC = () => {
     if (state.isFinished && !state.isSavingRecord) {
       chapterLogUploader()
       saveChapterRecord(state)
+
+      // Award gamification points
+      const isPerfect = state.chapterData.wrongCount === 0 && state.chapterData.wordCount > 0
+      awardChapterPoints(isPerfect).then(() => {
+        checkAchievements()
+      })
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,6 +185,9 @@ const App: React.FC = () => {
 
   return (
     <TypingContext.Provider value={{ state: state, dispatch }}>
+      {/* Achievement Toast */}
+      <AchievementToast achievement={newlyUnlockedAchievement} onClose={clearAchievementToast} />
+
       {state.isFinished && <ResultScreen />}
       <Layout>
         <Header>
@@ -210,13 +225,22 @@ const App: React.FC = () => {
                 </div>
               ) : (
                 !state.isFinished &&
-                (exerciseMode === 'speller' ? <SpellerGame /> : exerciseMode === 'crossword' ? <CrosswordGame /> : <WordPanel />)
+                (exerciseMode === 'speller' ? (
+                  <SpellerGame />
+                ) : exerciseMode === 'dictation' ? (
+                  <DictationGame />
+                ) : exerciseMode === 'crossword' ? (
+                  <CrosswordGame />
+                ) : (
+                  <WordPanel />
+                ))
               )}
             </div>
             {!isLoading &&
               exerciseMode !== 'word-to-trans' &&
               exerciseMode !== 'trans-to-word' &&
               exerciseMode !== 'speller' &&
+              exerciseMode !== 'dictation' &&
               exerciseMode !== 'crossword' && <VirtualKeyboard />}
           </div>
         </div>

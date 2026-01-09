@@ -26,7 +26,7 @@ export const DEFAULT_EF = 2.5
  * wrongCount = 1 -> 3
  * wrongCount > 1 -> 2/1/0
  */
-export const calculateQuality = (wrongCount: number, correctCount = 1): number => {
+export const calculateQuality = (wrongCount: number): number => {
   if (wrongCount === 0) return 5
   if (wrongCount === 1) return 3
   if (wrongCount === 2) return 2

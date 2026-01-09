@@ -13,6 +13,7 @@ export const ExerciseModeSwitcher = () => {
 
   const modes: { id: ExerciseMode; name: string }[] = [
     { id: 'speller', name: '单词填空' },
+    { id: 'dictation', name: '听写单词' },
     { id: 'word-to-trans', name: '英译中' },
     { id: 'trans-to-word', name: '中译英' },
     { id: 'crossword', name: '填字闯关' },

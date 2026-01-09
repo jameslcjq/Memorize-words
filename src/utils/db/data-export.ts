@@ -14,7 +14,7 @@ export type ImportProgress = {
 }
 
 export async function exportDatabaseBlob(callback?: (exportProgress: ExportProgress) => boolean) {
-  const [pako, { saveAs }] = await Promise.all([import('pako'), import('file-saver'), import('dexie-export-import')])
+  const [pako] = await Promise.all([import('pako'), import('file-saver'), import('dexie-export-import')])
 
   const blob = await db.export({
     progressCallback: (progress) => {
@@ -24,7 +24,7 @@ export async function exportDatabaseBlob(callback?: (exportProgress: ExportProgr
 
   const json = await blob.text()
   const compressed = pako.gzip(json)
-  return new Blob([compressed as any])
+  return new Blob([compressed as BlobPart])
 }
 
 export async function exportDatabase(callback: (exportProgress: ExportProgress) => boolean) {

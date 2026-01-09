@@ -139,19 +139,23 @@ export function useSaveWordRecord() {
         if (wrongCount === 0) {
           // 本次完全正确（没有打错任何字母），累加 correctCount
           const newCorrectCount = (existingRecord.correctCount || 0) + 1
-          if (newCorrectCount >= 3) {
-            // 正确 3 次，删除记录（移出错题本）
-            await db.wordRecords.delete(existingRecord.id!)
-          } else {
-            // 更新正确次数
-            await db.wordRecords.update(existingRecord.id!, { correctCount: newCorrectCount })
+          if (existingRecord.id !== undefined) {
+            if (newCorrectCount >= 3) {
+              // 正确 3 次，删除记录（移出错题本）
+              await db.wordRecords.delete(existingRecord.id)
+            } else {
+              // 更新正确次数
+              await db.wordRecords.update(existingRecord.id, { correctCount: newCorrectCount })
+            }
           }
         } else {
           // 本次有打错，重置 correctCount 为 0，同时更新 wrongCount
-          await db.wordRecords.update(existingRecord.id!, {
-            correctCount: 0,
-            wrongCount: existingRecord.wrongCount + wrongCount,
-          })
+          if (existingRecord.id !== undefined) {
+            await db.wordRecords.update(existingRecord.id, {
+              correctCount: 0,
+              wrongCount: existingRecord.wrongCount + wrongCount,
+            })
+          }
         }
         if (dispatch) {
           dispatch({ type: TypingStateActionType.SET_IS_SAVING_RECORD, payload: false })

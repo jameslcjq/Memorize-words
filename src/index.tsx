@@ -19,6 +19,8 @@ const StatisticsPage = lazy(() => import('./pages/Statistics'))
 const GalleryPage = lazy(() => import('./pages/Gallery-N'))
 const AdminPage = lazy(() => import('./pages/Admin'))
 const ProfilePage = lazy(() => import('./pages/Profile'))
+const AchievementsPage = lazy(() => import('./pages/Achievements'))
+const DailyChallengePage = lazy(() => import('./pages/DailyChallenge'))
 
 if (process.env.NODE_ENV === 'production') {
   // for prod
@@ -65,6 +67,8 @@ function Root() {
                 <Route path="/friend-links" element={<FriendLinks />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/achievements" element={<AchievementsPage />} />
+                <Route path="/daily-challenge" element={<DailyChallengePage />} />
                 <Route path="/*" element={<Navigate to="/" />} />
               </>
             )}
