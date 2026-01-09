@@ -123,6 +123,14 @@ const SpellerGame: React.FC = () => {
         playHintSound()
         dispatch({ type: TypingStateActionType.REPORT_CORRECT_WORD })
 
+        // Save record for error book tracking (wrongCount=0 means correct)
+        saveWordRecord({
+          word: currentWordObj.name,
+          wrongCount: 0,
+          letterTimeArray: [],
+          letterMistake: {},
+        })
+
         // Play Pronunciation
         setTimeout(() => {
           playWordRef.current()

@@ -132,10 +132,12 @@ export function useSaveWordRecord() {
         timing.push(diff)
       }
 
-      if (wrongCount === 0) {
-        // 如果本次输入正确，尝试查找是否已存在错题记录
-        const existingRecord = await db.wordRecords.where({ word, dict: dictID }).first()
-        if (existingRecord && existingRecord.wrongCount > 0) {
+      // 查找是否已存在错题记录（用于错题本练习）
+      const existingRecord = await db.wordRecords.where({ word, dict: dictID }).first()
+      if (existingRecord && existingRecord.wrongCount > 0) {
+        // 这是一个错题本中的单词
+        if (wrongCount === 0) {
+          // 本次完全正确（没有打错任何字母），累加 correctCount
           const newCorrectCount = (existingRecord.correctCount || 0) + 1
           if (newCorrectCount >= 3) {
             // 正确 3 次，删除记录（移出错题本）
@@ -144,11 +146,17 @@ export function useSaveWordRecord() {
             // 更新正确次数
             await db.wordRecords.update(existingRecord.id!, { correctCount: newCorrectCount })
           }
-          if (dispatch) {
-            dispatch({ type: TypingStateActionType.SET_IS_SAVING_RECORD, payload: false })
-          }
-          return
+        } else {
+          // 本次有打错，重置 correctCount 为 0，同时更新 wrongCount
+          await db.wordRecords.update(existingRecord.id!, {
+            correctCount: 0,
+            wrongCount: existingRecord.wrongCount + wrongCount,
+          })
         }
+        if (dispatch) {
+          dispatch({ type: TypingStateActionType.SET_IS_SAVING_RECORD, payload: false })
+        }
+        return
       }
 
       // 如果是错误输入，或者没有已存在的错题记录（正常练习中），则新增记录
