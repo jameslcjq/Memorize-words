@@ -66,10 +66,6 @@ export default function Switcher() {
           {isOpenDarkMode ? <IconMoon className="icon" /> : <IconSun className="icon" />}
         </button>
       </Tooltip>
-
-      <Tooltip content="设置">
-        <Setting />
-      </Tooltip>
     </div>
   )
 }

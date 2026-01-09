@@ -1,15 +1,18 @@
 import Loading from '@/components/Loading'
+import { useFocusMonitor } from '@/hooks/useFocusMonitor'
+import { useGamification } from '@/hooks/useGamification'
 import AdvancedSetting from '@/pages/Typing/components/Setting/AdvancedSetting'
 import DataSetting from '@/pages/Typing/components/Setting/DataSetting'
 import SoundSetting from '@/pages/Typing/components/Setting/SoundSetting'
 import ViewSetting from '@/pages/Typing/components/Setting/ViewSetting'
 import { userInfoAtom } from '@/store'
+import { ACHIEVEMENTS } from '@/typings/gamification'
 import { Tab } from '@headlessui/react'
 import classNames from 'classnames'
 import { useAtom } from 'jotai'
-import { ArrowLeft, BarChart2, LogOut, Settings, User } from 'lucide-react'
+import { ArrowLeft, BarChart2, Eye, LogOut, Settings, Trophy, User } from 'lucide-react'
 import type React from 'react'
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Statistics = lazy(() => import('@/pages/Statistics'))
@@ -17,7 +20,11 @@ const Statistics = lazy(() => import('@/pages/Statistics'))
 const Profile: React.FC = () => {
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useAtom(userInfoAtom)
-  const [activeTab, setActiveTab] = useState<'profile' | 'statistics' | 'settings'>('profile')
+  const [activeTab, setActiveTab] = useState<'profile' | 'statistics' | 'achievements' | 'focus' | 'settings'>('profile')
+  const { unlockedAchievements, totalPoints } = useGamification()
+  const { totalAwayMs, isAway, formattedAwayTime, focusPercentage, resetToday } = useFocusMonitor()
+
+  const unlockedIds = useMemo(() => new Set(unlockedAchievements.map((a) => a.achievementId)), [unlockedAchievements])
 
   const handleLogout = () => {
     if (confirm('确定要退出登录吗？退出后将无法自动同步数据。')) {
@@ -83,6 +90,28 @@ const Profile: React.FC = () => {
                   <span>数据统计</span>
                 </button>
                 <button
+                  onClick={() => setActiveTab('achievements')}
+                  className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors ${
+                    activeTab === 'achievements'
+                      ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400'
+                      : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <Trophy className="h-5 w-5" />
+                  <span>成就系统</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('focus')}
+                  className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors ${
+                    activeTab === 'focus'
+                      ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400'
+                      : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <Eye className="h-5 w-5" />
+                  <span>专注度</span>
+                </button>
+                <button
                   onClick={() => setActiveTab('settings')}
                   className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors ${
                     activeTab === 'settings'
@@ -140,6 +169,139 @@ const Profile: React.FC = () => {
                 <Suspense fallback={<Loading />}>
                   <Statistics />
                 </Suspense>
+              </div>
+            )}
+
+            {activeTab === 'achievements' && (
+              <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
+                {/* Stats Summary */}
+                <div className="mb-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 p-5 text-white">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm opacity-80">累计积分</p>
+                      <p className="text-3xl font-bold">{totalPoints.toLocaleString()}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm opacity-80">已解锁成就</p>
+                      <p className="text-3xl font-bold">
+                        {unlockedAchievements.length}
+                        <span className="text-base opacity-60">/{ACHIEVEMENTS.length}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <div className="h-2 overflow-hidden rounded-full bg-white/20">
+                      <div
+                        className="h-full bg-amber-400 transition-all duration-500"
+                        style={{ width: `${(unlockedAchievements.length / ACHIEVEMENTS.length) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Achievements Grid */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {ACHIEVEMENTS.map((achievement) => {
+                    const isUnlocked = unlockedIds.has(achievement.id)
+                    return (
+                      <div
+                        key={achievement.id}
+                        className={`rounded-xl p-4 transition-all ${
+                          isUnlocked ? 'bg-gray-50 shadow dark:bg-gray-700' : 'bg-gray-100 opacity-60 grayscale dark:bg-gray-800/50'
+                        }`}
+                      >
+                        <div className="mb-2 text-3xl">{achievement.icon}</div>
+                        <h3 className={`font-bold ${isUnlocked ? 'text-gray-800 dark:text-white' : 'text-gray-400'}`}>
+                          {achievement.name}
+                        </h3>
+                        <p className={`mt-1 text-sm ${isUnlocked ? 'text-gray-500 dark:text-gray-400' : 'text-gray-400'}`}>
+                          {achievement.description}
+                        </p>
+                        {isUnlocked ? (
+                          <p className="mt-2 text-xs font-medium text-green-500">✓ 已解锁</p>
+                        ) : (
+                          <p className="mt-2 text-xs text-amber-500">+{achievement.points} 积分</p>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'focus' && (
+              <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
+                {/* Focus Status Header */}
+                <div
+                  className={`mb-6 rounded-xl p-5 text-white ${
+                    isAway
+                      ? 'animate-pulse bg-gradient-to-r from-gray-500 to-gray-600'
+                      : totalAwayMs > 10 * 60 * 1000
+                      ? 'bg-gradient-to-r from-red-600 to-red-700'
+                      : 'bg-gradient-to-r from-green-500 to-emerald-600'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm opacity-80">{isAway ? '⚠️ 正在摸鱼...' : '😊 今日摸鱼时长'}</p>
+                      <p className={`font-bold ${totalAwayMs > 10 * 60 * 1000 ? 'text-4xl' : 'text-3xl'}`}>{formattedAwayTime}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm opacity-80">专注度</p>
+                      <p className="text-3xl font-bold">{focusPercentage}%</p>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <div className="h-2 overflow-hidden rounded-full bg-white/20">
+                      <div
+                        className={`h-full transition-all duration-500 ${focusPercentage >= 80 ? 'bg-amber-400' : 'bg-red-400'}`}
+                        style={{ width: `${focusPercentage}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Explanation */}
+                <div className="mb-6 rounded-lg bg-gray-50 p-4 dark:bg-gray-700/50">
+                  <h3 className="mb-2 font-semibold text-gray-700 dark:text-gray-200">📊 什么是摸鱼时长？</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    系统会自动检测您是否离开了学习页面（如切换到其他 App、锁屏、分屏操作等），并累计记录这些时间。
+                    这可以帮助您了解自己的学习专注度。
+                  </p>
+                </div>
+
+                {/* Tips */}
+                <div className="mb-6 space-y-3">
+                  <h3 className="font-semibold text-gray-700 dark:text-gray-200">💡 专注小贴士</h3>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+                      <p className="text-sm text-blue-700 dark:text-blue-300">🎯 设定明确的学习目标</p>
+                    </div>
+                    <div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
+                      <p className="text-sm text-purple-700 dark:text-purple-300">⏰ 使用番茄工作法（25分钟专注）</p>
+                    </div>
+                    <div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+                      <p className="text-sm text-green-700 dark:text-green-300">📱 开启勿扰模式</p>
+                    </div>
+                    <div className="rounded-lg bg-orange-50 p-3 dark:bg-orange-900/20">
+                      <p className="text-sm text-orange-700 dark:text-orange-300">☕ 适当休息，劳逸结合</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Reset Button */}
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => {
+                      if (confirm('确定要重置今日的摸鱼时长吗？')) {
+                        resetToday()
+                      }
+                    }}
+                    className="rounded-lg bg-gray-100 px-4 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                  >
+                    重置今日记录
+                  </button>
+                </div>
               </div>
             )}
 

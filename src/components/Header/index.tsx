@@ -5,7 +5,6 @@ import type { PropsWithChildren } from 'react'
 import type React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import IconFlame from '~icons/tabler/flame'
-import IconTrophy from '~icons/tabler/trophy'
 
 const Header: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate()
@@ -28,16 +27,6 @@ const Header: React.FC<PropsWithChildren> = ({ children }) => {
               className="flex items-center gap-1 rounded-lg border border-transparent px-2 py-1 text-orange-500 transition-colors hover:border-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20"
             >
               <IconFlame className="h-5 w-5" />
-            </button>
-          </Tooltip>
-
-          {/* Achievements */}
-          <Tooltip content="成就">
-            <button
-              onClick={() => navigate('/achievements')}
-              className="flex items-center gap-1 rounded-lg border border-transparent px-2 py-1 text-amber-500 transition-colors hover:border-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20"
-            >
-              <IconTrophy className="h-5 w-5" />
             </button>
           </Tooltip>
 
