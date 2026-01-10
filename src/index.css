@@ -30,13 +30,15 @@ body,
   overscroll-behavior-y: contain; /* 更强的 Y 轴限制 */
 }
 
-/* iPad 下拉刷新防护 - 布局隔离 */
-html,
-body {
-  position: fixed;
-  overflow: hidden;
-  touch-action: pan-y pinch-zoom; /* 允许纵向滚动和缩放，禁用下拉刷新手势 */
-  -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+/* iPad 下拉刷新防护 - 仅在触摸设备上应用布局隔离 */
+@media (pointer: coarse) {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+    touch-action: pan-y pinch-zoom; /* 允许纵向滚动和缩放，禁用下拉刷新手势 */
+    -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+  }
 }
 
 /* 内部滚动容器 */

@@ -7,7 +7,6 @@ import PronunciationSwitcher from './components/PronunciationSwitcher'
 import ResultScreen from './components/ResultScreen'
 import Speed from './components/Speed'
 import SpellerGame from './components/SpellerGame'
-import StartButton from './components/StartButton'
 import Switcher from './components/Switcher'
 import VirtualKeyboard from './components/VirtualKeyboard'
 import WordPanel from './components/WordPanel'
@@ -200,7 +199,6 @@ const App: React.FC = () => {
           <PronunciationSwitcher />
           <Switcher />
           <LoginModal />
-          <StartButton isLoading={isLoading} />
           <Tooltip content="跳过该词">
             <button
               className={`${

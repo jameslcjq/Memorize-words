@@ -46,12 +46,19 @@ const LoginModal = () => {
       if (!res.ok) throw new Error(data.error || 'Request failed')
 
       if (data.success) {
-        setUserInfo(data.data)
+        // Map backend user format to frontend userInfo format
+        setUserInfo({
+          userId: data.user.id,
+          username: data.user.username,
+          nickname: data.user.nickname,
+        })
         setIsOpen(false)
         // Reset form
         setUsername('')
         setPassword('')
         setNickname('')
+        // Navigate to profile page after successful login
+        navigate('/profile')
       }
     } catch (e: any) {
       alert('操作失败: ' + e.message)
