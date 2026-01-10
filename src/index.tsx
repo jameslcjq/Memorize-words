@@ -1,8 +1,8 @@
 import Loading from './components/Loading'
+import PortraitWarning from './components/PortraitWarning'
 import './index.css'
 import { ErrorBook } from './pages/ErrorBook'
 import { FriendLinks } from './pages/FriendLinks'
-import MobilePage from './pages/Mobile'
 import TypingPage from './pages/Typing'
 import { isOpenDarkModeAtom } from '@/store'
 import { Analytics } from '@vercel/analytics/react'
@@ -30,49 +30,56 @@ if (process.env.NODE_ENV === 'production') {
   mixpanel.init('5474177127e4767124c123b2d7846e2a', { debug: true })
 }
 
+// Check if device is in portrait mode on small screen (iPhone竖屏)
+const isPortraitOnSmallScreen = () => {
+  const width = window.innerWidth
+  const height = window.innerHeight
+  // Portrait mode: height > width AND screen is small (< 768px width when in landscape)
+  return height > width && Math.max(width, height) < 900
+}
+
 function Root() {
   const darkMode = useAtomValue(isOpenDarkModeAtom)
   useEffect(() => {
     darkMode ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark')
   }, [darkMode])
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600)
+  const [isPortrait, setIsPortrait] = useState(isPortraitOnSmallScreen())
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobile = window.innerWidth <= 600
-      if (!isMobile) {
-        window.location.href = '/'
-      }
-      setIsMobile(isMobile)
+      setIsPortrait(isPortraitOnSmallScreen())
     }
 
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    window.addEventListener('orientationchange', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
+    }
   }, [])
+
+  // Show portrait warning for small screens in portrait mode
+  if (isPortrait) {
+    return <PortraitWarning />
+  }
 
   return (
     <React.StrictMode>
       <BrowserRouter basename={REACT_APP_DEPLOY_ENV === 'pages' ? '/Memorize-words' : ''}>
         <Suspense fallback={<Loading />}>
           <Routes>
-            {isMobile ? (
-              <Route path="/*" element={<Navigate to="/mobile" />} />
-            ) : (
-              <>
-                <Route index element={<TypingPage />} />
-                <Route path="/statistics" element={<StatisticsPage />} />
-                <Route path="/gallery" element={<GalleryPage />} />
-                <Route path="/error-book" element={<ErrorBook />} />
-                <Route path="/friend-links" element={<FriendLinks />} />
-                <Route path="/admin" element={<AdminPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/achievements" element={<AchievementsPage />} />
-                <Route path="/daily-challenge" element={<DailyChallengePage />} />
-                <Route path="/*" element={<Navigate to="/" />} />
-              </>
-            )}
-            <Route path="/mobile" element={<MobilePage />} />
+            <Route index element={<TypingPage />} />
+            <Route path="/statistics" element={<StatisticsPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/error-book" element={<ErrorBook />} />
+            <Route path="/friend-links" element={<FriendLinks />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/daily-challenge" element={<DailyChallengePage />} />
+            <Route path="/*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
