@@ -52,6 +52,7 @@ const calculateStreak = (checkedDates: Set<string>): number => {
 
 const MODE_NAMES: Record<string, string> = {
   speller: '单词填空',
+  dictation: '听写单词',
   'word-to-trans': '英译中',
   'trans-to-word': '中译英',
   crossword: '填字游戏',
@@ -226,8 +227,8 @@ const Statistics: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">数据统计</h1>
       </div>
 
-      {/* Streak & Daily Progress Card */}
-      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {/* Streak, Daily Progress & Daily Summary - 3 Cards in One Row */}
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Streak Card */}
         <div className="flex items-center gap-4 rounded-xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50 p-6 shadow-sm dark:border-orange-900/30 dark:from-orange-900/20 dark:to-amber-900/20">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30">
@@ -264,6 +265,32 @@ const Statistics: React.FC = () => {
             <div className="text-center text-sm font-medium text-green-600 dark:text-green-400">🎉 今日目标已完成！</div>
           )}
         </div>
+
+        {/* Daily Summary Card - Moved Here */}
+        <div className="flex flex-col justify-center rounded-xl border border-gray-100 bg-gray-50 p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800/50">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-lg font-medium text-gray-700 dark:text-gray-200">{selectedDate}</span>
+            <span
+              className={`rounded-full px-3 py-1 text-sm ${
+                modeStats && dailyCount > 0
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                  : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+              }`}
+            >
+              {modeStats && dailyCount > 0 ? '已完成' : '未打卡'}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="block text-sm text-gray-500 dark:text-gray-400">当日时长</span>
+              <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatDuration(dailyDuration || 0)}</span>
+            </div>
+            <div>
+              <span className="block text-sm text-gray-500 dark:text-gray-400">当日练习</span>
+              <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{dailyCount || 0} 次</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {modeStats.length === 0 && !hasData ? (
@@ -273,35 +300,9 @@ const Statistics: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* Activity Calendar & Summary (Moved to Top) */}
-          <div className="mb-8 flex flex-col items-start gap-8 md:flex-row md:items-start md:justify-center">
+          {/* Activity Calendar - Left Aligned */}
+          <div className="mb-8">
             <Calendar checkedDates={checkedDates} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
-
-            {/* Daily Summary */}
-            <div className="mt-0 w-full max-w-[360px] rounded-xl border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800/50">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="text-lg font-medium text-gray-700 dark:text-gray-200">{selectedDate}</span>
-                <span
-                  className={`rounded-full px-3 py-1 text-sm ${
-                    modeStats && dailyCount > 0
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                      : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
-                  }`}
-                >
-                  {modeStats && dailyCount > 0 ? '已完成' : '未打卡'}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <span className="block text-sm text-gray-500 dark:text-gray-400">当日时长</span>
-                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{formatDuration(dailyDuration || 0)}</span>
-                </div>
-                <div>
-                  <span className="block text-sm text-gray-500 dark:text-gray-400">当日练习</span>
-                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{dailyCount || 0} 次</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Mode Stats Cards */}
@@ -326,10 +327,12 @@ const Statistics: React.FC = () => {
             ))}
           </div>
 
-          {/* Duration Chart (Full Width) */}
-          <div className="mb-8 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <div ref={chartRef} style={{ width: '100%', height: '400px' }} />
-          </div>
+          {/* Duration Chart - Only show when there's data */}
+          {dailyDuration > 0 && (
+            <div className="mb-8 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div ref={chartRef} style={{ width: '100%', height: '400px' }} />
+            </div>
+          )}
 
           <div className="mb-12">
             <DetailedStats records={dailyRecords} wordRecords={dailyWordRecords || []} />

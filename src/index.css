@@ -52,6 +52,13 @@ body,
     display: flex;
     flex-direction: column;
   }
+
+  /* 覆盖 h-screen，让 main 在 flex 容器中正确填充并居中 */
+  #root > main {
+    height: auto !important;
+    flex: 1;
+    min-height: 0;
+  }
 }
 
 /* 内部滚动容器 - 基础样式，所有设备通用 */
