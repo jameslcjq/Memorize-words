@@ -57,8 +57,6 @@ const LoginModal = () => {
         setUsername('')
         setPassword('')
         setNickname('')
-        // Navigate to profile page after successful login
-        navigate('/profile')
       }
     } catch (e: any) {
       alert('操作失败: ' + e.message)

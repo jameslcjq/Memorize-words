@@ -16,7 +16,7 @@ const Header: React.FC<PropsWithChildren> = ({ children }) => {
           <img src={logo} className="mr-3 h-16 w-16" alt="老九背单词 Logo" />
           <h1>老九背单词</h1>
         </NavLink>
-        <nav className="my-card on element flex w-auto content-center items-center justify-end space-x-3 rounded-xl bg-white p-4 transition-colors duration-300 dark:bg-gray-800">
+        <nav className="my-card ml-auto flex w-auto content-center items-center justify-end space-x-3 rounded-xl bg-white p-4 transition-colors duration-300 dark:bg-gray-800">
           {/* Points Display */}
           <PointsDisplay />
 

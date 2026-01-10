@@ -27,7 +27,8 @@ body,
   height: 100%;
   width: 100%;
   overscroll-behavior: none;
-  overscroll-behavior-y: contain; /* 更强的 Y 轴限制 */
+  overscroll-behavior-y: contain;
+  /* 更强的 Y 轴限制 */
 }
 
 /* iPad 下拉刷新防护 - 仅在触摸设备上应用布局隔离 */
@@ -36,17 +37,30 @@ body,
   body {
     position: fixed;
     overflow: hidden;
-    touch-action: pan-y pinch-zoom; /* 允许纵向滚动和缩放，禁用下拉刷新手势 */
-    -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+    touch-action: pan-y pinch-zoom;
+    /* 允许纵向滚动和缩放，禁用下拉刷新手势 */
+    -webkit-touch-callout: none;
+    /* 禁用长按弹出菜单 */
   }
 }
 
 /* 内部滚动容器 */
-:global(#app-wrapper) {
+#app-wrapper {
   height: 100%;
   width: 100%;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* iOS 丝滑滚动 */
+  -webkit-overflow-scrolling: touch;
+  /* iOS 丝滑滚动 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 确保 #root 也使用 flex 布局以便内容居中 */
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .my-card {
