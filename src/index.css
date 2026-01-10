@@ -38,28 +38,32 @@ body,
     position: fixed;
     overflow: hidden;
     touch-action: pan-y pinch-zoom;
-    /* 允许纵向滚动和缩放，禁用下拉刷新手势 */
     -webkit-touch-callout: none;
-    /* 禁用长按弹出菜单 */
+  }
+
+  /* 在触摸设备上使用 flex 布局确保内容正确居中 */
+  #app-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-/* 内部滚动容器 */
+/* 内部滚动容器 - 基础样式，所有设备通用 */
 #app-wrapper {
   height: 100%;
   width: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  /* iOS 丝滑滚动 */
-  display: flex;
-  flex-direction: column;
 }
 
-/* 确保 #root 也使用 flex 布局以便内容居中 */
 #root {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
   width: 100%;
 }
 
