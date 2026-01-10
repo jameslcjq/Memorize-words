@@ -425,7 +425,7 @@ const SpellerGame: React.FC = () => {
   const totalCount = state.chapterData.words.length
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-8 py-10">
+    <div className="flex w-full flex-col items-center justify-center gap-4 py-4 md:gap-6 md:py-6 lg:gap-8 lg:py-10">
       {/* Progress */}
       <div className="text-xl font-bold text-gray-400 dark:text-gray-500">
         {finishedCount + 1} / {totalCount}
