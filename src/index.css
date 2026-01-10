@@ -25,7 +25,26 @@ html,
 body,
 :global(#root) {
   height: 100%;
+  width: 100%;
   overscroll-behavior: none;
+  overscroll-behavior-y: contain; /* 更强的 Y 轴限制 */
+}
+
+/* iPad 下拉刷新防护 - 布局隔离 */
+html,
+body {
+  position: fixed;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom; /* 允许纵向滚动和缩放，禁用下拉刷新手势 */
+  -webkit-touch-callout: none; /* 禁用长按弹出菜单 */
+}
+
+/* 内部滚动容器 */
+:global(#app-wrapper) {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* iOS 丝滑滚动 */
 }
 
 .my-card {

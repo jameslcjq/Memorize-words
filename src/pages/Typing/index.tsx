@@ -19,6 +19,7 @@ import Header from '@/components/Header'
 import LoginModal from '@/components/LoginModal'
 import Tooltip from '@/components/Tooltip'
 import { useGamification } from '@/hooks/useGamification'
+import { useSessionPersistence } from '@/hooks/useSessionPersistence'
 import { idDictionaryMap } from '@/resources/dictionary'
 import {
   currentChapterAtom,
@@ -55,6 +56,9 @@ const App: React.FC = () => {
 
   // Gamification
   const { awardChapterPoints, checkAchievements, newlyUnlockedAchievement, clearAchievementToast } = useGamification()
+
+  // Session Persistence (auto-save for accidental refresh recovery)
+  const { restoreSession, hasRestorableSession } = useSessionPersistence(state, dispatch)
 
   // Enforce defaults for "Back-Recite" (typing mode)
   useEffect(() => {
