@@ -1,4 +1,4 @@
-import { TypingStateActionType, type TypingStateAction } from '@/pages/Typing/store'
+import { type TypingStateAction, TypingStateActionType } from '@/pages/Typing/store'
 import type { TypingState } from '@/pages/Typing/store/type'
 import { currentChapterAtom, currentDictIdAtom, exerciseModeAtom } from '@/store'
 import { useAtomValue } from 'jotai'
