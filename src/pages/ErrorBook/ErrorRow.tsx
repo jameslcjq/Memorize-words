@@ -27,15 +27,15 @@ const ErrorRow: FC<IErrorRowProps> = ({ record, onDelete }) => {
 
   return (
     <li
-      className="opacity-85 flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-6 py-3 text-black shadow-md dark:bg-gray-800 dark:text-white"
+      className="opacity-85 flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-black shadow-md dark:bg-gray-800 dark:text-white md:px-6"
       onClick={onClick}
     >
-      <span className="basis-2/12 break-normal">{record.word}</span>
-      <span className="basis-6/12 break-normal">
+      <span className="basis-3/12 break-normal md:basis-2/12">{record.word}</span>
+      <span className="basis-5/12 break-normal md:basis-6/12">
         {word ? word.trans.join('；') : <LoadingWordUI isLoading={isLoading} hasError={hasError} />}
       </span>
-      <span className="basis-1/12 break-normal pl-8">{record.wrongCount}</span>
-      <span className="basis-1/12 break-normal">{dictInfo?.name}</span>
+      <span className="basis-2/12 break-normal pl-4 md:basis-1/12 md:pl-8">{record.wrongCount}</span>
+      <span className="hidden basis-1/12 break-normal md:block">{dictInfo?.name}</span>
       <span
         className="basis-1/12 break-normal"
         onClick={(e) => {

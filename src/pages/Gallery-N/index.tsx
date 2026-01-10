@@ -62,14 +62,14 @@ export default function GalleryPage() {
   return (
     <Layout>
       <GalleryContext.Provider value={{ state: galleryState, setState: setGalleryState }}>
-        <div className="relative mb-auto mt-auto flex w-full flex-1 flex-col overflow-y-auto pl-20">
-          <IconX className="absolute right-20 top-10 mr-2 h-7 w-7 cursor-pointer text-gray-400" onClick={onBack} />
-          <div className="mt-20 flex w-full flex-1 flex-col items-center justify-center overflow-y-auto">
-            <div className="flex h-full flex-col overflow-y-auto">
-              <div className="flex h-20 w-full items-center justify-between pb-6 pr-20"></div>
+        <div className="relative mb-auto mt-auto flex w-full flex-1 flex-col overflow-y-auto px-6 md:px-12 lg:px-20">
+          <IconX className="absolute right-6 top-10 mr-2 h-7 w-7 cursor-pointer text-gray-400 md:right-12 lg:right-20" onClick={onBack} />
+          <div className="mt-16 flex w-full flex-1 flex-col items-center justify-center overflow-y-auto md:mt-20">
+            <div className="flex h-full w-full max-w-5xl flex-col overflow-y-auto">
+              <div className="flex h-16 w-full items-center justify-between pb-4 md:h-20 md:pb-6"></div>
               <ScrollArea.Root className="flex-1 overflow-y-auto">
-                <ScrollArea.Viewport className="h-full w-full ">
-                  <div className="mr-4 flex flex-1 flex-col items-start justify-start gap-14 overflow-y-auto">
+                <ScrollArea.Viewport className="h-full w-full">
+                  <div className="flex flex-1 flex-col items-start justify-start gap-10 overflow-y-auto md:gap-14">
                     {groupedByCategoryAndTag.map(([category, groupeByTag]) => (
                       <DictionaryGroup key={category} groupedDictsByTag={groupeByTag} />
                     ))}

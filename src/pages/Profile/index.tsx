@@ -51,7 +51,7 @@ const Profile: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6">
+      <div className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="flex flex-col gap-6 lg:flex-row">
           {/* Sidebar */}
           <div className="w-full lg:w-64">
@@ -132,7 +132,7 @@ const Profile: React.FC = () => {
               <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
                 <h2 className="mb-6 text-xl font-semibold text-gray-800 dark:text-gray-100">账号信息</h2>
                 {userInfo ? (
-                  <div className="space-y-4">
+                  <div className="max-w-2xl space-y-4">
                     <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 dark:bg-gray-700/50">
                       <span className="text-gray-500 dark:text-gray-400">昵称</span>
                       <span className="font-medium text-gray-800 dark:text-gray-100">{userInfo.nickname}</span>
@@ -200,7 +200,7 @@ const Profile: React.FC = () => {
                 </div>
 
                 {/* Achievements Grid */}
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
                   {ACHIEVEMENTS.map((achievement) => {
                     const isUnlocked = unlockedIds.has(achievement.id)
                     return (
@@ -309,7 +309,7 @@ const Profile: React.FC = () => {
               <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
                 <h2 className="mb-6 text-xl font-semibold text-gray-800 dark:text-gray-100">设置</h2>
                 <Tab.Group>
-                  <Tab.List className="mb-6 flex space-x-2 rounded-lg bg-gray-100 p-1 dark:bg-gray-700">
+                  <Tab.List className="mb-6 flex max-w-2xl space-x-2 rounded-lg bg-gray-100 p-1 dark:bg-gray-700">
                     <Tab
                       className={({ selected }) =>
                         classNames(

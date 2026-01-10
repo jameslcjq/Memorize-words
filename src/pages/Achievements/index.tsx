@@ -62,7 +62,7 @@ export default function Achievements() {
         </div>
 
         {/* Achievements Grid */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
           {ACHIEVEMENTS.map((achievement) => {
             const isUnlocked = unlockedIds.has(achievement.id)
             return (

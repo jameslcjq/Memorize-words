@@ -1,13 +1,7 @@
+import { hashPassword, jsonResponse } from '../../utils'
+
 interface Env {
   DB: D1Database
-}
-
-// Simple hash utility (same as in login.ts)
-async function hashPassword(password: string): Promise<string> {
-  const msgBuffer = new TextEncoder().encode(password)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {

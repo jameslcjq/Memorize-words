@@ -227,7 +227,7 @@ const Statistics: React.FC = () => {
       </div>
 
       {/* Streak & Daily Progress Card */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {/* Streak Card */}
         <div className="flex items-center gap-4 rounded-xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50 p-6 shadow-sm dark:border-orange-900/30 dark:from-orange-900/20 dark:to-amber-900/20">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30">
@@ -305,7 +305,7 @@ const Statistics: React.FC = () => {
           </div>
 
           {/* Mode Stats Cards */}
-          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
             {modeStats.map((stat) => (
               <div
                 key={stat.name}
