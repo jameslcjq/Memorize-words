@@ -210,9 +210,9 @@ const App: React.FC = () => {
             </button>
           </Tooltip>
         </Header>
-        <div className="container mx-auto flex h-full flex-1 flex-col items-center justify-center pb-5">
-          <div className="container relative mx-auto flex h-full flex-col items-center">
-            <div className="container flex flex-grow items-center justify-center">
+        <div className="container mx-auto flex min-h-0 flex-1 flex-col items-center justify-center pb-5">
+          <div className="container relative mx-auto flex min-h-0 flex-1 flex-col items-center justify-center">
+            <div className="container flex flex-1 items-center justify-center">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center ">
                   <div
