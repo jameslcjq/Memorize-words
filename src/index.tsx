@@ -1,5 +1,6 @@
 import Loading from './components/Loading'
 import PortraitWarning from './components/PortraitWarning'
+import { useAutoSync } from './hooks/useAutoSync'
 import './index.css'
 import { ErrorBook } from './pages/ErrorBook'
 import { FriendLinks } from './pages/FriendLinks'
@@ -40,6 +41,10 @@ const isPortraitOnSmallScreen = () => {
 
 function Root() {
   const darkMode = useAtomValue(isOpenDarkModeAtom)
+
+  // Enable automatic cloud sync every 3 minutes for logged-in users
+  useAutoSync()
+
   useEffect(() => {
     darkMode ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark')
   }, [darkMode])

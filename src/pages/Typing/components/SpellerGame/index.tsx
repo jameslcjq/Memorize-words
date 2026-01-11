@@ -115,7 +115,8 @@ const SpellerGame: React.FC = () => {
 
   const checkAnswer = useCallback(
     (inputs: string[]) => {
-      if (!currentWordObj) return
+      // Guard: prevent duplicate calls if already processed
+      if (!currentWordObj || isSuccess || isShowAnswer) return
       const inputWord = inputs.join('')
       if (inputWord.toLowerCase() === currentWordObj.name.toLowerCase()) {
         // Correct
@@ -188,6 +189,8 @@ const SpellerGame: React.FC = () => {
     },
     [
       currentWordObj,
+      isSuccess,
+      isShowAnswer,
       dispatch,
       playBeepSound,
       playHintSound,
