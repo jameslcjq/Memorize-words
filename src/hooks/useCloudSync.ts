@@ -114,8 +114,39 @@ export const useCloudSync = () => {
 
         // Sync core records
         await db.transaction('rw', db.wordRecords, db.chapterRecords, db.reviewRecords, db.spacedRepetitionRecords, async () => {
+          // Smart merge for wordRecords: merge by word+dict composite key
           if (json.wordRecords?.length > 0) {
-            await db.wordRecords.bulkPut(json.wordRecords)
+            for (const cloudRecord of json.wordRecords) {
+              const localRecord = await db.wordRecords.where({ word: cloudRecord.word, dict: cloudRecord.dict }).first()
+              if (localRecord) {
+                // Merge: keep the one with higher wrongCount, update correctCount
+                if (
+                  cloudRecord.wrongCount > localRecord.wrongCount ||
+                  (cloudRecord.wrongCount === localRecord.wrongCount && cloudRecord.timeStamp > localRecord.timeStamp)
+                ) {
+                  await db.wordRecords.update(localRecord.id!, {
+                    wrongCount: cloudRecord.wrongCount,
+                    correctCount: cloudRecord.correctCount,
+                    mistakes: cloudRecord.mistakes,
+                    timeStamp: cloudRecord.timeStamp,
+                    mode: cloudRecord.mode,
+                  })
+                }
+              } else {
+                // Insert new record from cloud
+                await db.wordRecords.add({
+                  word: cloudRecord.word,
+                  dict: cloudRecord.dict,
+                  chapter: cloudRecord.chapter,
+                  timing: cloudRecord.timing || [],
+                  wrongCount: cloudRecord.wrongCount,
+                  correctCount: cloudRecord.correctCount,
+                  mistakes: cloudRecord.mistakes || {},
+                  timeStamp: cloudRecord.timeStamp,
+                  mode: cloudRecord.mode || 'typing',
+                })
+              }
+            }
           }
           if (json.chapterRecords?.length > 0) {
             await db.chapterRecords.bulkPut(json.chapterRecords)
