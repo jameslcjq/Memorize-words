@@ -34,32 +34,48 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { wordRecords, chapterRecords } = body as any
 
     if (Array.isArray(wordRecords) && wordRecords.length > 0) {
-      const stmtWord = env.DB.prepare(`
-        INSERT INTO word_records (user_id, word, dict, chapter, wrong_count, correct_count, mistakes, timestamp, mode)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON CONFLICT(user_id, dict, word) DO UPDATE SET
-          wrong_count = excluded.wrong_count,
-          correct_count = excluded.correct_count,
-          mistakes = excluded.mistakes,
-          timestamp = excluded.timestamp,
-          mode = excluded.mode
-      `)
+      // Split records: delete if correctCount >= 3, otherwise upsert
+      const recordsToDelete = wordRecords.filter((r) => (r.correctCount || 0) >= 3)
+      const recordsToUpsert = wordRecords.filter((r) => (r.correctCount || 0) < 3)
 
-      // Limit batch size if necessary, but for now assuming reasonable size
-      const batchWord = wordRecords.map((r) =>
-        stmtWord.bind(
-          userId,
-          r.word,
-          r.dict,
-          r.chapter,
-          r.wrongCount,
-          r.correctCount,
-          JSON.stringify(r.mistakes || {}),
-          r.timeStamp,
-          r.mode || 'typing',
-        ),
-      )
-      await env.DB.batch(batchWord)
+      // Delete completed records (correctCount >= 3)
+      if (recordsToDelete.length > 0) {
+        const stmtDelete = env.DB.prepare(`
+          DELETE FROM word_records 
+          WHERE user_id = ? AND word = ? AND dict = ?
+        `)
+        const batchDelete = recordsToDelete.map((r) => stmtDelete.bind(userId, r.word, r.dict))
+        await env.DB.batch(batchDelete)
+      }
+
+      // Upsert incomplete records
+      if (recordsToUpsert.length > 0) {
+        const stmtWord = env.DB.prepare(`
+          INSERT INTO word_records (user_id, word, dict, chapter, wrong_count, correct_count, mistakes, timestamp, mode)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(user_id, dict, word) DO UPDATE SET
+            wrong_count = excluded.wrong_count,
+            correct_count = excluded.correct_count,
+            mistakes = excluded.mistakes,
+            timestamp = excluded.timestamp,
+            mode = excluded.mode
+        `)
+
+        const batchWord = recordsToUpsert.map((r) =>
+          stmtWord.bind(
+            userId,
+            r.word,
+            r.dict,
+            r.chapter,
+            r.wrongCount,
+            r.correctCount,
+            JSON.stringify(r.mistakes || {}),
+            r.timeStamp,
+            r.mode || 'typing',
+          ),
+        )
+        await env.DB.batch(batchWord)
+      }
     }
 
     // 3. Chapter Records

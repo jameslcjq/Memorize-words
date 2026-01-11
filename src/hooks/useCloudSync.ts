@@ -114,37 +114,46 @@ export const useCloudSync = () => {
 
         // Sync core records
         await db.transaction('rw', db.wordRecords, db.chapterRecords, db.reviewRecords, db.spacedRepetitionRecords, async () => {
-          // Smart merge for wordRecords: merge by word+dict composite key
+          // Smart merge for wordRecords: use max-value strategy
           if (json.wordRecords?.length > 0) {
             for (const cloudRecord of json.wordRecords) {
               const localRecord = await db.wordRecords.where({ word: cloudRecord.word, dict: cloudRecord.dict }).first()
+
               if (localRecord) {
-                // Merge: keep the one with higher wrongCount, update correctCount
-                if (
-                  cloudRecord.wrongCount > localRecord.wrongCount ||
-                  (cloudRecord.wrongCount === localRecord.wrongCount && cloudRecord.timeStamp > localRecord.timeStamp)
-                ) {
+                // Merge: take max values for both wrongCount and correctCount
+                const mergedWrongCount = Math.max(localRecord.wrongCount, cloudRecord.wrongCount)
+                const mergedCorrectCount = Math.max(localRecord.correctCount || 0, cloudRecord.correctCount || 0)
+                const mergedTimeStamp = Math.max(localRecord.timeStamp, cloudRecord.timeStamp)
+
+                // If merged correctCount >= 3, delete the record (completed)
+                if (mergedCorrectCount >= 3) {
+                  await db.wordRecords.delete(localRecord.id!)
+                } else {
+                  // Otherwise update with merged values
                   await db.wordRecords.update(localRecord.id!, {
-                    wrongCount: cloudRecord.wrongCount,
-                    correctCount: cloudRecord.correctCount,
-                    mistakes: cloudRecord.mistakes,
-                    timeStamp: cloudRecord.timeStamp,
-                    mode: cloudRecord.mode,
+                    wrongCount: mergedWrongCount,
+                    correctCount: mergedCorrectCount,
+                    timeStamp: mergedTimeStamp,
+                    // Use the record with higher wrongCount for mistakes and mode
+                    mistakes: cloudRecord.wrongCount > localRecord.wrongCount ? cloudRecord.mistakes : localRecord.mistakes,
+                    mode: mergedTimeStamp === cloudRecord.timeStamp ? cloudRecord.mode : localRecord.mode,
                   })
                 }
               } else {
-                // Insert new record from cloud
-                await db.wordRecords.add({
-                  word: cloudRecord.word,
-                  dict: cloudRecord.dict,
-                  chapter: cloudRecord.chapter,
-                  timing: cloudRecord.timing || [],
-                  wrongCount: cloudRecord.wrongCount,
-                  correctCount: cloudRecord.correctCount,
-                  mistakes: cloudRecord.mistakes || {},
-                  timeStamp: cloudRecord.timeStamp,
-                  mode: cloudRecord.mode || 'typing',
-                })
+                // Cloud record not in local: only add if correctCount < 3 (not completed)
+                if ((cloudRecord.correctCount || 0) < 3) {
+                  await db.wordRecords.add({
+                    word: cloudRecord.word,
+                    dict: cloudRecord.dict,
+                    chapter: cloudRecord.chapter,
+                    timing: cloudRecord.timing || [],
+                    wrongCount: cloudRecord.wrongCount,
+                    correctCount: cloudRecord.correctCount || 0,
+                    mistakes: cloudRecord.mistakes || {},
+                    timeStamp: cloudRecord.timeStamp,
+                    mode: cloudRecord.mode || 'typing',
+                  })
+                }
               }
             }
           }

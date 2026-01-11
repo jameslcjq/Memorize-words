@@ -18,6 +18,7 @@ import Header from '@/components/Header'
 import LoginModal from '@/components/LoginModal'
 import Tooltip from '@/components/Tooltip'
 import { useGamification } from '@/hooks/useGamification'
+import { usePageSync } from '@/hooks/usePageSync'
 import { useSessionPersistence } from '@/hooks/useSessionPersistence'
 import { idDictionaryMap } from '@/resources/dictionary'
 import {
@@ -58,6 +59,9 @@ const App: React.FC = () => {
 
   // Session Persistence (auto-save for accidental refresh recovery)
   const { restoreSession, hasRestorableSession } = useSessionPersistence(state, dispatch)
+
+  // Page-level sync: download latest data when entering this page
+  usePageSync()
 
   // Enforce defaults for "Back-Recite" (typing mode)
   useEffect(() => {
