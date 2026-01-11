@@ -50,6 +50,14 @@ const DictationGame: React.FC = () => {
     playWordRef.current = playWord
   }, [playWord])
 
+  // Fix: Use refs to keep latest state and dispatch for setTimeout callbacks
+  const stateRef = useRef(state)
+  const dispatchRef = useRef(dispatch)
+  useEffect(() => {
+    stateRef.current = state
+    dispatchRef.current = dispatch
+  }, [state, dispatch])
+
   const saveWordRecord = useSaveWordRecord()
 
   // Initialize word state
@@ -141,11 +149,13 @@ const DictationGame: React.FC = () => {
         }, 100)
 
         setTimeout(() => {
-          const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
+          const currentState = stateRef.current
+          const currentDispatch = dispatchRef.current
+          const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
           if (isLastWord) {
-            dispatch({ type: TypingStateActionType.FINISH_CHAPTER })
+            currentDispatch({ type: TypingStateActionType.FINISH_CHAPTER })
           } else {
-            dispatch({ type: TypingStateActionType.NEXT_WORD })
+            currentDispatch({ type: TypingStateActionType.NEXT_WORD })
           }
         }, 1300) // Increase delay to accommodate pronunciation
       } else {
@@ -180,11 +190,13 @@ const DictationGame: React.FC = () => {
 
         // Move to next word after delay
         setTimeout(() => {
-          const isLastWord = state.chapterData.index >= state.chapterData.words.length - 1
+          const currentState = stateRef.current
+          const currentDispatch = dispatchRef.current
+          const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
           if (isLastWord) {
-            dispatch({ type: TypingStateActionType.FINISH_CHAPTER })
+            currentDispatch({ type: TypingStateActionType.FINISH_CHAPTER })
           } else {
-            dispatch({ type: TypingStateActionType.NEXT_WORD })
+            currentDispatch({ type: TypingStateActionType.NEXT_WORD })
           }
         }, 2500) // 2.5s delay to read correct answer
       }
