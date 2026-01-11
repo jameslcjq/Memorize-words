@@ -118,7 +118,8 @@ const DictationGame: React.FC = () => {
 
   const checkAnswer = useCallback(
     (inputs: string[]) => {
-      if (!currentWordObj) return
+      // Guard: prevent duplicate calls if already processed
+      if (!currentWordObj || isSuccess || isShowAnswer) return
       const inputWord = inputs.join('')
       if (inputWord.toLowerCase() === currentWordObj.name.toLowerCase()) {
         // Correct
@@ -188,7 +189,17 @@ const DictationGame: React.FC = () => {
         }, 2500) // 2.5s delay to read correct answer
       }
     },
-    [currentWordObj, dispatch, playBeepSound, playHintSound, state.chapterData.index, state.chapterData.words.length, saveWordRecord],
+    [
+      currentWordObj,
+      isSuccess,
+      isShowAnswer,
+      dispatch,
+      playBeepSound,
+      playHintSound,
+      state.chapterData.index,
+      state.chapterData.words.length,
+      saveWordRecord,
+    ],
   )
 
   const handleInput = useCallback(
