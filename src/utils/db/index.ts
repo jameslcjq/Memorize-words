@@ -1,5 +1,6 @@
 import { getUTCUnixTimestamp } from '../index'
 import { calculateQuality, updateSpacedRepetition } from '../spaced-repetition'
+import { scheduleErrorBookSync } from './cloud-sync'
 import type { IChapterRecord, IReviewRecord, IRevisionDictRecord, IWordRecord, LetterMistakes } from './record'
 import { ChapterRecord, ReviewRecord, WordRecord } from './record'
 import type { ISpacedRepetitionRecord } from './spaced-repetition-record'
@@ -160,6 +161,8 @@ export function useSaveWordRecord() {
         if (dispatch) {
           dispatch({ type: TypingStateActionType.SET_IS_SAVING_RECORD, payload: false })
         }
+        // Schedule cloud sync after error book update
+        scheduleErrorBookSync()
         return
       }
 
@@ -175,6 +178,11 @@ export function useSaveWordRecord() {
       if (dispatch) {
         dbID > 0 && dispatch({ type: TypingStateActionType.ADD_WORD_RECORD_ID, payload: dbID })
         dispatch({ type: TypingStateActionType.SET_IS_SAVING_RECORD, payload: false })
+      }
+
+      // Schedule cloud sync after new word record
+      if (wrongCount > 0) {
+        scheduleErrorBookSync()
       }
 
       // --- Spaced Repetition Logic ---

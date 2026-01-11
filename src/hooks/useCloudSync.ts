@@ -78,6 +78,31 @@ export const useCloudSync = () => {
     })
   }, [userInfo, localStats])
 
+  // Upload only error book (wordRecords) - lightweight sync after practice
+  const uploadErrorBook = useCallback(async () => {
+    if (!userInfo) return
+
+    try {
+      const wordRecords = await db.wordRecords.toArray()
+
+      const payload = {
+        userId: userInfo.userId,
+        timestamp: Date.now(),
+        wordRecords,
+        records: [], // Required by API but empty for lightweight sync
+      }
+
+      await fetch('/api/sync/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      console.log('Error book synced to cloud')
+    } catch (e) {
+      console.error('Error book sync failed:', e)
+    }
+  }, [userInfo])
+
   // Download Logic - Now includes ALL data
   const downloadData = useCallback(async () => {
     if (!userInfo) return
@@ -140,6 +165,20 @@ export const useCloudSync = () => {
     }
   }, [userInfo])
 
+  // Download only - for restoring data after login
+  const downloadOnly = useCallback(async () => {
+    if (!userInfo || isSyncing) return
+    setIsSyncing(true)
+    try {
+      await downloadData()
+      console.log('Cloud data restored after login')
+    } catch (e) {
+      console.error('Download error:', e)
+    } finally {
+      setIsSyncing(false)
+    }
+  }, [userInfo, isSyncing, downloadData, setIsSyncing])
+
   // Combined Sync Action
   const syncData = useCallback(async () => {
     if (!userInfo || isSyncing) return
@@ -155,5 +194,5 @@ export const useCloudSync = () => {
     }
   }, [userInfo, isSyncing, uploadData, downloadData, setIsSyncing])
 
-  return { syncData, isSyncing, cloudStats, localStats: localStats?.all || [] }
+  return { syncData, downloadOnly, uploadErrorBook, isSyncing, cloudStats, localStats: localStats?.all || [] }
 }

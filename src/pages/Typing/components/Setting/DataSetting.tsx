@@ -1,4 +1,5 @@
 import styles from './index.module.css'
+import { useCloudSync } from '@/hooks/useCloudSync'
 import { api } from '@/lib/api'
 import { userInfoAtom } from '@/store'
 import { exportDatabase, exportDatabaseBlob, importDatabase, importDatabaseBlob } from '@/utils/db/data-export'
@@ -14,6 +15,7 @@ export default function DataSetting() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [syncStatus, setSyncStatus] = useState('')
+  const { downloadOnly, isSyncing } = useCloudSync()
 
   // Sync Progress States
   const [exportProgress, setExportProgress] = useState(0)
@@ -34,7 +36,12 @@ export default function DataSetting() {
       if (res.success && res.token && res.user) {
         localStorage.setItem('token', res.token)
         setUserInfo({ userId: res.user.id, username: res.user.username, nickname: res.user.nickname || '' })
-        setSyncStatus(`欢迎, ${res.user.username}`)
+        setSyncStatus(`欢迎, ${res.user.username}，正在同步云端数据...`)
+        // Auto-sync cloud data after login
+        setTimeout(async () => {
+          await downloadOnly()
+          setSyncStatus('云端数据已同步')
+        }, 100)
       }
     } catch (err: any) {
       alert(err.message)
