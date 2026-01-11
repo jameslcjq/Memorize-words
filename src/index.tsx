@@ -35,7 +35,7 @@ const isPortraitOnSmallScreen = () => {
   const width = window.innerWidth
   const height = window.innerHeight
   // Portrait mode: height > width AND screen is small (< 768px width when in landscape)
-  return height > width && Math.max(width, height) < 900
+  return height > width && Math.max(width, height) < 750
 }
 
 function Root() {
