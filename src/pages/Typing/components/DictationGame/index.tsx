@@ -124,6 +124,26 @@ const DictationGame: React.FC = () => {
     }, 100)
   }, [currentWordObj?.name, dispatch])
 
+  // Auto-advance to next word when isSuccess or isShowAnswer becomes true
+  useEffect(() => {
+    if (!isSuccess && !isShowAnswer) return
+
+    const delay = isSuccess ? 1300 : 2500 // Success: 1.3s, Wrong: 2.5s
+
+    const timer = setTimeout(() => {
+      const currentState = stateRef.current
+      const currentDispatch = dispatchRef.current
+      const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
+      if (isLastWord) {
+        currentDispatch({ type: TypingStateActionType.FINISH_CHAPTER })
+      } else {
+        currentDispatch({ type: TypingStateActionType.NEXT_WORD })
+      }
+    }, delay)
+
+    return () => clearTimeout(timer)
+  }, [isSuccess, isShowAnswer])
+
   const checkAnswer = useCallback(
     (inputs: string[]) => {
       // Guard: prevent duplicate calls if already processed
@@ -147,17 +167,7 @@ const DictationGame: React.FC = () => {
         setTimeout(() => {
           playWordRef.current()
         }, 100)
-
-        setTimeout(() => {
-          const currentState = stateRef.current
-          const currentDispatch = dispatchRef.current
-          const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
-          if (isLastWord) {
-            currentDispatch({ type: TypingStateActionType.FINISH_CHAPTER })
-          } else {
-            currentDispatch({ type: TypingStateActionType.NEXT_WORD })
-          }
-        }, 1300) // Increase delay to accommodate pronunciation
+        // Auto-advance handled by useEffect
       } else {
         // Wrong -> Fail Fast
         playBeepSound()
@@ -187,18 +197,7 @@ const DictationGame: React.FC = () => {
         playWordRef.current() // Play sound of correct word so they know what it was
 
         setTimeout(() => setIsShake(false), 500)
-
-        // Move to next word after delay
-        setTimeout(() => {
-          const currentState = stateRef.current
-          const currentDispatch = dispatchRef.current
-          const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
-          if (isLastWord) {
-            currentDispatch({ type: TypingStateActionType.FINISH_CHAPTER })
-          } else {
-            currentDispatch({ type: TypingStateActionType.NEXT_WORD })
-          }
-        }, 2500) // 2.5s delay to read correct answer
+        // Auto-advance handled by useEffect
       }
     },
     [
