@@ -115,11 +115,8 @@ const SpellerGame: React.FC = () => {
     // Auto-focus first empty slot
     setTimeout(() => {
       const firstEmpty = initialInputs.findIndex((c) => c === '')
-      if (firstEmpty !== -1 && inputRefs.current[firstEmpty]) {
-        inputRefs.current[firstEmpty]?.focus()
-      }
     }, 100)
-  }, [currentWordObj?.name, dispatch])
+  }, [currentWordObj?.name, dispatch, state.chapterData.index])
 
   // Auto-advance to next word when isSuccess or isShowAnswer becomes true
   useEffect(() => {

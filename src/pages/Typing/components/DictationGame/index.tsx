@@ -122,7 +122,7 @@ const DictationGame: React.FC = () => {
         inputRefs.current[firstEmpty]?.focus()
       }
     }, 100)
-  }, [currentWordObj?.name, dispatch])
+  }, [currentWordObj?.name, dispatch, state.chapterData.index])
 
   // Auto-advance to next word when isSuccess or isShowAnswer becomes true
   useEffect(() => {
