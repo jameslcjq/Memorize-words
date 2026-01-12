@@ -110,9 +110,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         INSERT INTO points_transactions (user_id, amount, reason, timestamp, details)
         VALUES (?, ?, ?, ?, ?)
       `)
-      const batch = pointsTransactions.map((t: any) =>
-        stmt.bind(userId, t.amount, t.reason, t.timestamp, t.details || null),
-      )
+      const batch = pointsTransactions.map((t: any) => stmt.bind(userId, t.amount, t.reason, t.timestamp, t.details || null))
       await env.DB.batch(batch)
     }
 
