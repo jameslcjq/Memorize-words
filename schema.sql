@@ -110,3 +110,17 @@ CREATE TABLE spaced_repetition_records (
   last_reviewed INTEGER,
   UNIQUE(user_id, word, dict)
 );
+
+DROP TABLE IF EXISTS smart_learning_records;
+CREATE TABLE smart_learning_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  dict TEXT NOT NULL,
+  chapter INTEGER NOT NULL,
+  group_number INTEGER NOT NULL,
+  words_count INTEGER NOT NULL,
+  total_time INTEGER NOT NULL,
+  completed_at INTEGER NOT NULL,
+  word_details TEXT, -- JSON string
+  UNIQUE(user_id, dict, chapter, group_number, completed_at)
+);

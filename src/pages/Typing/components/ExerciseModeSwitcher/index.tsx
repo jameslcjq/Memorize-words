@@ -4,14 +4,17 @@ import type { ExerciseMode, QuizScope } from '@/typings'
 import { Listbox, Transition } from '@headlessui/react'
 import { useAtom } from 'jotai'
 import { Fragment } from 'react'
+import { useNavigate } from 'react-router-dom'
 import IconCheck from '~icons/tabler/check'
 import IconChevronDown from '~icons/tabler/chevron-down'
 
 export const ExerciseModeSwitcher = () => {
   const [mode, setMode] = useAtom(exerciseModeAtom)
   const [quizConfig, setQuizConfig] = useAtom(quizConfigAtom)
+  const navigate = useNavigate()
 
   const modes: { id: ExerciseMode; name: string }[] = [
+    { id: 'smartLearning', name: '智能学习' },
     { id: 'speller', name: '单词填空' },
     { id: 'dictation', name: '听写单词' },
     { id: 'word-to-trans', name: '英译中' },
@@ -24,11 +27,21 @@ export const ExerciseModeSwitcher = () => {
     { id: 'dict', name: '整个词库' },
   ]
 
+  const handleModeChange = (newMode: ExerciseMode) => {
+    setMode(newMode)
+    if (newMode === 'smartLearning') {
+      navigate('/smart-learning')
+    } else {
+      // 这里的逻辑可能需要根据实际情况调整，例如如果已经在 smart-learning 页面，可能需要跳转回 typing
+      navigate('/typing')
+    }
+  }
+
   return (
     <div className="flex items-center gap-2">
       {/* 练习模式切换 */}
       <Tooltip content="切换练习模式">
-        <Listbox value={mode} onChange={setMode}>
+        <Listbox value={mode} onChange={handleModeChange}>
           <div className="relative">
             <Listbox.Button className="flex items-center gap-1 rounded-lg border border-transparent px-3 py-1 text-lg text-gray-700 transition-colors duration-300 ease-in-out hover:border-indigo-400 hover:bg-indigo-400 hover:text-white focus:outline-none dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100">
               <span>{modes.find((m) => m.id === mode)?.name}</span>

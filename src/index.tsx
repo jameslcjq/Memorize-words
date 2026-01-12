@@ -23,6 +23,8 @@ const ProfilePage = lazy(() => import('./pages/Profile'))
 const AchievementsPage = lazy(() => import('./pages/Achievements'))
 const DailyChallengePage = lazy(() => import('./pages/DailyChallenge'))
 
+const SmartLearningPage = lazy(() => import('./pages/SmartLearning'))
+
 if (process.env.NODE_ENV === 'production') {
   // for prod
   mixpanel.init('bdc492847e9340eeebd53cc35f321691')
@@ -84,6 +86,7 @@ function Root() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/daily-challenge" element={<DailyChallengePage />} />
+            <Route path="/smart-learning" element={<SmartLearningPage />} />
             <Route path="/*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>

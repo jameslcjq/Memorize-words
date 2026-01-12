@@ -36,9 +36,11 @@ import { useMixPanelChapterLogUploader } from '@/utils/mixpanel'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useImmerReducer } from 'use-immer'
 
 const App: React.FC = () => {
+  const navigate = useNavigate()
   const [state, dispatch] = useImmerReducer(typingReducer, structuredClone(initialState))
   const { words, isLoading } = useWordList()
 
@@ -53,6 +55,12 @@ const App: React.FC = () => {
   const isReviewMode = useAtomValue(isReviewModeAtom)
   const [wordDictationConfig, setWordDictationConfig] = useAtom(wordDictationConfigAtom)
   const exerciseMode = useAtomValue(exerciseModeAtom)
+
+  useEffect(() => {
+    if (exerciseMode === 'smartLearning') {
+      navigate('/smart-learning')
+    }
+  }, [exerciseMode, navigate])
 
   // Gamification
   const { awardChapterPoints, checkAchievements, newlyUnlockedAchievement, clearAchievementToast } = useGamification()

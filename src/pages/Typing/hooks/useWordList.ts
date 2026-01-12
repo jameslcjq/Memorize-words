@@ -1,5 +1,4 @@
 import { CHAPTER_LENGTH } from '@/constants'
-import { useSpacedRepetition } from '@/hooks/useSpacedRepetition'
 import {
   currentDictInfoAtom,
   exerciseModeAtom,
@@ -118,59 +117,6 @@ export function useWordList(): UseWordListResult {
     }
   }, [selectedChapters, currentDictInfo.id, wordList])
 
-  const [smartReviewWords, setSmartReviewWords] = useState<Word[]>([])
-  const { getTodayReviewWords } = useSpacedRepetition()
-
-  useEffect(() => {
-    if (selectedChapters.includes(-3)) {
-      setIsDatabaseLoading(true)
-
-      const loadSmartReviewWords = async () => {
-        // First, try to get words from spacedRepetitionRecords
-        const srRecords = await getTodayReviewWords(currentDictInfo.id)
-
-        let wordNames: string[] = []
-
-        if (srRecords.length > 0) {
-          // We have SR records, use them
-          wordNames = srRecords.map((r) => r.word)
-        } else {
-          // No SR records yet - fallback to error words from wordRecords
-          // This provides backward compatibility for existing error words
-          const errorRecords = await db.wordRecords
-            .where('dict')
-            .equals(currentDictInfo.id)
-            .and((r) => r.wrongCount > 0)
-            .toArray()
-          wordNames = [...new Set(errorRecords.map((r) => r.word))]
-        }
-
-        // Build unique words map
-        const uniqueWordsMap = new Map<string, Word>()
-        wordNames.forEach((name) => {
-          if (!uniqueWordsMap.has(name)) {
-            uniqueWordsMap.set(name, { name, trans: [], usphone: '', ukphone: '' })
-          }
-        })
-
-        // Hydrate with full details from wordList
-        if (wordList) {
-          uniqueWordsMap.forEach((val, key) => {
-            const fullWord = wordList.find((w) => w.name === key)
-            if (fullWord) {
-              uniqueWordsMap.set(key, fullWord)
-            }
-          })
-        }
-
-        setSmartReviewWords(shuffle(Array.from(uniqueWordsMap.values())).slice(0, CHAPTER_LENGTH))
-        setIsDatabaseLoading(false)
-      }
-
-      loadSmartReviewWords()
-    }
-  }, [selectedChapters, currentDictInfo.id, wordList, getTodayReviewWords])
-
   const words: WordWithIndex[] = useMemo(() => {
     let newWords: Word[]
     if (isFirstChapter) {
@@ -183,8 +129,6 @@ export function useWordList(): UseWordListResult {
         newWords = shuffle(wordList).slice(0, CHAPTER_LENGTH)
       } else if (selectedChapters.includes(-2)) {
         newWords = applyLoopAndShuffle(errorWords, loopWordConfig.times || 1)
-      } else if (selectedChapters.includes(-3)) {
-        newWords = applyLoopAndShuffle(smartReviewWords, loopWordConfig.times || 1)
       } else {
         // Multi-chapter selection logic
         const selectedWords: Word[] = []
@@ -229,7 +173,7 @@ export function useWordList(): UseWordListResult {
     })
   }, [isFirstChapter, isReviewMode, wordList, reviewRecord?.words, selectedChapters, errorWords, currentDictInfo, loopWordConfig.times])
 
-  const isLoading = selectedChapters.includes(-2) || selectedChapters.includes(-3) ? isDatabaseLoading : isSwrLoading
+  const isLoading = selectedChapters.includes(-2) ? isDatabaseLoading : isSwrLoading
 
   return { words, isLoading, error: swrError }
 }

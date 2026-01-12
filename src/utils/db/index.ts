@@ -3,6 +3,7 @@ import { calculateQuality, updateSpacedRepetition } from '../spaced-repetition'
 import { scheduleErrorBookSync } from './cloud-sync'
 import type { IChapterRecord, IReviewRecord, IRevisionDictRecord, IWordRecord, LetterMistakes } from './record'
 import { ChapterRecord, ReviewRecord, WordRecord } from './record'
+import type { SmartLearningRecord } from './smart-learning-record'
 import type { ISpacedRepetitionRecord } from './spaced-repetition-record'
 import { SpacedRepetitionRecord } from './spaced-repetition-record'
 import { TypingContext, TypingStateActionType } from '@/pages/Typing/store'
@@ -18,6 +19,7 @@ class RecordDB extends Dexie {
   chapterRecords!: Table<IChapterRecord, number>
   reviewRecords!: Table<IReviewRecord, number>
   spacedRepetitionRecords!: Table<ISpacedRepetitionRecord, number>
+  smartLearningRecords!: Table<SmartLearningRecord, number>
 
   revisionDictRecords!: Table<IRevisionDictRecord, number>
   revisionWordRecords!: Table<IWordRecord, number>
@@ -63,6 +65,13 @@ class RecordDB extends Dexie {
       chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter],[dict+chapter+timeStamp]',
       reviewRecords: '++id,dict,createTime,isFinished,[dict+createTime]',
       spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[word+dict]',
+    })
+    this.version(9).stores({
+      wordRecords: '++id,word,timeStamp,dict,chapter,wrongCount,correctCount,mode,[word+dict]',
+      chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter],[dict+chapter+timeStamp]',
+      reviewRecords: '++id,dict,createTime,isFinished,[dict+createTime]',
+      spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[word+dict]',
+      smartLearningRecords: '++id,dict,chapter,completedAt',
     })
   }
 }

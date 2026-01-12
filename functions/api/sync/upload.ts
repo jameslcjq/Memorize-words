@@ -185,6 +185,29 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       await env.DB.batch(batch)
     }
 
+    // 9. Smart Learning Records
+    const { smartLearningRecords } = body as any
+    if (Array.isArray(smartLearningRecords) && smartLearningRecords.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO smart_learning_records (user_id, dict, chapter, group_number, words_count, total_time, completed_at, word_details)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, dict, chapter, group_number, completed_at) DO NOTHING
+      `)
+      const batch = smartLearningRecords.map((r: any) =>
+        stmt.bind(
+          userId,
+          r.dict,
+          r.chapter,
+          r.groupNumber,
+          r.wordsCount,
+          r.totalTime,
+          r.completedAt,
+          JSON.stringify(r.wordDetails),
+        ),
+      )
+      await env.DB.batch(batch)
+    }
+
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
     })

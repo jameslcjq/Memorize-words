@@ -68,6 +68,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       .bind(userId)
       .all()
 
+    // 9. Smart Learning Records
+    const { results: smartLearningRecords } = await env.DB.prepare(
+      'SELECT dict, chapter, group_number as groupNumber, words_count as wordsCount, total_time as totalTime, completed_at as completedAt, word_details as wordDetails FROM smart_learning_records WHERE user_id = ?',
+    )
+      .bind(userId)
+      .all()
+
     // Parse JSON fields
     const parsedWordRecords = wordRecords.map((r: any) => ({
       ...r,
@@ -89,6 +96,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       isFinished: r.isFinished === 1,
     }))
 
+    const parsedSmartLearningRecords = smartLearningRecords.map((r: any) => ({
+      ...r,
+      wordDetails: r.wordDetails ? JSON.parse(r.wordDetails) : [],
+    }))
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -100,6 +112,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         dailyChallenges: parsedDailyChallenges,
         reviewRecords: parsedReviewRecords,
         spacedRepetitionRecords,
+        smartLearningRecords: parsedSmartLearningRecords,
       }),
       {
         headers: { 'Content-Type': 'application/json' },

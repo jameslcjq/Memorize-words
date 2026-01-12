@@ -38,6 +38,7 @@ export const useCloudSync = () => {
     const pointsTransactions = await gamificationDb.pointsTransactions.toArray()
     const unlockedAchievements = await gamificationDb.unlockedAchievements.toArray()
     const dailyChallenges = await gamificationDb.dailyChallenges.toArray()
+    const smartLearningRecords = await db.smartLearningRecords.toArray()
 
     // User settings from localStorage
     const userSettings = {
@@ -67,6 +68,7 @@ export const useCloudSync = () => {
       pointsTransactions,
       unlockedAchievements,
       dailyChallenges,
+      smartLearningRecords,
       // Settings
       userSettings,
     }
@@ -113,87 +115,110 @@ export const useCloudSync = () => {
         setCloudStats(json.data) // Existing stats
 
         // Sync core records
-        await db.transaction('rw', db.wordRecords, db.chapterRecords, db.reviewRecords, db.spacedRepetitionRecords, async () => {
-          // Smart merge for wordRecords: use max-value strategy
-          if (json.wordRecords?.length > 0) {
-            for (const cloudRecord of json.wordRecords) {
-              const localRecord = await db.wordRecords.where({ word: cloudRecord.word, dict: cloudRecord.dict }).first()
+        await db.transaction(
+          'rw',
+          db.wordRecords,
+          db.chapterRecords,
+          db.reviewRecords,
+          db.spacedRepetitionRecords,
+          db.smartLearningRecords,
+          async () => {
+            // Smart merge for wordRecords: use max-value strategy
+            if (json.wordRecords?.length > 0) {
+              for (const cloudRecord of json.wordRecords) {
+                const localRecord = await db.wordRecords.where({ word: cloudRecord.word, dict: cloudRecord.dict }).first()
 
-              if (localRecord) {
-                // Merge: take max values for both wrongCount and correctCount
-                const mergedWrongCount = Math.max(localRecord.wrongCount, cloudRecord.wrongCount)
-                const mergedCorrectCount = Math.max(localRecord.correctCount || 0, cloudRecord.correctCount || 0)
-                const mergedTimeStamp = Math.max(localRecord.timeStamp, cloudRecord.timeStamp)
+                if (localRecord) {
+                  // Merge: take max values for both wrongCount and correctCount
+                  const mergedWrongCount = Math.max(localRecord.wrongCount, cloudRecord.wrongCount)
+                  const mergedCorrectCount = Math.max(localRecord.correctCount || 0, cloudRecord.correctCount || 0)
+                  const mergedTimeStamp = Math.max(localRecord.timeStamp, cloudRecord.timeStamp)
 
-                // If merged correctCount >= 3, delete the record (completed)
-                if (mergedCorrectCount >= 3) {
-                  await db.wordRecords.delete(localRecord.id!)
+                  // If merged correctCount >= 3, delete the record (completed)
+                  if (mergedCorrectCount >= 3) {
+                    await db.wordRecords.delete(localRecord.id!)
+                  } else {
+                    // Otherwise update with merged values
+                    await db.wordRecords.update(localRecord.id!, {
+                      wrongCount: mergedWrongCount,
+                      correctCount: mergedCorrectCount,
+                      timeStamp: mergedTimeStamp,
+                      // Use the record with higher wrongCount for mistakes and mode
+                      mistakes: cloudRecord.wrongCount > localRecord.wrongCount ? cloudRecord.mistakes : localRecord.mistakes,
+                      mode: mergedTimeStamp === cloudRecord.timeStamp ? cloudRecord.mode : localRecord.mode,
+                    })
+                  }
                 } else {
-                  // Otherwise update with merged values
-                  await db.wordRecords.update(localRecord.id!, {
-                    wrongCount: mergedWrongCount,
-                    correctCount: mergedCorrectCount,
-                    timeStamp: mergedTimeStamp,
-                    // Use the record with higher wrongCount for mistakes and mode
-                    mistakes: cloudRecord.wrongCount > localRecord.wrongCount ? cloudRecord.mistakes : localRecord.mistakes,
-                    mode: mergedTimeStamp === cloudRecord.timeStamp ? cloudRecord.mode : localRecord.mode,
-                  })
-                }
-              } else {
-                // Cloud record not in local: only add if correctCount < 3 (not completed)
-                if ((cloudRecord.correctCount || 0) < 3) {
-                  await db.wordRecords.add({
-                    word: cloudRecord.word,
-                    dict: cloudRecord.dict,
-                    chapter: cloudRecord.chapter,
-                    timing: cloudRecord.timing || [],
-                    wrongCount: cloudRecord.wrongCount,
-                    correctCount: cloudRecord.correctCount || 0,
-                    mistakes: cloudRecord.mistakes || {},
-                    timeStamp: cloudRecord.timeStamp,
-                    mode: cloudRecord.mode || 'typing',
-                  })
+                  // Cloud record not in local: only add if correctCount < 3 (not completed)
+                  if ((cloudRecord.correctCount || 0) < 3) {
+                    await db.wordRecords.add({
+                      word: cloudRecord.word,
+                      dict: cloudRecord.dict,
+                      chapter: cloudRecord.chapter,
+                      timing: cloudRecord.timing || [],
+                      wrongCount: cloudRecord.wrongCount,
+                      correctCount: cloudRecord.correctCount || 0,
+                      mistakes: cloudRecord.mistakes || {},
+                      timeStamp: cloudRecord.timeStamp,
+                      mode: cloudRecord.mode || 'typing',
+                    })
+                  }
                 }
               }
             }
-          }
-          if (json.chapterRecords?.length > 0) {
-            // Smart merge: add cloud records that don't exist locally
-            for (const cloudRecord of json.chapterRecords) {
-              const exists = await db.chapterRecords
-                .where('[dict+chapter+timeStamp]')
-                .equals([cloudRecord.dict, cloudRecord.chapter, cloudRecord.timeStamp])
-                .first()
+            if (json.chapterRecords?.length > 0) {
+              // Smart merge: add cloud records that don't exist locally
+              for (const cloudRecord of json.chapterRecords) {
+                const exists = await db.chapterRecords
+                  .where('[dict+chapter+timeStamp]')
+                  .equals([cloudRecord.dict, cloudRecord.chapter, cloudRecord.timeStamp])
+                  .first()
 
-              if (!exists) {
-                await db.chapterRecords.add(cloudRecord)
+                if (!exists) {
+                  await db.chapterRecords.add(cloudRecord)
+                }
               }
             }
-          }
-          if (json.reviewRecords?.length > 0) {
-            // Smart merge: check for duplicates and update if needed
-            for (const cloudRecord of json.reviewRecords) {
-              const exists = await db.reviewRecords.where('[dict+createTime]').equals([cloudRecord.dict, cloudRecord.createTime]).first()
+            if (json.reviewRecords?.length > 0) {
+              // Smart merge: check for duplicates and update if needed
+              for (const cloudRecord of json.reviewRecords) {
+                const exists = await db.reviewRecords.where('[dict+createTime]').equals([cloudRecord.dict, cloudRecord.createTime]).first()
 
-              if (!exists) {
-                await db.reviewRecords.add(cloudRecord)
-              } else if (cloudRecord.isFinished && !exists.isFinished) {
-                // Cloud shows finished but local doesn't - update to finished
-                await db.reviewRecords.update(exists.id!, { isFinished: cloudRecord.isFinished })
+                if (!exists) {
+                  await db.reviewRecords.add(cloudRecord)
+                } else if (cloudRecord.isFinished && !exists.isFinished) {
+                  // Cloud shows finished but local doesn't - update to finished
+                  await db.reviewRecords.update(exists.id!, { isFinished: cloudRecord.isFinished })
+                }
               }
             }
-          }
-          if (json.spacedRepetitionRecords?.length > 0) {
-            // Smart merge: prefer the most recently reviewed record
-            for (const cloudRecord of json.spacedRepetitionRecords) {
-              const localRecord = await db.spacedRepetitionRecords.where('[word+dict]').equals([cloudRecord.word, cloudRecord.dict]).first()
+            if (json.spacedRepetitionRecords?.length > 0) {
+              // Smart merge: prefer the most recently reviewed record
+              for (const cloudRecord of json.spacedRepetitionRecords) {
+                const localRecord = await db.spacedRepetitionRecords
+                  .where('[word+dict]')
+                  .equals([cloudRecord.word, cloudRecord.dict])
+                  .first()
 
-              if (localRecord) {
-                // Take the record with the most recent review
-                // Note: server returns lastReviewed but client uses lastReviewDate
-                const cloudLastReview = (cloudRecord as any).lastReviewed || cloudRecord.lastReviewDate || 0
-                if (cloudLastReview > localRecord.lastReviewDate) {
-                  // Map server field names to client field names
+                if (localRecord) {
+                  // Take the record with the most recent review
+                  // Note: server returns lastReviewed but client uses lastReviewDate
+                  const cloudLastReview = (cloudRecord as any).lastReviewed || cloudRecord.lastReviewDate || 0
+                  if (cloudLastReview > localRecord.lastReviewDate) {
+                    // Map server field names to client field names
+                    const mappedRecord = {
+                      word: cloudRecord.word,
+                      dict: cloudRecord.dict,
+                      easinessFactor: (cloudRecord as any).easeFactor || cloudRecord.easinessFactor || 2.5,
+                      interval: (cloudRecord as any).intervalDays || cloudRecord.interval || 0,
+                      repetitions: cloudRecord.repetitions || 0,
+                      nextReviewDate: (cloudRecord as any).nextReview || cloudRecord.nextReviewDate || 0,
+                      lastReviewDate: cloudLastReview,
+                    }
+                    await db.spacedRepetitionRecords.update(localRecord.id!, mappedRecord)
+                  }
+                } else {
+                  // Map server field names to client field names for new records
                   const mappedRecord = {
                     word: cloudRecord.word,
                     dict: cloudRecord.dict,
@@ -201,26 +226,35 @@ export const useCloudSync = () => {
                     interval: (cloudRecord as any).intervalDays || cloudRecord.interval || 0,
                     repetitions: cloudRecord.repetitions || 0,
                     nextReviewDate: (cloudRecord as any).nextReview || cloudRecord.nextReviewDate || 0,
-                    lastReviewDate: cloudLastReview,
+                    lastReviewDate: (cloudRecord as any).lastReviewed || cloudRecord.lastReviewDate || 0,
                   }
-                  await db.spacedRepetitionRecords.update(localRecord.id!, mappedRecord)
+                  await db.spacedRepetitionRecords.add(mappedRecord)
                 }
-              } else {
-                // Map server field names to client field names for new records
-                const mappedRecord = {
-                  word: cloudRecord.word,
-                  dict: cloudRecord.dict,
-                  easinessFactor: (cloudRecord as any).easeFactor || cloudRecord.easinessFactor || 2.5,
-                  interval: (cloudRecord as any).intervalDays || cloudRecord.interval || 0,
-                  repetitions: cloudRecord.repetitions || 0,
-                  nextReviewDate: (cloudRecord as any).nextReview || cloudRecord.nextReviewDate || 0,
-                  lastReviewDate: (cloudRecord as any).lastReviewed || cloudRecord.lastReviewDate || 0,
-                }
-                await db.spacedRepetitionRecords.add(mappedRecord)
               }
             }
-          }
-        })
+            if (json.smartLearningRecords?.length > 0) {
+              for (const c of json.smartLearningRecords) {
+                const exists = await db.smartLearningRecords
+                  .where('completedAt')
+                  .equals(c.completedAt)
+                  .and((r) => r.dict === c.dict && r.chapter === c.chapter && r.groupNumber === c.groupNumber)
+                  .first()
+
+                if (!exists) {
+                  await db.smartLearningRecords.add({
+                    dict: c.dict,
+                    chapter: c.chapter,
+                    groupNumber: c.groupNumber,
+                    wordsCount: c.wordsCount,
+                    totalTime: c.totalTime,
+                    completedAt: c.completedAt,
+                    wordDetails: c.wordDetails,
+                  })
+                }
+              }
+            }
+          },
+        )
 
         // Sync gamification data
         await gamificationDb.transaction(

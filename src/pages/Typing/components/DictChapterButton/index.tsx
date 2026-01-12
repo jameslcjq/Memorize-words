@@ -1,11 +1,9 @@
 import Tooltip from '@/components/Tooltip'
-import { useSpacedRepetition } from '@/hooks/useSpacedRepetition'
-// New import
 import { currentDictInfoAtom, isReviewModeAtom, selectedChaptersAtom } from '@/store'
 import range from '@/utils/range'
 import { Listbox, Transition } from '@headlessui/react'
 import { useAtom, useAtomValue } from 'jotai'
-import { Fragment, useMemo } from 'react'
+import { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import IconCheck from '~icons/tabler/check'
 
@@ -14,8 +12,6 @@ export const DictChapterButton = () => {
   const [selectedChapters, setSelectedChapters] = useAtom(selectedChaptersAtom)
   const chapterCount = currentDictInfo.chapterCount
   const isReviewMode = useAtomValue(isReviewModeAtom)
-  const { useReviewCount } = useSpacedRepetition()
-  const reviewCount = useReviewCount(currentDictInfo.id)
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (event) => {
     if (event.key === ' ') {
@@ -80,24 +76,17 @@ export const DictChapterButton = () => {
 
               const prevHasErrorBook = selectedChapters.includes(-2)
               const prevHasWholeDict = selectedChapters.includes(-1)
-              const prevHasSmartReview = selectedChapters.includes(-3)
 
-              if (newSelection.includes(-3) && !prevHasSmartReview) {
-                // User just clicked Smart Review
-                newSelection = [-3]
-              } else if (newSelection.includes(-2) && !prevHasErrorBook) {
+              if (newSelection.includes(-2) && !prevHasErrorBook) {
                 // User just clicked Error Book.
                 newSelection = [-2]
               } else if (newSelection.includes(-1) && !prevHasWholeDict) {
                 // User just clicked Whole Dict.
                 newSelection = [-1]
-              } else if ((prevHasErrorBook || prevHasWholeDict || prevHasSmartReview) && newSelection.length > 1) {
+              } else if ((prevHasErrorBook || prevHasWholeDict) && newSelection.length > 1) {
                 // User was in special mode, and just clicked something else (regular chapter).
                 // Remove the special modes.
                 newSelection = newSelection.filter((i) => i >= 0)
-              } else if (newSelection.includes(-3) && newSelection.length > 1) {
-                // Fallback
-                newSelection = newSelection.filter((i) => i !== -3)
               } else if (newSelection.includes(-2) && newSelection.length > 1) {
                 // Fallback: if somehow we have ErrorBook + others, remove ErrorBook
                 newSelection = newSelection.filter((i) => i !== -2)
@@ -125,10 +114,8 @@ export const DictChapterButton = () => {
             >
               {selectedChapters.includes(-1) && '整个词库'}
               {selectedChapters.includes(-2) && '错题本'}
-              {selectedChapters.includes(-3) && '智能复习'}
               {!selectedChapters.includes(-1) &&
                 !selectedChapters.includes(-2) &&
-                !selectedChapters.includes(-3) &&
                 (selectedChapters.length === 1 ? `第 ${selectedChapters[0] + 1} 单元` : `${selectedChapters.length} 个单元`)}
             </Listbox.Button>
             <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -142,25 +129,6 @@ export const DictChapterButton = () => {
                         </span>
                       ) : null}
                       <span className={selected ? '' : 'pl-6'}>错题本</span>
-                    </div>
-                  )}
-                </Listbox.Option>
-                <Listbox.Option key={-3} value={-3}>
-                  {({ selected }) => (
-                    <div className="group flex cursor-pointer items-center justify-between">
-                      {selected ? (
-                        <span className="listbox-options-icon">
-                          <IconCheck className="focus:outline-none" />
-                        </span>
-                      ) : null}
-                      <span className={selected ? '' : 'pl-6'}>
-                        智能复习
-                        {reviewCount !== undefined && reviewCount > 0 && (
-                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
-                            {reviewCount}
-                          </span>
-                        )}
-                      </span>
                     </div>
                   )}
                 </Listbox.Option>
