@@ -54,3 +54,56 @@ CREATE TABLE sync_data (
   data TEXT, -- JSON string of the entire export
   updated_at INTEGER
 );
+
+-- Gamification System Tables
+DROP TABLE IF EXISTS points_transactions;
+CREATE TABLE points_transactions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  amount INTEGER NOT NULL,
+  reason TEXT NOT NULL,
+  timestamp INTEGER NOT NULL,
+  details TEXT
+);
+
+DROP TABLE IF EXISTS unlocked_achievements;
+CREATE TABLE unlocked_achievements (
+  user_id TEXT NOT NULL,
+  achievement_id TEXT NOT NULL,
+  unlocked_at INTEGER NOT NULL,
+  PRIMARY KEY (user_id, achievement_id)
+);
+
+DROP TABLE IF EXISTS daily_challenges;
+CREATE TABLE daily_challenges (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  date TEXT NOT NULL,
+  completed_at INTEGER,
+  words TEXT,  -- JSON array
+  score INTEGER,
+  UNIQUE(user_id, date)
+);
+
+-- Practice Record Tables
+DROP TABLE IF EXISTS review_records;
+CREATE TABLE review_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  dict TEXT NOT NULL,
+  create_time INTEGER NOT NULL,
+  is_finished INTEGER DEFAULT 0  -- 0=false, 1=true
+);
+
+DROP TABLE IF EXISTS spaced_repetition_records;
+CREATE TABLE spaced_repetition_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  word TEXT NOT NULL,
+  dict TEXT NOT NULL,
+  ease_factor REAL,
+  interval_days INTEGER,
+  repetitions INTEGER,
+  next_review INTEGER,
+  last_reviewed INTEGER
+);

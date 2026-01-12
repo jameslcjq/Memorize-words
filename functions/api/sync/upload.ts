@@ -103,6 +103,81 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       await env.DB.batch(batchChapter)
     }
 
+    // 4. Gamification - Points Transactions
+    const { pointsTransactions } = body as any
+    if (Array.isArray(pointsTransactions) && pointsTransactions.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO points_transactions (user_id, amount, reason, timestamp, details)
+        VALUES (?, ?, ?, ?, ?)
+      `)
+      const batch = pointsTransactions.map((t: any) =>
+        stmt.bind(userId, t.amount, t.reason, t.timestamp, t.details || null),
+      )
+      await env.DB.batch(batch)
+    }
+
+    // 5. Gamification - Unlocked Achievements
+    const { unlockedAchievements } = body as any
+    if (Array.isArray(unlockedAchievements) && unlockedAchievements.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO unlocked_achievements (user_id, achievement_id, unlocked_at)
+        VALUES (?, ?, ?)
+        ON CONFLICT(user_id, achievement_id) DO NOTHING
+      `)
+      const batch = unlockedAchievements.map((a: any) => stmt.bind(userId, a.achievementId, a.unlockedAt))
+      await env.DB.batch(batch)
+    }
+
+    // 6. Gamification - Daily Challenges
+    const { dailyChallenges } = body as any
+    if (Array.isArray(dailyChallenges) && dailyChallenges.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO daily_challenges (user_id, date, completed_at, words, score)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, date) DO UPDATE SET
+          completed_at = excluded.completed_at,
+          words = excluded.words,
+          score = excluded.score
+      `)
+      const batch = dailyChallenges.map((c: any) =>
+        stmt.bind(userId, c.date, c.completedAt || null, JSON.stringify(c.words || []), c.score || 0),
+      )
+      await env.DB.batch(batch)
+    }
+
+    // 7. Review Records
+    const { reviewRecords } = body as any
+    if (Array.isArray(reviewRecords) && reviewRecords.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO review_records (user_id, dict, create_time, is_finished)
+        VALUES (?, ?, ?, ?)
+      `)
+      const batch = reviewRecords.map((r: any) => stmt.bind(userId, r.dict, r.createTime, r.isFinished ? 1 : 0))
+      await env.DB.batch(batch)
+    }
+
+    // 8. Spaced Repetition Records
+    const { spacedRepetitionRecords } = body as any
+    if (Array.isArray(spacedRepetitionRecords) && spacedRepetitionRecords.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO spaced_repetition_records (user_id, word, dict, ease_factor, interval_days, repetitions, next_review, last_reviewed)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `)
+      const batch = spacedRepetitionRecords.map((r: any) =>
+        stmt.bind(
+          userId,
+          r.word,
+          r.dict,
+          r.easeFactor || 2.5,
+          r.intervalDays || 0,
+          r.repetitions || 0,
+          r.nextReview || 0,
+          r.lastReviewed || 0,
+        ),
+      )
+      await env.DB.batch(batch)
+    }
+
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
     })
