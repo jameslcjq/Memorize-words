@@ -194,16 +194,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         ON CONFLICT(user_id, dict, chapter, group_number, completed_at) DO NOTHING
       `)
       const batch = smartLearningRecords.map((r: any) =>
-        stmt.bind(
-          userId,
-          r.dict,
-          r.chapter,
-          r.groupNumber,
-          r.wordsCount,
-          r.totalTime,
-          r.completedAt,
-          JSON.stringify(r.wordDetails),
-        ),
+        stmt.bind(userId, r.dict, r.chapter, r.groupNumber, r.wordsCount, r.totalTime, r.completedAt, JSON.stringify(r.wordDetails)),
       )
       await env.DB.batch(batch)
     }
