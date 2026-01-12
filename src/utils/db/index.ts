@@ -58,6 +58,12 @@ class RecordDB extends Dexie {
       reviewRecords: '++id,dict,createTime,isFinished',
       spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[dict+word]',
     })
+    this.version(8).stores({
+      wordRecords: '++id,word,timeStamp,dict,chapter,wrongCount,correctCount,mode,[word+dict]',
+      chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter],[dict+chapter+timeStamp]',
+      reviewRecords: '++id,dict,createTime,isFinished,[dict+createTime]',
+      spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[word+dict]',
+    })
   }
 }
 

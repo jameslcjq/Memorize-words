@@ -63,7 +63,8 @@ CREATE TABLE points_transactions (
   amount INTEGER NOT NULL,
   reason TEXT NOT NULL,
   timestamp INTEGER NOT NULL,
-  details TEXT
+  details TEXT,
+  UNIQUE(user_id, timestamp, reason, amount)
 );
 
 DROP TABLE IF EXISTS unlocked_achievements;
@@ -92,7 +93,8 @@ CREATE TABLE review_records (
   user_id TEXT NOT NULL,
   dict TEXT NOT NULL,
   create_time INTEGER NOT NULL,
-  is_finished INTEGER DEFAULT 0  -- 0=false, 1=true
+  is_finished INTEGER DEFAULT 0,  -- 0=false, 1=true
+  UNIQUE(user_id, dict, create_time)
 );
 
 DROP TABLE IF EXISTS spaced_repetition_records;
@@ -105,5 +107,6 @@ CREATE TABLE spaced_repetition_records (
   interval_days INTEGER,
   repetitions INTEGER,
   next_review INTEGER,
-  last_reviewed INTEGER
+  last_reviewed INTEGER,
+  UNIQUE(user_id, word, dict)
 );

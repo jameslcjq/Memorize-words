@@ -109,6 +109,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       const stmt = env.DB.prepare(`
         INSERT INTO points_transactions (user_id, amount, reason, timestamp, details)
         VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, timestamp, reason, amount) DO NOTHING
       `)
       const batch = pointsTransactions.map((t: any) => stmt.bind(userId, t.amount, t.reason, t.timestamp, t.details || null))
       await env.DB.batch(batch)
@@ -149,6 +150,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       const stmt = env.DB.prepare(`
         INSERT INTO review_records (user_id, dict, create_time, is_finished)
         VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id, dict, create_time) DO UPDATE SET
+          is_finished = excluded.is_finished
       `)
       const batch = reviewRecords.map((r: any) => stmt.bind(userId, r.dict, r.createTime, r.isFinished ? 1 : 0))
       await env.DB.batch(batch)
@@ -160,17 +163,23 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       const stmt = env.DB.prepare(`
         INSERT INTO spaced_repetition_records (user_id, word, dict, ease_factor, interval_days, repetitions, next_review, last_reviewed)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, word, dict) DO UPDATE SET
+          ease_factor = excluded.ease_factor,
+          interval_days = excluded.interval_days,
+          repetitions = excluded.repetitions,
+          next_review = excluded.next_review,
+          last_reviewed = excluded.last_reviewed
       `)
       const batch = spacedRepetitionRecords.map((r: any) =>
         stmt.bind(
           userId,
           r.word,
           r.dict,
-          r.easeFactor || 2.5,
-          r.intervalDays || 0,
+          r.easinessFactor || r.easeFactor || 2.5,
+          r.interval || r.intervalDays || 0,
           r.repetitions || 0,
-          r.nextReview || 0,
-          r.lastReviewed || 0,
+          r.nextReviewDate || r.nextReview || 0,
+          r.lastReviewDate || r.lastReviewed || 0,
         ),
       )
       await env.DB.batch(batch)

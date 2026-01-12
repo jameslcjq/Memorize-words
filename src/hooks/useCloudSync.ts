@@ -158,13 +158,67 @@ export const useCloudSync = () => {
             }
           }
           if (json.chapterRecords?.length > 0) {
-            await db.chapterRecords.bulkPut(json.chapterRecords)
+            // Smart merge: add cloud records that don't exist locally
+            for (const cloudRecord of json.chapterRecords) {
+              const exists = await db.chapterRecords
+                .where('[dict+chapter+timeStamp]')
+                .equals([cloudRecord.dict, cloudRecord.chapter, cloudRecord.timeStamp])
+                .first()
+
+              if (!exists) {
+                await db.chapterRecords.add(cloudRecord)
+              }
+            }
           }
           if (json.reviewRecords?.length > 0) {
-            await db.reviewRecords.bulkPut(json.reviewRecords)
+            // Smart merge: check for duplicates and update if needed
+            for (const cloudRecord of json.reviewRecords) {
+              const exists = await db.reviewRecords.where('[dict+createTime]').equals([cloudRecord.dict, cloudRecord.createTime]).first()
+
+              if (!exists) {
+                await db.reviewRecords.add(cloudRecord)
+              } else if (cloudRecord.isFinished && !exists.isFinished) {
+                // Cloud shows finished but local doesn't - update to finished
+                await db.reviewRecords.update(exists.id!, { isFinished: cloudRecord.isFinished })
+              }
+            }
           }
           if (json.spacedRepetitionRecords?.length > 0) {
-            await db.spacedRepetitionRecords.bulkPut(json.spacedRepetitionRecords)
+            // Smart merge: prefer the most recently reviewed record
+            for (const cloudRecord of json.spacedRepetitionRecords) {
+              const localRecord = await db.spacedRepetitionRecords.where('[word+dict]').equals([cloudRecord.word, cloudRecord.dict]).first()
+
+              if (localRecord) {
+                // Take the record with the most recent review
+                // Note: server returns lastReviewed but client uses lastReviewDate
+                const cloudLastReview = (cloudRecord as any).lastReviewed || cloudRecord.lastReviewDate || 0
+                if (cloudLastReview > localRecord.lastReviewDate) {
+                  // Map server field names to client field names
+                  const mappedRecord = {
+                    word: cloudRecord.word,
+                    dict: cloudRecord.dict,
+                    easinessFactor: (cloudRecord as any).easeFactor || cloudRecord.easinessFactor || 2.5,
+                    interval: (cloudRecord as any).intervalDays || cloudRecord.interval || 0,
+                    repetitions: cloudRecord.repetitions || 0,
+                    nextReviewDate: (cloudRecord as any).nextReview || cloudRecord.nextReviewDate || 0,
+                    lastReviewDate: cloudLastReview,
+                  }
+                  await db.spacedRepetitionRecords.update(localRecord.id!, mappedRecord)
+                }
+              } else {
+                // Map server field names to client field names for new records
+                const mappedRecord = {
+                  word: cloudRecord.word,
+                  dict: cloudRecord.dict,
+                  easinessFactor: (cloudRecord as any).easeFactor || cloudRecord.easinessFactor || 2.5,
+                  interval: (cloudRecord as any).intervalDays || cloudRecord.interval || 0,
+                  repetitions: cloudRecord.repetitions || 0,
+                  nextReviewDate: (cloudRecord as any).nextReview || cloudRecord.nextReviewDate || 0,
+                  lastReviewDate: (cloudRecord as any).lastReviewed || cloudRecord.lastReviewDate || 0,
+                }
+                await db.spacedRepetitionRecords.add(mappedRecord)
+              }
+            }
           }
         })
 
@@ -175,14 +229,60 @@ export const useCloudSync = () => {
           gamificationDb.unlockedAchievements,
           gamificationDb.dailyChallenges,
           async () => {
+            // 1. Points Transactions - Incremental sync with deduplication
             if (json.pointsTransactions?.length > 0) {
-              await gamificationDb.pointsTransactions.bulkPut(json.pointsTransactions)
+              for (const cloudTx of json.pointsTransactions) {
+                // Check if transaction already exists (by timestamp + reason)
+                const exists = await gamificationDb.pointsTransactions
+                  .where('[timestamp+reason]')
+                  .equals([cloudTx.timestamp, cloudTx.reason])
+                  .first()
+
+                if (!exists) {
+                  // Only add if it doesn't exist - prevents duplicate points on refresh
+                  await gamificationDb.pointsTransactions.add(cloudTx)
+                }
+              }
             }
+
+            // 2. Unlocked Achievements - Keep earliest unlock time
             if (json.unlockedAchievements?.length > 0) {
-              await gamificationDb.unlockedAchievements.bulkPut(json.unlockedAchievements)
+              for (const cloudAch of json.unlockedAchievements) {
+                const localAch = await gamificationDb.unlockedAchievements.get(cloudAch.achievementId)
+
+                if (localAch) {
+                  // If both exist, keep the one with earliest unlock time
+                  if (cloudAch.unlockedAt < localAch.unlockedAt) {
+                    await gamificationDb.unlockedAchievements.update(cloudAch.achievementId, {
+                      unlockedAt: cloudAch.unlockedAt,
+                    })
+                  }
+                } else {
+                  // Add if doesn't exist locally
+                  await gamificationDb.unlockedAchievements.add(cloudAch)
+                }
+              }
             }
+
+            // 3. Daily Challenges - Merge based on date
             if (json.dailyChallenges?.length > 0) {
-              await gamificationDb.dailyChallenges.bulkPut(json.dailyChallenges)
+              for (const cloudChallenge of json.dailyChallenges) {
+                const localChallenge = await gamificationDb.dailyChallenges.where('date').equals(cloudChallenge.date).first()
+
+                if (localChallenge) {
+                  // If cloud is completed but local isn't, update to completed
+                  if (cloudChallenge.completedAt && !localChallenge.completedAt) {
+                    await gamificationDb.dailyChallenges.update(localChallenge.id!, {
+                      completedAt: cloudChallenge.completedAt,
+                      words: cloudChallenge.words,
+                      score: cloudChallenge.score,
+                    })
+                  }
+                } else {
+                  // Add if doesn't exist locally
+                  await gamificationDb.dailyChallenges.add(cloudChallenge)
+                }
+              }
             }
           },
         )

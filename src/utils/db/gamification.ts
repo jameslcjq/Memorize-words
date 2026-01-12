@@ -15,6 +15,11 @@ class GamificationDB extends Dexie {
       unlockedAchievements: 'achievementId,unlockedAt',
       dailyChallenges: '++id,date,completedAt',
     })
+    this.version(2).stores({
+      pointsTransactions: '++id,reason,timestamp,[timestamp+reason]',
+      unlockedAchievements: 'achievementId,unlockedAt',
+      dailyChallenges: '++id,date,completedAt',
+    })
   }
 }
 
