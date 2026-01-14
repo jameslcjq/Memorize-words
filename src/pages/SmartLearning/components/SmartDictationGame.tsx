@@ -1,5 +1,5 @@
+import { useFastPronunciation } from '@/hooks/useFastPronunciation'
 import useKeySounds from '@/hooks/useKeySounds'
-import usePronunciationSound from '@/hooks/usePronunciation'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
 import type React from 'react'
@@ -30,6 +30,7 @@ interface SmartDictationGameProps {
 /**
  * SmartDictationGame - 智能学习模式专用的听写单词组件
  * 基于原 DictationGame 复制，使用回调替代 TypingContext
+ * 使用 Howler.js 快速发音
  */
 const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplete, onError }) => {
   const currentWordObj = word
@@ -48,7 +49,8 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const [playKeySound, playBeepSound, playHintSound] = useKeySounds()
-  const { play: playWord } = usePronunciationSound(currentWordObj?.name || '')
+  // 使用快速发音 hook (Howler.js + 有道词典 API，带预加载)
+  const { play: playWord, isLoaded } = useFastPronunciation(currentWordObj?.name || '')
   const playWordRef = useRef(playWord)
   useEffect(() => {
     playWordRef.current = playWord
@@ -62,6 +64,13 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
   }, [onComplete, onError])
 
   const saveWordRecord = useSaveWordRecord()
+
+  // 当音频加载完成后自动播放
+  useEffect(() => {
+    if (isLoaded && !isSuccess && !isShowAnswer) {
+      playWordRef.current()
+    }
+  }, [isLoaded, isSuccess, isShowAnswer])
 
   // Initialize word state
   useEffect(() => {
@@ -104,20 +113,12 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
 
     setShuffledLetters(lettersToUse.sort(() => Math.random() - 0.5))
 
-    // Auto-play pronunciation immediately (0ms) and again at 100ms for reliability
-    playWordRef.current()
-    const playTimer = setTimeout(() => {
-      playWordRef.current()
-    }, 100)
-
     setTimeout(() => {
       const firstEmpty = initialInputs.findIndex((c) => c === '')
       if (firstEmpty !== -1 && inputRefs.current[firstEmpty]) {
         inputRefs.current[firstEmpty]?.focus()
       }
     }, 50)
-
-    return () => clearTimeout(playTimer)
   }, [currentWordObj?.name])
 
   // Auto-advance

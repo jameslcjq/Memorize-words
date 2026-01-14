@@ -1,9 +1,8 @@
-import usePronunciationSound from '@/hooks/usePronunciation'
-import useSpeech from '@/hooks/useSpeech'
+import { useFastPronunciation } from '@/hooks/useFastPronunciation'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
 import { generateQuizOptions } from '@/utils/quiz'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 type QuizMode = 'word-to-trans' | 'trans-to-word'
@@ -41,26 +40,12 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
 
   const correctAnswer = isWordToTrans ? word.trans.join('；') : word.name
 
-  // Audio hooks
-  const { play: playWord } = usePronunciationSound(word.name)
-  const { speak: speakDef, cancel: cancelDef } = useSpeech(word.trans.join('；'))
-
-  const playSound = useCallback(() => {
-    playWord()
-    // 只读英文发音
-    if (mode === 'trans-to-word' || mode === 'word-to-trans') return
-
-    setTimeout(() => {
-      speakDef()
-    }, 800)
-  }, [playWord, speakDef, mode])
-
-  // Cleanup speech on unmount or word change
+  // 使用快速发音 hook
+  const { play: playWord } = useFastPronunciation(word.name)
+  const playWordRef = useRef(playWord)
   useEffect(() => {
-    return () => {
-      cancelDef()
-    }
-  }, [cancelDef, word])
+    playWordRef.current = playWord
+  }, [playWord])
 
   // Reset state when word changes
   useEffect(() => {
@@ -76,10 +61,10 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
       const correct = option === correctAnswer
       setIsCorrect(correct)
 
-      // Play sound
-      playSound()
-
       if (correct) {
+        // 答对了，播放单词发音
+        playWordRef.current()
+
         saveWordRecord({
           word: word.name,
           wrongCount: 0,
@@ -91,8 +76,7 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
           onComplete()
           setSelectedIdx(null)
           setIsCorrect(null)
-          cancelDef()
-        }, 800)
+        }, 1000)
       } else {
         saveWordRecord({
           word: word.name,
@@ -102,16 +86,19 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
         })
         // 通知错误
         onError()
+        // 答错了，也播放一下正确发音帮助记忆
+        setTimeout(() => {
+          playWordRef.current()
+        }, 500)
         // 停留一下提示错误
         setTimeout(() => {
           onComplete()
           setSelectedIdx(null)
           setIsCorrect(null)
-          cancelDef()
-        }, 3500)
+        }, 2500)
       }
     },
-    [correctAnswer, onComplete, onError, selectedIdx, saveWordRecord, word.name, playSound, cancelDef],
+    [correctAnswer, onComplete, onError, selectedIdx, saveWordRecord, word.name],
   )
 
   // 快捷键支持
