@@ -9,45 +9,154 @@ const SESSION_KEY = 'smartLearningSession'
 const WORDS_PER_GROUP = 10
 
 /**
- * 智能学习队列管理
+ * 学习任务 - 代表一个单词的某个模式
+ */
+interface LearningTask {
+  word: string
+  stage: LearningStage
+}
+
+/**
+ * 智能学习队列管理（交错模式）
+ *
+ * 初级阶段：多个单词的 A/B 模式随机交错出现
+ * 高级阶段：完成 A+B 的单词的 C/D 模式随机交错出现
  */
 class SmartLearningQueue {
   private words: WordProgress[]
+  private taskQueue: LearningTask[] // 当前任务队列
 
   constructor(words: WordProgress[]) {
     this.words = words
+    this.taskQueue = []
+    this.buildInitialQueue()
   }
 
   /**
-   * 获取下一个要学习的单词
+   * 构建初始任务队列（初级阶段 A/B 模式）
    */
-  getNext(): WordProgress | null {
+  private buildInitialQueue() {
+    const tasks: LearningTask[] = []
+
     for (const word of this.words) {
-      if (word.currentStage !== LearningStage.COMPLETED) {
-        return word
+      // 每个单词添加 A 和 B 两个任务
+      tasks.push({ word: word.word, stage: LearningStage.ENGLISH_TO_CHINESE })
+      tasks.push({ word: word.word, stage: LearningStage.CHINESE_TO_ENGLISH })
+    }
+
+    // 随机打乱
+    this.taskQueue = this.shuffle(tasks)
+  }
+
+  /**
+   * 洗牌算法
+   */
+  private shuffle<T>(array: T[]): T[] {
+    const result = [...array]
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[result[i], result[j]] = [result[j], result[i]]
+    }
+    return result
+  }
+
+  /**
+   * 获取下一个任务
+   */
+  getNext(): LearningTask | null {
+    if (this.taskQueue.length === 0) {
+      return null
+    }
+    return this.taskQueue[0]
+  }
+
+  /**
+   * 完成当前任务（答对了）
+   */
+  completeCurrentTask() {
+    if (this.taskQueue.length === 0) return
+
+    const task = this.taskQueue.shift()!
+    const wordProgress = this.words.find((w) => w.word === task.word)
+
+    if (!wordProgress) return
+
+    // 标记该阶段完成
+    const stageKey = this.stageToKey(task.stage)
+    if (stageKey) {
+      wordProgress.stagesCompleted[stageKey] = true
+    }
+
+    // 检查是否需要添加高级阶段任务
+    this.checkAndAddAdvancedTasks(wordProgress)
+
+    // 检查单词是否完全掌握
+    if (this.isWordMastered(wordProgress)) {
+      wordProgress.currentStage = LearningStage.COMPLETED
+    }
+  }
+
+  /**
+   * 任务失败（答错了）- 将任务移到队列后面
+   */
+  failCurrentTask() {
+    if (this.taskQueue.length === 0) return
+
+    const task = this.taskQueue.shift()!
+
+    // 随机插入到队列后半部分
+    const insertPos = Math.floor(this.taskQueue.length / 2) + Math.floor(Math.random() * (this.taskQueue.length / 2 + 1))
+    this.taskQueue.splice(Math.min(insertPos, this.taskQueue.length), 0, task)
+  }
+
+  /**
+   * 检查并添加高级阶段任务（C/D 模式）
+   */
+  private checkAndAddAdvancedTasks(wordProgress: WordProgress) {
+    const { englishToChinese, chineseToEnglish, speller, typing } = wordProgress.stagesCompleted
+
+    // 如果 A 和 B 都完成了，且 C 和 D 还没开始，添加 C/D 任务
+    if (englishToChinese && chineseToEnglish) {
+      // 检查 C 任务是否已在队列中或已完成
+      const cInQueue = this.taskQueue.some((t) => t.word === wordProgress.word && t.stage === LearningStage.SPELLER)
+      if (!speller && !cInQueue) {
+        // 随机插入到队列中
+        const insertPos = Math.floor(Math.random() * (this.taskQueue.length + 1))
+        this.taskQueue.splice(insertPos, 0, { word: wordProgress.word, stage: LearningStage.SPELLER })
+      }
+
+      // 检查 D 任务是否已在队列中或已完成
+      const dInQueue = this.taskQueue.some((t) => t.word === wordProgress.word && t.stage === LearningStage.TYPING)
+      if (!typing && !dInQueue) {
+        const insertPos = Math.floor(Math.random() * (this.taskQueue.length + 1))
+        this.taskQueue.splice(insertPos, 0, { word: wordProgress.word, stage: LearningStage.TYPING })
       }
     }
-    return null // 所有单词都完成了
   }
 
   /**
-   * 单词答错后，移到队尾
+   * 检查单词是否完全掌握
    */
-  moveToEnd(wordToMove: WordProgress) {
-    const index = this.words.findIndex((w) => w.word === wordToMove.word)
-    if (index !== -1) {
-      const [word] = this.words.splice(index, 1)
-      this.words.push(word)
-    }
+  private isWordMastered(wordProgress: WordProgress): boolean {
+    const { englishToChinese, chineseToEnglish, speller, typing } = wordProgress.stagesCompleted
+    return englishToChinese && chineseToEnglish && speller && typing
   }
 
   /**
-   * 单词完成后，标记为完成
+   * 将阶段枚举转换为对象键
    */
-  complete(wordToComplete: WordProgress) {
-    const word = this.words.find((w) => w.word === wordToComplete.word)
-    if (word) {
-      word.currentStage = LearningStage.COMPLETED
+  private stageToKey(stage: LearningStage): keyof WordProgress['stagesCompleted'] | null {
+    switch (stage) {
+      case LearningStage.ENGLISH_TO_CHINESE:
+        return 'englishToChinese'
+      case LearningStage.CHINESE_TO_ENGLISH:
+        return 'chineseToEnglish'
+      case LearningStage.SPELLER:
+        return 'speller'
+      case LearningStage.TYPING:
+        return 'typing'
+      default:
+        return null
     }
   }
 
@@ -55,19 +164,33 @@ class SmartLearningQueue {
    * 获取进度
    */
   getProgress() {
-    const completed = this.words.filter((w) => w.currentStage === LearningStage.COMPLETED).length
+    const completed = this.words.filter((w) => this.isWordMastered(w)).length
     return {
       completed,
       total: this.words.length,
-      percentage: (completed / this.words.length) * 100,
+      percentage: this.words.length > 0 ? (completed / this.words.length) * 100 : 0,
     }
   }
 
   /**
-   * 获取所有单词
+   * 检查是否全部完成
+   */
+  isAllCompleted(): boolean {
+    return this.taskQueue.length === 0 && this.words.every((w) => this.isWordMastered(w))
+  }
+
+  /**
+   * 获取所有单词进度
    */
   getWords() {
     return this.words
+  }
+
+  /**
+   * 获取当前任务队列长度
+   */
+  getRemainingTasks(): number {
+    return this.taskQueue.length
   }
 }
 
@@ -82,28 +205,10 @@ function chunkWords(words: Word[], chunkSize: number): Word[][] {
   return chunks
 }
 
-/**
- * 获取下一个题型
- */
-function getNextQuizType(progress: WordProgress): LearningStage {
-  const { englishToChinese, chineseToEnglish } = progress.stagesCompleted
-
-  if (!englishToChinese && !chineseToEnglish) {
-    // 两个都没完成，随机选一个
-    return Math.random() > 0.5 ? LearningStage.ENGLISH_TO_CHINESE : LearningStage.CHINESE_TO_ENGLISH
-  } else if (!englishToChinese) {
-    // 只剩英译中
-    return LearningStage.ENGLISH_TO_CHINESE
-  } else {
-    // 只剩中译英
-    return LearningStage.CHINESE_TO_ENGLISH
-  }
-}
-
 export function useSmartLearning(dict: string, chapter: number, allWords: Word[]) {
   const [session, setSession] = useState<SmartLearningSession | null>(null)
   const [queue, setQueue] = useState<SmartLearningQueue | null>(null)
-  const [currentWord, setCurrentWord] = useState<WordProgress | null>(null)
+  const [currentTask, setCurrentTask] = useState<LearningTask | null>(null)
   const [stageStartTime, setStageStartTime] = useState<number>(Date.now())
   const [isGroupFinished, setIsGroupFinished] = useState(false)
 
@@ -117,17 +222,16 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
       try {
         const parsed: SmartLearningSession = JSON.parse(savedSession)
         if (parsed.dict === dict && parsed.chapter === chapter) {
-          // 恢复之前的会话
           setSession(parsed)
           const q = new SmartLearningQueue(parsed.words)
           setQueue(q)
-          // 如果这组已经完成了（可能是在 Summary 页面刷新），我们需要检查
+
           const progress = q.getProgress()
           if (progress.completed === progress.total) {
             setIsGroupFinished(true)
-            setCurrentWord(null)
+            setCurrentTask(null)
           } else {
-            setCurrentWord(q.getNext())
+            setCurrentTask(q.getNext())
           }
           return
         }
@@ -156,11 +260,10 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     setSession(newSession)
     const q = new SmartLearningQueue(wordProgresses)
     setQueue(q)
-    setCurrentWord(q.getNext())
+    setCurrentTask(q.getNext())
     setStageStartTime(Date.now())
     setIsGroupFinished(false)
 
-    // 保存到localStorage
     localStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
   }, [dict, chapter, allWords])
 
@@ -171,41 +274,6 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     setSession(updatedSession)
     localStorage.setItem(SESSION_KEY, JSON.stringify(updatedSession))
   }, [])
-
-  /**
-   * 完成当前阶段
-   */
-  const completeStage = useCallback(
-    (stage: LearningStage) => {
-      if (!currentWord || !session || stage === LearningStage.COMPLETED) return
-
-      const duration = Date.now() - stageStartTime
-      // Casting to any to allow indexing by enum, or we can use switch/if
-      // But since we checked for COMPLETED, the remaining values match keys partially
-      // To be safe and TS-friendly without extensive casting:
-      const stageKeyMap: Partial<Record<LearningStage, keyof typeof currentWord.stageTimes>> = {
-        [LearningStage.ENGLISH_TO_CHINESE]: 'englishToChinese',
-        [LearningStage.CHINESE_TO_ENGLISH]: 'chineseToEnglish',
-        [LearningStage.SPELLER]: 'speller',
-        [LearningStage.TYPING]: 'typing',
-      }
-
-      const key = stageKeyMap[stage]
-      if (key) {
-        currentWord.stageTimes[key] = duration
-        currentWord.stagesCompleted[key as keyof typeof currentWord.stagesCompleted] = true
-      }
-
-      // 重置计时器
-      setStageStartTime(Date.now())
-
-      // 更新会话
-      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? currentWord : w))
-      const updatedSession = { ...session, words: updatedWords }
-      saveSession(updatedSession)
-    },
-    [currentWord, session, stageStartTime, saveSession],
-  )
 
   /**
    * 保存已完成的组记录
@@ -235,71 +303,56 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
       })),
     }
 
-    // 保存到数据库
     await db.smartLearningRecords.add(record)
-
-    // 注意：这里不再清除 session，因为可能还有下一组
   }, [session])
 
   /**
    * 处理答题正确
    */
   const handleCorrect = useCallback(() => {
-    if (!currentWord || !queue || !session) return
+    if (!queue || !session || !currentTask) return
 
-    const stage = currentWord.currentStage
+    // 完成当前任务
+    queue.completeCurrentTask()
 
-    // 完成当前阶段
-    completeStage(stage)
+    // 更新会话
+    const updatedWords = queue.getWords()
+    const updatedSession = { ...session, words: [...updatedWords] }
+    saveSession(updatedSession)
 
-    // 判断下一步
-    if (stage === LearningStage.ENGLISH_TO_CHINESE || stage === LearningStage.CHINESE_TO_ENGLISH) {
-      // 阶段1：认知阶段
-      const { englishToChinese, chineseToEnglish } = currentWord.stagesCompleted
-      if (englishToChinese && chineseToEnglish) {
-        // 两个都完成了，进入阶段2
-        currentWord.currentStage = LearningStage.SPELLER
-      } else {
-        // 还有一个没完成，切换到另一个题型
-        currentWord.currentStage = getNextQuizType(currentWord)
-      }
-
-      // 更新会话并继续当前单词
-      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? { ...currentWord } : w))
-      saveSession({ ...session, words: updatedWords })
-      // 强制重新渲染当前单词状态
-      setCurrentWord({ ...currentWord })
-    } else if (stage === LearningStage.SPELLER) {
-      // 阶段2：单词填空完成，进入阶段3
-      currentWord.currentStage = LearningStage.TYPING
-
-      // 更新会话并继续当前单词
-      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? { ...currentWord } : w))
-      saveSession({ ...session, words: updatedWords })
-      // 强制重新渲染当前单词状态
-      setCurrentWord({ ...currentWord })
-    } else if (stage === LearningStage.TYPING) {
-      // 阶段3：听写完成，单词学习完成
-      queue.complete(currentWord)
-
-      // 检查是否所有单词都完成了
-      const progress = queue.getProgress()
-      if (progress.completed === progress.total) {
-        // 当前组完成
-        setIsGroupFinished(true)
-        saveCompletedGroup()
-        return
-      }
-
-      // 更新会话
-      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? { ...currentWord } : w))
-      saveSession({ ...session, words: updatedWords })
-
-      // 只有在当前单词完全完成后，才获取下一个单词
-      const next = queue.getNext()
-      setCurrentWord(next)
+    // 检查是否全部完成
+    if (queue.isAllCompleted()) {
+      setIsGroupFinished(true)
+      setCurrentTask(null)
+      saveCompletedGroup()
+      return
     }
-  }, [currentWord, queue, session, completeStage, saveSession, saveCompletedGroup])
+
+    // 获取下一个任务
+    const next = queue.getNext()
+    setCurrentTask(next)
+    setStageStartTime(Date.now())
+  }, [queue, session, currentTask, saveSession, saveCompletedGroup])
+
+  /**
+   * 处理答题错误
+   */
+  const handleWrong = useCallback(() => {
+    if (!queue || !session || !currentTask) return
+
+    // 任务失败，移到队列后面
+    queue.failCurrentTask()
+
+    // 更新会话
+    const updatedWords = queue.getWords()
+    const updatedSession = { ...session, words: [...updatedWords] }
+    saveSession(updatedSession)
+
+    // 获取下一个任务
+    const next = queue.getNext()
+    setCurrentTask(next)
+    setStageStartTime(Date.now())
+  }, [queue, session, currentTask, saveSession])
 
   /**
    * 进入下一组
@@ -311,7 +364,6 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     const nextGroupIndex = session.currentGroup + 1
 
     if (nextGroupIndex >= groups.length) {
-      // 所有组都完成了
       localStorage.removeItem(SESSION_KEY)
       setSession(null)
       return { finished: true }
@@ -323,7 +375,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     const newSession: SmartLearningSession = {
       ...session,
       currentGroup: nextGroupIndex,
-      totalGroups: groups.length, // Ensure totalGroups is consistent
+      totalGroups: groups.length,
       words: wordProgresses,
       startTime: getUTCUnixTimestamp(),
       totalTime: 0,
@@ -332,79 +384,13 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     setSession(newSession)
     const q = new SmartLearningQueue(wordProgresses)
     setQueue(q)
-    setCurrentWord(q.getNext())
+    setCurrentTask(q.getNext())
     setStageStartTime(Date.now())
     setIsGroupFinished(false)
 
     localStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
     return { finished: false }
   }, [session, allWords])
-
-  // ... handleWrong is unchanged mostly, but we need to include it in the hook return
-
-  /**
-   * 处理答题错误
-   */
-  const handleWrong = useCallback(() => {
-    if (!currentWord || !queue || !session) return
-
-    const stage = currentWord.currentStage
-
-    if (stage === LearningStage.ENGLISH_TO_CHINESE || stage === LearningStage.CHINESE_TO_ENGLISH) {
-      // 阶段1错误：继续当前题型
-      return { continue: true }
-    } else if (stage === LearningStage.SPELLER) {
-      // 阶段2错误（严格模式）：移到队尾，重新开始
-      // 重置该单词的进度
-      currentWord.currentStage = Math.random() > 0.5 ? LearningStage.ENGLISH_TO_CHINESE : LearningStage.CHINESE_TO_ENGLISH
-      currentWord.stagesCompleted = {
-        englishToChinese: false,
-        chineseToEnglish: false,
-        speller: false,
-        typing: false,
-      }
-      currentWord.stageTimes = {}
-
-      // 移到队尾
-      queue.moveToEnd(currentWord)
-
-      // 获取下一个单词
-      const next = queue.getNext()
-      setCurrentWord(next)
-
-      // 更新会话
-      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? currentWord : w))
-      saveSession({ ...session, words: updatedWords })
-
-      return { moveToEnd: true, message: '移到队尾重新学习' }
-    } else if (stage === LearningStage.TYPING) {
-      // 阶段3错误：记录尝试次数
-      currentWord.typingAttempts++
-
-      if (currentWord.typingAttempts === 1) {
-        // 第1次错误，继续听写
-        return { continue: true, showHint: false }
-      } else if (currentWord.typingAttempts === 2) {
-        // 第2次错误，显示首字母提示
-        return { continue: true, showHint: true, hint: currentWord.word[0] }
-      } else if (currentWord.typingAttempts >= 3) {
-        // 第3次错误，降级
-        currentWord.currentStage = LearningStage.SPELLER
-        currentWord.typingAttempts = 0
-        currentWord.stagesCompleted.typing = false
-        currentWord.stagesCompleted.speller = false
-        currentWord.downgrades++
-
-        // 更新会话
-        const updatedWords = session.words.map((w) => (w.word === currentWord.word ? currentWord : w))
-        saveSession({ ...session, words: updatedWords })
-
-        return { downgrade: true, message: '降级回单词填空' }
-      }
-    }
-
-    return { continue: true }
-  }, [currentWord, queue, session, saveSession])
 
   /**
    * 初始化
@@ -415,6 +401,22 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     }
   }, [initSession, allWords.length])
 
+  // 构造当前单词进度对象（用于渲染 StageIndicator）
+  const currentWord = currentTask
+    ? {
+        word: currentTask.word,
+        currentStage: currentTask.stage,
+        stagesCompleted: queue?.getWords().find((w) => w.word === currentTask.word)?.stagesCompleted || {
+          englishToChinese: false,
+          chineseToEnglish: false,
+          speller: false,
+          typing: false,
+        },
+        typingAttempts: queue?.getWords().find((w) => w.word === currentTask.word)?.typingAttempts || 0,
+        downgrades: queue?.getWords().find((w) => w.word === currentTask.word)?.downgrades || 0,
+      }
+    : null
+
   return {
     session,
     currentWord,
@@ -424,5 +426,6 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     getProgress: () => queue?.getProgress() || { completed: 0, total: 0, percentage: 0 },
     moveToNextGroup,
     isGroupFinished,
+    remainingTasks: queue?.getRemainingTasks() || 0,
   }
 }
