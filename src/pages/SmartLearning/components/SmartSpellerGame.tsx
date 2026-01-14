@@ -378,7 +378,7 @@ const SmartSpellerGame: React.FC<SmartSpellerGameProps> = ({ word, onComplete, o
       </div>
 
       {/* Speller Area */}
-      <div className="relative">
+      <div className="relative w-full">
         <div
           className={`flex flex-wrap items-center justify-center gap-2 transition-transform duration-300 ${isShake ? 'animate-shake' : ''}`}
         >

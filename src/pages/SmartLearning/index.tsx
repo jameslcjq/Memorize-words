@@ -167,8 +167,8 @@ export default function SmartLearning() {
         </div>
       </div>
 
-      {/* 主内容区 */}
-      <div className="mx-auto max-w-4xl px-6 py-8">
+      {/* 主内容区 - 增大宽度以容纳长单词 */}
+      <div className="mx-auto max-w-6xl px-4 py-8">
         {/* 进度指示器 */}
         <div className="mb-8">
           <StageIndicator currentStage={currentWord.currentStage} stagesCompleted={currentWord.stagesCompleted} />

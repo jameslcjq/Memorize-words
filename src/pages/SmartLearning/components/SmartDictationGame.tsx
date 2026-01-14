@@ -104,17 +104,20 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
 
     setShuffledLetters(lettersToUse.sort(() => Math.random() - 0.5))
 
-    // Auto-play pronunciation
-    setTimeout(() => {
+    // Auto-play pronunciation immediately (0ms) and again at 100ms for reliability
+    playWordRef.current()
+    const playTimer = setTimeout(() => {
       playWordRef.current()
-    }, 300)
+    }, 100)
 
     setTimeout(() => {
       const firstEmpty = initialInputs.findIndex((c) => c === '')
       if (firstEmpty !== -1 && inputRefs.current[firstEmpty]) {
         inputRefs.current[firstEmpty]?.focus()
       }
-    }, 100)
+    }, 50)
+
+    return () => clearTimeout(playTimer)
   }, [currentWordObj?.name])
 
   // Auto-advance
@@ -383,7 +386,7 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
       </div>
 
       {/* Speller Area */}
-      <div className="relative">
+      <div className="relative w-full">
         <div
           className={`flex flex-wrap items-center justify-center gap-2 transition-transform duration-300 ${isShake ? 'animate-shake' : ''}`}
         >
