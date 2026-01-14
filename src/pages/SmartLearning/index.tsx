@@ -1,15 +1,15 @@
-import QuizStage from './components/QuizStage'
-import SpellerStage from './components/SpellerStage'
+import SmartDictationGame from './components/SmartDictationGame'
+import SmartQuizPanel from './components/SmartQuizPanel'
+import SmartSpellerGame from './components/SmartSpellerGame'
 import StageIndicator from './components/StageIndicator'
 import Summary from './components/Summary'
-import TypingStage from './components/TypingStage'
 import { useSmartLearning } from './hooks/useSmartLearning'
-import { currentDictInfoAtom, selectedChaptersAtom } from '@/store'
+import { currentDictInfoAtom, exerciseModeAtom, selectedChaptersAtom } from '@/store'
 import type { Word } from '@/typings'
 import type { SmartLearningRecord } from '@/utils/db/smart-learning-record'
 import { LearningStage } from '@/utils/db/smart-learning-record'
 import { wordListFetcher } from '@/utils/wordListFetcher'
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
@@ -18,6 +18,7 @@ export default function SmartLearning() {
   const navigate = useNavigate()
   const currentDictInfo = useAtomValue(currentDictInfoAtom)
   const selectedChapters = useAtomValue(selectedChaptersAtom)
+  const setExerciseMode = useSetAtom(exerciseModeAtom)
   const { data: wordList } = useSWR(currentDictInfo.url, wordListFetcher)
 
   const [chapterWords, setChapterWords] = useState<Word[]>([])
@@ -78,6 +79,10 @@ export default function SmartLearning() {
   }, [isGroupFinished, session])
 
   const handleExit = () => {
+    // 清除智能学习会话数据
+    localStorage.removeItem('smartLearningSession')
+    // 重置练习模式，防止自动跳转回智能学习
+    setExerciseMode('speller')
     navigate('/typing')
   }
 
@@ -129,6 +134,11 @@ export default function SmartLearning() {
 
   const progress = getProgress()
 
+  // 将 LearningStage 转换为 QuizMode
+  const getQuizMode = (stage: LearningStage) => {
+    return stage === LearningStage.ENGLISH_TO_CHINESE ? 'word-to-trans' : 'trans-to-word'
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* 顶部导航栏 */}
@@ -168,21 +178,21 @@ export default function SmartLearning() {
         <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           {(currentWord.currentStage === LearningStage.ENGLISH_TO_CHINESE ||
             currentWord.currentStage === LearningStage.CHINESE_TO_ENGLISH) && (
-            <QuizStage
+            <SmartQuizPanel
               word={wordData}
-              stage={currentWord.currentStage}
-              onCorrect={handleCorrect}
-              onWrong={handleWrong}
               allWords={chapterWords}
+              mode={getQuizMode(currentWord.currentStage)}
+              onComplete={handleCorrect}
+              onError={handleWrong}
             />
           )}
 
           {currentWord.currentStage === LearningStage.SPELLER && (
-            <SpellerStage word={wordData} onCorrect={handleCorrect} onWrong={handleWrong} />
+            <SmartSpellerGame word={wordData} onComplete={handleCorrect} onError={handleWrong} />
           )}
 
           {currentWord.currentStage === LearningStage.TYPING && (
-            <TypingStage word={wordData} onCorrect={handleCorrect} onWrong={handleWrong} attempts={currentWord.typingAttempts} />
+            <SmartDictationGame word={wordData} onComplete={handleCorrect} onError={handleWrong} />
           )}
         </div>
       </div>
