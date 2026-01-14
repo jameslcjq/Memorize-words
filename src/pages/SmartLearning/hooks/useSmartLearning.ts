@@ -263,9 +263,21 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
         // 还有一个没完成，切换到另一个题型
         currentWord.currentStage = getNextQuizType(currentWord)
       }
+
+      // 更新会话并继续当前单词
+      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? { ...currentWord } : w))
+      saveSession({ ...session, words: updatedWords })
+      // 强制重新渲染当前单词状态
+      setCurrentWord({ ...currentWord })
     } else if (stage === LearningStage.SPELLER) {
       // 阶段2：单词填空完成，进入阶段3
       currentWord.currentStage = LearningStage.TYPING
+
+      // 更新会话并继续当前单词
+      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? { ...currentWord } : w))
+      saveSession({ ...session, words: updatedWords })
+      // 强制重新渲染当前单词状态
+      setCurrentWord({ ...currentWord })
     } else if (stage === LearningStage.TYPING) {
       // 阶段3：听写完成，单词学习完成
       queue.complete(currentWord)
@@ -278,15 +290,15 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
         saveCompletedGroup()
         return
       }
+
+      // 更新会话
+      const updatedWords = session.words.map((w) => (w.word === currentWord.word ? { ...currentWord } : w))
+      saveSession({ ...session, words: updatedWords })
+
+      // 只有在当前单词完全完成后，才获取下一个单词
+      const next = queue.getNext()
+      setCurrentWord(next)
     }
-
-    // 更新会话
-    const updatedWords = session.words.map((w) => (w.word === currentWord.word ? currentWord : w))
-    saveSession({ ...session, words: updatedWords })
-
-    // 获取下一个单词
-    const next = queue.getNext()
-    setCurrentWord(next)
   }, [currentWord, queue, session, completeStage, saveSession, saveCompletedGroup])
 
   /**

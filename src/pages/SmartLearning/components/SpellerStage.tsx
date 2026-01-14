@@ -72,9 +72,14 @@ export default function SpellerStage({ word, onCorrect, onWrong }: SpellerStageP
   }
 
   const checkAnswer = (filledInputs: string[]) => {
-    const userAnswer = filledInputs.join('').toLowerCase()
-    const correctAnswer = word.name.toLowerCase()
-    const correct = userAnswer === correctAnswer
+    // 只检查空白位置是否填写正确
+    let correct = true
+    for (const pos of blanks) {
+      if (filledInputs[pos].toLowerCase() !== word.name[pos].toLowerCase()) {
+        correct = false
+        break
+      }
+    }
 
     setIsCorrect(correct)
     setShowResult(true)
