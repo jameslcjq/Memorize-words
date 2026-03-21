@@ -20,12 +20,15 @@
 ## 项目概述
 
 ### 项目名称
+
 **老九背单词** (Qwerty Learner Fork)
 
 ### 核心定位
+
 一款面向小学到初中学生的译林版英语单词学习工具，提供多种创新练习模式，支持错题本、云端同步、学习统计等功能。
 
 ### 主要特性
+
 - 📚 **7 本译林版词典**：覆盖小学 3A 到初中 9A
 - 🎮 **7 种练习模式**：从打字背诵到填字游戏
 - 📊 **学习统计**：日历热力图、练习时长、正确率统计
@@ -39,22 +42,22 @@
 
 ### 技术栈总览
 
-| 类别 | 技术 | 用途 |
-|------|------|------|
-| **前端框架** | React 18 | UI 组件化开发 |
-| **开发语言** | TypeScript | 类型安全 |
-| **构建工具** | Vite | 快速开发与打包 |
-| **状态管理** | Jotai | 原子化状态管理 |
-| **路由** | React Router v6 | 单页应用路由 |
-| **样式** | TailwindCSS | 原子化 CSS |
-| **本地数据库** | IndexedDB (Dexie.js) | 客户端持久化存储 |
-| **图表** | ECharts | 学习统计可视化 |
-| **音频** | Howler.js + Web Speech API | 单词发音 |
-| **图标** | Iconify + Lucide React | 图标库 |
-| **桌面端** | Tauri | 桌面应用封装 |
-| **后端** | Cloudflare Workers | Serverless API |
-| **后端数据库** | Cloudflare D1 (SQLite) | 云端数据存储 |
-| **测试** | Playwright | E2E 测试 |
+| 类别           | 技术                       | 用途             |
+| -------------- | -------------------------- | ---------------- |
+| **前端框架**   | React 18                   | UI 组件化开发    |
+| **开发语言**   | TypeScript                 | 类型安全         |
+| **构建工具**   | Vite                       | 快速开发与打包   |
+| **状态管理**   | Jotai                      | 原子化状态管理   |
+| **路由**       | React Router v6            | 单页应用路由     |
+| **样式**       | TailwindCSS                | 原子化 CSS       |
+| **本地数据库** | IndexedDB (Dexie.js)       | 客户端持久化存储 |
+| **图表**       | ECharts                    | 学习统计可视化   |
+| **音频**       | Howler.js + Web Speech API | 单词发音         |
+| **图标**       | Iconify + Lucide React     | 图标库           |
+| **桌面端**     | Tauri                      | 桌面应用封装     |
+| **后端**       | Cloudflare Workers         | Serverless API   |
+| **后端数据库** | Cloudflare D1 (SQLite)     | 云端数据存储     |
+| **测试**       | Playwright                 | E2E 测试         |
 
 ### 架构图
 
@@ -67,12 +70,12 @@ graph TB
         Store[状态管理 Jotai]
         LocalDB[(IndexedDB)]
     end
-    
+
     subgraph Backend["后端 (Cloudflare Workers)"]
         API[API 接口]
         D1[(D1 数据库)]
     end
-    
+
     UI --> Pages
     Pages --> Hooks
     Hooks --> Store
@@ -148,37 +151,38 @@ Memorize-words/
 
 #### 词典列表
 
-| 词典 ID | 名称 | 词汇量 | 章节数 | 适用年级 |
-|---------|------|--------|--------|----------|
-| Yilin3A | 译林版小学英语3A | 126 | 8 | 小学三年级 |
-| Yilin4A | 译林版小学英语4A | 159 | 8 | 小学四年级 |
-| Yilin5A | 译林版小学英语5A | 148 | 8 | 小学五年级 |
-| Yilin6A | 译林版小学英语6A | 166 | 8 | 小学六年级 |
-| Yilin7A | 译林版初中英语7A | 417 | 8 | 初中一年级 |
-| Yilin8A | 译林版初中英语8A | 452 | 8 | 初中二年级 |
-| Yilin9A | 译林版初中英语9A | 760 | 18 | 初中三年级 |
+| 词典 ID | 名称              | 词汇量 | 章节数 | 适用年级   |
+| ------- | ----------------- | ------ | ------ | ---------- |
+| Yilin3A | 译林版小学英语 3A | 126    | 8      | 小学三年级 |
+| Yilin4A | 译林版小学英语 4A | 159    | 8      | 小学四年级 |
+| Yilin5A | 译林版小学英语 5A | 148    | 8      | 小学五年级 |
+| Yilin6A | 译林版小学英语 6A | 166    | 8      | 小学六年级 |
+| Yilin7A | 译林版初中英语 7A | 417    | 8      | 初中一年级 |
+| Yilin8A | 译林版初中英语 8A | 452    | 8      | 初中二年级 |
+| Yilin9A | 译林版初中英语 9A | 760    | 18     | 初中三年级 |
 
 #### 词典数据结构
+
 ```typescript
 interface DictionaryResource {
-  id: string              // 唯一标识
-  name: string            // 显示名称
-  description: string     // 描述
-  category: string        // 分类
-  tags: string[]          // 标签
-  url: string             // 数据文件路径
-  length: number          // 总词汇量
-  language: string        // 语言
+  id: string // 唯一标识
+  name: string // 显示名称
+  description: string // 描述
+  category: string // 分类
+  tags: string[] // 标签
+  url: string // 数据文件路径
+  length: number // 总词汇量
+  language: string // 语言
   languageCategory: string
   chapterLengths: number[] // 每章词汇数
 }
 
 interface Word {
-  name: string           // 单词
-  trans: string[]        // 翻译（数组）
-  usphone: string        // 美式音标
-  ukphone: string        // 英式音标
-  notation?: string      // 备注
+  name: string // 单词
+  trans: string[] // 翻译（数组）
+  usphone: string // 美式音标
+  ukphone: string // 英式音标
+  notation?: string // 备注
 }
 ```
 
@@ -188,21 +192,22 @@ interface Word {
 
 #### 模式总览
 
-| 模式 | 英文标识 | 描述 | 交互方式 |
-|------|----------|------|----------|
-| **背默单词** | `typing` | 看释义完整打出单词 | 键盘输入 |
-| **单词填空** | `speller` | 从乱序字母中选择正确字母 | 点击/拖拽 |
-| **填字闯关** | `crossword` | 十字填字游戏 | 键盘输入 |
-| **英译中** | `word-to-trans` | 看单词选择正确释义 | 三选一选择 |
-| **中译英** | `trans-to-word` | 看释义选择正确单词 | 三选一选择 |
-| **听写模式** | `dictation` | 听发音写单词 | 键盘输入 |
-| **智能学习** | `smartLearning` | 交叉混合多种模式 | 混合交互 |
+| 模式         | 英文标识        | 描述                     | 交互方式   |
+| ------------ | --------------- | ------------------------ | ---------- |
+| **背默单词** | `typing`        | 看释义完整打出单词       | 键盘输入   |
+| **单词填空** | `speller`       | 从乱序字母中选择正确字母 | 点击/拖拽  |
+| **填字闯关** | `crossword`     | 十字填字游戏             | 键盘输入   |
+| **英译中**   | `word-to-trans` | 看单词选择正确释义       | 三选一选择 |
+| **中译英**   | `trans-to-word` | 看释义选择正确单词       | 三选一选择 |
+| **听写模式** | `dictation`     | 听发音写单词             | 键盘输入   |
+| **智能学习** | `smartLearning` | 交叉混合多种模式         | 混合交互   |
 
 #### 2.1 背默单词 (Typing)
 
 **核心组件**: `src/pages/Typing/components/WordPanel/`
 
 **功能特点**:
+
 - 显示单词释义和音标
 - 用户通过键盘输入完整单词
 - 实时高亮正确/错误字母
@@ -222,6 +227,7 @@ interface Word {
 **核心组件**: `src/pages/Typing/components/SpellerGame/`
 
 **功能特点**:
+
 - 显示单词释义和空位
 - 提供乱序字母选项
 - 支持点击和拖拽两种交互
@@ -233,8 +239,9 @@ interface Word {
 **核心组件**: `src/pages/Typing/components/CrosswordGame/`
 
 **功能特点**:
+
 - 自动生成十字填字网格
-- 三个难度等级：3词、6词、12词
+- 三个难度等级：3 词、6 词、12 词
 - 智能布局算法确保单词交叉
 - 点击单元格高亮当前单词
 - 支持键盘导航
@@ -246,11 +253,13 @@ interface Word {
 **组件位置**: `src/pages/Typing/components/WordPanel/`
 
 **英译中 (word-to-trans)**:
+
 - 显示英文单词
 - 三个中文释义选项
 - 选择正确释义
 
 **中译英 (trans-to-word)**:
+
 - 显示中文释义
 - 三个英文单词选项
 - 选择正确单词
@@ -260,7 +269,8 @@ interface Word {
 **核心模块**: `src/pages/SmartLearning/`
 
 **功能特点**:
-- 将单词分成小组（每组5词）
+
+- 将单词分成小组（每组 5 词）
 - 每组单词交叉复现多次
 - 组合多种练习模式
 - 记录每组学习详情
@@ -273,25 +283,26 @@ interface Word {
 
 #### 功能特点
 
-| 功能 | 描述 |
-|------|------|
-| **自动收录** | 练习中错误3次以上自动加入 |
-| **手动管理** | 支持手动添加/移除单词 |
-| **专项练习** | 可选择错题本进行针对性复习 |
-| **自动移除** | 连续正确3次后自动移出 |
-| **云端同步** | 错题数据支持多设备同步 |
+| 功能         | 描述                        |
+| ------------ | --------------------------- |
+| **自动收录** | 练习中错误 3 次以上自动加入 |
+| **手动管理** | 支持手动添加/移除单词       |
+| **专项练习** | 可选择错题本进行针对性复习  |
+| **自动移除** | 连续正确 3 次后自动移出     |
+| **云端同步** | 错题数据支持多设备同步      |
 
 #### 数据结构
+
 ```typescript
 interface WordRecord {
-  word: string           // 单词
-  dict: string           // 词典 ID
-  chapter: number        // 章节
-  wrongCount: number     // 错误次数
-  correctCount: number   // 连续正确次数
+  word: string // 单词
+  dict: string // 词典 ID
+  chapter: number // 章节
+  wrongCount: number // 错误次数
+  correctCount: number // 连续正确次数
   mistakes: LetterMistakes // 字母级错误记录
-  timestamp: number      // 最后更新时间
-  mode: ExerciseMode     // 练习模式
+  timestamp: number // 最后更新时间
+  mode: ExerciseMode // 练习模式
 }
 ```
 
@@ -303,16 +314,17 @@ interface WordRecord {
 
 #### 统计维度
 
-| 维度 | 描述 | 可视化 |
-|------|------|--------|
+| 维度         | 描述                  | 可视化   |
+| ------------ | --------------------- | -------- |
 | **学习天数** | 连续打卡天数 (Streak) | 数字显示 |
-| **学习日历** | 每日学习热力图 | 热力图 |
-| **练习时长** | 每日/累计练习时间 | 折线图 |
-| **单词数量** | 练习单词总数 | 柱状图 |
-| **正确率** | 各模式正确率 | 饼图 |
-| **模式分布** | 各练习模式使用比例 | 饼图 |
+| **学习日历** | 每日学习热力图        | 热力图   |
+| **练习时长** | 每日/累计练习时间     | 折线图   |
+| **单词数量** | 练习单词总数          | 柱状图   |
+| **正确率**   | 各模式正确率          | 饼图     |
+| **模式分布** | 各练习模式使用比例    | 饼图     |
 
 #### 核心 Hooks
+
 - `useWordStats`: 统计单词练习数据
 - `useFocusMonitor`: 监控页面焦点时长（摸鱼时长）
 
@@ -323,10 +335,12 @@ interface WordRecord {
 #### 5.1 单词发音
 
 **核心文件**:
+
 - `src/hooks/usePronunciation.ts` - 标准发音
 - `src/hooks/useFastPronunciation.ts` - 快速发音（预加载）
 
 **发音来源**:
+
 - 有道词典 API: `https://dict.youdao.com/dictvoice?audio={word}&type={0|1}`
 - Web Speech API (备用)
 
@@ -341,6 +355,7 @@ interface WordRecord {
 **核心文件**: `src/hooks/useKeySounds.ts`
 
 **音效类型**:
+
 - 打字音效：键盘敲击声
 - 正确提示音：完成单词时
 - 错误提示音：输入错误时
@@ -355,12 +370,13 @@ interface WordRecord {
 
 **后端接口**: `functions/api/auth/`
 
-| 接口 | 方法 | 描述 |
-|------|------|------|
+| 接口                 | 方法 | 描述     |
+| -------------------- | ---- | -------- |
 | `/api/auth/register` | POST | 用户注册 |
-| `/api/auth/login` | POST | 用户登录 |
+| `/api/auth/login`    | POST | 用户登录 |
 
 **用户数据结构**:
+
 ```typescript
 interface UserInfo {
   userId: string
@@ -374,6 +390,7 @@ interface UserInfo {
 **核心文件**: `src/hooks/useCloudSync.ts`
 
 **同步内容**:
+
 - 单词练习记录
 - 章节完成记录
 - 错题本数据
@@ -381,6 +398,7 @@ interface UserInfo {
 - 积分数据
 
 **同步策略**:
+
 - 自动同步：每分钟检查一次
 - 手动同步：用户主动触发
 - 增量同步：基于时间戳的增量更新
@@ -393,20 +411,20 @@ interface UserInfo {
 
 #### 7.1 积分系统
 
-| 行为 | 积分 |
-|------|------|
-| 完成一个单词 | +1 |
-| 完成一章 | +10 |
-| 连续打卡 | +5 × 天数 |
+| 行为         | 积分      |
+| ------------ | --------- |
+| 完成一个单词 | +1        |
+| 完成一章     | +10       |
+| 连续打卡     | +5 × 天数 |
 
 #### 7.2 成就系统
 
-| 成就 | 条件 |
-|------|------|
-| 初来乍到 | 完成首次练习 |
-| 坚持不懈 | 连续打卡7天 |
-| 词汇达人 | 累计练习1000词 |
-| ... | ... |
+| 成就     | 条件             |
+| -------- | ---------------- |
+| 初来乍到 | 完成首次练习     |
+| 坚持不懈 | 连续打卡 7 天    |
+| 词汇达人 | 累计练习 1000 词 |
+| ...      | ...              |
 
 #### 7.3 每日挑战
 
@@ -424,9 +442,9 @@ interface UserInfo {
 
 **核心状态**: `isOpenDarkModeAtom`
 
-| 主题 | 描述 |
-|------|------|
-| 明亮模式 | 默认白色背景 |
+| 主题     | 描述           |
+| -------- | -------------- |
+| 明亮模式 | 默认白色背景   |
 | 深色模式 | 黑色背景，护眼 |
 
 #### 8.2 虚拟键盘
@@ -439,24 +457,24 @@ interface UserInfo {
 
 #### 8.3 快捷键
 
-| 快捷键 | 功能 |
-|--------|------|
-| `Tab` | 显示/隐藏答案 |
-| `Ctrl + J` | 播放发音 |
-| `Ctrl + Shift + ←` | 上一个单词 |
-| `Ctrl + Shift + →` | 下一个单词 |
-| `Enter` | 下一个/确认 |
+| 快捷键             | 功能          |
+| ------------------ | ------------- |
+| `Tab`              | 显示/隐藏答案 |
+| `Ctrl + J`         | 播放发音      |
+| `Ctrl + Shift + ←` | 上一个单词    |
+| `Ctrl + Shift + →` | 下一个单词    |
+| `Enter`            | 下一个/确认   |
 
 #### 8.4 响应式适配
 
 **核心文件**: `src/hooks/useWindowSize.tsx`
 
-| 设备 | 适配策略 |
-|------|----------|
-| PC 桌面 | 完整功能 |
-| iPad 横屏 | 优化布局 |
-| iPad 竖屏 | 显示旋转提示 |
-| iPhone 横屏 | 简化界面 |
+| 设备        | 适配策略     |
+| ----------- | ------------ |
+| PC 桌面     | 完整功能     |
+| iPad 横屏   | 优化布局     |
+| iPad 竖屏   | 显示旋转提示 |
+| iPhone 横屏 | 简化界面     |
 | iPhone 竖屏 | 显示旋转提示 |
 
 ---
@@ -471,13 +489,13 @@ interface UserInfo {
 
 #### 数据表结构
 
-| 表名 | 用途 | 主键 |
-|------|------|------|
-| `wordRecords` | 单词练习记录 | `[dict+word]` |
-| `chapterRecords` | 章节完成记录 | `++id` |
-| `reviewRecords` | 复习记录 | `++id` |
+| 表名                      | 用途         | 主键          |
+| ------------------------- | ------------ | ------------- |
+| `wordRecords`             | 单词练习记录 | `[dict+word]` |
+| `chapterRecords`          | 章节完成记录 | `++id`        |
+| `reviewRecords`           | 复习记录     | `++id`        |
 | `spacedRepetitionRecords` | 间隔重复数据 | `[word+dict]` |
-| `smartLearningRecords` | 智能学习记录 | `++id` |
+| `smartLearningRecords`    | 智能学习记录 | `++id`        |
 
 ### 云端数据库 (Cloudflare D1)
 
@@ -485,19 +503,19 @@ interface UserInfo {
 
 #### 数据表
 
-| 表名 | 用途 |
-|------|------|
-| `users` | 用户信息 |
-| `study_records` | 每日学习记录 |
-| `word_records` | 单词练习记录 |
-| `chapter_records` | 章节完成记录 |
-| `sync_data` | 同步数据快照 |
-| `points_transactions` | 积分流水 |
-| `unlocked_achievements` | 已解锁成就 |
-| `daily_challenges` | 每日挑战 |
-| `review_records` | 复习记录 |
+| 表名                        | 用途         |
+| --------------------------- | ------------ |
+| `users`                     | 用户信息     |
+| `study_records`             | 每日学习记录 |
+| `word_records`              | 单词练习记录 |
+| `chapter_records`           | 章节完成记录 |
+| `sync_data`                 | 同步数据快照 |
+| `points_transactions`       | 积分流水     |
+| `unlocked_achievements`     | 已解锁成就   |
+| `daily_challenges`          | 每日挑战     |
+| `review_records`            | 复习记录     |
 | `spaced_repetition_records` | 间隔重复数据 |
-| `smart_learning_records` | 智能学习记录 |
+| `smart_learning_records`    | 智能学习记录 |
 
 ---
 
@@ -509,22 +527,22 @@ interface UserInfo {
 
 #### 主要状态原子
 
-| 原子 | 类型 | 描述 |
-|------|------|------|
-| `currentDictIdAtom` | `string` | 当前选中词典 ID |
-| `currentChapterAtom` | `number` | 当前章节索引 |
-| `exerciseModeAtom` | `ExerciseMode` | 当前练习模式 |
-| `userInfoAtom` | `UserInfo | null` | 登录用户信息 |
-| `isSyncingAtom` | `boolean` | 是否正在同步 |
-| `isOpenDarkModeAtom` | `boolean` | 深色模式开关 |
-| `pronunciationConfigAtom` | `object` | 发音配置 |
-| `keySoundsConfigAtom` | `object` | 按键音效配置 |
-| `wordDictationConfigAtom` | `object` | 听写模式配置 |
-| `randomConfigAtom` | `object` | 随机顺序配置 |
-| `loopWordConfigAtom` | `object` | 循环次数配置 |
-| `phoneticConfigAtom` | `object` | 音标显示配置 |
-| `learningPlanAtom` | `object` | 学习计划配置 |
-| `reviewModeInfoAtom` | `object` | 复习模式信息 |
+| 原子                      | 类型           | 描述            |
+| ------------------------- | -------------- | --------------- | ------------ |
+| `currentDictIdAtom`       | `string`       | 当前选中词典 ID |
+| `currentChapterAtom`      | `number`       | 当前章节索引    |
+| `exerciseModeAtom`        | `ExerciseMode` | 当前练习模式    |
+| `userInfoAtom`            | `UserInfo      | null`           | 登录用户信息 |
+| `isSyncingAtom`           | `boolean`      | 是否正在同步    |
+| `isOpenDarkModeAtom`      | `boolean`      | 深色模式开关    |
+| `pronunciationConfigAtom` | `object`       | 发音配置        |
+| `keySoundsConfigAtom`     | `object`       | 按键音效配置    |
+| `wordDictationConfigAtom` | `object`       | 听写模式配置    |
+| `randomConfigAtom`        | `object`       | 随机顺序配置    |
+| `loopWordConfigAtom`      | `object`       | 循环次数配置    |
+| `phoneticConfigAtom`      | `object`       | 音标显示配置    |
+| `learningPlanAtom`        | `object`       | 学习计划配置    |
+| `reviewModeInfoAtom`      | `object`       | 复习模式信息    |
 
 ---
 
@@ -536,17 +554,17 @@ interface UserInfo {
 
 #### 认证接口
 
-| 路径 | 方法 | 描述 | 参数 |
-|------|------|------|------|
+| 路径                 | 方法 | 描述 | 参数                               |
+| -------------------- | ---- | ---- | ---------------------------------- |
 | `/api/auth/register` | POST | 注册 | `username`, `password`, `nickname` |
-| `/api/auth/login` | POST | 登录 | `username`, `password` |
+| `/api/auth/login`    | POST | 登录 | `username`, `password`             |
 
 #### 同步接口
 
-| 路径 | 方法 | 描述 | 参数 |
-|------|------|------|------|
+| 路径        | 方法 | 描述         | 参数             |
+| ----------- | ---- | ------------ | ---------------- |
 | `/api/sync` | POST | 上传同步数据 | `userId`, `data` |
-| `/api/sync` | GET | 下载同步数据 | `userId` |
+| `/api/sync` | GET  | 下载同步数据 | `userId`         |
 
 ---
 
@@ -598,31 +616,31 @@ cargo tauri build
 
 ### A. 文件索引
 
-| 文件/目录 | 描述 |
-|-----------|------|
-| `src/index.tsx` | 应用入口 |
-| `src/pages/Typing/index.tsx` | 主练习页面 |
-| `src/hooks/useCloudSync.ts` | 云同步逻辑 |
-| `src/utils/db/index.ts` | 数据库操作 |
-| `src/store/index.ts` | 全局状态 |
-| `functions/api/` | 后端 API |
-| `schema.sql` | 数据库 Schema |
-| `public/*.json` | 词典数据 |
+| 文件/目录                    | 描述          |
+| ---------------------------- | ------------- |
+| `src/index.tsx`              | 应用入口      |
+| `src/pages/Typing/index.tsx` | 主练习页面    |
+| `src/hooks/useCloudSync.ts`  | 云同步逻辑    |
+| `src/utils/db/index.ts`      | 数据库操作    |
+| `src/store/index.ts`         | 全局状态      |
+| `functions/api/`             | 后端 API      |
+| `schema.sql`                 | 数据库 Schema |
+| `public/*.json`              | 词典数据      |
 
 ### B. 类型定义索引
 
-| 类型 | 定义位置 | 描述 |
-|------|----------|------|
-| `Word` | `src/typings/index.ts` | 单词数据结构 |
-| `Dictionary` | `src/typings/resource.ts` | 词典数据结构 |
-| `ExerciseMode` | `src/typings/index.ts` | 练习模式枚举 |
-| `WordRecord` | `src/utils/db/record.ts` | 单词记录 |
-| `ChapterRecord` | `src/utils/db/record.ts` | 章节记录 |
+| 类型            | 定义位置                  | 描述         |
+| --------------- | ------------------------- | ------------ |
+| `Word`          | `src/typings/index.ts`    | 单词数据结构 |
+| `Dictionary`    | `src/typings/resource.ts` | 词典数据结构 |
+| `ExerciseMode`  | `src/typings/index.ts`    | 练习模式枚举 |
+| `WordRecord`    | `src/utils/db/record.ts`  | 单词记录     |
+| `ChapterRecord` | `src/utils/db/record.ts`  | 章节记录     |
 
 ### C. 环境变量
 
-| 变量 | 描述 | 默认值 |
-|------|------|--------|
+| 变量                | 描述         | 默认值 |
+| ------------------- | ------------ | ------ |
 | `VITE_API_BASE_URL` | API 基础路径 | `/api` |
 
 ---
