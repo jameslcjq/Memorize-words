@@ -15,6 +15,18 @@ export const dictionaryResources: DictionaryResource[] = [
     chapterLengths: [12, 11, 17, 9, 18, 12, 31, 16],
   },
   {
+    id: 'Yilin3B',
+    name: '译林版小学英语3B',
+    description: '译林版3B词汇',
+    category: '英语',
+    tags: ['小学', '译林版'],
+    url: '/yilin_3b.json',
+    length: 132,
+    language: 'en',
+    languageCategory: 'en',
+    chapterLengths: [14, 17, 19, 21, 16, 14, 14, 17],
+  },
+  {
     id: 'Yilin4A',
     name: '译林版小学英语4A',
     description: '译林版4A词汇',
