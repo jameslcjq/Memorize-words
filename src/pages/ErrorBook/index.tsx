@@ -6,11 +6,13 @@ import Pagination, { ITEM_PER_PAGE } from './Pagination'
 import RowDetail from './RowDetail'
 import { currentRowDetailAtom } from './store'
 import type { groupedWordRecords } from './type'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { userInfoAtom } from '@/store'
 import { db, useDeleteWordRecord } from '@/utils/db'
 import type { WordRecord } from '@/utils/db/record'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { useAtomValue } from 'jotai'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import IconX from '~icons/tabler/x'
 
@@ -23,6 +25,13 @@ export function ErrorBook() {
   const currentRowDetail = useAtomValue(currentRowDetailAtom)
   const { deleteWordRecord } = useDeleteWordRecord()
   const [reload, setReload] = useState(false)
+  const userInfo = useAtomValue(userInfoAtom)
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false)
+  const [passwordInput, setPasswordInput] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [isVerifying, setIsVerifying] = useState(false)
+  const pendingDeleteRef = useRef<{ word: string; dict: string } | null>(null)
+  const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const onBack = useCallback(() => {
     navigate('/')
@@ -90,8 +99,53 @@ export function ErrorBook() {
   }, [reload])
 
   const handleDelete = async (word: string, dict: string) => {
+    if (userInfo) {
+      // User is logged in, require password to delete
+      pendingDeleteRef.current = { word, dict }
+      setPasswordInput('')
+      setPasswordError('')
+      setShowPasswordDialog(true)
+      setTimeout(() => passwordInputRef.current?.focus(), 100)
+      return
+    }
+    // Not logged in, allow direct deletion
     await deleteWordRecord(word, dict)
     setReload((prev) => !prev)
+  }
+
+  const handlePasswordConfirm = async () => {
+    if (!passwordInput) {
+      setPasswordError('请输入密码')
+      return
+    }
+    if (!userInfo) return
+
+    setIsVerifying(true)
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: userInfo.username, password: passwordInput }),
+      })
+      const data = await res.json()
+
+      if (!res.ok || !data.success) {
+        setPasswordError('密码错误，请重试')
+        return
+      }
+
+      // Password verified, proceed with deletion
+      if (pendingDeleteRef.current) {
+        await deleteWordRecord(pendingDeleteRef.current.word, pendingDeleteRef.current.dict)
+        pendingDeleteRef.current = null
+        setShowPasswordDialog(false)
+        setReload((prev) => !prev)
+      }
+    } catch {
+      setPasswordError('验证失败，请检查网络连接')
+    } finally {
+      setIsVerifying(false)
+    }
   }
 
   return (
@@ -130,6 +184,53 @@ export function ErrorBook() {
         <Pagination className="pt-3" page={currentPage} setPage={setPage} totalPages={totalPages} />
       </div>
       {currentRowDetail && <RowDetail currentRowDetail={currentRowDetail} allRecords={sortedRecords} />}
+
+      <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+        <DialogContent className="sm:max-w-[360px]">
+          <DialogHeader>
+            <DialogTitle>删除确认</DialogTitle>
+            <DialogDescription>
+              请输入账号 <span className="font-medium text-gray-700 dark:text-gray-300">{userInfo?.username}</span> 的密码以删除该错题记录
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2">
+            <input
+              ref={passwordInputRef}
+              type="password"
+              value={passwordInput}
+              onChange={(e) => {
+                setPasswordInput(e.target.value)
+                setPasswordError('')
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handlePasswordConfirm()
+              }}
+              placeholder="请输入登录密码"
+              className={`w-full rounded border px-3 py-2 text-sm dark:bg-gray-700 ${
+                passwordError ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+              }`}
+            />
+            {passwordError && <p className="mt-1 text-xs text-red-500">{passwordError}</p>}
+          </div>
+          <DialogFooter>
+            <button
+              type="button"
+              onClick={() => setShowPasswordDialog(false)}
+              className="rounded px-4 py-2 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              onClick={handlePasswordConfirm}
+              disabled={isVerifying}
+              className="rounded bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600 disabled:opacity-50"
+            >
+              {isVerifying ? '验证中...' : '确认删除'}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

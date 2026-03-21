@@ -1,6 +1,13 @@
 {
   "permissions": {
-    "allow": ["WebSearch"],
+    "allow": [
+      "WebSearch",
+      "Bash(npx tsc:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(curl:*)",
+      "Bash(ls:*)",
+      "Bash(npx eslint:*)"
+    ],
     "deny": [],
     "ask": []
   }
