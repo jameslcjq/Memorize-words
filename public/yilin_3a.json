@@ -1,758 +1,1084 @@
 [
   {
     "name": "hello",
-    "trans": ["哈啰，你好"],
+    "trans": [
+      "哈啰，你好"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hello.jpg"
   },
   {
     "name": "hi",
-    "trans": ["喂，嗨"],
+    "trans": [
+      "喂，嗨"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hi.jpg"
   },
   {
     "name": "Good morning",
-    "trans": ["早上好。"],
+    "trans": [
+      "早上好。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/good_morning.jpg"
   },
   {
     "name": "I",
-    "trans": ["我"],
+    "trans": [
+      "我"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "am",
-    "trans": ["是"],
+    "trans": [
+      "是"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "ah",
-    "trans": ["啊"],
+    "trans": [
+      "啊"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "a",
-    "trans": ["一（个）"],
+    "trans": [
+      "一（个）"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "cat",
-    "trans": ["猫"],
+    "trans": [
+      "猫"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cat.jpg"
   },
   {
     "name": "Miss",
-    "trans": ["小姐，女士"],
+    "trans": [
+      "小姐，女士"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "Good afternoon",
-    "trans": ["下午好。"],
+    "trans": [
+      "下午好。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/good_afternoon.jpg"
   },
   {
     "name": "class",
-    "trans": ["同学们"],
+    "trans": [
+      "同学们"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/class.jpg"
   },
   {
     "name": "goodbye",
-    "trans": ["再见"],
+    "trans": [
+      "再见"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/goodbye.jpg"
   },
   {
     "name": "what",
-    "trans": ["什么"],
+    "trans": [
+      "什么"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "is",
-    "trans": ["是"],
+    "trans": [
+      "是"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "your",
-    "trans": ["你的，你们的"],
+    "trans": [
+      "你的，你们的"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "name",
-    "trans": ["名字"],
+    "trans": [
+      "名字"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/name.jpg"
   },
   {
     "name": "my",
-    "trans": ["我的"],
+    "trans": [
+      "我的"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "Nice to meet you",
-    "trans": ["很高兴认识你！"],
+    "trans": [
+      "很高兴认识你！"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "too",
-    "trans": ["也"],
+    "trans": [
+      "也"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "boy",
-    "trans": ["男孩"],
+    "trans": [
+      "男孩"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/boy.jpg"
   },
   {
     "name": "and",
-    "trans": ["和，与"],
+    "trans": [
+      "和，与"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "girl",
-    "trans": ["女孩"],
+    "trans": [
+      "女孩"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/girl.jpg"
   },
   {
     "name": "Mr",
-    "trans": ["先生"],
+    "trans": [
+      "先生"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "are",
-    "trans": ["是"],
+    "trans": [
+      "是"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "you",
-    "trans": ["你，你们"],
+    "trans": [
+      "你，你们"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "no",
-    "trans": ["不，不是"],
+    "trans": [
+      "不，不是"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "not",
-    "trans": ["不，没有"],
+    "trans": [
+      "不，没有"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "yes",
-    "trans": ["是，对"],
+    "trans": [
+      "是，对"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "ha",
-    "trans": ["（笑声）哈"],
+    "trans": [
+      "（笑声）哈"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "Here I am",
-    "trans": ["我在这里！"],
+    "trans": [
+      "我在这里！"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "but",
-    "trans": ["但是"],
+    "trans": [
+      "但是"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "oh",
-    "trans": ["啊，哦"],
+    "trans": [
+      "啊，哦"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "sorry",
-    "trans": ["对不起"],
+    "trans": [
+      "对不起"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sorry.jpg"
   },
   {
     "name": "twin",
-    "trans": ["双胞胎之一"],
+    "trans": [
+      "双胞胎之一"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/twin.jpg"
   },
   {
     "name": "we",
-    "trans": ["我们"],
+    "trans": [
+      "我们"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "excuse me",
-    "trans": ["对不起"],
+    "trans": [
+      "对不起"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/excuse_me.jpg"
   },
   {
     "name": "class",
-    "trans": ["班级"],
+    "trans": [
+      "班级"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/class.jpg"
   },
   {
     "name": "in",
-    "trans": ["在……内，在……中"],
+    "trans": [
+      "在……内，在……中"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "with",
-    "trans": ["和，同"],
+    "trans": [
+      "和，同"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "right",
-    "trans": ["正确的"],
+    "trans": [
+      "正确的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/right.jpg"
   },
   {
     "name": "this",
-    "trans": ["这，这个"],
+    "trans": [
+      "这，这个"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "friend",
-    "trans": ["朋友"],
+    "trans": [
+      "朋友"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/friend.jpg"
   },
   {
     "name": "she",
-    "trans": ["她"],
+    "trans": [
+      "她"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "he",
-    "trans": ["他"],
+    "trans": [
+      "他"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "it",
-    "trans": ["它"],
+    "trans": [
+      "它"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "good",
-    "trans": ["好的"],
+    "trans": [
+      "好的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/good.jpg"
   },
   {
     "name": "Thank you",
-    "trans": ["谢谢你。"],
+    "trans": [
+      "谢谢你。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/thank_you.jpg"
   },
   {
     "name": "have",
-    "trans": ["有，持有"],
+    "trans": [
+      "有，持有"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "many",
-    "trans": ["许多"],
+    "trans": [
+      "许多"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "mother",
-    "trans": ["母亲，妈妈"],
+    "trans": [
+      "母亲，妈妈"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mother.jpg"
   },
   {
     "name": "father",
-    "trans": ["父亲，爸爸"],
+    "trans": [
+      "父亲，爸爸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/father.jpg"
   },
   {
     "name": "dad",
-    "trans": ["爸爸"],
+    "trans": [
+      "爸爸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dad.jpg"
   },
   {
     "name": "mum",
-    "trans": ["妈妈"],
+    "trans": [
+      "妈妈"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mum.jpg"
   },
   {
     "name": "brother",
-    "trans": ["哥哥，弟弟"],
+    "trans": [
+      "哥哥，弟弟"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/brother.jpg"
   },
   {
     "name": "baby",
-    "trans": ["婴儿"],
+    "trans": [
+      "婴儿"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/baby.jpg"
   },
   {
     "name": "sister",
-    "trans": ["姐姐，妹妹"],
+    "trans": [
+      "姐姐，妹妹"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sister.jpg"
   },
   {
     "name": "Good evening",
-    "trans": ["晚上好。"],
+    "trans": [
+      "晚上好。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/good_evening.jpg"
   },
   {
     "name": "quick",
-    "trans": ["快，快点"],
+    "trans": [
+      "快，快点"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/quick.jpg"
   },
   {
     "name": "look",
-    "trans": ["看，瞧"],
+    "trans": [
+      "看，瞧"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/look.jpg"
   },
   {
     "name": "the",
-    "trans": ["这/那/这些/那些（特指）"],
+    "trans": [
+      "这/那/这些/那些（特指）"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "pond",
-    "trans": ["池塘，水池"],
+    "trans": [
+      "池塘，水池"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pond.jpg"
   },
   {
     "name": "who",
-    "trans": ["谁，什么人"],
+    "trans": [
+      "谁，什么人"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "great",
-    "trans": ["极好的，好棒的"],
+    "trans": [
+      "极好的，好棒的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/great.jpg"
   },
   {
     "name": "come",
-    "trans": ["来"],
+    "trans": [
+      "来"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/come.jpg"
   },
   {
     "name": "meet",
-    "trans": ["相识，结识"],
+    "trans": [
+      "相识，结识"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/meet.jpg"
   },
   {
     "name": "family",
-    "trans": ["家，家庭"],
+    "trans": [
+      "家，家庭"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/family.jpg"
   },
   {
     "name": "say",
-    "trans": ["说"],
+    "trans": [
+      "说"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/say.jpg"
   },
   {
     "name": "grandfather",
-    "trans": ["祖父，外祖父"],
+    "trans": [
+      "祖父，外祖父"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grandfather.jpg"
   },
   {
     "name": "grandmother",
-    "trans": ["祖母，外祖母"],
+    "trans": [
+      "祖母，外祖母"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grandmother.jpg"
   },
   {
     "name": "uncle",
-    "trans": ["舅父，叔父，伯父等"],
+    "trans": [
+      "舅父，叔父，伯父等"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/uncle.jpg"
   },
   {
     "name": "aunt",
-    "trans": ["舅母，婶母，伯母等"],
+    "trans": [
+      "舅母，婶母，伯母等"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/aunt.jpg"
   },
   {
     "name": "cousin",
-    "trans": ["堂/表 兄/弟/姐/妹"],
+    "trans": [
+      "堂/表 兄/弟/姐/妹"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cousin.jpg"
   },
   {
     "name": "cool",
-    "trans": ["妙极的，酷的"],
+    "trans": [
+      "妙极的，酷的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cool.jpg"
   },
   {
     "name": "me",
-    "trans": ["我"],
+    "trans": [
+      "我"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "wow",
-    "trans": ["哇，呀"],
+    "trans": [
+      "哇，呀"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "big",
-    "trans": ["大的"],
+    "trans": [
+      "大的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/big.jpg"
   },
   {
     "name": "it",
-    "trans": ["指婴儿（性别不详）"],
+    "trans": [
+      "指婴儿（性别不详）"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "happy",
-    "trans": ["幸福的"],
+    "trans": [
+      "幸福的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/happy.jpg"
   },
   {
     "name": "love",
-    "trans": ["爱，热爱"],
+    "trans": [
+      "爱，热爱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/love.jpg"
   },
   {
     "name": "Happy Birthday",
-    "trans": ["生日快乐！"],
+    "trans": [
+      "生日快乐！"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/happy_birthday.jpg"
   },
   {
     "name": "one",
-    "trans": ["一"],
+    "trans": [
+      "一"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/one.jpg"
   },
   {
     "name": "two",
-    "trans": ["二"],
+    "trans": [
+      "二"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/two.jpg"
   },
   {
     "name": "three",
-    "trans": ["三"],
+    "trans": [
+      "三"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/three.jpg"
   },
   {
     "name": "four",
-    "trans": ["四"],
+    "trans": [
+      "四"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/four.jpg"
   },
   {
     "name": "five",
-    "trans": ["五"],
+    "trans": [
+      "五"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/five.jpg"
   },
   {
     "name": "six",
-    "trans": ["六"],
+    "trans": [
+      "六"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/six.jpg"
   },
   {
     "name": "seven",
-    "trans": ["七"],
+    "trans": [
+      "七"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/seven.jpg"
   },
   {
     "name": "eight",
-    "trans": ["八"],
+    "trans": [
+      "八"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/eight.jpg"
   },
   {
     "name": "nine",
-    "trans": ["九"],
+    "trans": [
+      "九"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/nine.jpg"
   },
   {
     "name": "ten",
-    "trans": ["十"],
+    "trans": [
+      "十"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ten.jpg"
   },
   {
     "name": "now",
-    "trans": ["现在，此刻"],
+    "trans": [
+      "现在，此刻"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "want",
-    "trans": ["要，想要"],
+    "trans": [
+      "要，想要"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/want.jpg"
   },
   {
     "name": "car",
-    "trans": ["小汽车，轿车"],
+    "trans": [
+      "小汽车，轿车"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/car.jpg"
   },
   {
     "name": "book",
-    "trans": ["书"],
+    "trans": [
+      "书"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/book.jpg"
   },
   {
     "name": "ball",
-    "trans": ["球"],
+    "trans": [
+      "球"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ball.jpg"
   },
   {
     "name": "cake",
-    "trans": ["蛋糕，糕饼"],
+    "trans": [
+      "蛋糕，糕饼"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cake.jpg"
   },
   {
     "name": "How lovely",
-    "trans": ["真可爱！"],
+    "trans": [
+      "真可爱！"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/how_lovely.jpg"
   },
   {
     "name": "Can I help you?",
-    "trans": ["要帮忙吗？"],
+    "trans": [
+      "要帮忙吗？"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "Yes",
-    "trans": ["please.,好的，谢谢。"],
+    "trans": [
+      "please.,好的，谢谢。"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "some",
-    "trans": ["一些"],
+    "trans": [
+      "一些"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "toy",
-    "trans": ["玩具"],
+    "trans": [
+      "玩具"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/toy.jpg"
   },
   {
     "name": "for",
-    "trans": ["给，对，供"],
+    "trans": [
+      "给，对，供"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "OK",
-    "trans": ["对，好，行"],
+    "trans": [
+      "对，好，行"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "How old are you",
-    "trans": ["你多大了？"],
+    "trans": [
+      "你多大了？"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "please",
-    "trans": ["请"],
+    "trans": [
+      "请"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "here",
-    "trans": ["到这里，在这里"],
+    "trans": [
+      "到这里，在这里"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "love",
-    "trans": ["喜好，喜爱"],
+    "trans": [
+      "喜好，喜爱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/love.jpg"
   },
   {
     "name": "Here you are",
-    "trans": ["给你。"],
+    "trans": [
+      "给你。"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "You're welcome",
-    "trans": ["别客气。"],
+    "trans": [
+      "别客气。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/you_re_welcome.jpg"
   },
   {
     "name": "thanks",
-    "trans": ["谢谢"],
+    "trans": [
+      "谢谢"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/thanks.jpg"
   },
   {
     "name": "can",
-    "trans": ["能，会"],
+    "trans": [
+      "能，会"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "do",
-    "trans": ["做，干，办"],
+    "trans": [
+      "做，干，办"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "for",
-    "trans": ["为了"],
+    "trans": [
+      "为了"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "clean",
-    "trans": ["使……干净，打扫"],
+    "trans": [
+      "使……干净，打扫"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/clean.jpg"
   },
   {
     "name": "table",
-    "trans": ["桌子"],
+    "trans": [
+      "桌子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/table.jpg"
   },
   {
     "name": "draw",
-    "trans": ["画，描画"],
+    "trans": [
+      "画，描画"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/draw.jpg"
   },
   {
     "name": "sing",
-    "trans": ["唱（歌），演唱"],
+    "trans": [
+      "唱（歌），演唱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sing.jpg"
   },
   {
     "name": "take pictures",
-    "trans": ["拍照"],
+    "trans": [
+      "拍照"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/take_pictures.jpg"
   },
   {
     "name": "dance",
-    "trans": ["跳舞"],
+    "trans": [
+      "跳舞"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dance.jpg"
   },
   {
     "name": "Are you OK",
-    "trans": ["你没事吧？"],
+    "trans": [
+      "你没事吧？"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "dizzy",
-    "trans": ["头晕目眩的"],
+    "trans": [
+      "头晕目眩的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dizzy.jpg"
   },
   {
     "name": "picture",
-    "trans": ["图画，绘画；照片"],
+    "trans": [
+      "图画，绘画；照片"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/picture.jpg"
   },
   {
     "name": "er",
-    "trans": ["哦，嗯"],
+    "trans": [
+      "哦，嗯"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "fox",
-    "trans": ["狐狸"],
+    "trans": [
+      "狐狸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fox.jpg"
   },
   {
     "name": "child (pl. children)",
-    "trans": ["儿童，小孩"],
+    "trans": [
+      "儿童，小孩"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "thing",
-    "trans": ["事情"],
+    "trans": [
+      "事情"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/thing.jpg"
   }
 ]

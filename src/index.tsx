@@ -1,4 +1,5 @@
 import Loading from './components/Loading'
+import PetDropToast from './components/PetDropToast'
 import PortraitWarning from './components/PortraitWarning'
 import { useAutoSync } from './hooks/useAutoSync'
 import './index.css'
@@ -24,6 +25,10 @@ const AchievementsPage = lazy(() => import('./pages/Achievements'))
 const DailyChallengePage = lazy(() => import('./pages/DailyChallenge'))
 
 const SmartLearningPage = lazy(() => import('./pages/SmartLearning'))
+const PetPage = lazy(() => import('./pages/Pet'))
+const PetShopPage = lazy(() => import('./pages/Pet/Shop'))
+const PetInventoryPage = lazy(() => import('./pages/Pet/Inventory'))
+const PetEvolutionPage = lazy(() => import('./pages/Pet/EvolutionGuide'))
 
 if (process.env.NODE_ENV === 'production') {
   // for prod
@@ -87,9 +92,14 @@ function Root() {
             <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/daily-challenge" element={<DailyChallengePage />} />
             <Route path="/smart-learning" element={<SmartLearningPage />} />
+            <Route path="/pet" element={<PetPage />} />
+            <Route path="/pet/shop" element={<PetShopPage />} />
+            <Route path="/pet/inventory" element={<PetInventoryPage />} />
+            <Route path="/pet/evolution" element={<PetEvolutionPage />} />
             <Route path="/*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>
+        <PetDropToast />
       </BrowserRouter>
       <Analytics />
     </React.StrictMode>

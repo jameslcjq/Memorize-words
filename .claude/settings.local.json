@@ -1,6 +1,21 @@
 {
   "permissions": {
-    "allow": ["WebSearch", "Bash(npx tsc:*)", "Bash(npx wrangler:*)", "Bash(curl:*)", "Bash(ls:*)", "Bash(npx eslint:*)"],
+    "allow": [
+      "WebSearch",
+      "Bash(npx tsc:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(curl:*)",
+      "Bash(ls:*)",
+      "Bash(npx eslint:*)",
+      "WebFetch(domain:pixabay.com)",
+      "Bash(wc:*)",
+      "Bash(chmod +x:*)",
+      "Bash(PIXABAY_API_KEY=55123673-da2012938f89c73b95572ac89 node:*)",
+      "Bash(wrangler r2:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(python3:*)"
+    ],
     "deny": [],
     "ask": []
   }

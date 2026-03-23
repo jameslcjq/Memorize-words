@@ -1,6 +1,8 @@
 import logo from '@/assets/logo.svg'
 import PointsDisplay from '@/components/PointsDisplay'
 import Tooltip from '@/components/Tooltip'
+import { hasPetAtom } from '@/store'
+import { useAtomValue } from 'jotai'
 import type { PropsWithChildren } from 'react'
 import type React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -8,6 +10,7 @@ import IconFlame from '~icons/tabler/flame'
 
 const Header: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate()
+  const hasPet = useAtomValue(hasPetAtom)
 
   return (
     <header className="container relative z-[100] mx-auto w-full px-10 py-3 lg:py-6">
@@ -19,6 +22,16 @@ const Header: React.FC<PropsWithChildren> = ({ children }) => {
         <nav className="my-card ml-auto flex w-auto content-center items-center justify-end space-x-3 rounded-xl bg-white p-4 transition-colors duration-300 dark:bg-gray-800">
           {/* Points Display */}
           <PointsDisplay />
+
+          {/* Pet Button */}
+          <Tooltip content={hasPet ? '我的宠物' : '领养宠物'}>
+            <button
+              onClick={() => navigate('/pet')}
+              className="flex items-center gap-1 rounded-lg border border-transparent px-2 py-1 text-pink-500 transition-colors hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+            >
+              <span className="text-lg">{hasPet ? '🐱' : '🥚'}</span>
+            </button>
+          </Tooltip>
 
           {/* Daily Challenge */}
           <Tooltip content="每日挑战">

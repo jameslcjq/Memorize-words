@@ -19,6 +19,7 @@ import LoginModal from '@/components/LoginModal'
 import Tooltip from '@/components/Tooltip'
 import { useGamification } from '@/hooks/useGamification'
 import { usePageSync } from '@/hooks/usePageSync'
+import { usePetDrop } from '@/hooks/usePetDrop'
 import { useSessionPersistence } from '@/hooks/useSessionPersistence'
 import { idDictionaryMap } from '@/resources/dictionary'
 import {
@@ -64,6 +65,7 @@ const App: React.FC = () => {
 
   // Gamification
   const { awardChapterPoints, checkAchievements, newlyUnlockedAchievement, clearAchievementToast } = useGamification()
+  const { tryDrop } = usePetDrop()
 
   // Session Persistence (auto-save for accidental refresh recovery)
   const { restoreSession, hasRestorableSession } = useSessionPersistence(state, dispatch)
@@ -179,6 +181,14 @@ const App: React.FC = () => {
       const isPerfect = state.chapterData.wrongCount === 0 && state.chapterData.wordCount > 0
       awardChapterPoints(isPerfect).then(() => {
         checkAchievements()
+      })
+
+      // Pet random drop
+      tryDrop({
+        isPerfect,
+        comboStreak: 0,
+        isFirstDailyGoal: false,
+        isReview: isReviewMode,
       })
     }
 

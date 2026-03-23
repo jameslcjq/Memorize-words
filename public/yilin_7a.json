@@ -1,2504 +1,3711 @@
 [
   {
     "name": "greet",
-    "trans": ["和（某人）打招呼（或问好）"],
+    "trans": [
+      "和（某人）打招呼（或问好）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/greet.jpg"
   },
   {
     "name": "introduce",
-    "trans": ["介绍"],
+    "trans": [
+      "介绍"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/introduce.jpg"
   },
   {
     "name": "each other",
-    "trans": ["互相"],
+    "trans": [
+      "互相"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/each_other.jpg"
   },
   {
     "name": "go by",
-    "trans": ["叫作，被称为"],
+    "trans": [
+      "叫作，被称为"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/go_by.jpg"
   },
   {
     "name": "glad",
-    "trans": ["高兴"],
+    "trans": [
+      "高兴"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/glad.jpg"
   },
   {
     "name": "same",
-    "trans": ["同一的，相同的"],
+    "trans": [
+      "同一的，相同的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/same.jpg"
   },
   {
     "name": "hobby",
-    "trans": ["业余爱好"],
+    "trans": [
+      "业余爱好"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hobby.jpg"
   },
   {
     "name": "grade",
-    "trans": ["年级；等级"],
+    "trans": [
+      "年级；等级"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grade.jpg"
   },
   {
     "name": "classmate",
-    "trans": ["同班同学"],
+    "trans": [
+      "同班同学"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/classmate.jpg"
   },
   {
     "name": "friendly",
-    "trans": ["友好的"],
+    "trans": [
+      "友好的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/friendly.jpg"
   },
   {
     "name": "full",
-    "trans": ["（有）大量的；满的"],
+    "trans": [
+      "（有）大量的；满的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/full.jpg"
   },
   {
     "name": "be full of",
-    "trans": ["满是…的"],
+    "trans": [
+      "满是…的"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "energy",
-    "trans": ["精力，活力"],
+    "trans": [
+      "精力，活力"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/energy.jpg"
   },
   {
     "name": "be good at",
-    "trans": ["擅长…"],
+    "trans": [
+      "擅长…"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "slim",
-    "trans": ["苗条的"],
+    "trans": [
+      "苗条的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/slim.jpg"
   },
   {
     "name": "polite",
-    "trans": ["有礼貌的"],
+    "trans": [
+      "有礼貌的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/polite.jpg"
   },
   {
     "name": "smart",
-    "trans": ["聪明的；智能的"],
+    "trans": [
+      "聪明的；智能的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smart.jpg"
   },
   {
     "name": "ready",
-    "trans": ["愿意迅速做某事；准备好"],
+    "trans": [
+      "愿意迅速做某事；准备好"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ready.jpg"
   },
   {
     "name": "be ready to do sth",
-    "trans": ["愿意（或准备好）做某事"],
+    "trans": [
+      "愿意（或准备好）做某事"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "other",
-    "trans": ["另外，其他"],
+    "trans": [
+      "另外，其他"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "interested",
-    "trans": ["感兴趣的"],
+    "trans": [
+      "感兴趣的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/interested.jpg"
   },
   {
     "name": "be interested in",
-    "trans": ["对…感兴趣"],
+    "trans": [
+      "对…感兴趣"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "looks",
-    "trans": ["相貌，容貌"],
+    "trans": [
+      "相貌，容貌"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/looks.jpg"
   },
   {
     "name": "character",
-    "trans": ["性格"],
+    "trans": [
+      "性格"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/character.jpg"
   },
   {
     "name": "both",
-    "trans": ["两个都"],
+    "trans": [
+      "两个都"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "enjoy",
-    "trans": ["享受…的乐趣，欣赏，喜爱"],
+    "trans": [
+      "享受…的乐趣，欣赏，喜爱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/enjoy.jpg"
   },
   {
     "name": "pretty",
-    "trans": ["漂亮的，标致的"],
+    "trans": [
+      "漂亮的，标致的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pretty.jpg"
   },
   {
     "name": "shy",
-    "trans": ["腼腆的"],
+    "trans": [
+      "腼腆的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/shy.jpg"
   },
   {
     "name": "only",
-    "trans": ["只有，仅"],
+    "trans": [
+      "只有，仅"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "stay",
-    "trans": ["保持，继续是"],
+    "trans": [
+      "保持，继续是"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/stay.jpg"
   },
   {
     "name": "match",
-    "trans": ["比赛"],
+    "trans": [
+      "比赛"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/match.jpg"
   },
   {
     "name": "luck",
-    "trans": ["幸运，好运"],
+    "trans": [
+      "幸运，好运"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/luck.jpg"
   },
   {
     "name": "good luck",
-    "trans": ["祝成功，祝好运"],
+    "trans": [
+      "祝成功，祝好运"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/good_luck.jpg"
   },
   {
     "name": "chess",
-    "trans": ["国际象棋"],
+    "trans": [
+      "国际象棋"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/chess.jpg"
   },
   {
     "name": "Chinese chess",
-    "trans": ["中国象棋"],
+    "trans": [
+      "中国象棋"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/chinese_chess.jpg"
   },
   {
     "name": "problem",
-    "trans": ["数学题；难题，困难"],
+    "trans": [
+      "数学题；难题，困难"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/problem.jpg"
   },
   {
     "name": "weekend",
-    "trans": ["周末"],
+    "trans": [
+      "周末"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/weekend.jpg"
   },
   {
     "name": "at the weekend",
-    "trans": ["在周末"],
+    "trans": [
+      "在周末"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "fun",
-    "trans": ["有趣的，使人快乐的；开心，乐趣"],
+    "trans": [
+      "有趣的，使人快乐的；开心，乐趣"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fun.jpg"
   },
   {
     "name": "make friends with",
-    "trans": ["与…交朋友"],
+    "trans": [
+      "与…交朋友"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "jogging",
-    "trans": ["慢跑（尤指锻炼）"],
+    "trans": [
+      "慢跑（尤指锻炼）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/jogging.jpg"
   },
   {
     "name": "painting",
-    "trans": ["绘画；画作"],
+    "trans": [
+      "绘画；画作"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/painting.jpg"
   },
   {
     "name": "paper-cutting",
-    "trans": ["剪纸"],
+    "trans": [
+      "剪纸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/paper_cutting.jpg"
   },
   {
     "name": "all kinds of",
-    "trans": ["各种各样的"],
+    "trans": [
+      "各种各样的"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "fit",
-    "trans": ["健康的"],
+    "trans": [
+      "健康的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fit.jpg"
   },
   {
     "name": "around",
-    "trans": ["围绕，环绕"],
+    "trans": [
+      "围绕，环绕"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/around.jpg"
   },
   {
     "name": "change",
-    "trans": ["改变，变化；使不同"],
+    "trans": [
+      "改变，变化；使不同"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/change.jpg"
   },
   {
     "name": "life",
-    "trans": ["个人生活；生命"],
+    "trans": [
+      "个人生活；生命"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/life.jpg"
   },
   {
     "name": "museum",
-    "trans": ["博物馆"],
+    "trans": [
+      "博物馆"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/museum.jpg"
   },
   {
     "name": "thing",
-    "trans": ["东西；事件"],
+    "trans": [
+      "东西；事件"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/thing.jpg"
   },
   {
     "name": "apart",
-    "trans": ["分开"],
+    "trans": [
+      "分开"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/apart.jpg"
   },
   {
     "name": "take ... apart",
-    "trans": ["拆卸，拆开（机器等）"],
+    "trans": [
+      "拆卸，拆开（机器等）"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "fix",
-    "trans": ["修理；安装"],
+    "trans": [
+      "修理；安装"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fix.jpg"
   },
   {
     "name": "endless",
-    "trans": ["无穷无尽的，不计其数的"],
+    "trans": [
+      "无穷无尽的，不计其数的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/endless.jpg"
   },
   {
     "name": "scientist",
-    "trans": ["科学家"],
+    "trans": [
+      "科学家"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/scientist.jpg"
   },
   {
     "name": "dream",
-    "trans": ["梦想；梦"],
+    "trans": [
+      "梦想；梦"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dream.jpg"
   },
   {
     "name": "true",
-    "trans": ["真正的，实质的；确实的"],
+    "trans": [
+      "真正的，实质的；确实的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/true.jpg"
   },
   {
     "name": "come true",
-    "trans": ["实现，成为现实"],
+    "trans": [
+      "实现，成为现实"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/come_true.jpg"
   },
   {
     "name": "paint",
-    "trans": ["用颜料画；在…上刷油漆"],
+    "trans": [
+      "用颜料画；在…上刷油漆"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/paint.jpg"
   },
   {
     "name": "club",
-    "trans": ["社团，俱乐部"],
+    "trans": [
+      "社团，俱乐部"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/club.jpg"
   },
   {
     "name": "member",
-    "trans": ["成员"],
+    "trans": [
+      "成员"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/member.jpg"
   },
   {
     "name": "geography",
-    "trans": ["地理（学）"],
+    "trans": [
+      "地理（学）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/geography.jpg"
   },
   {
     "name": "p.m",
-    "trans": ["下午"],
+    "trans": [
+      "下午"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/p_m.jpg"
   },
   {
     "name": "volleyball",
-    "trans": ["排球运动"],
+    "trans": [
+      "排球运动"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/volleyball.jpg"
   },
   {
     "name": "each",
-    "trans": ["每个，各自"],
+    "trans": [
+      "每个，各自"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "once",
-    "trans": ["一次"],
+    "trans": [
+      "一次"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/once.jpg"
   },
   {
     "name": "join",
-    "trans": ["加入；与…一道去"],
+    "trans": [
+      "加入；与…一道去"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/join.jpg"
   },
   {
     "name": "meeting",
-    "trans": ["集合，会面；会议"],
+    "trans": [
+      "集合，会面；会议"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/meeting.jpg"
   },
   {
     "name": "sound",
-    "trans": ["听起来好像"],
+    "trans": [
+      "听起来好像"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sound.jpg"
   },
   {
     "name": "plan",
-    "trans": ["打算；计划"],
+    "trans": [
+      "打算；计划"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/plan.jpg"
   },
   {
     "name": "questionnaire",
-    "trans": ["调查表，问卷"],
+    "trans": [
+      "调查表，问卷"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/questionnaire.jpg"
   },
   {
     "name": "role",
-    "trans": ["角色"],
+    "trans": [
+      "角色"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/role.jpg"
   },
   {
     "name": "model",
-    "trans": ["模范，典型；模特儿"],
+    "trans": [
+      "模范，典型；模特儿"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/model.jpg"
   },
   {
     "name": "role model",
-    "trans": ["楷模，行为榜样"],
+    "trans": [
+      "楷模，行为榜样"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/role_model.jpg"
   },
   {
     "name": "design",
-    "trans": ["设计"],
+    "trans": [
+      "设计"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/design.jpg"
   },
   {
     "name": "skill",
-    "trans": ["技能；技艺"],
+    "trans": [
+      "技能；技艺"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/skill.jpg"
   },
   {
     "name": "artist",
-    "trans": ["艺术家，（尤指）画家"],
+    "trans": [
+      "艺术家，（尤指）画家"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/artist.jpg"
   },
   {
     "name": "master",
-    "trans": ["能手；大师；师父"],
+    "trans": [
+      "能手；大师；师父"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/master.jpg"
   },
   {
     "name": "work",
-    "trans": ["作品，著作"],
+    "trans": [
+      "作品，著作"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/work.jpg"
   },
   {
     "name": "become",
-    "trans": ["成为，开始变得"],
+    "trans": [
+      "成为，开始变得"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/become.jpg"
   },
   {
     "name": "designer",
-    "trans": ["设计师"],
+    "trans": [
+      "设计师"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/designer.jpg"
   },
   {
     "name": "would",
-    "trans": ["想（表示愿意、喜欢等）"],
+    "trans": [
+      "想（表示愿意、喜欢等）"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "would like",
-    "trans": ["愿意，想要"],
+    "trans": [
+      "愿意，想要"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/would_like.jpg"
   },
   {
     "name": "future",
-    "trans": ["未来"],
+    "trans": [
+      "未来"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/future.jpg"
   },
   {
     "name": "in the future",
-    "trans": ["在未来"],
+    "trans": [
+      "在未来"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "hope",
-    "trans": ["希望"],
+    "trans": [
+      "希望"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hope.jpg"
   },
   {
     "name": "gym",
-    "trans": ["体育馆"],
+    "trans": [
+      "体育馆"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/gym.jpg"
   },
   {
     "name": "building",
-    "trans": ["楼房，建筑物"],
+    "trans": [
+      "楼房，建筑物"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/building.jpg"
   },
   {
     "name": "field",
-    "trans": ["运动场"],
+    "trans": [
+      "运动场"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/field.jpg"
   },
   {
     "name": "sports field",
-    "trans": ["体育场"],
+    "trans": [
+      "体育场"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sports_field.jpg"
   },
   {
     "name": "dining",
-    "trans": ["吃饭"],
+    "trans": [
+      "吃饭"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dining.jpg"
   },
   {
     "name": "hall",
-    "trans": ["大厅，礼堂"],
+    "trans": [
+      "大厅，礼堂"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hall.jpg"
   },
   {
     "name": "dining hall",
-    "trans": ["食堂，餐厅"],
+    "trans": [
+      "食堂，餐厅"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dining_hall.jpg"
   },
   {
     "name": "lab",
-    "trans": ["实验室"],
+    "trans": [
+      "实验室"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lab.jpg"
   },
   {
     "name": "part",
-    "trans": ["部分"],
+    "trans": [
+      "部分"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/part.jpg"
   },
   {
     "name": "modern",
-    "trans": ["现代（化）的，先进的"],
+    "trans": [
+      "现代（化）的，先进的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/modern.jpg"
   },
   {
     "name": "as well",
-    "trans": ["也"],
+    "trans": [
+      "也"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/as_well.jpg"
   },
   {
     "name": "bright",
-    "trans": ["明亮的"],
+    "trans": [
+      "明亮的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bright.jpg"
   },
   {
     "name": "everyone",
-    "trans": ["所有人，每人，人人"],
+    "trans": [
+      "所有人，每人，人人"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/everyone.jpg"
   },
   {
     "name": "perfect",
-    "trans": ["完美的"],
+    "trans": [
+      "完美的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/perfect.jpg"
   },
   {
     "name": "spend",
-    "trans": ["度过，花（时间/钱）"],
+    "trans": [
+      "度过，花（时间/钱）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/spend.jpg"
   },
   {
     "name": "chat",
-    "trans": ["闲聊"],
+    "trans": [
+      "闲聊"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/chat.jpg"
   },
   {
     "name": "exciting",
-    "trans": ["令人激动的"],
+    "trans": [
+      "令人激动的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/exciting.jpg"
   },
   {
     "name": "take place",
-    "trans": ["进行，发生"],
+    "trans": [
+      "进行，发生"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/take_place.jpg"
   },
   {
     "name": "noticeboard",
-    "trans": ["布告板，告示牌"],
+    "trans": [
+      "布告板，告示牌"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/noticeboard.jpg"
   },
   {
     "name": "gate",
-    "trans": ["大门"],
+    "trans": [
+      "大门"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/gate.jpg"
   },
   {
     "name": "news",
-    "trans": ["新闻；消息"],
+    "trans": [
+      "新闻；消息"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/news.jpg"
   },
   {
     "name": "board",
-    "trans": ["布告牌；木板"],
+    "trans": [
+      "布告牌；木板"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/board.jpg"
   },
   {
     "name": "like",
-    "trans": ["例如；像"],
+    "trans": [
+      "例如；像"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/like.jpg"
   },
   {
     "name": "more",
-    "trans": ["更多的；更"],
+    "trans": [
+      "更多的；更"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "trust",
-    "trans": ["相信"],
+    "trans": [
+      "相信"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/trust.jpg"
   },
   {
     "name": "really",
-    "trans": ["很，十分；真正地"],
+    "trans": [
+      "很，十分；真正地"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "soon",
-    "trans": ["很快，马上"],
+    "trans": [
+      "很快，马上"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/soon.jpg"
   },
   {
     "name": "teach",
-    "trans": ["教（课程），讲授"],
+    "trans": [
+      "教（课程），讲授"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/teach.jpg"
   },
   {
     "name": "team",
-    "trans": ["队；组"],
+    "trans": [
+      "队；组"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/team.jpg"
   },
   {
     "name": "form teacher",
-    "trans": ["班主任"],
+    "trans": [
+      "班主任"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/form_teacher.jpg"
   },
   {
     "name": "show",
-    "trans": ["演出；展览；节目；音乐会"],
+    "trans": [
+      "演出；展览；节目；音乐会"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/show.jpg"
   },
   {
     "name": "grey",
-    "trans": ["灰色；灰色的"],
+    "trans": [
+      "灰色；灰色的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grey.jpg"
   },
   {
     "name": "different",
-    "trans": ["不同的"],
+    "trans": [
+      "不同的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/different.jpg"
   },
   {
     "name": "thousand",
-    "trans": ["一千"],
+    "trans": [
+      "一千"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/thousand.jpg"
   },
   {
     "name": "fact",
-    "trans": ["事实"],
+    "trans": [
+      "事实"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fact.jpg"
   },
   {
     "name": "in fact",
-    "trans": ["确切地说；事实上"],
+    "trans": [
+      "确切地说；事实上"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/in_fact.jpg"
   },
   {
     "name": "borrow",
-    "trans": ["借"],
+    "trans": [
+      "借"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/borrow.jpg"
   },
   {
     "name": "newspaper",
-    "trans": ["报纸"],
+    "trans": [
+      "报纸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/newspaper.jpg"
   },
   {
     "name": "magazine",
-    "trans": ["杂志"],
+    "trans": [
+      "杂志"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/magazine.jpg"
   },
   {
     "name": "else",
-    "trans": ["其他的，别的"],
+    "trans": [
+      "其他的，别的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/else.jpg"
   },
   {
     "name": "care",
-    "trans": ["关心"],
+    "trans": [
+      "关心"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/care.jpg"
   },
   {
     "name": "care about",
-    "trans": ["关心"],
+    "trans": [
+      "关心"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/care_about.jpg"
   },
   {
     "name": "event",
-    "trans": ["公开活动；发生的事情"],
+    "trans": [
+      "公开活动；发生的事情"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/event.jpg"
   },
   {
     "name": "together",
-    "trans": ["在一起，共同"],
+    "trans": [
+      "在一起，共同"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/together.jpg"
   },
   {
     "name": "quite",
-    "trans": ["相当；非常"],
+    "trans": [
+      "相当；非常"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "large",
-    "trans": ["大的"],
+    "trans": [
+      "大的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/large.jpg"
   },
   {
     "name": "special",
-    "trans": ["特殊的，特别的"],
+    "trans": [
+      "特殊的，特别的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/special.jpg"
   },
   {
     "name": "a.m",
-    "trans": ["上午"],
+    "trans": [
+      "上午"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/a_m.jpg"
   },
   {
     "name": "get up",
-    "trans": ["起床"],
+    "trans": [
+      "起床"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/get_up.jpg"
   },
   {
     "name": "activity",
-    "trans": ["活动"],
+    "trans": [
+      "活动"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/activity.jpg"
   },
   {
     "name": "housework",
-    "trans": ["家务劳动，家务事"],
+    "trans": [
+      "家务劳动，家务事"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/housework.jpg"
   },
   {
     "name": "homework",
-    "trans": ["家庭作业"],
+    "trans": [
+      "家庭作业"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/homework.jpg"
   },
   {
     "name": "weekday",
-    "trans": ["周工作日"],
+    "trans": [
+      "周工作日"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/weekday.jpg"
   },
   {
     "name": "on weekdays",
-    "trans": ["在工作日"],
+    "trans": [
+      "在工作日"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/on_weekdays.jpg"
   },
   {
     "name": "usually",
-    "trans": ["通常地"],
+    "trans": [
+      "通常地"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/usually.jpg"
   },
   {
     "name": "jog",
-    "trans": ["慢跑"],
+    "trans": [
+      "慢跑"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/jog.jpg"
   },
   {
     "name": "a little",
-    "trans": ["一点，少量；一些"],
+    "trans": [
+      "一点，少量；一些"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/a_little.jpg"
   },
   {
     "name": "myself",
-    "trans": ["我自己；亲自"],
+    "trans": [
+      "我自己；亲自"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "enjoy oneself",
-    "trans": ["玩得痛快，得到乐趣"],
+    "trans": [
+      "玩得痛快，得到乐趣"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/enjoy_oneself.jpg"
   },
   {
     "name": "first",
-    "trans": ["第一；首先"],
+    "trans": [
+      "第一；首先"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/first.jpg"
   },
   {
     "name": "term",
-    "trans": ["学期；期"],
+    "trans": [
+      "学期；期"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/term.jpg"
   },
   {
     "name": "start",
-    "trans": ["开始，着手"],
+    "trans": [
+      "开始，着手"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/start.jpg"
   },
   {
     "name": "writer",
-    "trans": ["作家"],
+    "trans": [
+      "作家"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/writer.jpg"
   },
   {
     "name": "language",
-    "trans": ["语言"],
+    "trans": [
+      "语言"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/language.jpg"
   },
   {
     "name": "amazing",
-    "trans": ["令人大为惊奇的"],
+    "trans": [
+      "令人大为惊奇的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/amazing.jpg"
   },
   {
     "name": "biology",
-    "trans": ["生物学"],
+    "trans": [
+      "生物学"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/biology.jpg"
   },
   {
     "name": "living",
-    "trans": ["活着的，活的"],
+    "trans": [
+      "活着的，活的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/living.jpg"
   },
   {
     "name": "nature",
-    "trans": ["大自然；天性"],
+    "trans": [
+      "大自然；天性"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/nature.jpg"
   },
   {
     "name": "practise",
-    "trans": ["训练，练习"],
+    "trans": [
+      "训练，练习"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/practise.jpg"
   },
   {
     "name": "field",
-    "trans": ["田，地；领域"],
+    "trans": [
+      "田，地；领域"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/field.jpg"
   },
   {
     "name": "trip",
-    "trans": ["旅行"],
+    "trans": [
+      "旅行"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/trip.jpg"
   },
   {
     "name": "field trip",
-    "trans": ["野外考察，实地考察"],
+    "trans": [
+      "野外考察，实地考察"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/field_trip.jpg"
   },
   {
     "name": "leave",
-    "trans": ["离开；让…留在某处"],
+    "trans": [
+      "离开；让…留在某处"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/leave.jpg"
   },
   {
     "name": "leave for",
-    "trans": ["动身去，到…地方去"],
+    "trans": [
+      "动身去，到…地方去"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/leave_for.jpg"
   },
   {
     "name": "pick",
-    "trans": ["采，摘；挑选"],
+    "trans": [
+      "采，摘；挑选"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pick.jpg"
   },
   {
     "name": "of course",
-    "trans": ["当然"],
+    "trans": [
+      "当然"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/of_course.jpg"
   },
   {
     "name": "seldom",
-    "trans": ["很少"],
+    "trans": [
+      "很少"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/seldom.jpg"
   },
   {
     "name": "tennis",
-    "trans": ["网球运动"],
+    "trans": [
+      "网球运动"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tennis.jpg"
   },
   {
     "name": "roller skate",
-    "trans": ["滑旱冰，溜旱冰"],
+    "trans": [
+      "滑旱冰，溜旱冰"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/roller_skate.jpg"
   },
   {
     "name": "grow",
-    "trans": ["（使）生长，发育"],
+    "trans": [
+      "（使）生长，发育"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grow.jpg"
   },
   {
     "name": "tour",
-    "trans": ["参观；旅行"],
+    "trans": [
+      "参观；旅行"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tour.jpg"
   },
   {
     "name": "website",
-    "trans": ["网站"],
+    "trans": [
+      "网站"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/website.jpg"
   },
   {
     "name": "video",
-    "trans": ["视频"],
+    "trans": [
+      "视频"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/video.jpg"
   },
   {
     "name": "outside",
-    "trans": ["在（向）外面"],
+    "trans": [
+      "在（向）外面"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/outside.jpg"
   },
   {
     "name": "peace",
-    "trans": ["平静；和平"],
+    "trans": [
+      "平静；和平"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/peace.jpg"
   },
   {
     "name": "quiet",
-    "trans": ["宁静，平静"],
+    "trans": [
+      "宁静，平静"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/quiet.jpg"
   },
   {
     "name": "teamwork",
-    "trans": ["团队合作"],
+    "trans": [
+      "团队合作"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/teamwork.jpg"
   },
   {
     "name": "better",
-    "trans": ["更好的"],
+    "trans": [
+      "更好的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/better.jpg"
   },
   {
     "name": "tiring",
-    "trans": ["累人的"],
+    "trans": [
+      "累人的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tiring.jpg"
   },
   {
     "name": "duty",
-    "trans": ["职责，任务；责任"],
+    "trans": [
+      "职责，任务；责任"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/duty.jpg"
   },
   {
     "name": "area",
-    "trans": ["区域；面积；领域"],
+    "trans": [
+      "区域；面积；领域"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/area.jpg"
   },
   {
     "name": "take part in",
-    "trans": ["参加"],
+    "trans": [
+      "参加"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "through",
-    "trans": ["以，凭借；通过；穿过"],
+    "trans": [
+      "以，凭借；通过；穿过"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "group",
-    "trans": ["组，群，批"],
+    "trans": [
+      "组，群，批"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/group.jpg"
   },
   {
     "name": "turn",
-    "trans": ["（依次轮到的）机会"],
+    "trans": [
+      "（依次轮到的）机会"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/turn.jpg"
   },
   {
     "name": "take turns",
-    "trans": ["轮流"],
+    "trans": [
+      "轮流"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/take_turns.jpg"
   },
   {
     "name": "empty",
-    "trans": ["倒空，腾空"],
+    "trans": [
+      "倒空，腾空"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/empty.jpg"
   },
   {
     "name": "bin",
-    "trans": ["垃圾桶"],
+    "trans": [
+      "垃圾桶"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bin.jpg"
   },
   {
     "name": "care",
-    "trans": ["照顾；小心"],
+    "trans": [
+      "照顾；小心"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/care.jpg"
   },
   {
     "name": "take care of",
-    "trans": ["照顾，照料"],
+    "trans": [
+      "照顾，照料"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "something",
-    "trans": ["某事，某物"],
+    "trans": [
+      "某事，某物"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/something.jpg"
   },
   {
     "name": "lifestyle",
-    "trans": ["生活方式"],
+    "trans": [
+      "生活方式"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lifestyle.jpg"
   },
   {
     "name": "cucumber",
-    "trans": ["黄瓜"],
+    "trans": [
+      "黄瓜"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cucumber.jpg"
   },
   {
     "name": "lemon",
-    "trans": ["柠檬"],
+    "trans": [
+      "柠檬"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lemon.jpg"
   },
   {
     "name": "watermelon",
-    "trans": ["西瓜"],
+    "trans": [
+      "西瓜"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/watermelon.jpg"
   },
   {
     "name": "pepper",
-    "trans": ["甜椒；胡椒粉"],
+    "trans": [
+      "甜椒；胡椒粉"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pepper.jpg"
   },
   {
     "name": "chocolate",
-    "trans": ["巧克力"],
+    "trans": [
+      "巧克力"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/chocolate.jpg"
   },
   {
     "name": "beef",
-    "trans": ["牛肉"],
+    "trans": [
+      "牛肉"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/beef.jpg"
   },
   {
     "name": "carrot",
-    "trans": ["胡萝卜"],
+    "trans": [
+      "胡萝卜"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/carrot.jpg"
   },
   {
     "name": "pork",
-    "trans": ["猪肉"],
+    "trans": [
+      "猪肉"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pork.jpg"
   },
   {
     "name": "sweet",
-    "trans": ["糖果；甜食；甜的"],
+    "trans": [
+      "糖果；甜食；甜的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sweet.jpg"
   },
   {
     "name": "snack",
-    "trans": ["点心，小吃"],
+    "trans": [
+      "点心，小吃"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/snack.jpg"
   },
   {
     "name": "health",
-    "trans": ["健康"],
+    "trans": [
+      "健康"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/health.jpg"
   },
   {
     "name": "delicious",
-    "trans": ["美味的"],
+    "trans": [
+      "美味的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/delicious.jpg"
   },
   {
     "name": "important",
-    "trans": ["重要的"],
+    "trans": [
+      "重要的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/important.jpg"
   },
   {
     "name": "diet",
-    "trans": ["日常饮食"],
+    "trans": [
+      "日常饮食"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/diet.jpg"
   },
   {
     "name": "without",
-    "trans": ["没有"],
+    "trans": [
+      "没有"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "pancake",
-    "trans": ["烙饼，薄饼"],
+    "trans": [
+      "烙饼，薄饼"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pancake.jpg"
   },
   {
     "name": "tofu",
-    "trans": ["豆腐"],
+    "trans": [
+      "豆腐"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tofu.jpg"
   },
   {
     "name": "sugar",
-    "trans": ["食糖"],
+    "trans": [
+      "食糖"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sugar.jpg"
   },
   {
     "name": "tooth (pl. teeth)",
-    "trans": ["牙，齿"],
+    "trans": [
+      "牙，齿"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "homebody",
-    "trans": ["喜欢待在家里的人"],
+    "trans": [
+      "喜欢待在家里的人"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "mutton",
-    "trans": ["羊肉"],
+    "trans": [
+      "羊肉"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mutton.jpg"
   },
   {
     "name": "have a sweet tooth",
-    "trans": ["爱吃甜食"],
+    "trans": [
+      "爱吃甜食"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "stay",
-    "trans": ["停留，逗留"],
+    "trans": [
+      "停留，逗留"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/stay.jpg"
   },
   {
     "name": "stay up",
-    "trans": ["熬夜"],
+    "trans": [
+      "熬夜"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/stay_up.jpg"
   },
   {
     "name": "unhealthy",
-    "trans": ["不健康的"],
+    "trans": [
+      "不健康的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/unhealthy.jpg"
   },
   {
     "name": "need",
-    "trans": ["需要"],
+    "trans": [
+      "需要"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/need.jpg"
   },
   {
     "name": "enough",
-    "trans": ["足够（的）；足够地"],
+    "trans": [
+      "足够（的）；足够地"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "less",
-    "trans": ["较少的；少，较少"],
+    "trans": [
+      "较少的；少，较少"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/less.jpg"
   },
   {
     "name": "cheese",
-    "trans": ["奶酪"],
+    "trans": [
+      "奶酪"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cheese.jpg"
   },
   {
     "name": "piece",
-    "trans": ["块，片；一篇/首/幅"],
+    "trans": [
+      "块，片；一篇/首/幅"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/piece.jpg"
   },
   {
     "name": "bowl",
-    "trans": ["一碗（的量）；碗"],
+    "trans": [
+      "一碗（的量）；碗"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bowl.jpg"
   },
   {
     "name": "salt",
-    "trans": ["盐"],
+    "trans": [
+      "盐"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/salt.jpg"
   },
   {
     "name": "packet",
-    "trans": ["小袋；小包装纸袋"],
+    "trans": [
+      "小袋；小包装纸袋"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/packet.jpg"
   },
   {
     "name": "kilo",
-    "trans": ["千克，公斤"],
+    "trans": [
+      "千克，公斤"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/kilo.jpg"
   },
   {
     "name": "carton",
-    "trans": ["硬纸盒，塑料盒"],
+    "trans": [
+      "硬纸盒，塑料盒"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/carton.jpg"
   },
   {
     "name": "bottle",
-    "trans": ["一瓶（的量）；瓶子"],
+    "trans": [
+      "一瓶（的量）；瓶子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bottle.jpg"
   },
   {
     "name": "maybe",
-    "trans": ["也许；大概"],
+    "trans": [
+      "也许；大概"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/maybe.jpg"
   },
   {
     "name": "than",
-    "trans": ["比"],
+    "trans": [
+      "比"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "almost",
-    "trans": ["几乎"],
+    "trans": [
+      "几乎"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/almost.jpg"
   },
   {
     "name": "chip",
-    "trans": ["炸薯条；炸薯片"],
+    "trans": [
+      "炸薯条；炸薯片"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/chip.jpg"
   },
   {
     "name": "smartphone",
-    "trans": ["智能手机"],
+    "trans": [
+      "智能手机"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smartphone.jpg"
   },
   {
     "name": "tablet",
-    "trans": ["平板电脑"],
+    "trans": [
+      "平板电脑"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tablet.jpg"
   },
   {
     "name": "score",
-    "trans": ["分数，成绩；比分"],
+    "trans": [
+      "分数，成绩；比分"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/score.jpg"
   },
   {
     "name": "point",
-    "trans": ["得分；要点；观点"],
+    "trans": [
+      "得分；要点；观点"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/point.jpg"
   },
   {
     "name": "change",
-    "trans": ["改变，变化"],
+    "trans": [
+      "改变，变化"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/change.jpg"
   },
   {
     "name": "meal",
-    "trans": ["一餐所吃的食物；一顿饭"],
+    "trans": [
+      "一餐所吃的食物；一顿饭"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/meal.jpg"
   },
   {
     "name": "porridge",
-    "trans": ["粥；麦片粥"],
+    "trans": [
+      "粥；麦片粥"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/porridge.jpg"
   },
   {
     "name": "whole",
-    "trans": ["全部的；整个的"],
+    "trans": [
+      "全部的；整个的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/whole.jpg"
   },
   {
     "name": "miss",
-    "trans": ["错过"],
+    "trans": [
+      "错过"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "rest",
-    "trans": ["休息时间"],
+    "trans": [
+      "休息时间"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rest.jpg"
   },
   {
     "name": "pie",
-    "trans": ["馅饼"],
+    "trans": [
+      "馅饼"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pie.jpg"
   },
   {
     "name": "yogurt",
-    "trans": ["酸奶"],
+    "trans": [
+      "酸奶"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/yogurt.jpg"
   },
   {
     "name": "most",
-    "trans": ["大多数；最大，最多"],
+    "trans": [
+      "大多数；最大，最多"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "style",
-    "trans": ["样式；方式，作风"],
+    "trans": [
+      "样式；方式，作风"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/style.jpg"
   },
   {
     "name": "blouse",
-    "trans": ["女式衬衫"],
+    "trans": [
+      "女式衬衫"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/blouse.jpg"
   },
   {
     "name": "jacket",
-    "trans": ["夹克衫"],
+    "trans": [
+      "夹克衫"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/jacket.jpg"
   },
   {
     "name": "jeans",
-    "trans": ["牛仔裤"],
+    "trans": [
+      "牛仔裤"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/jeans.jpg"
   },
   {
     "name": "scarf",
-    "trans": ["围巾"],
+    "trans": [
+      "围巾"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/scarf.jpg"
   },
   {
     "name": "tie",
-    "trans": ["领带"],
+    "trans": [
+      "领带"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tie.jpg"
   },
   {
     "name": "T-shirt",
-    "trans": ["T恤衫"],
+    "trans": [
+      "T恤衫"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/t_shirt.jpg"
   },
   {
     "name": "calm",
-    "trans": ["镇静的，沉着的"],
+    "trans": [
+      "镇静的，沉着的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/calm.jpg"
   },
   {
     "name": "fashion",
-    "trans": ["时装业；流行"],
+    "trans": [
+      "时装业；流行"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fashion.jpg"
   },
   {
     "name": "choose",
-    "trans": ["选择"],
+    "trans": [
+      "选择"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/choose.jpg"
   },
   {
     "name": "could",
-    "trans": ["能，可以"],
+    "trans": [
+      "能，可以"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "advice",
-    "trans": ["建议"],
+    "trans": [
+      "建议"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/advice.jpg"
   },
   {
     "name": "depend",
-    "trans": ["取决于"],
+    "trans": [
+      "取决于"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/depend.jpg"
   },
   {
     "name": "depend on",
-    "trans": ["取决于；依靠"],
+    "trans": [
+      "取决于；依靠"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/depend_on.jpg"
   },
   {
     "name": "skin",
-    "trans": ["皮肤"],
+    "trans": [
+      "皮肤"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/skin.jpg"
   },
   {
     "name": "such as",
-    "trans": ["例如；诸如…之类"],
+    "trans": [
+      "例如；诸如…之类"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "purple",
-    "trans": ["紫色；紫色的"],
+    "trans": [
+      "紫色；紫色的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/purple.jpg"
   },
   {
     "name": "similar",
-    "trans": ["相似的"],
+    "trans": [
+      "相似的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/similar.jpg"
   },
   {
     "name": "example",
-    "trans": ["例子"],
+    "trans": [
+      "例子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/example.jpg"
   },
   {
     "name": "for example",
-    "trans": ["例如"],
+    "trans": [
+      "例如"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/for_example.jpg"
   },
   {
     "name": "dark",
-    "trans": ["深色的；黑暗的"],
+    "trans": [
+      "深色的；黑暗的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dark.jpg"
   },
   {
     "name": "mix",
-    "trans": ["混合"],
+    "trans": [
+      "混合"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mix.jpg"
   },
   {
     "name": "stand out",
-    "trans": ["突出，显眼"],
+    "trans": [
+      "突出，显眼"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/stand_out.jpg"
   },
   {
     "name": "match",
-    "trans": ["般配，相配"],
+    "trans": [
+      "般配，相配"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/match.jpg"
   },
   {
     "name": "suitable",
-    "trans": ["合适的，适宜的"],
+    "trans": [
+      "合适的，适宜的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/suitable.jpg"
   },
   {
     "name": "formal",
-    "trans": ["适合正式场合的；正式的"],
+    "trans": [
+      "适合正式场合的；正式的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/formal.jpg"
   },
   {
     "name": "suit",
-    "trans": ["套装，西服"],
+    "trans": [
+      "套装，西服"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/suit.jpg"
   },
   {
     "name": "casual",
-    "trans": ["非正式的，随便的"],
+    "trans": [
+      "非正式的，随便的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/casual.jpg"
   },
   {
     "name": "comfortable",
-    "trans": ["舒适的"],
+    "trans": [
+      "舒适的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/comfortable.jpg"
   },
   {
     "name": "primary",
-    "trans": ["初等教育的，小学教育的"],
+    "trans": [
+      "初等教育的，小学教育的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/primary.jpg"
   },
   {
     "name": "smart",
-    "trans": ["衣冠楚楚的，衣着讲究的"],
+    "trans": [
+      "衣冠楚楚的，衣着讲究的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smart.jpg"
   },
   {
     "name": "date",
-    "trans": ["日期"],
+    "trans": [
+      "日期"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/date.jpg"
   },
   {
     "name": "traditional",
-    "trans": ["传统的"],
+    "trans": [
+      "传统的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/traditional.jpg"
   },
   {
     "name": "popular",
-    "trans": ["广受欢迎的；流行的"],
+    "trans": [
+      "广受欢迎的；流行的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/popular.jpg"
   },
   {
     "name": "type",
-    "trans": ["类型，种类"],
+    "trans": [
+      "类型，种类"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/type.jpg"
   },
   {
     "name": "design",
-    "trans": ["设计"],
+    "trans": [
+      "设计"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/design.jpg"
   },
   {
     "name": "festival",
-    "trans": ["节日；节"],
+    "trans": [
+      "节日；节"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/festival.jpg"
   },
   {
     "name": "wedding",
-    "trans": ["婚礼"],
+    "trans": [
+      "婚礼"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/wedding.jpg"
   },
   {
     "name": "just",
-    "trans": ["仅仅，只不过；正好"],
+    "trans": [
+      "仅仅，只不过；正好"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "culture",
-    "trans": ["文化"],
+    "trans": [
+      "文化"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/culture.jpg"
   },
   {
     "name": "country",
-    "trans": ["国家"],
+    "trans": [
+      "国家"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/country.jpg"
   },
   {
     "name": "history",
-    "trans": ["历史"],
+    "trans": [
+      "历史"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/history.jpg"
   },
   {
     "name": "loose",
-    "trans": ["宽松的"],
+    "trans": [
+      "宽松的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/loose.jpg"
   },
   {
     "name": "belt",
-    "trans": ["腰带，皮带"],
+    "trans": [
+      "腰带，皮带"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/belt.jpg"
   },
   {
     "name": "close-fitting",
-    "trans": ["紧身的"],
+    "trans": [
+      "紧身的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/close_fitting.jpg"
   },
   {
     "name": "be made of",
-    "trans": ["由…制成"],
+    "trans": [
+      "由…制成"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "silk",
-    "trans": ["丝绸"],
+    "trans": [
+      "丝绸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/silk.jpg"
   },
   {
     "name": "feel",
-    "trans": ["摸起来"],
+    "trans": [
+      "摸起来"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/feel.jpg"
   },
   {
     "name": "smooth",
-    "trans": ["光滑的"],
+    "trans": [
+      "光滑的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smooth.jpg"
   },
   {
     "name": "soft",
-    "trans": ["软的，柔软的"],
+    "trans": [
+      "软的，柔软的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/soft.jpg"
   },
   {
     "name": "cotton",
-    "trans": ["棉织物，棉布；棉花"],
+    "trans": [
+      "棉织物，棉布；棉花"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cotton.jpg"
   },
   {
     "name": "agree",
-    "trans": ["同意"],
+    "trans": [
+      "同意"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/agree.jpg"
   },
   {
     "name": "feature",
-    "trans": ["特点，特色"],
+    "trans": [
+      "特点，特色"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/feature.jpg"
   },
   {
     "name": "material",
-    "trans": ["布料；材料，原料"],
+    "trans": [
+      "布料；材料，原料"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/material.jpg"
   },
   {
     "name": "leather",
-    "trans": ["皮革"],
+    "trans": [
+      "皮革"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/leather.jpg"
   },
   {
     "name": "size",
-    "trans": ["尺码；大小"],
+    "trans": [
+      "尺码；大小"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/size.jpg"
   },
   {
     "name": "wise",
-    "trans": ["明智的"],
+    "trans": [
+      "明智的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/wise.jpg"
   },
   {
     "name": "yuan",
-    "trans": ["元（中国货币单位）"],
+    "trans": [
+      "元（中国货币单位）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/yuan.jpg"
   },
   {
     "name": "euro",
-    "trans": ["欧元"],
+    "trans": [
+      "欧元"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/euro.jpg"
   },
   {
     "name": "pound",
-    "trans": ["英镑"],
+    "trans": [
+      "英镑"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pound.jpg"
   },
   {
     "name": "yen",
-    "trans": ["日元"],
+    "trans": [
+      "日元"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/yen.jpg"
   },
   {
     "name": "rouble",
-    "trans": ["卢布"],
+    "trans": [
+      "卢布"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rouble.jpg"
   },
   {
     "name": "dollar",
-    "trans": ["元（美、加等国货币）"],
+    "trans": [
+      "元（美、加等国货币）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dollar.jpg"
   },
   {
     "name": "key",
-    "trans": ["钥匙"],
+    "trans": [
+      "钥匙"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/key.jpg"
   },
   {
     "name": "ring",
-    "trans": ["环状物，圈形的东西"],
+    "trans": [
+      "环状物，圈形的东西"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ring.jpg"
   },
   {
     "name": "baseball",
-    "trans": ["棒球运动；棒球"],
+    "trans": [
+      "棒球运动；棒球"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/baseball.jpg"
   },
   {
     "name": "Russian",
-    "trans": ["俄罗斯（人）的，俄语的"],
+    "trans": [
+      "俄罗斯（人）的，俄语的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/russian.jpg"
   },
   {
     "name": "set",
-    "trans": ["一套，一副，一组"],
+    "trans": [
+      "一套，一副，一组"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/set.jpg"
   },
   {
     "name": "a set of",
-    "trans": ["一套，一副，一组"],
+    "trans": [
+      "一套，一副，一组"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "inside",
-    "trans": ["在（向）…里面"],
+    "trans": [
+      "在（向）…里面"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/inside.jpg"
   },
   {
     "name": "another",
-    "trans": ["另一，又一"],
+    "trans": [
+      "另一，又一"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "colourful",
-    "trans": ["五彩缤纷的；丰富多彩的"],
+    "trans": [
+      "五彩缤纷的；丰富多彩的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/colourful.jpg"
   },
   {
     "name": "surprise",
-    "trans": ["令人惊奇的事情"],
+    "trans": [
+      "令人惊奇的事情"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/surprise.jpg"
   },
   {
     "name": "player",
-    "trans": ["运动员"],
+    "trans": [
+      "运动员"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/player.jpg"
   },
   {
     "name": "protect",
-    "trans": ["保护，防护"],
+    "trans": [
+      "保护，防护"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/protect.jpg"
   },
   {
     "name": "mall",
-    "trans": ["购物商场"],
+    "trans": [
+      "购物商场"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mall.jpg"
   },
   {
     "name": "across",
-    "trans": ["在…对面；穿过；遍及"],
+    "trans": [
+      "在…对面；穿过；遍及"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/across.jpg"
   },
   {
     "name": "cost",
-    "trans": ["需付费，价钱为"],
+    "trans": [
+      "需付费，价钱为"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cost.jpg"
   },
   {
     "name": "manage",
-    "trans": ["明智地使用；管理"],
+    "trans": [
+      "明智地使用；管理"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/manage.jpg"
   },
   {
     "name": "budget",
-    "trans": ["预算"],
+    "trans": [
+      "预算"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/budget.jpg"
   },
   {
     "name": "cover",
-    "trans": ["足以支付；覆盖"],
+    "trans": [
+      "足以支付；覆盖"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cover.jpg"
   },
   {
     "name": "education",
-    "trans": ["教育"],
+    "trans": [
+      "教育"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/education.jpg"
   },
   {
     "name": "pay",
-    "trans": ["付款"],
+    "trans": [
+      "付款"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pay.jpg"
   },
   {
     "name": "pay for",
-    "trans": ["支付"],
+    "trans": [
+      "支付"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pay_for.jpg"
   },
   {
     "name": "flat",
-    "trans": ["公寓"],
+    "trans": [
+      "公寓"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/flat.jpg"
   },
   {
     "name": "daily",
-    "trans": ["每日的"],
+    "trans": [
+      "每日的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/daily.jpg"
   },
   {
     "name": "need",
-    "trans": ["需要的事物；需要"],
+    "trans": [
+      "需要的事物；需要"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/need.jpg"
   },
   {
     "name": "per cent",
-    "trans": ["百分之…"],
+    "trans": [
+      "百分之…"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/per_cent.jpg"
   },
   {
     "name": "expensive",
-    "trans": ["昂贵的"],
+    "trans": [
+      "昂贵的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/expensive.jpg"
   },
   {
     "name": "save",
-    "trans": ["储蓄；节省"],
+    "trans": [
+      "储蓄；节省"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/save.jpg"
   },
   {
     "name": "bank",
-    "trans": ["银行"],
+    "trans": [
+      "银行"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bank.jpg"
   },
   {
     "name": "account",
-    "trans": ["账户"],
+    "trans": [
+      "账户"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/account.jpg"
   },
   {
     "name": "rainy",
-    "trans": ["阴雨的"],
+    "trans": [
+      "阴雨的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rainy.jpg"
   },
   {
     "name": "matter",
-    "trans": ["要紧，有重大影响"],
+    "trans": [
+      "要紧，有重大影响"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/matter.jpg"
   },
   {
     "name": "pocket",
-    "trans": ["口袋"],
+    "trans": [
+      "口袋"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pocket.jpg"
   },
   {
     "name": "pocket money",
-    "trans": ["零花钱"],
+    "trans": [
+      "零花钱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/pocket_money.jpg"
   },
   {
     "name": "notebook",
-    "trans": ["笔记本"],
+    "trans": [
+      "笔记本"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/notebook.jpg"
   },
   {
     "name": "rest",
-    "trans": ["剩余部分；其他"],
+    "trans": [
+      "剩余部分；其他"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rest.jpg"
   },
   {
     "name": "strawberry",
-    "trans": ["草莓"],
+    "trans": [
+      "草莓"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/strawberry.jpg"
   },
   {
     "name": "bookshop",
-    "trans": ["书店"],
+    "trans": [
+      "书店"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bookshop.jpg"
   },
   {
     "name": "eraser",
-    "trans": ["橡皮"],
+    "trans": [
+      "橡皮"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/eraser.jpg"
   },
   {
     "name": "as",
-    "trans": ["作为，当作"],
+    "trans": [
+      "作为，当作"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "present",
-    "trans": ["礼物"],
+    "trans": [
+      "礼物"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/present.jpg"
   },
   {
     "name": "away",
-    "trans": ["离开；在…处；去别处"],
+    "trans": [
+      "离开；在…处；去别处"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "shell",
-    "trans": ["壳；骨架"],
+    "trans": [
+      "壳；骨架"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/shell.jpg"
   },
   {
     "name": "deal",
-    "trans": ["交易"],
+    "trans": [
+      "交易"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/deal.jpg"
   },
   {
     "name": "coin",
-    "trans": ["硬币"],
+    "trans": [
+      "硬币"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/coin.jpg"
   },
   {
     "name": "online",
-    "trans": ["在线上/的，在网上/的"],
+    "trans": [
+      "在线上/的，在网上/的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/online.jpg"
   },
   {
     "name": "lucky",
-    "trans": ["带来好运的；幸运的"],
+    "trans": [
+      "带来好运的；幸运的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lucky.jpg"
   },
   {
     "name": "lucky money",
-    "trans": ["压岁钱"],
+    "trans": [
+      "压岁钱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lucky_money.jpg"
   },
   {
     "name": "grandparent",
-    "trans": ["（外）祖父/母"],
+    "trans": [
+      "（外）祖父/母"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grandparent.jpg"
   },
   {
     "name": "relative",
-    "trans": ["亲戚"],
+    "trans": [
+      "亲戚"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/relative.jpg"
   },
   {
     "name": "send",
-    "trans": ["发送"],
+    "trans": [
+      "发送"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/send.jpg"
   },
   {
     "name": "red packet",
-    "trans": ["红包"],
+    "trans": [
+      "红包"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/red_packet.jpg"
   },
   {
     "name": "survey",
-    "trans": ["民意调查；概述"],
+    "trans": [
+      "民意调查；概述"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/survey.jpg"
   },
   {
     "name": "in need",
-    "trans": ["在贫困中，在困难中"],
+    "trans": [
+      "在贫困中，在困难中"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/in_need.jpg"
   },
   {
     "name": "beginning",
-    "trans": ["开头，开端"],
+    "trans": [
+      "开头，开端"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/beginning.jpg"
   },
   {
     "name": "habit",
-    "trans": ["习惯"],
+    "trans": [
+      "习惯"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/habit.jpg"
   },
   {
     "name": "celebrate",
-    "trans": ["庆祝；颂扬"],
+    "trans": [
+      "庆祝；颂扬"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/celebrate.jpg"
   },
   {
     "name": "Christmas",
-    "trans": ["圣诞节"],
+    "trans": [
+      "圣诞节"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/christmas.jpg"
   },
   {
     "name": "remember",
-    "trans": ["纪念；记住"],
+    "trans": [
+      "纪念；记住"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/remember.jpg"
   },
   {
     "name": "poet",
-    "trans": ["诗人"],
+    "trans": [
+      "诗人"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/poet.jpg"
   },
   {
     "name": "dragon",
-    "trans": ["龙"],
+    "trans": [
+      "龙"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dragon.jpg"
   },
   {
     "name": "dragon boat",
-    "trans": ["龙舟"],
+    "trans": [
+      "龙舟"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dragon_boat.jpg"
   },
   {
     "name": "race",
-    "trans": ["速度竞赛，赛跑"],
+    "trans": [
+      "速度竞赛，赛跑"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/race.jpg"
   },
   {
     "name": "dumpling",
-    "trans": ["汤团，饺子"],
+    "trans": [
+      "汤团，饺子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dumpling.jpg"
   },
   {
     "name": "rice dumpling",
-    "trans": ["粽子"],
+    "trans": [
+      "粽子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rice_dumpling.jpg"
   },
   {
     "name": "Scottish",
-    "trans": ["苏格兰（人）的"],
+    "trans": [
+      "苏格兰（人）的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/scottish.jpg"
   },
   {
     "name": "haggis",
-    "trans": ["哈吉斯（苏格兰美食）"],
+    "trans": [
+      "哈吉斯（苏格兰美食）"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/haggis.jpg"
   },
   {
     "name": "dish",
-    "trans": ["一道菜，菜肴"],
+    "trans": [
+      "一道菜，菜肴"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dish.jpg"
   },
   {
     "name": "poem",
-    "trans": ["诗，韵文"],
+    "trans": [
+      "诗，韵文"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/poem.jpg"
   },
   {
     "name": "lady",
-    "trans": ["女士；淑女"],
+    "trans": [
+      "女士；淑女"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lady.jpg"
   },
   {
     "name": "gentleman",
-    "trans": ["先生；绅士"],
+    "trans": [
+      "先生；绅士"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/gentleman.jpg"
   },
   {
     "name": "spread",
-    "trans": ["传播；使分散"],
+    "trans": [
+      "传播；使分散"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/spread.jpg"
   },
   {
     "name": "doorstep",
-    "trans": ["门阶"],
+    "trans": [
+      "门阶"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/doorstep.jpg"
   },
   {
     "name": "hang",
-    "trans": ["悬挂"],
+    "trans": [
+      "悬挂"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hang.jpg"
   },
   {
     "name": "onion",
-    "trans": ["洋葱"],
+    "trans": [
+      "洋葱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/onion.jpg"
   },
   {
     "name": "Greek",
-    "trans": ["希腊（人）的，希腊语的"],
+    "trans": [
+      "希腊（人）的，希腊语的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/greek.jpg"
   },
   {
     "name": "tradition",
-    "trans": ["传统"],
+    "trans": [
+      "传统"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tradition.jpg"
   },
   {
     "name": "symbol",
-    "trans": ["象征；符号"],
+    "trans": [
+      "象征；符号"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/symbol.jpg"
   },
   {
     "name": "midnight",
-    "trans": ["午夜"],
+    "trans": [
+      "午夜"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/midnight.jpg"
   },
   {
     "name": "strike",
-    "trans": ["敲，鸣，报时；撞击"],
+    "trans": [
+      "敲，鸣，报时；撞击"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/strike.jpg"
   },
   {
     "name": "into",
-    "trans": ["进入，到…里面"],
+    "trans": [
+      "进入，到…里面"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "hope",
-    "trans": ["希望"],
+    "trans": [
+      "希望"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hope.jpg"
   },
   {
     "name": "in the hope of",
-    "trans": ["希望"],
+    "trans": [
+      "希望"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "ahead",
-    "trans": ["在前面，向前"],
+    "trans": [
+      "在前面，向前"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ahead.jpg"
   },
   {
     "name": "carry",
-    "trans": ["拿，提，搬；携带"],
+    "trans": [
+      "拿，提，搬；携带"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/carry.jpg"
   },
   {
     "name": "suitcase",
-    "trans": ["（旅行用的）手提箱"],
+    "trans": [
+      "（旅行用的）手提箱"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/suitcase.jpg"
   },
   {
     "name": "block",
-    "trans": ["街区"],
+    "trans": [
+      "街区"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/block.jpg"
   },
   {
     "name": "traveller",
-    "trans": ["旅行者，游客"],
+    "trans": [
+      "旅行者，游客"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/traveller.jpg"
   },
   {
     "name": "wherever",
-    "trans": ["在任何地方"],
+    "trans": [
+      "在任何地方"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "violin",
-    "trans": ["小提琴"],
+    "trans": [
+      "小提琴"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/violin.jpg"
   },
   {
     "name": "lively",
-    "trans": ["轻快的；生气勃勃的"],
+    "trans": [
+      "轻快的；生气勃勃的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lively.jpg"
   },
   {
     "name": "spring roll",
-    "trans": ["春卷"],
+    "trans": [
+      "春卷"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/spring_roll.jpg"
   },
   {
     "name": "moment",
-    "trans": ["某个时刻；瞬间"],
+    "trans": [
+      "某个时刻；瞬间"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/moment.jpg"
   },
   {
     "name": "at the moment",
-    "trans": ["现在，当时"],
+    "trans": [
+      "现在，当时"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "tonight",
-    "trans": ["在今晚"],
+    "trans": [
+      "在今晚"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tonight.jpg"
   },
   {
     "name": "lantern",
-    "trans": ["灯笼"],
+    "trans": [
+      "灯笼"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lantern.jpg"
   },
   {
     "name": "mountain",
-    "trans": ["高山，山岳"],
+    "trans": [
+      "高山，山岳"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mountain.jpg"
   },
   {
     "name": "climb",
-    "trans": ["攀登，爬"],
+    "trans": [
+      "攀登，爬"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/climb.jpg"
   },
   {
     "name": "natural",
-    "trans": ["自然的"],
+    "trans": [
+      "自然的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/natural.jpg"
   },
   {
     "name": "beauty",
-    "trans": ["美；美人"],
+    "trans": [
+      "美；美人"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/beauty.jpg"
   },
   {
     "name": "respect",
-    "trans": ["尊敬"],
+    "trans": [
+      "尊敬"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/respect.jpg"
   },
   {
     "name": "elder",
-    "trans": ["长者，长辈"],
+    "trans": [
+      "长者，长辈"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/elder.jpg"
   },
   {
     "name": "double",
-    "trans": ["双的；两倍的"],
+    "trans": [
+      "双的；两倍的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/double.jpg"
   },
   {
     "name": "forever",
-    "trans": ["永远"],
+    "trans": [
+      "永远"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/forever.jpg"
   },
   {
     "name": "decorate",
-    "trans": ["装饰"],
+    "trans": [
+      "装饰"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/decorate.jpg"
   },
   {
     "name": "put up",
-    "trans": ["张贴，挂起"],
+    "trans": [
+      "张贴，挂起"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/put_up.jpg"
   },
   {
     "name": "Spring Festival couplets",
-    "trans": ["春联"],
+    "trans": [
+      "春联"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "beforehand",
-    "trans": ["事先，预先"],
+    "trans": [
+      "事先，预先"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "prepare",
-    "trans": ["预备"],
+    "trans": [
+      "预备"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/prepare.jpg"
   },
   {
     "name": "meaning",
-    "trans": ["意义，意思"],
+    "trans": [
+      "意义，意思"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/meaning.jpg"
   },
   {
     "name": "during",
-    "trans": ["在…期间"],
+    "trans": [
+      "在…期间"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "last",
-    "trans": ["持续"],
+    "trans": [
+      "持续"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/last.jpg"
   },
   {
     "name": "till",
-    "trans": ["到…时，直到…为止"],
+    "trans": [
+      "到…时，直到…为止"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/till.jpg"
   },
   {
     "name": "heart",
-    "trans": ["内心；心脏"],
+    "trans": [
+      "内心；心脏"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/heart.jpg"
   }
 ]

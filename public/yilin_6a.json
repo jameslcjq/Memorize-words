@@ -1,998 +1,1474 @@
 [
   {
     "name": "long long ago",
-    "trans": ["很久以前"],
+    "trans": [
+      "很久以前"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "magic",
-    "trans": ["有魔力的，神奇的"],
+    "trans": [
+      "有魔力的，神奇的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/magic.jpg"
   },
   {
     "name": "clever",
-    "trans": ["聪明的"],
+    "trans": [
+      "聪明的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/clever.jpg"
   },
   {
     "name": "foolish",
-    "trans": ["愚蠢的"],
+    "trans": [
+      "愚蠢的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/foolish.jpg"
   },
   {
     "name": "through",
-    "trans": ["穿过"],
+    "trans": [
+      "穿过"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "laugh",
-    "trans": ["笑，大笑"],
+    "trans": [
+      "笑，大笑"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/laugh.jpg"
   },
   {
     "name": "wear",
-    "trans": ["穿"],
+    "trans": [
+      "穿"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/wear.jpg"
   },
   {
     "name": "tell",
-    "trans": ["讲，叙述"],
+    "trans": [
+      "讲，叙述"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tell.jpg"
   },
   {
     "name": "each",
-    "trans": ["每个"],
+    "trans": [
+      "每个"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "say",
-    "trans": ["说"],
+    "trans": [
+      "说"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/say.jpg"
   },
   {
     "name": "sentence",
-    "trans": ["句子"],
+    "trans": [
+      "句子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sentence.jpg"
   },
   {
     "name": "quick",
-    "trans": ["迅速的，快的"],
+    "trans": [
+      "迅速的，快的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/quick.jpg"
   },
   {
     "name": "next",
-    "trans": ["下一个"],
+    "trans": [
+      "下一个"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/next.jpg"
   },
   {
     "name": "little",
-    "trans": ["小的，年幼的"],
+    "trans": [
+      "小的，年幼的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/little.jpg"
   },
   {
     "name": "turn",
-    "trans": ["机会"],
+    "trans": [
+      "机会"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/turn.jpg"
   },
   {
     "name": "think",
-    "trans": ["想，思考"],
+    "trans": [
+      "想，思考"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/think.jpg"
   },
   {
     "name": "hard",
-    "trans": ["努力地，费劲地"],
+    "trans": [
+      "努力地，费劲地"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hard.jpg"
   },
   {
     "name": "laugh at",
-    "trans": ["嘲笑"],
+    "trans": [
+      "嘲笑"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/laugh_at.jpg"
   },
   {
     "name": "grandchildren",
-    "trans": ["孙子/女；外孙/女"],
+    "trans": [
+      "孙子/女；外孙/女"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/grandchildren.jpg"
   },
   {
     "name": "move ... away",
-    "trans": ["把……搬走"],
+    "trans": [
+      "把……搬走"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "child",
-    "trans": ["孩子"],
+    "trans": [
+      "孩子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/child.jpg"
   },
   {
     "name": "sunny",
-    "trans": ["晴朗的"],
+    "trans": [
+      "晴朗的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sunny.jpg"
   },
   {
     "name": "show",
-    "trans": ["展览，展示"],
+    "trans": [
+      "展览，展示"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/show.jpg"
   },
   {
     "name": "interesting",
-    "trans": ["有趣的，有意思的"],
+    "trans": [
+      "有趣的，有意思的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/interesting.jpg"
   },
   {
     "name": "weather",
-    "trans": ["天气"],
+    "trans": [
+      "天气"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/weather.jpg"
   },
   {
     "name": "become",
-    "trans": ["变成，变为"],
+    "trans": [
+      "变成，变为"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/become.jpg"
   },
   {
     "name": "wind",
-    "trans": ["有风的"],
+    "trans": [
+      "有风的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/wind.jpg"
   },
   {
     "name": "cloudy",
-    "trans": ["多云的"],
+    "trans": [
+      "多云的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cloudy.jpg"
   },
   {
     "name": "high",
-    "trans": ["在高处"],
+    "trans": [
+      "在高处"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/high.jpg"
   },
   {
     "name": "sky",
-    "trans": ["天空"],
+    "trans": [
+      "天空"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sky.jpg"
   },
   {
     "name": "bring",
-    "trans": ["带来"],
+    "trans": [
+      "带来"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bring.jpg"
   },
   {
     "name": "honey",
-    "trans": ["蜂蜜"],
+    "trans": [
+      "蜂蜜"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/honey.jpg"
   },
   {
     "name": "drink",
-    "trans": ["饮料"],
+    "trans": [
+      "饮料"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/drink.jpg"
   },
   {
     "name": "ant",
-    "trans": ["蚂蚁"],
+    "trans": [
+      "蚂蚁"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ant.jpg"
   },
   {
     "name": "bee",
-    "trans": ["蜜蜂"],
+    "trans": [
+      "蜜蜂"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bee.jpg"
   },
   {
     "name": "cloud",
-    "trans": ["云"],
+    "trans": [
+      "云"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cloud.jpg"
   },
   {
     "name": "rain",
-    "trans": ["下雨"],
+    "trans": [
+      "下雨"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rain.jpg"
   },
   {
     "name": "rainy",
-    "trans": ["多雨的"],
+    "trans": [
+      "多雨的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rainy.jpg"
   },
   {
     "name": "meet",
-    "trans": ["遇见"],
+    "trans": [
+      "遇见"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/meet.jpg"
   },
   {
     "name": "lose",
-    "trans": ["丢失"],
+    "trans": [
+      "丢失"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lose.jpg"
   },
   {
     "name": "know",
-    "trans": ["知道"],
+    "trans": [
+      "知道"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/know.jpg"
   },
   {
     "name": "What happened?",
-    "trans": ["出什么事了？"],
+    "trans": [
+      "出什么事了？"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/what_happened.jpg"
   },
   {
     "name": "climb up",
-    "trans": ["爬上"],
+    "trans": [
+      "爬上"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/climb_up.jpg"
   },
   {
     "name": "hold onto",
-    "trans": ["抓紧"],
+    "trans": [
+      "抓紧"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hold_onto.jpg"
   },
   {
     "name": "fly away",
-    "trans": ["飞走"],
+    "trans": [
+      "飞走"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fly_away.jpg"
   },
   {
     "name": "holiday",
-    "trans": ["假日，假期"],
+    "trans": [
+      "假日，假期"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/holiday.jpg"
   },
   {
     "name": "National Day",
-    "trans": ["国庆节"],
+    "trans": [
+      "国庆节"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/national_day.jpg"
   },
   {
     "name": "call",
-    "trans": ["打电话"],
+    "trans": [
+      "打电话"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/call.jpg"
   },
   {
     "name": "Bund",
-    "trans": ["（上海）外滩"],
+    "trans": [
+      "（上海）外滩"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bund.jpg"
   },
   {
     "name": "Shanghai Museum",
-    "trans": ["上海博物馆"],
+    "trans": [
+      "上海博物馆"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/shanghai_museum.jpg"
   },
   {
     "name": "star",
-    "trans": ["星星"],
+    "trans": [
+      "星星"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/star.jpg"
   },
   {
     "name": "Great Wall",
-    "trans": ["长城"],
+    "trans": [
+      "长城"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/great_wall.jpg"
   },
   {
     "name": "Palace Museum",
-    "trans": ["故宫"],
+    "trans": [
+      "故宫"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/palace_museum.jpg"
   },
   {
     "name": "Summer Palace",
-    "trans": ["颐和园"],
+    "trans": [
+      "颐和园"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/summer_palace.jpg"
   },
   {
     "name": "Tian’anmen Square",
-    "trans": ["天安门广场"],
+    "trans": [
+      "天安门广场"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tian_anmen_square.jpg"
   },
   {
     "name": "fashion show",
-    "trans": ["时装表演，时装秀"],
+    "trans": [
+      "时装表演，时装秀"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fashion_show.jpg"
   },
   {
     "name": "excited",
-    "trans": ["激动的，兴奋的"],
+    "trans": [
+      "激动的，兴奋的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/excited.jpg"
   },
   {
     "name": "paper",
-    "trans": ["纸"],
+    "trans": [
+      "纸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/paper.jpg"
   },
   {
     "name": "ask",
-    "trans": ["问"],
+    "trans": [
+      "问"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ask.jpg"
   },
   {
     "name": "bottle",
-    "trans": ["瓶子"],
+    "trans": [
+      "瓶子"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bottle.jpg"
   },
   {
     "name": "go well",
-    "trans": ["进展顺利"],
+    "trans": [
+      "进展顺利"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/go_well.jpg"
   },
   {
     "name": "at first",
-    "trans": ["开始，最初"],
+    "trans": [
+      "开始，最初"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/at_first.jpg"
   },
   {
     "name": "heavy rain",
-    "trans": ["大雨"],
+    "trans": [
+      "大雨"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/heavy_rain.jpg"
   },
   {
     "name": "then and now",
-    "trans": ["过去和现在"],
+    "trans": [
+      "过去和现在"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "ago",
-    "trans": ["……以前"],
+    "trans": [
+      "……以前"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ago.jpg"
   },
   {
     "name": "use",
-    "trans": ["使用，利用"],
+    "trans": [
+      "使用，利用"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/use.jpg"
   },
   {
     "name": "telephone",
-    "trans": ["电话"],
+    "trans": [
+      "电话"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/telephone.jpg"
   },
   {
     "name": "office",
-    "trans": ["办公室"],
+    "trans": [
+      "办公室"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/office.jpg"
   },
   {
     "name": "mobile phone",
-    "trans": ["移动电话，手机"],
+    "trans": [
+      "移动电话，手机"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mobile_phone.jpg"
   },
   {
     "name": "anywhere",
-    "trans": ["随处，到处"],
+    "trans": [
+      "随处，到处"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/anywhere.jpg"
   },
   {
     "name": "radio",
-    "trans": ["收音机"],
+    "trans": [
+      "收音机"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/radio.jpg"
   },
   {
     "name": "newspaper",
-    "trans": ["报纸"],
+    "trans": [
+      "报纸"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/newspaper.jpg"
   },
   {
     "name": "news",
-    "trans": ["新闻"],
+    "trans": [
+      "新闻"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/news.jpg"
   },
   {
     "name": "watch",
-    "trans": ["观看"],
+    "trans": [
+      "观看"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/watch.jpg"
   },
   {
     "name": "e-book",
-    "trans": ["电子书"],
+    "trans": [
+      "电子书"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/e_book.jpg"
   },
   {
     "name": "make friends",
-    "trans": ["交朋友"],
+    "trans": [
+      "交朋友"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/make_friends.jpg"
   },
   {
     "name": "all over the world",
-    "trans": ["全世界"],
+    "trans": [
+      "全世界"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "do shopping",
-    "trans": ["购物"],
+    "trans": [
+      "购物"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/do_shopping.jpg"
   },
   {
     "name": "TV",
-    "trans": ["电视"],
+    "trans": [
+      "电视"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/tv.jpg"
   },
   {
     "name": "look out of",
-    "trans": ["朝……外看"],
+    "trans": [
+      "朝……外看"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "go on",
-    "trans": ["继续"],
+    "trans": [
+      "继续"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/go_on.jpg"
   },
   {
     "name": "still",
-    "trans": ["仍然"],
+    "trans": [
+      "仍然"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "What day is today?",
-    "trans": ["今天是星期几？"],
+    "trans": [
+      "今天是星期几？"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "spell",
-    "trans": ["拼读，拼写"],
+    "trans": [
+      "拼读，拼写"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/spell.jpg"
   },
   {
     "name": "make a sentence",
-    "trans": ["造句"],
+    "trans": [
+      "造句"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "with",
-    "trans": ["用"],
+    "trans": [
+      "用"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "yesterday",
-    "trans": ["昨天"],
+    "trans": [
+      "昨天"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/yesterday.jpg"
   },
   {
     "name": "sign",
-    "trans": ["标识"],
+    "trans": [
+      "标识"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/sign.jpg"
   },
   {
     "name": "shopping centre",
-    "trans": ["购物中心"],
+    "trans": [
+      "购物中心"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/shopping_centre.jpg"
   },
   {
     "name": "careful",
-    "trans": ["小心，当心"],
+    "trans": [
+      "小心，当心"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/careful.jpg"
   },
   {
     "name": "What does it mean?",
-    "trans": ["它是什么意思？"],
+    "trans": [
+      "它是什么意思？"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "mean",
-    "trans": ["意思是"],
+    "trans": [
+      "意思是"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/mean.jpg"
   },
   {
     "name": "floor",
-    "trans": ["地面"],
+    "trans": [
+      "地面"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/floor.jpg"
   },
   {
     "name": "litter",
-    "trans": ["乱扔垃圾"],
+    "trans": [
+      "乱扔垃圾"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/litter.jpg"
   },
   {
     "name": "go in",
-    "trans": ["进入，走进"],
+    "trans": [
+      "进入，走进"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/go_in.jpg"
   },
   {
     "name": "take ... into",
-    "trans": ["带入"],
+    "trans": [
+      "带入"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "restaurant",
-    "trans": ["饭店，餐厅"],
+    "trans": [
+      "饭店，餐厅"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/restaurant.jpg"
   },
   {
     "name": "someone",
-    "trans": ["某人"],
+    "trans": [
+      "某人"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/someone.jpg"
   },
   {
     "name": "smoke",
-    "trans": ["吸烟，抽烟"],
+    "trans": [
+      "吸烟，抽烟"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smoke.jpg"
   },
   {
     "name": "smell",
-    "trans": ["闻到"],
+    "trans": [
+      "闻到"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smell.jpg"
   },
   {
     "name": "No eating or drinking",
-    "trans": ["请勿饮食。"],
+    "trans": [
+      "请勿饮食。"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "No littering",
-    "trans": ["请勿乱扔垃圾。"],
+    "trans": [
+      "请勿乱扔垃圾。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/no_littering.jpg"
   },
   {
     "name": "No parking",
-    "trans": ["请勿停车。"],
+    "trans": [
+      "请勿停车。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/no_parking.jpg"
   },
   {
     "name": "No smoking",
-    "trans": ["请勿吸烟。"],
+    "trans": [
+      "请勿吸烟。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/no_smoking.jpg"
   },
   {
     "name": "Danger",
-    "trans": ["危险！"],
+    "trans": [
+      "危险！"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/danger.jpg"
   },
   {
     "name": "Wet floor",
-    "trans": ["小心地滑。"],
+    "trans": [
+      "小心地滑。"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/wet_floor.jpg"
   },
   {
     "name": "outing",
-    "trans": ["外出游玩，远足"],
+    "trans": [
+      "外出游玩，远足"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/outing.jpg"
   },
   {
     "name": "walk on",
-    "trans": ["继续走路"],
+    "trans": [
+      "继续走路"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/walk_on.jpg"
   },
   {
     "name": "around",
-    "trans": ["在……周围"],
+    "trans": [
+      "在……周围"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/around.jpg"
   },
   {
     "name": "keep",
-    "trans": ["保持，维持"],
+    "trans": [
+      "保持，维持"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/keep.jpg"
   },
   {
     "name": "clean",
-    "trans": ["干净的，整洁的"],
+    "trans": [
+      "干净的，整洁的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/clean.jpg"
   },
   {
     "name": "make",
-    "trans": ["使……变得"],
+    "trans": [
+      "使……变得"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/make.jpg"
   },
   {
     "name": "air",
-    "trans": ["空气"],
+    "trans": [
+      "空气"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/air.jpg"
   },
   {
     "name": "dirty",
-    "trans": ["肮脏的"],
+    "trans": [
+      "肮脏的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dirty.jpg"
   },
   {
     "name": "smoke",
-    "trans": ["烟雾"],
+    "trans": [
+      "烟雾"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/smoke.jpg"
   },
   {
     "name": "rubbish",
-    "trans": ["垃圾"],
+    "trans": [
+      "垃圾"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rubbish.jpg"
   },
   {
     "name": "messy",
-    "trans": ["肮脏的，乱七八糟的"],
+    "trans": [
+      "肮脏的，乱七八糟的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/messy.jpg"
   },
   {
     "name": "dead",
-    "trans": ["死的"],
+    "trans": [
+      "死的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/dead.jpg"
   },
   {
     "name": "bin",
-    "trans": ["垃圾桶"],
+    "trans": [
+      "垃圾桶"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/bin.jpg"
   },
   {
     "name": "plant",
-    "trans": ["种植，栽种"],
+    "trans": [
+      "种植，栽种"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/plant.jpg"
   },
   {
     "name": "more",
-    "trans": ["更多的"],
+    "trans": [
+      "更多的"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "museum",
-    "trans": ["博物馆"],
+    "trans": [
+      "博物馆"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/museum.jpg"
   },
   {
     "name": "throw",
-    "trans": ["扔"],
+    "trans": [
+      "扔"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/throw.jpg"
   },
   {
     "name": "skin",
-    "trans": ["果皮"],
+    "trans": [
+      "果皮"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/skin.jpg"
   },
   {
     "name": "ground",
-    "trans": ["地面，地上"],
+    "trans": [
+      "地面，地上"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/ground.jpg"
   },
   {
     "name": "pick ... up",
-    "trans": ["捡起，拾起"],
+    "trans": [
+      "捡起，拾起"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "slip",
-    "trans": ["滑倒"],
+    "trans": [
+      "滑倒"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/slip.jpg"
   },
   {
     "name": "fall",
-    "trans": ["摔倒"],
+    "trans": [
+      "摔倒"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fall.jpg"
   },
   {
     "name": "protect",
-    "trans": ["保护"],
+    "trans": [
+      "保护"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/protect.jpg"
   },
   {
     "name": "Earth",
-    "trans": ["地球"],
+    "trans": [
+      "地球"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/earth.jpg"
   },
   {
     "name": "save",
-    "trans": ["节约"],
+    "trans": [
+      "节约"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/save.jpg"
   },
   {
     "name": "useful",
-    "trans": ["有用的"],
+    "trans": [
+      "有用的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/useful.jpg"
   },
   {
     "name": "much",
-    "trans": ["很多"],
+    "trans": [
+      "很多"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "waste",
-    "trans": ["浪费"],
+    "trans": [
+      "浪费"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/waste.jpg"
   },
   {
     "name": "reuse",
-    "trans": ["再利用"],
+    "trans": [
+      "再利用"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/reuse.jpg"
   },
   {
     "name": "energy",
-    "trans": ["能源"],
+    "trans": [
+      "能源"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/energy.jpg"
   },
   {
     "name": "most",
-    "trans": ["大部分"],
+    "trans": [
+      "大部分"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "come from",
-    "trans": ["来自"],
+    "trans": [
+      "来自"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/come_from.jpg"
   },
   {
     "name": "coal",
-    "trans": ["煤炭"],
+    "trans": [
+      "煤炭"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/coal.jpg"
   },
   {
     "name": "oil",
-    "trans": ["石油"],
+    "trans": [
+      "石油"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/oil.jpg"
   },
   {
     "name": "drive",
-    "trans": ["开车，驾驶"],
+    "trans": [
+      "开车，驾驶"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/drive.jpg"
   },
   {
     "name": "wood",
-    "trans": ["木头，木材"],
+    "trans": [
+      "木头，木材"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/wood.jpg"
   },
   {
     "name": "other",
-    "trans": ["其他的"],
+    "trans": [
+      "其他的"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "cut down",
-    "trans": ["砍伐，砍掉"],
+    "trans": [
+      "砍伐，砍掉"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/cut_down.jpg"
   },
   {
     "name": "too many",
-    "trans": ["太多"],
+    "trans": [
+      "太多"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/too_many.jpg"
   },
   {
     "name": "too much",
-    "trans": ["太多"],
+    "trans": [
+      "太多"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/too_much.jpg"
   },
   {
     "name": "plastic",
-    "trans": ["塑料"],
+    "trans": [
+      "塑料"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/plastic.jpg"
   },
   {
     "name": "glass",
-    "trans": ["玻璃"],
+    "trans": [
+      "玻璃"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/glass.jpg"
   },
   {
     "name": "project",
-    "trans": ["课题"],
+    "trans": [
+      "课题"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/project.jpg"
   },
   {
     "name": "poster",
-    "trans": ["海报"],
+    "trans": [
+      "海报"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/poster.jpg"
   },
   {
     "name": "gate",
-    "trans": ["大门"],
+    "trans": [
+      "大门"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/gate.jpg"
   },
   {
     "name": "get",
-    "trans": ["收到，接到"],
+    "trans": [
+      "收到，接到"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/get.jpg"
   },
   {
     "name": "Hong Kong",
-    "trans": ["香港"],
+    "trans": [
+      "香港"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hong_kong.jpg"
   },
   {
     "name": "next week",
-    "trans": ["下周"],
+    "trans": [
+      "下周"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/next_week.jpg"
   },
   {
     "name": "food",
-    "trans": ["食物，食品"],
+    "trans": [
+      "食物，食品"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/food.jpg"
   },
   {
     "name": "tangyuan",
-    "trans": ["汤圆"],
+    "trans": [
+      "汤圆"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "Chinese New Year’s Eve",
-    "trans": ["大年夜，除夕"],
+    "trans": [
+      "大年夜，除夕"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "Chinese New Year’s Day",
-    "trans": ["大年初一，春节"],
+    "trans": [
+      "大年初一，春节"
+    ],
     "usphone": "",
     "ukphone": ""
   },
   {
     "name": "red packet",
-    "trans": ["红包"],
+    "trans": [
+      "红包"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/red_packet.jpg"
   },
   {
     "name": "lion dance",
-    "trans": ["舞狮"],
+    "trans": [
+      "舞狮"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/lion_dance.jpg"
   },
   {
     "name": "fireworks",
-    "trans": ["烟花表演"],
+    "trans": [
+      "烟花表演"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/fireworks.jpg"
   },
   {
     "name": "firecracker",
-    "trans": ["鞭炮"],
+    "trans": [
+      "鞭炮"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/firecracker.jpg"
   },
   {
     "name": "rich",
-    "trans": ["富有的，有钱的"],
+    "trans": [
+      "富有的，有钱的"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/rich.jpg"
   },
   {
     "name": "plan",
-    "trans": ["计划，打算"],
+    "trans": [
+      "计划，打算"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/plan.jpg"
   },
   {
     "name": "hooray",
-    "trans": ["好极了"],
+    "trans": [
+      "好极了"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/hooray.jpg"
   },
   {
     "name": "light",
-    "trans": ["点燃"],
+    "trans": [
+      "点燃"
+    ],
     "usphone": "",
-    "ukphone": ""
+    "ukphone": "",
+    "image": "/images/words/light.jpg"
   }
 ]

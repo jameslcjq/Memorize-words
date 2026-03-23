@@ -153,3 +153,7 @@ export const dailyGoalAtom = atom(
     set(learningPlanAtom, { ...current, dailyGoal: newGoal })
   },
 )
+
+// Pet Module Atoms
+export const hasPetAtom = atomWithStorage('hasPet', false)
+export const petLastSeenDropAtom = atom<{ itemId: string; itemName: string; itemIcon: string } | null>(null)

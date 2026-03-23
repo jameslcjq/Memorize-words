@@ -25,6 +25,7 @@ export type Word = {
   usphone: string
   ukphone: string
   notation?: string
+  image?: string
 }
 
 export type WordWithIndex = Word & {

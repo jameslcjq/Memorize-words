@@ -42,7 +42,13 @@ export interface PointsTransaction {
   details?: string
 }
 
-export type PointsReason = 'word_correct' | 'combo_bonus' | 'chapter_complete' | 'daily_challenge' | 'achievement_unlock'
+export type PointsReason =
+  | 'word_correct'
+  | 'combo_bonus'
+  | 'chapter_complete'
+  | 'daily_challenge'
+  | 'achievement_unlock'
+  | 'pet_shop_purchase'
 
 /**
  * Daily challenge record

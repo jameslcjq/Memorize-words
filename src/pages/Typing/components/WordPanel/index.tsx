@@ -190,6 +190,16 @@ export default function WordPanel() {
               </div>
             )}
             <div className="relative w-full">
+              {currentWord.image && (
+                <div className="mb-4 flex justify-center">
+                  <img
+                    src={currentWord.image}
+                    alt={currentWord.name}
+                    className="h-32 w-32 rounded-lg object-cover shadow-md"
+                    loading="lazy"
+                  />
+                </div>
+              )}
               {isTypingMode ? (
                 <>
                   <WordComponent word={currentWord} onFinish={onFinish} key={wordComponentKey} />
