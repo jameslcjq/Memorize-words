@@ -35,7 +35,8 @@ const LoginModal = () => {
         nickname: mode === 'register' ? nickname : undefined,
       }
 
-      const res = await fetch('/api/auth/login', {
+      const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login'
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -46,14 +47,24 @@ const LoginModal = () => {
       if (!res.ok) throw new Error(data.error || 'Request failed')
 
       if (data.success) {
-        // Map backend user format to frontend userInfo format
+        // After register, auto-login to get token
+        let loginData = data
+        if (mode === 'register') {
+          const loginRes = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          })
+          loginData = await loginRes.json()
+          if (!loginRes.ok) throw new Error(loginData.error || 'Auto-login failed')
+        }
+
         setUserInfo({
-          userId: data.user.id,
-          username: data.user.username,
-          nickname: data.user.nickname,
+          userId: loginData.user.id,
+          username: loginData.user.username,
+          nickname: loginData.user.nickname,
         })
         setIsOpen(false)
-        // Reset form
         setUsername('')
         setPassword('')
         setNickname('')
