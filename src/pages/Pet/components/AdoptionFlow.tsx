@@ -1,5 +1,7 @@
+import { userInfoAtom } from '@/store'
 import type { PetSpecies } from '@/typings/pet'
 import confetti from 'canvas-confetti'
+import { useAtomValue } from 'jotai'
 import { useState } from 'react'
 
 interface AdoptionFlowProps {
@@ -9,9 +11,14 @@ interface AdoptionFlowProps {
 export default function AdoptionFlow({ onAdopt }: AdoptionFlowProps) {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
+  const userInfo = useAtomValue(userInfoAtom)
 
   const handleAdopt = async () => {
     if (!name.trim()) return
+    if (!userInfo) {
+      alert('请先登录账号后再领养宠物 🐱')
+      return
+    }
     setLoading(true)
     try {
       await onAdopt(name.trim(), 'cat')
@@ -86,13 +93,22 @@ export default function AdoptionFlow({ onAdopt }: AdoptionFlowProps) {
         </div>
       </div>
 
+      {/* Login hint */}
+      {!userInfo && (
+        <div className="w-full max-w-sm rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-400">
+          🔒 需要登录后才能领养宠物，点击右上角「登录 / 同步」完成登录
+        </div>
+      )}
+
       {/* Adopt button */}
       <button
         onClick={handleAdopt}
         disabled={!name.trim() || loading}
-        className="w-full max-w-sm rounded-xl bg-indigo-500 py-4 text-lg font-bold text-white transition-all hover:bg-indigo-600 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className={`w-full max-w-sm rounded-xl py-4 text-lg font-bold text-white transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${
+          userInfo ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-gray-400 hover:bg-gray-500'
+        }`}
       >
-        {loading ? '领养中...' : '🎉 领养这只猫咪！'}
+        {loading ? '领养中...' : userInfo ? '🎉 领养这只猫咪！' : '🔒 请先登录'}
       </button>
     </div>
   )

@@ -3,8 +3,10 @@ import ItemPicker from './components/ItemPicker'
 import PetDisplay from './components/PetDisplay'
 import { useGamification } from '@/hooks/useGamification'
 import { usePet } from '@/hooks/usePet'
+import { userInfoAtom } from '@/store'
 import { calculateExpNeeded } from '@/utils/pet-logic'
 import confetti from 'canvas-confetti'
+import { useAtomValue } from 'jotai'
 import { ArrowLeft, Package, ShoppingBag, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +15,7 @@ export default function PetPage() {
   const navigate = useNavigate()
   const { pet, inventory, adoptPet, feedPet, playWithPet, cleanPet, equipDecoration } = usePet()
   const { totalPoints } = useGamification()
+  const userInfo = useAtomValue(userInfoAtom)
 
   const [activePicker, setActivePicker] = useState<'food' | 'toy' | 'cleaning' | 'decoration' | null>(null)
   const [feedback, setFeedback] = useState<{ msg: string; emoji: string } | null>(null)
@@ -57,10 +60,19 @@ export default function PetPage() {
             <span className="text-sm">返回</span>
           </button>
           <h1 className="text-lg font-bold text-gray-800 dark:text-white">我的宠物</h1>
-          <div className="flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 dark:bg-amber-900/30">
-            <span className="text-sm">⭐</span>
-            <span className="text-sm font-bold text-amber-700 dark:text-amber-400">{totalPoints ?? 0}</span>
-          </div>
+          {userInfo ? (
+            <div className="flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 dark:bg-amber-900/30">
+              <span className="text-sm">⭐</span>
+              <span className="text-sm font-bold text-amber-700 dark:text-amber-400">{totalPoints ?? 0}</span>
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate('/')}
+              className="rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold text-white hover:bg-indigo-600"
+            >
+              去登录
+            </button>
+          )}
         </div>
       </div>
 
