@@ -44,24 +44,165 @@ const ALL_DICT_FILES = [
 
 // 抽象词/虚词/代词/语气词 —— 不适合配实物图片
 const SKIP_WORDS = new Set([
-  'i', 'am', 'is', 'are', 'a', 'an', 'the', 'my', 'your', 'you', 'we', 'he', 'she', 'it', 'me',
-  'no', 'not', 'yes', 'and', 'but', 'or', 'in', 'with', 'for', 'to', 'of', 'at', 'on', 'by',
-  'what', 'who', 'how', 'this', 'that', 'these', 'those', 'some', 'many', 'too', 'now',
-  'oh', 'ah', 'ha', 'er', 'wow', 'hmm', 'uh', 'um',
-  'can', 'do', 'did', 'does', 'have', 'has', 'had', 'will', 'would', 'could', 'should', 'shall', 'may', 'might', 'must',
-  'ok', 'please', 'here', 'there', 'then', 'than', 'very', 'much', 'also', 'just', 'only',
-  'mr', 'miss', 'mrs', 'ms',
-  'its', 'his', 'her', 'our', 'their', 'us', 'them', 'him',
-  'be', 'been', 'being', 'was', 'were',
-  'if', 'so', 'as', 'up', 'out', 'off', 'into', 'from', 'about', 'over', 'after', 'before',
-  'when', 'where', 'why', 'which', 'while',
-  'more', 'most', 'other', 'another', 'each', 'every', 'all', 'both', 'any', 'few',
-  'own', 'such', 'still', 'even', 'again', 'back', 'well', 'away', 'quite',
-  'really', 'already', 'perhaps', 'enough', 'either', 'neither', 'however', 'although',
-  'because', 'since', 'until', 'unless', 'whether',
-  'between', 'among', 'through', 'during', 'without', 'against', 'within',
-  'itself', 'himself', 'herself', 'myself', 'yourself', 'ourselves', 'themselves',
-  'not only', 'but also', 'as well as', 'instead of', 'according to',
+  'i',
+  'am',
+  'is',
+  'are',
+  'a',
+  'an',
+  'the',
+  'my',
+  'your',
+  'you',
+  'we',
+  'he',
+  'she',
+  'it',
+  'me',
+  'no',
+  'not',
+  'yes',
+  'and',
+  'but',
+  'or',
+  'in',
+  'with',
+  'for',
+  'to',
+  'of',
+  'at',
+  'on',
+  'by',
+  'what',
+  'who',
+  'how',
+  'this',
+  'that',
+  'these',
+  'those',
+  'some',
+  'many',
+  'too',
+  'now',
+  'oh',
+  'ah',
+  'ha',
+  'er',
+  'wow',
+  'hmm',
+  'uh',
+  'um',
+  'can',
+  'do',
+  'did',
+  'does',
+  'have',
+  'has',
+  'had',
+  'will',
+  'would',
+  'could',
+  'should',
+  'shall',
+  'may',
+  'might',
+  'must',
+  'ok',
+  'please',
+  'here',
+  'there',
+  'then',
+  'than',
+  'very',
+  'much',
+  'also',
+  'just',
+  'only',
+  'mr',
+  'miss',
+  'mrs',
+  'ms',
+  'its',
+  'his',
+  'her',
+  'our',
+  'their',
+  'us',
+  'them',
+  'him',
+  'be',
+  'been',
+  'being',
+  'was',
+  'were',
+  'if',
+  'so',
+  'as',
+  'up',
+  'out',
+  'off',
+  'into',
+  'from',
+  'about',
+  'over',
+  'after',
+  'before',
+  'when',
+  'where',
+  'why',
+  'which',
+  'while',
+  'more',
+  'most',
+  'other',
+  'another',
+  'each',
+  'every',
+  'all',
+  'both',
+  'any',
+  'few',
+  'own',
+  'such',
+  'still',
+  'even',
+  'again',
+  'back',
+  'well',
+  'away',
+  'quite',
+  'really',
+  'already',
+  'perhaps',
+  'enough',
+  'either',
+  'neither',
+  'however',
+  'although',
+  'because',
+  'since',
+  'until',
+  'unless',
+  'whether',
+  'between',
+  'among',
+  'through',
+  'during',
+  'without',
+  'against',
+  'within',
+  'itself',
+  'himself',
+  'herself',
+  'myself',
+  'yourself',
+  'ourselves',
+  'themselves',
+  'not only',
+  'but also',
+  'as well as',
+  'instead of',
+  'according to',
 ])
 
 // 含多个单词的短语，通常不好搜图
@@ -75,21 +216,23 @@ function sleep(ms) {
 
 function httpsGet(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return httpsGet(res.headers.location).then(resolve, reject)
-      }
-      const chunks = []
-      res.on('data', (chunk) => chunks.push(chunk))
-      res.on('end', () => {
-        if (res.statusCode !== 200) {
-          reject(new Error(`HTTP ${res.statusCode}: ${Buffer.concat(chunks).toString()}`))
-        } else {
-          resolve({ data: Buffer.concat(chunks), contentType: res.headers['content-type'] })
+    https
+      .get(url, (res) => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+          return httpsGet(res.headers.location).then(resolve, reject)
         }
+        const chunks = []
+        res.on('data', (chunk) => chunks.push(chunk))
+        res.on('end', () => {
+          if (res.statusCode !== 200) {
+            reject(new Error(`HTTP ${res.statusCode}: ${Buffer.concat(chunks).toString()}`))
+          } else {
+            resolve({ data: Buffer.concat(chunks), contentType: res.headers['content-type'] })
+          }
+        })
+        res.on('error', reject)
       })
-      res.on('error', reject)
-    }).on('error', reject)
+      .on('error', reject)
   })
 }
 
@@ -106,7 +249,13 @@ async function downloadImage(url, filepath) {
 }
 
 function getImageFilename(word) {
-  return word.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '') + '.jpg'
+  return (
+    word
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') + '.jpg'
+  )
 }
 
 async function processFile(jsonPath) {
@@ -194,9 +343,7 @@ async function processFile(jsonPath) {
   const updatedWords = words.map((w) => {
     const filename = imageMap.get(w.name.toLowerCase())
     if (filename) {
-      const imageUrl = R2_PUBLIC_URL
-        ? `${R2_PUBLIC_URL}/${filename}`
-        : `/images/words/${filename}`
+      const imageUrl = R2_PUBLIC_URL ? `${R2_PUBLIC_URL}/${filename}` : `/images/words/${filename}`
       return { ...w, image: imageUrl }
     }
     return w
@@ -211,7 +358,10 @@ async function processFile(jsonPath) {
 async function redoWords(wordList) {
   fs.mkdirSync(IMAGES_DIR, { recursive: true })
 
-  const words = wordList.split(',').map((w) => w.trim()).filter(Boolean)
+  const words = wordList
+    .split(',')
+    .map((w) => w.trim())
+    .filter(Boolean)
   console.log(`重新下载 ${words.length} 个单词的图片...\n`)
 
   for (const word of words) {
@@ -292,9 +442,7 @@ async function main() {
   }
 
   // 正常模式
-  const files = args.length > 0
-    ? args.map((f) => path.resolve(PUBLIC_DIR, f))
-    : ALL_DICT_FILES.map((f) => path.join(PUBLIC_DIR, f))
+  const files = args.length > 0 ? args.map((f) => path.resolve(PUBLIC_DIR, f)) : ALL_DICT_FILES.map((f) => path.join(PUBLIC_DIR, f))
 
   let totalDownloaded = 0
   let totalWithImage = 0

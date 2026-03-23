@@ -1,5 +1,5 @@
 import type { Pet } from '@/typings/pet'
-import { getStageEmoji, getStageLabel, getPetVisualState } from '@/utils/pet-logic'
+import { getPetVisualState, getStageEmoji, getStageLabel } from '@/utils/pet-logic'
 import 'animate.css'
 
 interface PetDisplayProps {

@@ -5,7 +5,7 @@ import { useGamification } from '@/hooks/useGamification'
 import { usePet } from '@/hooks/usePet'
 import { calculateExpNeeded } from '@/utils/pet-logic'
 import confetti from 'canvas-confetti'
-import { ArrowLeft, ShoppingBag, Package, Sparkles } from 'lucide-react'
+import { ArrowLeft, Package, ShoppingBag, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
