@@ -33,7 +33,7 @@ export default function InventoryPage() {
       <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/80">
         <div className="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
           <button
-            onClick={() => navigate('/pet')}
+            onClick={() => navigate(-1)}
             className="flex items-center gap-1 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
           >
             <ArrowLeft size={20} />
