@@ -202,7 +202,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     // 10. Pet Data
     const { pet, petInventory } = body as any
     if (pet) {
-      await env.DB.prepare(`
+      await env.DB.prepare(
+        `
         INSERT INTO pets (user_id, species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json, last_interacted_at, created_at, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(user_id) DO UPDATE SET
@@ -217,11 +218,24 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           outfit_json = excluded.outfit_json,
           last_interacted_at = excluded.last_interacted_at,
           updated_at = excluded.updated_at
-      `).bind(
-        userId, pet.species, pet.name, pet.level, pet.exp, pet.stage,
-        pet.mood, pet.hunger, pet.cleanliness, pet.outfitJson || '[]',
-        pet.lastInteractedAt, pet.createdAt, Date.now()
-      ).run()
+      `,
+      )
+        .bind(
+          userId,
+          pet.species,
+          pet.name,
+          pet.level,
+          pet.exp,
+          pet.stage,
+          pet.mood,
+          pet.hunger,
+          pet.cleanliness,
+          pet.outfitJson || '[]',
+          pet.lastInteractedAt,
+          pet.createdAt,
+          Date.now(),
+        )
+        .run()
     }
 
     if (Array.isArray(petInventory) && petInventory.length > 0) {
@@ -232,9 +246,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           quantity = excluded.quantity,
           updated_at = excluded.updated_at
       `)
-      const batch = petInventory.map((item: any) =>
-        stmt.bind(userId, item.itemId, item.quantity, Date.now())
-      )
+      const batch = petInventory.map((item: any) => stmt.bind(userId, item.itemId, item.quantity, Date.now()))
       await env.DB.batch(batch)
     }
 

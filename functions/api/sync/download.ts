@@ -77,12 +77,16 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
     // 10. Pet Data
     const petRow = await env.DB.prepare(
-      'SELECT species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json as outfitJson, last_interacted_at as lastInteractedAt, created_at as createdAt FROM pets WHERE user_id = ?'
-    ).bind(userId).first<any>()
+      'SELECT species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json as outfitJson, last_interacted_at as lastInteractedAt, created_at as createdAt FROM pets WHERE user_id = ?',
+    )
+      .bind(userId)
+      .first<any>()
 
     const { results: petInventory } = await env.DB.prepare(
-      'SELECT item_id as itemId, quantity FROM pet_inventory WHERE user_id = ? AND quantity > 0'
-    ).bind(userId).all()
+      'SELECT item_id as itemId, quantity FROM pet_inventory WHERE user_id = ? AND quantity > 0',
+    )
+      .bind(userId)
+      .all()
 
     // Parse JSON fields
     const parsedWordRecords = wordRecords.map((r: any) => ({
