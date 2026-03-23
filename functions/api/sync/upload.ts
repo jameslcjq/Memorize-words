@@ -199,6 +199,45 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       await env.DB.batch(batch)
     }
 
+    // 10. Pet Data
+    const { pet, petInventory } = body as any
+    if (pet) {
+      await env.DB.prepare(`
+        INSERT INTO pets (user_id, species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json, last_interacted_at, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET
+          species = excluded.species,
+          name = excluded.name,
+          level = excluded.level,
+          exp = excluded.exp,
+          stage = excluded.stage,
+          mood = excluded.mood,
+          hunger = excluded.hunger,
+          cleanliness = excluded.cleanliness,
+          outfit_json = excluded.outfit_json,
+          last_interacted_at = excluded.last_interacted_at,
+          updated_at = excluded.updated_at
+      `).bind(
+        userId, pet.species, pet.name, pet.level, pet.exp, pet.stage,
+        pet.mood, pet.hunger, pet.cleanliness, pet.outfitJson || '[]',
+        pet.lastInteractedAt, pet.createdAt, Date.now()
+      ).run()
+    }
+
+    if (Array.isArray(petInventory) && petInventory.length > 0) {
+      const stmt = env.DB.prepare(`
+        INSERT INTO pet_inventory (user_id, item_id, quantity, updated_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id, item_id) DO UPDATE SET
+          quantity = excluded.quantity,
+          updated_at = excluded.updated_at
+      `)
+      const batch = petInventory.map((item: any) =>
+        stmt.bind(userId, item.itemId, item.quantity, Date.now())
+      )
+      await env.DB.batch(batch)
+    }
+
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
     })

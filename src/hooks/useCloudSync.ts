@@ -1,15 +1,17 @@
 import { useWordStats } from '@/pages/Analysis/hooks/useWordStats'
-import { isSyncingAtom, userInfoAtom } from '@/store'
+import { hasPetAtom, isSyncingAtom, userInfoAtom } from '@/store'
 import { db } from '@/utils/db'
 import { gamificationDb } from '@/utils/db/gamification'
+import { petDb, getPet, getInventory } from '@/utils/db/pet'
 import dayjs from 'dayjs'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useCallback, useState } from 'react'
 
 export const useCloudSync = () => {
   const userInfo = useAtomValue(userInfoAtom)
   const [isSyncing, setIsSyncing] = useAtom(isSyncingAtom)
   const [cloudStats, setCloudStats] = useState<any[]>([])
+  const setHasPet = useSetAtom(hasPetAtom)
 
   // Local stats (Last 365 days)
   const start = dayjs().subtract(1, 'year').unix()
@@ -40,6 +42,10 @@ export const useCloudSync = () => {
     const dailyChallenges = await gamificationDb.dailyChallenges.toArray()
     const smartLearningRecords = await db.smartLearningRecords.toArray()
 
+    // Pet data
+    const pet = await getPet()
+    const petInventory = await getInventory()
+
     // User settings from localStorage
     const userSettings = {
       currentDict: localStorage.getItem('currentDict'),
@@ -69,6 +75,9 @@ export const useCloudSync = () => {
       unlockedAchievements,
       dailyChallenges,
       smartLearningRecords,
+      // Pet
+      pet: pet || null,
+      petInventory,
       // Settings
       userSettings,
     }
@@ -320,6 +329,57 @@ export const useCloudSync = () => {
             }
           },
         )
+
+        // Sync pet data from cloud
+        if (json.pet) {
+          const localPet = await getPet()
+          if (localPet?.id) {
+            // Merge: keep the most up-to-date (higher lastInteractedAt)
+            if (json.pet.lastInteractedAt > localPet.lastInteractedAt) {
+              await petDb.pets.update(localPet.id, {
+                level: Math.max(localPet.level, json.pet.level),
+                exp: json.pet.lastInteractedAt > localPet.lastInteractedAt ? json.pet.exp : localPet.exp,
+                stage: json.pet.stage,
+                mood: json.pet.mood,
+                hunger: json.pet.hunger,
+                cleanliness: json.pet.cleanliness,
+                outfitJson: json.pet.outfitJson || '[]',
+                lastInteractedAt: json.pet.lastInteractedAt,
+              })
+            }
+          } else {
+            // No local pet, restore from cloud
+            await petDb.pets.add({
+              species: json.pet.species,
+              name: json.pet.name,
+              level: json.pet.level,
+              exp: json.pet.exp,
+              stage: json.pet.stage,
+              mood: json.pet.mood,
+              hunger: json.pet.hunger,
+              cleanliness: json.pet.cleanliness,
+              outfitJson: json.pet.outfitJson || '[]',
+              lastInteractedAt: json.pet.lastInteractedAt,
+              createdAt: json.pet.createdAt,
+            })
+            setHasPet(true)
+          }
+        }
+
+        // Sync pet inventory
+        if (Array.isArray(json.petInventory) && json.petInventory.length > 0) {
+          for (const cloudItem of json.petInventory) {
+            const localItem = await petDb.userInventory.where('itemId').equals(cloudItem.itemId).first()
+            if (localItem?.id) {
+              // Take the max quantity
+              if (cloudItem.quantity > localItem.quantity) {
+                await petDb.userInventory.update(localItem.id, { quantity: cloudItem.quantity })
+              }
+            } else {
+              await petDb.userInventory.add({ itemId: cloudItem.itemId, quantity: cloudItem.quantity })
+            }
+          }
+        }
 
         // Restore user settings
         if (json.userSettings) {
