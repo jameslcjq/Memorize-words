@@ -3,7 +3,6 @@ import { useGamification } from '@/hooks/useGamification'
 import usePronunciationSound from '@/hooks/usePronunciation'
 import { currentDictInfoAtom } from '@/store'
 import type { Word } from '@/typings'
-import { saveDailyChallengeResult } from '@/utils/db/gamification'
 import shuffle from '@/utils/shuffle'
 import { wordListFetcher } from '@/utils/wordListFetcher'
 import { useAtomValue } from 'jotai'
@@ -22,7 +21,7 @@ export default function DailyChallengeGame() {
   const navigate = useNavigate()
   const currentDictInfo = useAtomValue(currentDictInfoAtom)
   const { data: wordList } = useSWR(currentDictInfo.url, wordListFetcher)
-  const { awardDailyChallengePoints, checkAchievements, isTodayChallengeCompleted } = useGamification()
+  const { awardDailyChallengePoints, saveDailyChallenge, checkAchievements, isTodayChallengeCompleted } = useGamification()
 
   const [gameState, setGameState] = useState<GameState>('ready')
   const [timeLeft, setTimeLeft] = useState(CHALLENGE_DURATION)
@@ -86,7 +85,7 @@ export default function DailyChallengeGame() {
     if (gameState === 'finished') {
       const saveResult = async () => {
         const today = new Date().toISOString().split('T')[0]
-        await saveDailyChallengeResult({
+        await saveDailyChallenge({
           date: today,
           score,
           wordsCompleted: currentIndex,
@@ -99,7 +98,7 @@ export default function DailyChallengeGame() {
       }
       saveResult()
     }
-  }, [gameState, score, currentIndex, timeLeft, awardDailyChallengePoints, checkAchievements])
+  }, [gameState, score, currentIndex, timeLeft, awardDailyChallengePoints, saveDailyChallenge, checkAchievements])
 
   const startGame = useCallback(() => {
     setGameState('playing')

@@ -14,6 +14,8 @@ import type {
   WordDictationOpenBy,
   WordDictationType,
 } from '@/typings'
+import type { DailyChallengeRecord, PointsTransaction, UnlockedAchievement } from '@/typings/gamification'
+import type { Pet, UserInventoryItem } from '@/typings/pet'
 import type { ReviewRecord } from '@/utils/db/record'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
@@ -157,3 +159,12 @@ export const dailyGoalAtom = atom(
 // Pet Module Atoms
 export const hasPetAtom = atomWithStorage('hasPet', false)
 export const petLastSeenDropAtom = atom<{ itemId: string; itemName: string; itemIcon: string } | null>(null)
+
+// Cloud Data Atoms (replaces Dexie GamificationDB + PetDB)
+export const cloudLoadedAtom = atom(false)
+export const pointsTransactionsAtom = atom<PointsTransaction[]>([])
+export const totalPointsAtom = atom((get) => get(pointsTransactionsAtom).reduce((sum, t) => sum + t.amount, 0))
+export const unlockedAchievementsAtom = atom<UnlockedAchievement[]>([])
+export const dailyChallengesAtom = atom<DailyChallengeRecord[]>([])
+export const petAtom = atom<Pet | null>(null)
+export const petInventoryAtom = atom<UserInventoryItem[]>([])
