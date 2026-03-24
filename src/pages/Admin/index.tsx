@@ -45,6 +45,34 @@ const Admin = () => {
     }
   }, [])
 
+  const handleResetPoints = async (userId: string, username: string) => {
+    if (!confirm(`确认清零「${username}」的所有积分？此操作不可撤销。`)) return
+
+    const adminPwd = sessionStorage.getItem('admin_pwd')
+    if (!adminPwd) return
+
+    try {
+      const res = await fetch('/api/admin/reset_points', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-password': adminPwd,
+        },
+        body: JSON.stringify({ userId }),
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        alert(`积分已清零（删除了 ${data.deleted} 条记录）`)
+      } else {
+        const data = await res.json()
+        alert('操作失败: ' + data.error)
+      }
+    } catch (e: any) {
+      alert('操作失败: ' + e.message)
+    }
+  }
+
   const handleResetPassword = async (userId: string) => {
     const newPassword = prompt('请输入新密码：')
     if (!newPassword) return
@@ -158,12 +186,20 @@ const Admin = () => {
                     <td className="px-6 py-4">{new Date(u.createdAt).toLocaleString()}</td>
                     <td className="px-6 py-4 font-mono text-xs text-gray-400">{u.id}</td>
                     <td className="px-6 py-4">
-                      <button
-                        onClick={() => handleResetPassword(u.id)}
-                        className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
-                      >
-                        重置密码
-                      </button>
+                      <div className="flex gap-4">
+                        <button
+                          onClick={() => handleResetPassword(u.id)}
+                          className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+                        >
+                          重置密码
+                        </button>
+                        <button
+                          onClick={() => handleResetPoints(u.id, u.username)}
+                          className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                        >
+                          清零积分
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
