@@ -120,24 +120,14 @@ export const useCloudSync = () => {
 
     // Populate gamification atoms (simple overwrite — cloud is always up-to-date
     // because individual actions persist immediately)
-    if (Array.isArray(json.pointsTransactions) && json.pointsTransactions.length > 0) {
-      setPointsTransactions(json.pointsTransactions)
-    }
-    if (Array.isArray(json.unlockedAchievements) && json.unlockedAchievements.length > 0) {
-      setUnlockedAchievements(json.unlockedAchievements)
-    }
-    if (Array.isArray(json.dailyChallenges) && json.dailyChallenges.length > 0) {
-      setDailyChallenges(json.dailyChallenges)
-    }
+    setPointsTransactions(Array.isArray(json.pointsTransactions) ? json.pointsTransactions : [])
+    setUnlockedAchievements(Array.isArray(json.unlockedAchievements) ? json.unlockedAchievements : [])
+    setDailyChallenges(Array.isArray(json.dailyChallenges) ? json.dailyChallenges : [])
 
     // Populate pet atoms
-    if (json.pet) {
-      setPet(json.pet)
-      setHasPet(true)
-    }
-    if (Array.isArray(json.petInventory)) {
-      setPetInventory(json.petInventory)
-    }
+    setPet(json.pet || null)
+    setHasPet(!!json.pet)
+    setPetInventory(Array.isArray(json.petInventory) ? json.petInventory : [])
 
     setCloudLoaded(true)
 

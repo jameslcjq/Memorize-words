@@ -5,11 +5,16 @@
  */
 export async function saveToCloud(userId: string, payload: Record<string, unknown>): Promise<void> {
   try {
-    await fetch('/api/sync/upload', {
+    const res = await fetch('/api/sync/upload', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, ...payload }),
     })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      throw new Error(errorText || `HTTP ${res.status}`)
+    }
   } catch (e) {
     console.error('Cloud save failed:', e)
   }

@@ -157,7 +157,7 @@ export const dailyGoalAtom = atom(
 )
 
 // Pet Module Atoms
-export const hasPetAtom = atomWithStorage('hasPet', false)
+export const hasPetAtom = atom(false)
 export const petLastSeenDropAtom = atom<{ itemId: string; itemName: string; itemIcon: string } | null>(null)
 
 // Cloud Data Atoms (replaces Dexie GamificationDB + PetDB)

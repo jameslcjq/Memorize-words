@@ -38,12 +38,13 @@ export function usePet() {
         createdAt: now,
       }
       setPet(newPet)
+      setPetInventory([])
       setHasPet(true)
       if (userInfo) {
         await saveToCloud(userInfo.userId, { pet: newPet, petInventory: [] })
       }
     },
-    [setPet, setHasPet, userInfo],
+    [setPet, setPetInventory, setHasPet, userInfo],
   )
 
   const feedPet = useCallback(

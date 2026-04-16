@@ -6,10 +6,11 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
 
   try {
-    const body = (await request.json()) as { userId: string; records: any[] }
-    const { userId, records } = body
+    const body = (await request.json()) as { userId?: string; records?: any[] }
+    const userId = body.userId
+    const records = Array.isArray(body.records) ? body.records : []
 
-    if (!userId || !Array.isArray(records)) {
+    if (!userId) {
       return new Response(JSON.stringify({ error: 'Invalid payload' }), { status: 400 })
     }
 
@@ -238,16 +239,20 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         .run()
     }
 
-    if (Array.isArray(petInventory) && petInventory.length > 0) {
-      const stmt = env.DB.prepare(`
-        INSERT INTO pet_inventory (user_id, item_id, quantity, updated_at)
-        VALUES (?, ?, ?, ?)
-        ON CONFLICT(user_id, item_id) DO UPDATE SET
-          quantity = excluded.quantity,
-          updated_at = excluded.updated_at
-      `)
-      const batch = petInventory.map((item: any) => stmt.bind(userId, item.itemId, item.quantity, Date.now()))
-      await env.DB.batch(batch)
+    if (Array.isArray(petInventory)) {
+      await env.DB.prepare('DELETE FROM pet_inventory WHERE user_id = ?').bind(userId).run()
+
+      if (petInventory.length > 0) {
+        const stmt = env.DB.prepare(`
+          INSERT INTO pet_inventory (user_id, item_id, quantity, updated_at)
+          VALUES (?, ?, ?, ?)
+          ON CONFLICT(user_id, item_id) DO UPDATE SET
+            quantity = excluded.quantity,
+            updated_at = excluded.updated_at
+        `)
+        const batch = petInventory.map((item: any) => stmt.bind(userId, item.itemId, item.quantity, Date.now()))
+        await env.DB.batch(batch)
+      }
     }
 
     return new Response(JSON.stringify({ success: true }), {

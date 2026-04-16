@@ -2,6 +2,7 @@ import Loading from './components/Loading'
 import PetDropToast from './components/PetDropToast'
 import PortraitWarning from './components/PortraitWarning'
 import { useAutoSync } from './hooks/useAutoSync'
+import { useCloudStatePersistence } from './hooks/useCloudStatePersistence'
 import './index.css'
 import { ErrorBook } from './pages/ErrorBook'
 import { FriendLinks } from './pages/FriendLinks'
@@ -48,6 +49,8 @@ const isPortraitOnSmallScreen = () => {
 
 function Root() {
   const darkMode = useAtomValue(isOpenDarkModeAtom)
+
+  useCloudStatePersistence()
 
   // Enable automatic cloud sync every 3 minutes for logged-in users
   useAutoSync()

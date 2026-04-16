@@ -3,7 +3,7 @@ import ItemPicker from './components/ItemPicker'
 import PetDisplay from './components/PetDisplay'
 import { useGamification } from '@/hooks/useGamification'
 import { usePet } from '@/hooks/usePet'
-import { userInfoAtom } from '@/store'
+import { cloudLoadedAtom, userInfoAtom } from '@/store'
 import { calculateExpNeeded } from '@/utils/pet-logic'
 import confetti from 'canvas-confetti'
 import { useAtomValue } from 'jotai'
@@ -16,6 +16,7 @@ export default function PetPage() {
   const { pet, inventory, adoptPet, feedPet, playWithPet, cleanPet, equipDecoration } = usePet()
   const { totalPoints } = useGamification()
   const userInfo = useAtomValue(userInfoAtom)
+  const cloudLoaded = useAtomValue(cloudLoadedAtom)
 
   const [activePicker, setActivePicker] = useState<'food' | 'toy' | 'cleaning' | 'decoration' | null>(null)
   const [feedback, setFeedback] = useState<{ msg: string; emoji: string } | null>(null)
@@ -78,7 +79,12 @@ export default function PetPage() {
 
       {/* Main content */}
       <div className="mx-auto max-w-lg px-4 py-6">
-        {!pet ? (
+        {!pet && userInfo && !cloudLoaded ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-200 border-t-indigo-500" />
+            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">正在加载宠物数据...</p>
+          </div>
+        ) : !pet ? (
           <AdoptionFlow onAdopt={adoptPet} />
         ) : (
           <div className="space-y-6">
