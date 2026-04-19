@@ -1,3 +1,4 @@
+import { getJwtSecret, errorResponse } from '../../auth'
 import { Env, hashPassword, createJwt, jsonResponse } from '../../utils'
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
@@ -18,8 +19,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       return jsonResponse({ error: 'Invalid credentials' }, 401)
     }
 
-    // Secret fallback for dev only - in prod set JWT_SECRET in dashboard
-    const secret = env.JWT_SECRET || 'dev_secret_key_123'
+    const secret = getJwtSecret(env)
     const token = await createJwt({ sub: user.id, username: user.username }, secret)
 
     return jsonResponse({
@@ -28,6 +28,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       user: { id: user.id, username: user.username, nickname: user.nickname },
     })
   } catch (err: any) {
-    return jsonResponse({ error: err.message }, 500)
+    return errorResponse(err)
   }
 }

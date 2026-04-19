@@ -25,7 +25,7 @@ export function useGamification() {
       const newTx: PointsTransaction = { amount, reason, timestamp: Date.now(), details }
       setPointsTransactions((prev) => [...prev, newTx])
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { pointsTransactions: [newTx] })
+        await saveToCloud({ pointsTransactions: [newTx] })
       }
     },
     [userInfo, setPointsTransactions],
@@ -75,7 +75,7 @@ export function useGamification() {
       if (alreadyExists) return
       setDailyChallenges((prev) => [...prev, record as DailyChallengeRecord])
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { dailyChallenges: [record] })
+        await saveToCloud({ dailyChallenges: [record] })
       }
     },
     [dailyChallenges, userInfo, setDailyChallenges],
@@ -169,7 +169,7 @@ export function useGamification() {
         const newAch = { achievementId: achievement.id, unlockedAt: Date.now() }
         setUnlockedAchievements((prev) => [...prev, newAch])
         if (userInfo) {
-          await saveToCloud(userInfo.userId, { unlockedAchievements: [newAch] })
+          await saveToCloud({ unlockedAchievements: [newAch] })
         }
         await addPoints(achievement.points, 'achievement_unlock', achievement.name)
         newlyUnlocked.push(achievement)

@@ -561,10 +561,14 @@ interface UserInfo {
 
 #### 同步接口
 
-| 路径        | 方法 | 描述         | 参数             |
-| ----------- | ---- | ------------ | ---------------- |
-| `/api/sync` | POST | 上传同步数据 | `userId`, `data` |
-| `/api/sync` | GET  | 下载同步数据 | `userId`         |
+| 路径                 | 方法 | 描述                         | 参数 |
+| -------------------- | ---- | ---------------------------- | ---- |
+| `/api/sync`          | POST | 手动云备份上传（整库 blob）  | `data` |
+| `/api/sync`          | GET  | 手动云备份下载（整库 blob）  | 无 |
+| `/api/sync/upload`   | POST | 自动同步上传（结构化数据）   | `records` 等业务字段 |
+| `/api/sync/download` | GET  | 自动同步下载（结构化数据）   | 无 |
+
+> 所有同步接口都必须携带 `Authorization: Bearer <JWT>`，服务端会从 JWT 的 `sub` 解析用户身份，不能再通过请求里的 `userId` 指定目标账号。
 
 ---
 
@@ -599,6 +603,16 @@ npm run deploy
 # 使用 Wrangler 部署
 npx wrangler deploy
 ```
+
+部署前需要在 Cloudflare 环境中配置以下变量：
+
+| 变量 | 必填 | 说明 |
+| ---- | ---- | ---- |
+| `JWT_SECRET` | 是 | JWT 签名密钥；登录和所有受保护接口都会使用 |
+| `ADMIN_USER_IDS` | 否 | 允许访问后台的用户 ID 白名单，多个值用逗号分隔 |
+| `ADMIN_USERNAMES` | 否 | 允许访问后台的用户名白名单，多个值用逗号分隔 |
+
+管理员后台不再使用共享密码。管理员需要先用普通账号密码登录，然后由服务端根据 `ADMIN_USER_IDS` 或 `ADMIN_USERNAMES` 判断该账号是否具备后台权限。
 
 ### Tauri 桌面应用
 
@@ -642,6 +656,9 @@ cargo tauri build
 | 变量                | 描述         | 默认值 |
 | ------------------- | ------------ | ------ |
 | `VITE_API_BASE_URL` | API 基础路径 | `/api` |
+| `JWT_SECRET` | JWT 签名密钥 | 无 |
+| `ADMIN_USER_IDS` | 管理员用户 ID 白名单 | 无 |
+| `ADMIN_USERNAMES` | 管理员用户名白名单 | 无 |
 
 ---
 

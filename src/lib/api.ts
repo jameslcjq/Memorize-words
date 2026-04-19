@@ -1,6 +1,7 @@
 // import { toast } from 'react-hot-toast'
 
 const API_BASE = '/api'
+const DEFAULT_AUTH_STORAGE_KEY = 'token'
 
 interface ApiResult<T = any> {
   success?: boolean
@@ -11,21 +12,37 @@ interface ApiResult<T = any> {
   updated_at?: number
 }
 
+export function getAuthToken(storage: Storage = localStorage, key = DEFAULT_AUTH_STORAGE_KEY): string | null {
+  return storage.getItem(key)
+}
+
+export function setAuthToken(token: string, storage: Storage = localStorage, key = DEFAULT_AUTH_STORAGE_KEY): void {
+  storage.setItem(key, token)
+}
+
+export function clearAuthToken(storage: Storage = localStorage, key = DEFAULT_AUTH_STORAGE_KEY): void {
+  storage.removeItem(key)
+}
+
+export function buildAuthHeaders(headers: HeadersInit = {}, token: string | null = getAuthToken()): Headers {
+  const mergedHeaders = new Headers(headers)
+
+  if (!mergedHeaders.has('Content-Type')) {
+    mergedHeaders.set('Content-Type', 'application/json')
+  }
+
+  if (token) {
+    mergedHeaders.set('Authorization', `Bearer ${token}`)
+  }
+
+  return mergedHeaders
+}
+
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResult<T>> {
   try {
-    const token = localStorage.getItem('token')
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    } as Record<string, string>
-
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`
-    }
-
     const response = await fetch(`${API_BASE}${endpoint}`, {
       ...options,
-      headers,
+      headers: buildAuthHeaders(options.headers),
     })
 
     const data = await response.json()
@@ -49,8 +66,8 @@ export const api = {
     login: (username: string, password: string) => request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
   },
   sync: {
-    upload: (data: any) => request('/sync/upload', { method: 'POST', body: JSON.stringify({ data }) }),
+    upload: (data: any) => request('/sync', { method: 'POST', body: JSON.stringify({ data }) }),
 
-    download: () => request('/sync/download', { method: 'GET' }),
+    download: () => request('/sync', { method: 'GET' }),
   },
 }

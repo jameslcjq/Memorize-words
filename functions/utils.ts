@@ -1,6 +1,8 @@
 export interface Env {
   DB: D1Database
-  JWT_SECRET: string
+  JWT_SECRET?: string
+  ADMIN_USER_IDS?: string
+  ADMIN_USERNAMES?: string
 }
 
 // Simple response helper

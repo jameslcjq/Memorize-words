@@ -1,3 +1,4 @@
+import { buildAuthHeaders, getAuthToken } from '@/lib/api'
 import { useWordStats } from '@/pages/Analysis/hooks/useWordStats'
 import {
   cloudLoadedAtom,
@@ -42,7 +43,8 @@ export const useCloudSync = () => {
 
   // Upload all data: word records from Dexie + gamification/pet from atoms
   const uploadData = useCallback(async () => {
-    if (!userInfo) return
+    const token = getAuthToken()
+    if (!userInfo || !token) return
 
     const records =
       localStats?.all.map((item) => ({
@@ -72,9 +74,8 @@ export const useCloudSync = () => {
 
     await fetch('/api/sync/upload', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: buildAuthHeaders({}, token),
       body: JSON.stringify({
-        userId: userInfo.userId,
         timestamp: Date.now(),
         records,
         wordRecords,
@@ -95,13 +96,14 @@ export const useCloudSync = () => {
 
   // Lightweight upload: only error book (word records)
   const uploadErrorBook = useCallback(async () => {
-    if (!userInfo) return
+    const token = getAuthToken()
+    if (!userInfo || !token) return
     try {
       const wordRecords = await db.wordRecords.toArray()
       await fetch('/api/sync/upload', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: userInfo.userId, timestamp: Date.now(), wordRecords, records: [] }),
+        headers: buildAuthHeaders({}, token),
+        body: JSON.stringify({ timestamp: Date.now(), wordRecords, records: [] }),
       })
     } catch (e) {
       console.error('Error book sync failed:', e)
@@ -110,8 +112,11 @@ export const useCloudSync = () => {
 
   // Download: cloud is source of truth for gamification/pet; merge for word records
   const downloadData = useCallback(async () => {
-    if (!userInfo) return
-    const res = await fetch(`/api/sync/download?userId=${userInfo.userId}`)
+    const token = getAuthToken()
+    if (!userInfo || !token) return
+    const res = await fetch('/api/sync/download', {
+      headers: buildAuthHeaders({}, token),
+    })
     if (!res.ok) return
     const json = await res.json()
     if (!json.success) return

@@ -34,7 +34,7 @@ export function usePetDrop() {
       setLastDrop({ itemId: droppedItemId, itemName: item.name, itemIcon: item.icon })
 
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { petInventory: newInventory })
+        await saveToCloud({ petInventory: newInventory })
       }
 
       return item

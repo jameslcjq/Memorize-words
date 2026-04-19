@@ -1,18 +1,18 @@
+import { errorResponse, requireAuth } from '../../auth'
+
 interface Env {
   DB: D1Database
+  JWT_SECRET?: string
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
 
   try {
+    const user = await requireAuth(request, env)
     const body = (await request.json()) as { userId?: string; records?: any[] }
-    const userId = body.userId
+    const userId = user.sub
     const records = Array.isArray(body.records) ? body.records : []
-
-    if (!userId) {
-      return new Response(JSON.stringify({ error: 'Invalid payload' }), { status: 400 })
-    }
 
     // Process records in a transaction? D1 supports batch.
     // Logic: simpler to iterate for now or use batch if D1 client supports it nicely via prepared statements.
@@ -202,41 +202,45 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     // 10. Pet Data
     const { pet, petInventory } = body as any
-    if (pet) {
-      await env.DB.prepare(
-        `
-        INSERT INTO pets (user_id, species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json, last_interacted_at, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON CONFLICT(user_id) DO UPDATE SET
-          species = excluded.species,
-          name = excluded.name,
-          level = excluded.level,
-          exp = excluded.exp,
-          stage = excluded.stage,
-          mood = excluded.mood,
-          hunger = excluded.hunger,
-          cleanliness = excluded.cleanliness,
-          outfit_json = excluded.outfit_json,
-          last_interacted_at = excluded.last_interacted_at,
-          updated_at = excluded.updated_at
-      `,
-      )
-        .bind(
-          userId,
-          pet.species,
-          pet.name,
-          pet.level,
-          pet.exp,
-          pet.stage,
-          pet.mood,
-          pet.hunger,
-          pet.cleanliness,
-          pet.outfitJson || '[]',
-          pet.lastInteractedAt,
-          pet.createdAt,
-          Date.now(),
+    if (Object.prototype.hasOwnProperty.call(body, 'pet')) {
+      if (pet) {
+        await env.DB.prepare(
+          `
+          INSERT INTO pets (user_id, species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json, last_interacted_at, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(user_id) DO UPDATE SET
+            species = excluded.species,
+            name = excluded.name,
+            level = excluded.level,
+            exp = excluded.exp,
+            stage = excluded.stage,
+            mood = excluded.mood,
+            hunger = excluded.hunger,
+            cleanliness = excluded.cleanliness,
+            outfit_json = excluded.outfit_json,
+            last_interacted_at = excluded.last_interacted_at,
+            updated_at = excluded.updated_at
+        `,
         )
-        .run()
+          .bind(
+            userId,
+            pet.species,
+            pet.name,
+            pet.level,
+            pet.exp,
+            pet.stage,
+            pet.mood,
+            pet.hunger,
+            pet.cleanliness,
+            pet.outfitJson || '[]',
+            pet.lastInteractedAt,
+            pet.createdAt,
+            Date.now(),
+          )
+          .run()
+      } else {
+        await env.DB.prepare('DELETE FROM pets WHERE user_id = ?').bind(userId).run()
+      }
     }
 
     if (Array.isArray(petInventory)) {
@@ -259,6 +263,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 })
+    return errorResponse(err)
   }
 }

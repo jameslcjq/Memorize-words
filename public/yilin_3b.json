@@ -335,8 +335,8 @@
     "image": "/images/words/look.jpg"
   },
   {
-    "name": "It doesn't matter.",
-    "trans": ["不要紧。"],
+    "name": "That's all right.",
+    "trans": ["不要紧"],
     "usphone": "",
     "ukphone": ""
   },
@@ -369,7 +369,7 @@
     "image": "/images/words/tree.jpg"
   },
   {
-    "name": "beside",
+    "name": "by",
     "trans": ["在……旁边"],
     "usphone": "",
     "ukphone": "",
@@ -478,7 +478,7 @@
     "image": "/images/words/duck.jpg"
   },
   {
-    "name": "about",
+    "name": "of",
     "trans": ["关于"],
     "usphone": "",
     "ukphone": ""

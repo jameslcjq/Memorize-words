@@ -3,6 +3,7 @@
  * These can be called from anywhere, not dependent on React hooks
  */
 import { db } from './index'
+import { buildAuthHeaders, getAuthToken } from '@/lib/api'
 
 // Debounce timer for upload
 let uploadTimer: ReturnType<typeof setTimeout> | null = null
@@ -27,13 +28,13 @@ function getUserInfo(): { userId: string } | null {
  */
 async function doUploadErrorBook(): Promise<void> {
   const userInfo = getUserInfo()
-  if (!userInfo) return
+  const token = getAuthToken()
+  if (!userInfo || !token) return
 
   try {
     const wordRecords = await db.wordRecords.toArray()
 
     const payload = {
-      userId: userInfo.userId,
       timestamp: Date.now(),
       wordRecords,
       records: [], // Required by API for study_records, empty for lightweight sync
@@ -41,7 +42,7 @@ async function doUploadErrorBook(): Promise<void> {
 
     const res = await fetch('/api/sync/upload', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: buildAuthHeaders({}, token),
       body: JSON.stringify(payload),
     })
 

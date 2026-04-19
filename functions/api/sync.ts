@@ -1,15 +1,5 @@
-import { Env, verifyJwt, jsonResponse } from '../utils'
-
-// Middleware-like helper for auth
-async function requireAuth(request: Request, env: Env) {
-  const authHeader = request.headers.get('Authorization')
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    throw new Error('Unauthorized')
-  }
-  const token = authHeader.split(' ')[1]
-  const secret = env.JWT_SECRET || 'dev_secret_key_123'
-  return await verifyJwt(token, secret)
-}
+import { errorResponse, requireAuth } from '../auth'
+import { Env, jsonResponse } from '../utils'
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
@@ -28,7 +18,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     return jsonResponse({ success: true, updated_at: now })
   } catch (err: any) {
-    return jsonResponse({ error: err.message }, err.message === 'Unauthorized' ? 401 : 500)
+    return errorResponse(err)
   }
 }
 
@@ -45,6 +35,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
     return jsonResponse({ success: true, data: JSON.parse(record.data), updated_at: record.updated_at })
   } catch (err: any) {
-    return jsonResponse({ error: err.message }, err.message === 'Unauthorized' ? 401 : 500)
+    return errorResponse(err)
   }
 }

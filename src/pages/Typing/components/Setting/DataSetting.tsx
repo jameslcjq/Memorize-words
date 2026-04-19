@@ -1,6 +1,6 @@
 import styles from './index.module.css'
 import { useCloudSync } from '@/hooks/useCloudSync'
-import { api } from '@/lib/api'
+import { api, clearAuthToken, setAuthToken } from '@/lib/api'
 import { userInfoAtom } from '@/store'
 import { exportDatabase, exportDatabaseBlob, importDatabase, importDatabaseBlob } from '@/utils/db/data-export'
 import * as Progress from '@radix-ui/react-progress'
@@ -30,11 +30,15 @@ export default function DataSetting() {
       if (isLoginMode) {
         res = await api.auth.login(username, password)
       } else {
-        res = await api.auth.register(username, password)
+        const registerRes = await api.auth.register(username, password)
+        if (!registerRes.success) {
+          throw new Error(registerRes.error || '注册失败')
+        }
+        res = await api.auth.login(username, password)
       }
 
       if (res.success && res.token && res.user) {
-        localStorage.setItem('token', res.token)
+        setAuthToken(res.token)
         setUserInfo({ userId: res.user.id, username: res.user.username, nickname: res.user.nickname || '' })
         setSyncStatus(`欢迎, ${res.user.username}，正在同步云端数据...`)
         // Auto-sync cloud data after login
@@ -51,7 +55,7 @@ export default function DataSetting() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
+    clearAuthToken()
     setUserInfo(null)
     setSyncStatus('')
   }

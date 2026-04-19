@@ -1,17 +1,17 @@
+import { errorResponse, requireAuth } from '../../auth'
+
 interface Env {
   DB: D1Database
+  JWT_SECRET?: string
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { request, env } = context
-  const url = new URL(request.url)
-  const userId = url.searchParams.get('userId')
-
-  if (!userId) {
-    return new Response(JSON.stringify({ error: 'Missing userId' }), { status: 400 })
-  }
 
   try {
+    const user = await requireAuth(request, env)
+    const userId = user.sub
+
     // 1. Study Records (legacy)
     const { results } = await env.DB.prepare(
       'SELECT date, duration, word_count as wordCount, updated_at as updatedAt FROM study_records WHERE user_id = ?',
@@ -134,6 +134,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       },
     )
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 })
+    return errorResponse(err)
   }
 }

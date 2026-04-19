@@ -41,7 +41,7 @@ export function usePet() {
       setPetInventory([])
       setHasPet(true)
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { pet: newPet, petInventory: [] })
+        await saveToCloud({ pet: newPet, petInventory: [] })
       }
     },
     [setPet, setPetInventory, setHasPet, userInfo],
@@ -76,7 +76,7 @@ export function usePet() {
       setPet(newPet)
       setPetInventory(newInventory)
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { pet: newPet, petInventory: newInventory })
+        await saveToCloud({ pet: newPet, petInventory: newInventory })
       }
 
       return { success: true, message: '喂食成功！', leveledUp, evolved }
@@ -113,7 +113,7 @@ export function usePet() {
       setPet(newPet)
       setPetInventory(newInventory)
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { pet: newPet, petInventory: newInventory })
+        await saveToCloud({ pet: newPet, petInventory: newInventory })
       }
 
       return { success: true, message: '玩耍成功！', leveledUp, evolved }
@@ -146,7 +146,7 @@ export function usePet() {
       setPet(newPet)
       setPetInventory(newInventory)
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { pet: newPet, petInventory: newInventory })
+        await saveToCloud({ pet: newPet, petInventory: newInventory })
       }
 
       return { success: true, message: '清洁成功！', leveledUp: false, evolved: null }
@@ -177,7 +177,7 @@ export function usePet() {
       setPet(newPet)
       setPetInventory(newInventory)
       if (userInfo) {
-        await saveToCloud(userInfo.userId, { pet: newPet, petInventory: newInventory })
+        await saveToCloud({ pet: newPet, petInventory: newInventory })
       }
 
       return { success: true, message: '装备成功！', leveledUp: false, evolved: null }

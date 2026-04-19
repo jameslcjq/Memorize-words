@@ -41,7 +41,7 @@ export function usePetShop() {
 
       // Persist to cloud
       if (userInfo) {
-        await saveToCloud(userInfo.userId, {
+        await saveToCloud({
           pointsTransactions: [newTx],
           petInventory: newInventory,
         })
