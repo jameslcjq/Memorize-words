@@ -11,10 +11,17 @@ import {
   unlockedAchievementsAtom,
   userInfoAtom,
 } from '@/store'
+import type { Pet, UserInventoryItem } from '@/typings/pet'
 import { db } from '@/utils/db'
+import { saveToCloud } from '@/utils/saveToCloud'
 import dayjs from 'dayjs'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useCallback, useState } from 'react'
+
+function getPetUpdatedAt(pet: Pet | null): number {
+  if (!pet) return 0
+  return Math.max(pet.lastInteractedAt || 0, pet.createdAt || 0)
+}
 
 export const useCloudSync = () => {
   const userInfo = useAtomValue(userInfoAtom)
@@ -117,9 +124,15 @@ export const useCloudSync = () => {
     const res = await fetch('/api/sync/download', {
       headers: buildAuthHeaders({}, token),
     })
-    if (!res.ok) return
+    if (!res.ok) {
+      setCloudLoaded(true)
+      return
+    }
     const json = await res.json()
-    if (!json.success) return
+    if (!json.success) {
+      setCloudLoaded(true)
+      return
+    }
 
     setCloudStats(json.data || [])
 
@@ -129,10 +142,21 @@ export const useCloudSync = () => {
     setUnlockedAchievements(Array.isArray(json.unlockedAchievements) ? json.unlockedAchievements : [])
     setDailyChallenges(Array.isArray(json.dailyChallenges) ? json.dailyChallenges : [])
 
-    // Populate pet atoms
-    setPet(json.pet || null)
-    setHasPet(!!json.pet)
-    setPetInventory(Array.isArray(json.petInventory) ? json.petInventory : [])
+    // Populate pet atoms. A missing cloud pet can mean "not synced yet", so do
+    // not erase a locally restored pet unless the cloud has a newer pet record.
+    const cloudPet = (json.pet || null) as Pet | null
+    const cloudPetInventory = (Array.isArray(json.petInventory) ? json.petInventory : []) as UserInventoryItem[]
+    const localPetWins = !!pet && (!cloudPet || getPetUpdatedAt(pet) > getPetUpdatedAt(cloudPet))
+    const nextPet = localPetWins ? pet : cloudPet
+    const nextPetInventory = localPetWins ? petInventory : cloudPetInventory
+
+    setPet(nextPet)
+    setHasPet(!!nextPet)
+    setPetInventory(nextPetInventory)
+
+    if (localPetWins) {
+      await saveToCloud({ pet: nextPet, petInventory: nextPetInventory })
+    }
 
     setCloudLoaded(true)
 
@@ -260,7 +284,18 @@ export const useCloudSync = () => {
         }
       },
     )
-  }, [userInfo, setPointsTransactions, setUnlockedAchievements, setDailyChallenges, setPet, setPetInventory, setHasPet, setCloudLoaded])
+  }, [
+    userInfo,
+    pet,
+    petInventory,
+    setPointsTransactions,
+    setUnlockedAchievements,
+    setDailyChallenges,
+    setPet,
+    setPetInventory,
+    setHasPet,
+    setCloudLoaded,
+  ])
 
   const downloadOnly = useCallback(async () => {
     if (!userInfo || isSyncing) return
@@ -270,15 +305,17 @@ export const useCloudSync = () => {
     } catch (e) {
       console.error('Download error:', e)
     } finally {
+      setCloudLoaded(true)
       setIsSyncing(false)
     }
-  }, [userInfo, isSyncing, downloadData, setIsSyncing])
+  }, [userInfo, isSyncing, downloadData, setCloudLoaded, setIsSyncing])
 
   const syncData = useCallback(async () => {
     if (!userInfo || isSyncing) return
     setIsSyncing(true)
     try {
-      await Promise.all([uploadData(), downloadData()])
+      await uploadData()
+      await downloadData()
     } catch (e) {
       console.error('Sync error', e)
     } finally {
