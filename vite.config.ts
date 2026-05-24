@@ -31,8 +31,8 @@ export default defineConfig(async ({ mode }) => {
     build: {
       outDir: 'build',
       sourcemap: false,
-    }, // base defaults to '/' which is what we want, or explicit base: '/'
-    base: '/',
+    },
+    base: process.env.REACT_APP_DEPLOY_ENV === 'pages' ? '/Memorize-words/' : '/',
     esbuild: {
       drop: mode === 'development' ? [] : ['console', 'debugger'],
     },
