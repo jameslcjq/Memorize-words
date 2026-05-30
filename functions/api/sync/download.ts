@@ -175,7 +175,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       .bind(userId)
       .all()
 
-    const userSettingsRow = await env.DB.prepare('SELECT settings FROM user_settings WHERE user_id = ?').bind(userId).first<UserSettingsRow>()
+    const userSettingsRow = await env.DB.prepare('SELECT settings FROM user_settings WHERE user_id = ?')
+      .bind(userId)
+      .first<UserSettingsRow>()
 
     // Parse JSON fields
     const parsedWordRecords = wordRecords.map((r) => ({

@@ -99,7 +99,9 @@ export async function createJwt(payload: JwtPayload, secret: string, expiresInSe
   const now = Math.floor(Date.now() / 1000)
   const header = { alg: 'HS256', typ: 'JWT' }
   const encodedHeader = stringToBase64Url(JSON.stringify(header))
-  const encodedPayload = stringToBase64Url(JSON.stringify({ ...payload, iat: payload.iat || now, exp: payload.exp || now + expiresInSeconds }))
+  const encodedPayload = stringToBase64Url(
+    JSON.stringify({ ...payload, iat: payload.iat || now, exp: payload.exp || now + expiresInSeconds }),
+  )
   const signature = await sign(`${encodedHeader}.${encodedPayload}`, secret)
   return `${encodedHeader}.${encodedPayload}.${signature}`
 }
