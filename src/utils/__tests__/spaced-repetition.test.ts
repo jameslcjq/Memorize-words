@@ -1,6 +1,6 @@
 import type { ISpacedRepetitionRecord } from '../db/spaced-repetition-record'
-import { getUTCUnixTimestamp } from '../index'
 import { calculateQuality, getNextReviewDate, updateSpacedRepetition } from '../spaced-repetition'
+import { getUTCUnixTimestamp } from '../time'
 import { describe, expect, it } from 'vitest'
 
 // Mock getUTCUnixTimestamp to return a fixed time if needed,

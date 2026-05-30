@@ -2,6 +2,7 @@ import { CHAPTER_LENGTH } from '@/constants'
 import type { Howl } from 'howler'
 
 export * from './mixpanel'
+export { getUTCUnixTimestamp } from './time'
 
 const bannedKeys = [
   'Enter',
@@ -102,21 +103,6 @@ export function findCommonValues<T>(xs: T[], ys: T[]): T[] {
 
 export function toFixedNumber(number: number, fractionDigits: number) {
   return Number((number ?? 0).toFixed(fractionDigits))
-}
-
-export function getUTCUnixTimestamp() {
-  const now = new Date()
-  return Math.floor(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      now.getUTCHours(),
-      now.getUTCMinutes(),
-      now.getUTCSeconds(),
-      now.getUTCMilliseconds(),
-    ) / 1000,
-  )
 }
 
 export function timeStamp2String(timestamp: number) {

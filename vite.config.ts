@@ -12,12 +12,14 @@ import type { PluginOption } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
   const latestCommitHash = await new Promise<string>((resolve) => {
-    return getLastCommit((err, commit) => (err ? 'unknown' : resolve(commit.shortHash)))
+    return getLastCommit((err, commit) => resolve(err ? 'unknown' : commit.shortHash))
   })
+  const shouldAnalyze = process.env.ANALYZE === 'true'
+
   return {
     plugins: [
       react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } }),
-      visualizer() as PluginOption,
+      shouldAnalyze ? (visualizer({ filename: 'stats.html' }) as PluginOption) : null,
       Icons({
         compiler: 'jsx',
         jsx: 'react',
@@ -31,6 +33,18 @@ export default defineConfig(async ({ mode }) => {
     build: {
       outDir: 'build',
       sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (!id.includes('node_modules')) return undefined
+            if (id.includes('echarts')) return 'charts'
+            if (id.includes('dexie') || id.includes('pako') || id.includes('xlsx')) return 'data'
+            if (id.includes('@radix-ui') || id.includes('@headlessui')) return 'ui'
+            if (id.includes('react') || id.includes('jotai') || id.includes('react-router-dom')) return 'vendor'
+            return undefined
+          },
+        },
+      },
     },
     base: process.env.REACT_APP_DEPLOY_ENV === 'pages' ? '/Memorize-words/' : '/',
     esbuild: {

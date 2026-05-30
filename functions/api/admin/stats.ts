@@ -33,7 +33,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         headers: { 'Content-Type': 'application/json' },
       },
     )
-  } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 })
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : 'Internal Server Error' }), { status: 500 })
   }
 }

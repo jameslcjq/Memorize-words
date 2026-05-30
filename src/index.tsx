@@ -12,7 +12,6 @@ import { Analytics } from '@vercel/analytics/react'
 import 'animate.css'
 import { useAtomValue } from 'jotai'
 import mixpanel from 'mixpanel-browser'
-import process from 'process'
 import React, { Suspense, lazy, useEffect, useState } from 'react'
 import 'react-app-polyfill/stable'
 import { createRoot } from 'react-dom/client'
@@ -31,7 +30,7 @@ const PetShopPage = lazy(() => import('./pages/Pet/Shop'))
 const PetInventoryPage = lazy(() => import('./pages/Pet/Inventory'))
 const PetEvolutionPage = lazy(() => import('./pages/Pet/EvolutionGuide'))
 
-if (process.env.NODE_ENV === 'production') {
+if (import.meta.env.PROD) {
   // for prod
   mixpanel.init('bdc492847e9340eeebd53cc35f321691')
 } else {

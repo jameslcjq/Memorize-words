@@ -3,6 +3,7 @@ CREATE TABLE users (
   id TEXT PRIMARY KEY,
   username TEXT UNIQUE,
   password TEXT, -- Hashed password
+  password_salt TEXT,
   nickname TEXT,
   created_at INTEGER
 );
@@ -53,6 +54,22 @@ CREATE TABLE sync_data (
   user_id TEXT PRIMARY KEY,
   data TEXT, -- JSON string of the entire export
   updated_at INTEGER
+);
+
+DROP TABLE IF EXISTS user_settings;
+CREATE TABLE user_settings (
+  user_id TEXT PRIMARY KEY,
+  settings TEXT NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+
+DROP TABLE IF EXISTS deleted_word_records;
+CREATE TABLE deleted_word_records (
+  user_id TEXT NOT NULL,
+  word TEXT NOT NULL,
+  dict TEXT NOT NULL,
+  deleted_at INTEGER NOT NULL,
+  PRIMARY KEY (user_id, dict, word)
 );
 
 -- Gamification System Tables

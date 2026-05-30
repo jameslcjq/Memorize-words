@@ -33,10 +33,12 @@ async function doUploadErrorBook(): Promise<void> {
 
   try {
     const wordRecords = await db.wordRecords.toArray()
+    const deletedWordRecords = await db.deletedWordRecords.toArray()
 
     const payload = {
       timestamp: Date.now(),
       wordRecords,
+      deletedWordRecords,
       records: [], // Required by API for study_records, empty for lightweight sync
     }
 

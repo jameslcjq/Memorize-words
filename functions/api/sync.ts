@@ -5,7 +5,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
   try {
     const user = await requireAuth(request, env)
-    const { data } = (await request.json()) as any
+    const { data } = (await request.json()) as { data?: unknown }
 
     if (!data) return jsonResponse({ error: 'No data provided' }, 400)
 
@@ -17,7 +17,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       .run()
 
     return jsonResponse({ success: true, updated_at: now })
-  } catch (err: any) {
+  } catch (err) {
     return errorResponse(err)
   }
 }
@@ -27,14 +27,16 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   try {
     const user = await requireAuth(request, env)
 
-    const record = await env.DB.prepare('SELECT data, updated_at FROM sync_data WHERE user_id = ?').bind(user.sub).first<any>()
+    const record = await env.DB.prepare('SELECT data, updated_at FROM sync_data WHERE user_id = ?')
+      .bind(user.sub)
+      .first<{ data: string; updated_at: number }>()
 
     if (!record) {
       return jsonResponse({ error: 'No data found' }, 404)
     }
 
     return jsonResponse({ success: true, data: JSON.parse(record.data), updated_at: record.updated_at })
-  } catch (err: any) {
+  } catch (err) {
     return errorResponse(err)
   }
 }

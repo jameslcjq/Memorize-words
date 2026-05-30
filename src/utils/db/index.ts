@@ -1,6 +1,8 @@
 import { getUTCUnixTimestamp } from '../index'
 import { calculateQuality, updateSpacedRepetition } from '../spaced-repetition'
 import { scheduleErrorBookSync } from './cloud-sync'
+import type { IDeletedWordRecord } from './deleted-word-record'
+import { DeletedWordRecord } from './deleted-word-record'
 import type { IChapterRecord, IReviewRecord, IRevisionDictRecord, IWordRecord, LetterMistakes } from './record'
 import { ChapterRecord, ReviewRecord, WordRecord } from './record'
 import type { SmartLearningRecord } from './smart-learning-record'
@@ -20,6 +22,7 @@ class RecordDB extends Dexie {
   reviewRecords!: Table<IReviewRecord, number>
   spacedRepetitionRecords!: Table<ISpacedRepetitionRecord, number>
   smartLearningRecords!: Table<SmartLearningRecord, number>
+  deletedWordRecords!: Table<IDeletedWordRecord, number>
 
   revisionDictRecords!: Table<IRevisionDictRecord, number>
   revisionWordRecords!: Table<IWordRecord, number>
@@ -73,6 +76,14 @@ class RecordDB extends Dexie {
       spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[word+dict]',
       smartLearningRecords: '++id,dict,chapter,completedAt',
     })
+    this.version(10).stores({
+      wordRecords: '++id,word,timeStamp,dict,chapter,wrongCount,correctCount,mode,[word+dict]',
+      chapterRecords: '++id,timeStamp,dict,chapter,time,mode,[dict+chapter],[dict+chapter+timeStamp]',
+      reviewRecords: '++id,dict,createTime,isFinished,[dict+createTime]',
+      spacedRepetitionRecords: '++id,word,dict,nextReviewDate,[word+dict]',
+      smartLearningRecords: '++id,dict,chapter,completedAt',
+      deletedWordRecords: '++id,word,dict,deletedAt,[dict+word]',
+    })
   }
 }
 
@@ -82,6 +93,20 @@ db.wordRecords.mapToClass(WordRecord)
 db.chapterRecords.mapToClass(ChapterRecord)
 db.reviewRecords.mapToClass(ReviewRecord)
 db.spacedRepetitionRecords.mapToClass(SpacedRepetitionRecord)
+db.deletedWordRecords.mapToClass(DeletedWordRecord)
+
+async function markWordRecordDeleted(word: string, dict: string, deletedAt = getUTCUnixTimestamp()) {
+  const existing = await db.deletedWordRecords.where('[dict+word]').equals([dict, word]).first()
+
+  if (existing?.id !== undefined) {
+    if (deletedAt > existing.deletedAt) {
+      await db.deletedWordRecords.update(existing.id, { deletedAt })
+    }
+    return
+  }
+
+  await db.deletedWordRecords.add(new DeletedWordRecord(word, dict, deletedAt))
+}
 
 export function useSaveChapterRecord() {
   const currentChapter = useAtomValue(currentChapterAtom)
@@ -157,8 +182,12 @@ export function useSaveWordRecord() {
           const newCorrectCount = (existingRecord.correctCount || 0) + 1
           if (existingRecord.id !== undefined) {
             if (newCorrectCount >= 3) {
+              const recordId = existingRecord.id
               // 正确 3 次，删除记录（移出错题本）
-              await db.wordRecords.delete(existingRecord.id)
+              await db.transaction('rw', db.wordRecords, db.deletedWordRecords, async () => {
+                await db.wordRecords.delete(recordId)
+                await markWordRecordDeleted(word, dictID)
+              })
             } else {
               // 更新正确次数
               await db.wordRecords.update(existingRecord.id, { correctCount: newCorrectCount })
@@ -235,7 +264,11 @@ export function useSaveWordRecord() {
 export function useDeleteWordRecord() {
   const deleteWordRecord = useCallback(async (word: string, dict: string) => {
     try {
-      const deletedCount = await db.wordRecords.where({ word, dict }).delete()
+      const deletedCount = await db.transaction('rw', db.wordRecords, db.deletedWordRecords, async () => {
+        const count = await db.wordRecords.where({ word, dict }).delete()
+        await markWordRecordDeleted(word, dict)
+        return count
+      })
       return deletedCount
     } catch (error) {
       console.error(`删除单词记录时出错：`, error)

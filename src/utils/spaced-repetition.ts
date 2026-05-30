@@ -1,5 +1,5 @@
 import type { ISpacedRepetitionRecord } from './db/spaced-repetition-record'
-import { getUTCUnixTimestamp } from './index'
+import { getUTCUnixTimestamp } from './time'
 
 /**
  * SM-2 Algorithm Implementation

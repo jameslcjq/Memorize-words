@@ -5,12 +5,132 @@ interface Env {
   JWT_SECRET?: string
 }
 
+type StudyRecordPayload = {
+  date: string
+  duration?: number
+  wordCount?: number
+}
+
+type WordRecordPayload = {
+  word: string
+  dict: string
+  chapter?: number | null
+  wrongCount?: number
+  correctCount?: number
+  mistakes?: unknown
+  timeStamp?: number
+  mode?: string
+  deletedAt?: number
+}
+
+type DeletedWordRecordPayload = {
+  word: string
+  dict: string
+  deletedAt: number
+}
+
+type ChapterRecordPayload = {
+  dict: string
+  chapter?: number | null
+  timeStamp: number
+  time?: number
+  correctCount?: number
+  wrongCount?: number
+  wordCount?: number
+  correctWordIndexes?: number[]
+  wordNumber?: number
+}
+
+type PointsTransactionPayload = {
+  amount: number
+  reason: string
+  timestamp: number
+  details?: string
+}
+
+type UnlockedAchievementPayload = {
+  achievementId: string
+  unlockedAt: number
+}
+
+type DailyChallengePayload = {
+  date: string
+  completedAt?: number
+  words?: unknown[]
+  score?: number
+}
+
+type ReviewRecordPayload = {
+  dict: string
+  createTime: number
+  isFinished?: boolean
+}
+
+type SpacedRepetitionPayload = {
+  word: string
+  dict: string
+  easinessFactor?: number
+  easeFactor?: number
+  interval?: number
+  intervalDays?: number
+  repetitions?: number
+  nextReviewDate?: number
+  nextReview?: number
+  lastReviewDate?: number
+  lastReviewed?: number
+}
+
+type SmartLearningPayload = {
+  dict: string
+  chapter: number
+  groupNumber: number
+  wordsCount: number
+  totalTime: number
+  completedAt: number
+  wordDetails?: unknown
+}
+
+type PetPayload = {
+  species: string
+  name: string
+  level: number
+  exp: number
+  stage: string
+  mood: number
+  hunger: number
+  cleanliness: number
+  outfitJson?: string
+  lastInteractedAt: number
+  createdAt: number
+}
+
+type PetInventoryPayload = {
+  itemId: string
+  quantity: number
+}
+
+type SyncUploadBody = {
+  records?: StudyRecordPayload[]
+  wordRecords?: WordRecordPayload[]
+  deletedWordRecords?: DeletedWordRecordPayload[]
+  chapterRecords?: ChapterRecordPayload[]
+  pointsTransactions?: PointsTransactionPayload[]
+  unlockedAchievements?: UnlockedAchievementPayload[]
+  dailyChallenges?: DailyChallengePayload[]
+  reviewRecords?: ReviewRecordPayload[]
+  spacedRepetitionRecords?: SpacedRepetitionPayload[]
+  smartLearningRecords?: SmartLearningPayload[]
+  pet?: PetPayload | null
+  petInventory?: PetInventoryPayload[]
+  userSettings?: Record<string, string | null>
+}
+
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
 
   try {
     const user = await requireAuth(request, env)
-    const body = (await request.json()) as { userId?: string; records?: any[] }
+    const body = (await request.json()) as SyncUploadBody
     const userId = user.sub
     const records = Array.isArray(body.records) ? body.records : []
 
@@ -32,22 +152,41 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     // 2. Word Records (Sync Details)
-    const { wordRecords, chapterRecords } = body as any
+    const wordRecords = Array.isArray(body.wordRecords) ? body.wordRecords : []
+    const deletedWordRecords = Array.isArray(body.deletedWordRecords) ? body.deletedWordRecords : []
+    const chapterRecords = Array.isArray(body.chapterRecords) ? body.chapterRecords : []
 
-    if (Array.isArray(wordRecords) && wordRecords.length > 0) {
+    const recordsToDelete: DeletedWordRecordPayload[] = [
+      ...deletedWordRecords,
+      ...wordRecords
+        .filter((r) => (r.correctCount || 0) >= 3)
+        .map((r) => ({
+          word: r.word,
+          dict: r.dict,
+          deletedAt: r.deletedAt || r.timeStamp || Math.floor(Date.now() / 1000),
+        })),
+    ]
+
+    if (recordsToDelete.length > 0) {
+      const stmtTombstone = env.DB.prepare(`
+        INSERT INTO deleted_word_records (user_id, word, dict, deleted_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id, dict, word) DO UPDATE SET
+          deleted_at = MAX(deleted_word_records.deleted_at, excluded.deleted_at)
+      `)
+      await env.DB.batch(recordsToDelete.map((r) => stmtTombstone.bind(userId, r.word, r.dict, r.deletedAt)))
+
+      const stmtDelete = env.DB.prepare(`
+        DELETE FROM word_records
+        WHERE user_id = ? AND word = ? AND dict = ?
+          AND (timestamp IS NULL OR timestamp <= ?)
+      `)
+      await env.DB.batch(recordsToDelete.map((r) => stmtDelete.bind(userId, r.word, r.dict, r.deletedAt)))
+    }
+
+    if (wordRecords.length > 0) {
       // Split records: delete if correctCount >= 3, otherwise upsert
-      const recordsToDelete = wordRecords.filter((r) => (r.correctCount || 0) >= 3)
       const recordsToUpsert = wordRecords.filter((r) => (r.correctCount || 0) < 3)
-
-      // Delete completed records (correctCount >= 3)
-      if (recordsToDelete.length > 0) {
-        const stmtDelete = env.DB.prepare(`
-          DELETE FROM word_records 
-          WHERE user_id = ? AND word = ? AND dict = ?
-        `)
-        const batchDelete = recordsToDelete.map((r) => stmtDelete.bind(userId, r.word, r.dict))
-        await env.DB.batch(batchDelete)
-      }
 
       // Upsert incomplete records
       if (recordsToUpsert.length > 0) {
@@ -60,6 +199,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             mistakes = excluded.mistakes,
             timestamp = excluded.timestamp,
             mode = excluded.mode
+          WHERE excluded.timestamp >= COALESCE(word_records.timestamp, 0)
         `)
 
         const batchWord = recordsToUpsert.map((r) =>
@@ -67,17 +207,33 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             userId,
             r.word,
             r.dict,
-            r.chapter,
-            r.wrongCount,
-            r.correctCount,
+            r.chapter ?? null,
+            r.wrongCount || 0,
+            r.correctCount || 0,
             JSON.stringify(r.mistakes || {}),
-            r.timeStamp,
+            r.timeStamp || Math.floor(Date.now() / 1000),
             r.mode || 'typing',
           ),
         )
         await env.DB.batch(batchWord)
       }
     }
+
+    await env.DB.prepare(
+      `
+      DELETE FROM word_records
+      WHERE user_id = ?
+        AND EXISTS (
+          SELECT 1 FROM deleted_word_records d
+          WHERE d.user_id = word_records.user_id
+            AND d.word = word_records.word
+            AND d.dict = word_records.dict
+            AND d.deleted_at >= word_records.timestamp
+        )
+    `,
+    )
+      .bind(userId)
+      .run()
 
     // 3. Chapter Records
     if (Array.isArray(chapterRecords) && chapterRecords.length > 0) {
@@ -105,31 +261,31 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     // 4. Gamification - Points Transactions
-    const { pointsTransactions } = body as any
+    const pointsTransactions = Array.isArray(body.pointsTransactions) ? body.pointsTransactions : []
     if (Array.isArray(pointsTransactions) && pointsTransactions.length > 0) {
       const stmt = env.DB.prepare(`
         INSERT INTO points_transactions (user_id, amount, reason, timestamp, details)
         VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(user_id, timestamp, reason, amount) DO NOTHING
       `)
-      const batch = pointsTransactions.map((t: any) => stmt.bind(userId, t.amount, t.reason, t.timestamp, t.details || null))
+      const batch = pointsTransactions.map((t) => stmt.bind(userId, t.amount, t.reason, t.timestamp, t.details || null))
       await env.DB.batch(batch)
     }
 
     // 5. Gamification - Unlocked Achievements
-    const { unlockedAchievements } = body as any
+    const unlockedAchievements = Array.isArray(body.unlockedAchievements) ? body.unlockedAchievements : []
     if (Array.isArray(unlockedAchievements) && unlockedAchievements.length > 0) {
       const stmt = env.DB.prepare(`
         INSERT INTO unlocked_achievements (user_id, achievement_id, unlocked_at)
         VALUES (?, ?, ?)
         ON CONFLICT(user_id, achievement_id) DO NOTHING
       `)
-      const batch = unlockedAchievements.map((a: any) => stmt.bind(userId, a.achievementId, a.unlockedAt))
+      const batch = unlockedAchievements.map((a) => stmt.bind(userId, a.achievementId, a.unlockedAt))
       await env.DB.batch(batch)
     }
 
     // 6. Gamification - Daily Challenges
-    const { dailyChallenges } = body as any
+    const dailyChallenges = Array.isArray(body.dailyChallenges) ? body.dailyChallenges : []
     if (Array.isArray(dailyChallenges) && dailyChallenges.length > 0) {
       const stmt = env.DB.prepare(`
         INSERT INTO daily_challenges (user_id, date, completed_at, words, score)
@@ -139,14 +295,14 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           words = excluded.words,
           score = excluded.score
       `)
-      const batch = dailyChallenges.map((c: any) =>
+      const batch = dailyChallenges.map((c) =>
         stmt.bind(userId, c.date, c.completedAt || null, JSON.stringify(c.words || []), c.score || 0),
       )
       await env.DB.batch(batch)
     }
 
     // 7. Review Records
-    const { reviewRecords } = body as any
+    const reviewRecords = Array.isArray(body.reviewRecords) ? body.reviewRecords : []
     if (Array.isArray(reviewRecords) && reviewRecords.length > 0) {
       const stmt = env.DB.prepare(`
         INSERT INTO review_records (user_id, dict, create_time, is_finished)
@@ -154,12 +310,12 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         ON CONFLICT(user_id, dict, create_time) DO UPDATE SET
           is_finished = excluded.is_finished
       `)
-      const batch = reviewRecords.map((r: any) => stmt.bind(userId, r.dict, r.createTime, r.isFinished ? 1 : 0))
+      const batch = reviewRecords.map((r) => stmt.bind(userId, r.dict, r.createTime, r.isFinished ? 1 : 0))
       await env.DB.batch(batch)
     }
 
     // 8. Spaced Repetition Records
-    const { spacedRepetitionRecords } = body as any
+    const spacedRepetitionRecords = Array.isArray(body.spacedRepetitionRecords) ? body.spacedRepetitionRecords : []
     if (Array.isArray(spacedRepetitionRecords) && spacedRepetitionRecords.length > 0) {
       const stmt = env.DB.prepare(`
         INSERT INTO spaced_repetition_records (user_id, word, dict, ease_factor, interval_days, repetitions, next_review, last_reviewed)
@@ -171,7 +327,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           next_review = excluded.next_review,
           last_reviewed = excluded.last_reviewed
       `)
-      const batch = spacedRepetitionRecords.map((r: any) =>
+      const batch = spacedRepetitionRecords.map((r) =>
         stmt.bind(
           userId,
           r.word,
@@ -187,21 +343,22 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     // 9. Smart Learning Records
-    const { smartLearningRecords } = body as any
+    const smartLearningRecords = Array.isArray(body.smartLearningRecords) ? body.smartLearningRecords : []
     if (Array.isArray(smartLearningRecords) && smartLearningRecords.length > 0) {
       const stmt = env.DB.prepare(`
         INSERT INTO smart_learning_records (user_id, dict, chapter, group_number, words_count, total_time, completed_at, word_details)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(user_id, dict, chapter, group_number, completed_at) DO NOTHING
       `)
-      const batch = smartLearningRecords.map((r: any) =>
+      const batch = smartLearningRecords.map((r) =>
         stmt.bind(userId, r.dict, r.chapter, r.groupNumber, r.wordsCount, r.totalTime, r.completedAt, JSON.stringify(r.wordDetails)),
       )
       await env.DB.batch(batch)
     }
 
     // 10. Pet Data
-    const { pet, petInventory } = body as any
+    const pet = body.pet
+    const petInventory = Array.isArray(body.petInventory) ? body.petInventory : undefined
     if (Object.prototype.hasOwnProperty.call(body, 'pet')) {
       if (pet) {
         await env.DB.prepare(
@@ -254,15 +411,29 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             quantity = excluded.quantity,
             updated_at = excluded.updated_at
         `)
-        const batch = petInventory.map((item: any) => stmt.bind(userId, item.itemId, item.quantity, Date.now()))
+        const batch = petInventory.map((item) => stmt.bind(userId, item.itemId, item.quantity, Date.now()))
         await env.DB.batch(batch)
       }
+    }
+
+    if (Object.prototype.hasOwnProperty.call(body, 'userSettings')) {
+      await env.DB.prepare(
+        `
+        INSERT INTO user_settings (user_id, settings, updated_at)
+        VALUES (?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET
+          settings = excluded.settings,
+          updated_at = excluded.updated_at
+      `,
+      )
+        .bind(userId, JSON.stringify(body.userSettings || {}), Date.now())
+        .run()
     }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
     })
-  } catch (err: any) {
+  } catch (err) {
     return errorResponse(err)
   }
 }

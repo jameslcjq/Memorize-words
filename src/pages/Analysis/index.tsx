@@ -1,5 +1,6 @@
 import CalendarCard from './components/CalendarCard'
 import { useWordStats } from './hooks/useWordStats'
+import type { IDailyDetail } from './hooks/useWordStats'
 import Layout from '@/components/Layout'
 import LoginModal from '@/components/LoginModal'
 import { useCloudSync } from '@/hooks/useCloudSync'
@@ -12,13 +13,19 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { useNavigate } from 'react-router-dom'
 import IconX from '~icons/tabler/x'
 
+type CloudStudyStat = {
+  date: string
+  wordCount?: number
+  duration?: number
+}
+
 const Analysis = () => {
   const navigate = useNavigate()
   const [, setIsOpenDarkMode] = useAtom(isOpenDarkModeAtom)
   const [selectedDate, setSelectedDate] = useState<string | null>(dayjs().format('YYYY-MM-DD'))
 
   // Cloud Sync
-  const { syncData, isSyncing, cloudStats, localStats } = useCloudSync()
+  const { syncData, cloudStats, localStats } = useCloudSync()
   useEffect(() => {
     syncData()
   }, [syncData])
@@ -45,29 +52,29 @@ const Analysis = () => {
   const { isEmpty } = useWordStats(dayjs().subtract(1, 'year').unix(), dayjs().unix())
 
   // Merge Data Logic
-  const allStats = useMemo(() => {
-    const map = new Map<string, any>()
+  const allStats = useMemo<IDailyDetail[]>(() => {
+    const map = new Map<string, IDailyDetail>()
 
     // 1. Add Local Data
-    localStats.forEach((s: any) => map.set(s.date, { ...s }))
+    localStats.forEach((stat) => map.set(stat.date, { ...stat }))
 
     // 2. Merge Cloud Data
-    cloudStats.forEach((c: any) => {
+    cloudStats.forEach((c: CloudStudyStat) => {
       const existing = map.get(c.date)
       if (!existing) {
         // Cloud only data
         map.set(c.date, {
           date: c.date,
-          totalWordsCount: c.wordCount,
-          duration: c.duration,
+          totalWordsCount: c.wordCount || 0,
+          duration: c.duration || 0,
           practicedWords: [], // Detail missing in partial sync
           wrongWords: [],
           moduleDurations: {},
         })
       } else {
         // Merge strategy: Max Wins for counters
-        existing.totalWordsCount = Math.max(existing.totalWordsCount, c.wordCount)
-        existing.duration = Math.max(existing.duration, c.duration)
+        existing.totalWordsCount = Math.max(existing.totalWordsCount, c.wordCount || 0)
+        existing.duration = Math.max(existing.duration, c.duration || 0)
       }
     })
 

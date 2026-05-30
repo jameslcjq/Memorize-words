@@ -11,8 +11,13 @@ import {
   unlockedAchievementsAtom,
   userInfoAtom,
 } from '@/store'
+import type { DailyChallengeRecord, PointsTransaction, UnlockedAchievement } from '@/typings/gamification'
 import type { Pet, UserInventoryItem } from '@/typings/pet'
 import { db } from '@/utils/db'
+import type { IDeletedWordRecord } from '@/utils/db/deleted-word-record'
+import type { IChapterRecord, IReviewRecord, IWordRecord } from '@/utils/db/record'
+import type { SmartLearningRecord } from '@/utils/db/smart-learning-record'
+import type { ISpacedRepetitionRecord } from '@/utils/db/spaced-repetition-record'
 import { saveToCloud } from '@/utils/saveToCloud'
 import dayjs from 'dayjs'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
@@ -23,10 +28,42 @@ function getPetUpdatedAt(pet: Pet | null): number {
   return Math.max(pet.lastInteractedAt || 0, pet.createdAt || 0)
 }
 
+type CloudStudyStat = {
+  date: string
+  duration: number
+  wordCount: number
+}
+
+type CloudSpacedRepetitionRecord = ISpacedRepetitionRecord & {
+  easeFactor?: number
+  intervalDays?: number
+  nextReview?: number
+  lastReviewed?: number
+}
+
+type UserSettingsPayload = Record<string, string | null>
+
+type SyncDownloadResponse = {
+  success?: boolean
+  data?: CloudStudyStat[]
+  wordRecords?: IWordRecord[]
+  chapterRecords?: IChapterRecord[]
+  pointsTransactions?: PointsTransaction[]
+  unlockedAchievements?: UnlockedAchievement[]
+  dailyChallenges?: DailyChallengeRecord[]
+  reviewRecords?: IReviewRecord[]
+  spacedRepetitionRecords?: CloudSpacedRepetitionRecord[]
+  smartLearningRecords?: SmartLearningRecord[]
+  deletedWordRecords?: IDeletedWordRecord[]
+  pet?: Pet | null
+  petInventory?: UserInventoryItem[]
+  userSettings?: UserSettingsPayload
+}
+
 export const useCloudSync = () => {
   const userInfo = useAtomValue(userInfoAtom)
   const [isSyncing, setIsSyncing] = useAtom(isSyncingAtom)
-  const [cloudStats, setCloudStats] = useState<any[]>([])
+  const [cloudStats, setCloudStats] = useState<CloudStudyStat[]>([])
 
   // Read atom values for upload
   const pointsTransactions = useAtomValue(pointsTransactionsAtom)
@@ -65,8 +102,9 @@ export const useCloudSync = () => {
     const reviewRecords = await db.reviewRecords.toArray()
     const spacedRepetitionRecords = await db.spacedRepetitionRecords.toArray()
     const smartLearningRecords = await db.smartLearningRecords.toArray()
+    const deletedWordRecords = await db.deletedWordRecords.toArray()
 
-    const userSettings = {
+    const userSettings: UserSettingsPayload = {
       currentDict: localStorage.getItem('currentDict'),
       selectedChapters: localStorage.getItem('selectedChapters'),
       exerciseMode: localStorage.getItem('exerciseMode'),
@@ -79,7 +117,7 @@ export const useCloudSync = () => {
       isOpenDarkModeAtom: localStorage.getItem('isOpenDarkModeAtom'),
     }
 
-    await fetch('/api/sync/upload', {
+    const response = await fetch('/api/sync/upload', {
       method: 'POST',
       headers: buildAuthHeaders({}, token),
       body: JSON.stringify({
@@ -90,6 +128,7 @@ export const useCloudSync = () => {
         reviewRecords,
         spacedRepetitionRecords,
         smartLearningRecords,
+        deletedWordRecords,
         // Gamification & pet come from atoms (already cloud-synced on each action)
         pointsTransactions,
         unlockedAchievements,
@@ -99,6 +138,9 @@ export const useCloudSync = () => {
         userSettings,
       }),
     })
+    if (!response.ok) {
+      throw new Error(`Upload failed with status ${response.status}`)
+    }
   }, [userInfo, localStats, pointsTransactions, unlockedAchievements, dailyChallenges, pet, petInventory])
 
   // Lightweight upload: only error book (word records)
@@ -107,31 +149,35 @@ export const useCloudSync = () => {
     if (!userInfo || !token) return
     try {
       const wordRecords = await db.wordRecords.toArray()
-      await fetch('/api/sync/upload', {
+      const deletedWordRecords = await db.deletedWordRecords.toArray()
+      const response = await fetch('/api/sync/upload', {
         method: 'POST',
         headers: buildAuthHeaders({}, token),
-        body: JSON.stringify({ timestamp: Date.now(), wordRecords, records: [] }),
+        body: JSON.stringify({ timestamp: Date.now(), wordRecords, deletedWordRecords, records: [] }),
       })
+      if (!response.ok) {
+        throw new Error(`Error book upload failed with status ${response.status}`)
+      }
     } catch (e) {
       console.error('Error book sync failed:', e)
     }
   }, [userInfo])
 
   // Download: cloud is source of truth for gamification/pet; merge for word records
-  const downloadData = useCallback(async () => {
+  const downloadData = useCallback(async (): Promise<boolean> => {
     const token = getAuthToken()
-    if (!userInfo || !token) return
+    if (!userInfo || !token) return false
     const res = await fetch('/api/sync/download', {
       headers: buildAuthHeaders({}, token),
     })
     if (!res.ok) {
       setCloudLoaded(true)
-      return
+      return false
     }
-    const json = await res.json()
+    const json = (await res.json()) as SyncDownloadResponse
     if (!json.success) {
       setCloudLoaded(true)
-      return
+      return false
     }
 
     setCloudStats(json.data || [])
@@ -175,26 +221,63 @@ export const useCloudSync = () => {
       if (s.isOpenDarkModeAtom) localStorage.setItem('isOpenDarkModeAtom', s.isOpenDarkModeAtom)
     }
 
+    const deletedWordRecords = json.deletedWordRecords || []
+    const wordRecords = json.wordRecords || []
+    const chapterRecords = json.chapterRecords || []
+    const reviewRecords = json.reviewRecords || []
+    const spacedRepetitionRecords = json.spacedRepetitionRecords || []
+    const smartLearningRecords = json.smartLearningRecords || []
+
     // Merge word records into Dexie (smart merge — last-write wins per record)
     await db.transaction(
       'rw',
-      db.wordRecords,
-      db.chapterRecords,
-      db.reviewRecords,
-      db.spacedRepetitionRecords,
-      db.smartLearningRecords,
+      [db.wordRecords, db.chapterRecords, db.reviewRecords, db.spacedRepetitionRecords, db.smartLearningRecords, db.deletedWordRecords],
       async () => {
-        if (json.wordRecords?.length > 0) {
-          for (const cloudRecord of json.wordRecords) {
+        const upsertDeletedWordRecord = async (record: IDeletedWordRecord) => {
+          const existing = await db.deletedWordRecords.where('[dict+word]').equals([record.dict, record.word]).first()
+          if (existing?.id !== undefined) {
+            if (record.deletedAt > existing.deletedAt) {
+              await db.deletedWordRecords.update(existing.id, { deletedAt: record.deletedAt })
+            }
+          } else {
+            await db.deletedWordRecords.add({
+              word: record.word,
+              dict: record.dict,
+              deletedAt: record.deletedAt,
+            })
+          }
+        }
+
+        const getDeletedAt = async (dict: string, word: string) => {
+          const deletedRecord = await db.deletedWordRecords.where('[dict+word]').equals([dict, word]).first()
+          return deletedRecord?.deletedAt || 0
+        }
+
+        if (deletedWordRecords.length) {
+          for (const deletedRecord of deletedWordRecords) {
+            await upsertDeletedWordRecord(deletedRecord)
+            const localRecord = await db.wordRecords.where({ word: deletedRecord.word, dict: deletedRecord.dict }).first()
+            if (localRecord?.id !== undefined && localRecord.timeStamp <= deletedRecord.deletedAt) {
+              await db.wordRecords.delete(localRecord.id)
+            }
+          }
+        }
+
+        if (wordRecords.length > 0) {
+          for (const cloudRecord of wordRecords) {
+            const deletedAt = await getDeletedAt(cloudRecord.dict, cloudRecord.word)
+            if (deletedAt >= cloudRecord.timeStamp) continue
+
             const localRecord = await db.wordRecords.where({ word: cloudRecord.word, dict: cloudRecord.dict }).first()
             if (localRecord) {
               const mergedWrongCount = Math.max(localRecord.wrongCount, cloudRecord.wrongCount)
               const mergedCorrectCount = Math.max(localRecord.correctCount || 0, cloudRecord.correctCount || 0)
               const mergedTimeStamp = Math.max(localRecord.timeStamp, cloudRecord.timeStamp)
-              if (mergedCorrectCount >= 3) {
-                await db.wordRecords.delete(localRecord.id!)
-              } else {
-                await db.wordRecords.update(localRecord.id!, {
+              if (localRecord.id !== undefined && mergedCorrectCount >= 3) {
+                await db.wordRecords.delete(localRecord.id)
+                await upsertDeletedWordRecord({ word: cloudRecord.word, dict: cloudRecord.dict, deletedAt: mergedTimeStamp })
+              } else if (localRecord.id !== undefined) {
+                await db.wordRecords.update(localRecord.id, {
                   wrongCount: mergedWrongCount,
                   correctCount: mergedCorrectCount,
                   timeStamp: mergedTimeStamp,
@@ -202,68 +285,71 @@ export const useCloudSync = () => {
                   mode: mergedTimeStamp === cloudRecord.timeStamp ? cloudRecord.mode : localRecord.mode,
                 })
               }
-            } else {
-              if ((cloudRecord.correctCount || 0) < 3) {
-                await db.wordRecords.add({
-                  word: cloudRecord.word,
-                  dict: cloudRecord.dict,
-                  chapter: cloudRecord.chapter,
-                  timing: cloudRecord.timing || [],
-                  wrongCount: cloudRecord.wrongCount,
-                  correctCount: cloudRecord.correctCount || 0,
-                  mistakes: cloudRecord.mistakes || {},
-                  timeStamp: cloudRecord.timeStamp,
-                  mode: cloudRecord.mode || 'typing',
-                })
-              }
+            } else if ((cloudRecord.correctCount || 0) < 3) {
+              await db.wordRecords.add({
+                word: cloudRecord.word,
+                dict: cloudRecord.dict,
+                chapter: cloudRecord.chapter,
+                timing: cloudRecord.timing || [],
+                wrongCount: cloudRecord.wrongCount,
+                correctCount: cloudRecord.correctCount || 0,
+                mistakes: cloudRecord.mistakes || {},
+                timeStamp: cloudRecord.timeStamp,
+                mode: cloudRecord.mode || 'typing',
+              })
             }
           }
         }
-        if (json.chapterRecords?.length > 0) {
-          for (const c of json.chapterRecords) {
-            const exists = await db.chapterRecords.where('[dict+chapter+timeStamp]').equals([c.dict, c.chapter, c.timeStamp]).first()
+        if (chapterRecords.length > 0) {
+          for (const c of chapterRecords) {
+            const exists = await db.chapterRecords.where({ dict: c.dict, chapter: c.chapter, timeStamp: c.timeStamp }).first()
             if (!exists) await db.chapterRecords.add(c)
           }
         }
-        if (json.reviewRecords?.length > 0) {
-          for (const c of json.reviewRecords) {
+        if (reviewRecords.length > 0) {
+          for (const c of reviewRecords) {
             const exists = await db.reviewRecords.where('[dict+createTime]').equals([c.dict, c.createTime]).first()
             if (!exists) {
               await db.reviewRecords.add(c)
-            } else if (c.isFinished && !exists.isFinished) {
-              await db.reviewRecords.update(exists.id!, { isFinished: c.isFinished })
+            } else if (c.isFinished && !exists.isFinished && exists.id !== undefined) {
+              await db.reviewRecords.update(exists.id, { isFinished: c.isFinished })
             }
           }
         }
-        if (json.spacedRepetitionRecords?.length > 0) {
-          for (const c of json.spacedRepetitionRecords) {
+        if (spacedRepetitionRecords.length > 0) {
+          for (const c of spacedRepetitionRecords) {
             const local = await db.spacedRepetitionRecords.where('[word+dict]').equals([c.word, c.dict]).first()
-            const cloudLastReview = (c as any).lastReviewed || c.lastReviewDate || 0
+            const cloudLastReview = c.lastReviewed || c.lastReviewDate || 0
+            const easinessFactor = c.easeFactor || c.easinessFactor || 2.5
+            const interval = c.intervalDays || c.interval || 0
+            const nextReviewDate = c.nextReview || c.nextReviewDate || 0
             if (local) {
-              if (cloudLastReview > local.lastReviewDate) {
-                await db.spacedRepetitionRecords.update(local.id!, {
-                  easinessFactor: (c as any).easeFactor || c.easinessFactor || 2.5,
-                  interval: (c as any).intervalDays || c.interval || 0,
+              if (local.id !== undefined && cloudLastReview > local.lastReviewDate) {
+                await db.spacedRepetitionRecords.update(local.id, {
+                  easinessFactor,
+                  interval,
                   repetitions: c.repetitions || 0,
-                  nextReviewDate: (c as any).nextReview || c.nextReviewDate || 0,
+                  nextReviewDate,
                   lastReviewDate: cloudLastReview,
                 })
+              } else {
+                // Keep local record when it is newer.
               }
             } else {
               await db.spacedRepetitionRecords.add({
                 word: c.word,
                 dict: c.dict,
-                easinessFactor: (c as any).easeFactor || c.easinessFactor || 2.5,
-                interval: (c as any).intervalDays || c.interval || 0,
+                easinessFactor,
+                interval,
                 repetitions: c.repetitions || 0,
-                nextReviewDate: (c as any).nextReview || c.nextReviewDate || 0,
+                nextReviewDate,
                 lastReviewDate: cloudLastReview,
               })
             }
           }
         }
-        if (json.smartLearningRecords?.length > 0) {
-          for (const c of json.smartLearningRecords) {
+        if (smartLearningRecords.length > 0) {
+          for (const c of smartLearningRecords) {
             const exists = await db.smartLearningRecords
               .where('completedAt')
               .equals(c.completedAt)
@@ -284,6 +370,7 @@ export const useCloudSync = () => {
         }
       },
     )
+    return true
   }, [
     userInfo,
     pet,
@@ -297,18 +384,33 @@ export const useCloudSync = () => {
     setCloudLoaded,
   ])
 
-  const downloadOnly = useCallback(async () => {
-    if (!userInfo || isSyncing) return
+  const downloadOnly = useCallback(async (): Promise<boolean> => {
+    if (!userInfo || isSyncing) return false
     setIsSyncing(true)
     try {
-      await downloadData()
+      return await downloadData()
     } catch (e) {
       console.error('Download error:', e)
+      return false
     } finally {
       setCloudLoaded(true)
       setIsSyncing(false)
     }
   }, [userInfo, isSyncing, downloadData, setCloudLoaded, setIsSyncing])
+
+  const uploadOnly = useCallback(async (): Promise<boolean> => {
+    if (!userInfo || isSyncing) return false
+    setIsSyncing(true)
+    try {
+      await uploadData()
+      return true
+    } catch (e) {
+      console.error('Upload error:', e)
+      return false
+    } finally {
+      setIsSyncing(false)
+    }
+  }, [userInfo, isSyncing, uploadData, setIsSyncing])
 
   const syncData = useCallback(async () => {
     if (!userInfo || isSyncing) return
@@ -323,5 +425,5 @@ export const useCloudSync = () => {
     }
   }, [userInfo, isSyncing, uploadData, downloadData, setIsSyncing])
 
-  return { syncData, downloadOnly, uploadErrorBook, isSyncing, cloudStats, localStats: localStats?.all || [] }
+  return { syncData, uploadOnly, downloadOnly, uploadErrorBook, isSyncing, cloudStats, localStats: localStats?.all || [] }
 }

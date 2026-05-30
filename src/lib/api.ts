@@ -3,11 +3,15 @@
 const API_BASE = '/api'
 const DEFAULT_AUTH_STORAGE_KEY = 'token'
 
-interface ApiResult<T = any> {
+interface ApiResult<T = unknown> {
   success?: boolean
   error?: string
   token?: string
-  user?: any
+  user?: {
+    id: string
+    username: string
+    nickname?: string
+  }
   data?: T
   updated_at?: number
 }
@@ -52,7 +56,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     }
 
     return data
-  } catch (error: any) {
+  } catch (error) {
     console.error('API Request Error:', error)
     throw error
   }
@@ -66,8 +70,8 @@ export const api = {
     login: (username: string, password: string) => request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
   },
   sync: {
-    upload: (data: any) => request('/sync', { method: 'POST', body: JSON.stringify({ data }) }),
+    upload: (data: string) => request('/sync', { method: 'POST', body: JSON.stringify({ data }) }),
 
-    download: () => request('/sync', { method: 'GET' }),
+    download: () => request<string>('/sync', { method: 'GET' }),
   },
 }

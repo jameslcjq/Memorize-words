@@ -1,4 +1,4 @@
-import { hashPassword, jsonResponse } from '../../utils'
+import { generatePasswordSalt, hashPassword, jsonResponse } from '../../utils'
 
 interface Env {
   DB: D1Database
@@ -12,22 +12,26 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { userId, newPassword } = body
 
     if (!userId || !newPassword) {
-      return new Response(JSON.stringify({ error: 'Missing userId or newPassword' }), { status: 400 })
+      return jsonResponse({ error: 'Missing userId or newPassword' }, 400)
+    }
+    if (newPassword.length < 6 || newPassword.length > 128) {
+      return jsonResponse({ error: 'Invalid password length' }, 400)
     }
 
-    const hashedPassword = await hashPassword(newPassword)
+    const passwordSalt = generatePasswordSalt()
+    const hashedPassword = await hashPassword(newPassword, passwordSalt)
 
     // Update password
-    const result = await env.DB.prepare('UPDATE users SET password = ? WHERE id = ?').bind(hashedPassword, userId).run()
+    const result = await env.DB.prepare('UPDATE users SET password = ?, password_salt = ? WHERE id = ?')
+      .bind(hashedPassword, passwordSalt, userId)
+      .run()
 
     if (result.meta.changes === 0) {
-      return new Response(JSON.stringify({ error: 'User not found or password unchanged' }), { status: 404 })
+      return jsonResponse({ error: 'User not found or password unchanged' }, 404)
     }
 
-    return new Response(JSON.stringify({ success: true }), {
-      headers: { 'Content-Type': 'application/json' },
-    })
-  } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 })
+    return jsonResponse({ success: true })
+  } catch (err) {
+    return jsonResponse({ error: err instanceof Error ? err.message : 'Internal Server Error' }, 500)
   }
 }
