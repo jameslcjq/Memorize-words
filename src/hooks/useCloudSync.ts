@@ -408,9 +408,10 @@ export const useCloudSync = () => {
       console.error('Upload error:', e)
       return false
     } finally {
+      setCloudLoaded(true)
       setIsSyncing(false)
     }
-  }, [userInfo, isSyncing, uploadData, setIsSyncing])
+  }, [userInfo, isSyncing, uploadData, setCloudLoaded, setIsSyncing])
 
   const syncData = useCallback(async () => {
     if (!userInfo || isSyncing) return
