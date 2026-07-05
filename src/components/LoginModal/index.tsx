@@ -16,6 +16,7 @@ const LoginModal = () => {
   const [nickname, setNickname] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [inviteCode, setInviteCode] = useState('')
 
   const handleAuth = async () => {
     if (!username || !password) {
@@ -34,6 +35,7 @@ const LoginModal = () => {
         username,
         password,
         nickname: mode === 'register' ? nickname : undefined,
+        inviteCode: mode === 'register' ? inviteCode : undefined,
       }
 
       const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login'
@@ -74,6 +76,7 @@ const LoginModal = () => {
         setUsername('')
         setPassword('')
         setNickname('')
+        setInviteCode('')
       }
     } catch (e: any) {
       alert('操作失败: ' + e.message)
@@ -137,6 +140,15 @@ const LoginModal = () => {
                   className="rounded-md border bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
+                />
+              )}
+              {mode === 'register' && (
+                <input
+                  type="text"
+                  placeholder="邀请码 (如管理员已设置)"
+                  className="rounded-md border bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  value={inviteCode}
+                  onChange={(e) => setInviteCode(e.target.value)}
                 />
               )}
 

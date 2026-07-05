@@ -46,12 +46,11 @@ export default defineConfig(async ({ mode }) => {
         },
       },
     },
-    base: process.env.REACT_APP_DEPLOY_ENV === 'pages' ? '/Memorize-words/' : '/',
+    base: '/',
     esbuild: {
       drop: mode === 'development' ? [] : ['console', 'debugger'],
     },
     define: {
-      REACT_APP_DEPLOY_ENV: JSON.stringify(process.env.REACT_APP_DEPLOY_ENV),
       LATEST_COMMIT_HASH: JSON.stringify(latestCommitHash + (process.env.NODE_ENV === 'production' ? '' : ' (dev)')),
     },
     resolve: {

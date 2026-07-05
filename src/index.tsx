@@ -8,10 +8,8 @@ import { ErrorBook } from './pages/ErrorBook'
 import { FriendLinks } from './pages/FriendLinks'
 import TypingPage from './pages/Typing'
 import { isOpenDarkModeAtom } from '@/store'
-import { Analytics } from '@vercel/analytics/react'
 import 'animate.css'
 import { useAtomValue } from 'jotai'
-import mixpanel from 'mixpanel-browser'
 import React, { Suspense, lazy, useEffect, useState } from 'react'
 import 'react-app-polyfill/stable'
 import { createRoot } from 'react-dom/client'
@@ -29,14 +27,6 @@ const PetPage = lazy(() => import('./pages/Pet'))
 const PetShopPage = lazy(() => import('./pages/Pet/Shop'))
 const PetInventoryPage = lazy(() => import('./pages/Pet/Inventory'))
 const PetEvolutionPage = lazy(() => import('./pages/Pet/EvolutionGuide'))
-
-if (import.meta.env.PROD) {
-  // for prod
-  mixpanel.init('bdc492847e9340eeebd53cc35f321691')
-} else {
-  // for dev
-  mixpanel.init('5474177127e4767124c123b2d7846e2a', { debug: true })
-}
 
 // Check if device is in portrait mode on small screen (iPhone竖屏)
 const isPortraitOnSmallScreen = () => {
@@ -81,7 +71,7 @@ function Root() {
 
   return (
     <React.StrictMode>
-      <BrowserRouter basename={REACT_APP_DEPLOY_ENV === 'pages' ? '/Memorize-words' : ''}>
+      <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route index element={<TypingPage />} />
@@ -103,7 +93,6 @@ function Root() {
         </Suspense>
         <PetDropToast />
       </BrowserRouter>
-      <Analytics />
     </React.StrictMode>
   )
 }

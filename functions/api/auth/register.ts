@@ -3,7 +3,19 @@ import { Env, generatePasswordSalt, hashPassword, jsonResponse } from '../../uti
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
   try {
-    const { username, password, nickname } = (await request.json()) as { username?: string; password?: string; nickname?: string }
+    const { username, password, nickname, inviteCode } = (await request.json()) as {
+      username?: string
+      password?: string
+      nickname?: string
+      inviteCode?: string
+    }
+
+    // When an invite code is configured, block public sign-ups without it.
+    const requiredInviteCode = env.INVITE_CODE?.trim()
+    if (requiredInviteCode && inviteCode?.trim() !== requiredInviteCode) {
+      return jsonResponse({ error: '邀请码无效' }, 403)
+    }
+
     const normalizedUsername = username?.trim()
     if (!normalizedUsername || !password) {
       return jsonResponse({ error: 'Username and password required' }, 400)

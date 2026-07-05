@@ -3,6 +3,8 @@ export interface Env {
   JWT_SECRET?: string
   ADMIN_USER_IDS?: string
   ADMIN_USERNAMES?: string
+  // Optional shared invite code. When set, registration requires a matching code.
+  INVITE_CODE?: string
 }
 
 export type JwtPayload = {
