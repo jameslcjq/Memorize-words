@@ -189,8 +189,8 @@ export function useSaveWordRecord() {
                 await markWordRecordDeleted(word, dictID)
               })
             } else {
-              // 更新正确次数
-              await db.wordRecords.update(existingRecord.id, { correctCount: newCorrectCount })
+              // 更新正确次数（同时刷新 timeStamp，作为最后修改时间供增量同步/合并使用）
+              await db.wordRecords.update(existingRecord.id, { correctCount: newCorrectCount, timeStamp: getUTCUnixTimestamp() })
             }
           }
         } else {
@@ -199,6 +199,7 @@ export function useSaveWordRecord() {
             await db.wordRecords.update(existingRecord.id, {
               correctCount: 0,
               wrongCount: existingRecord.wrongCount + wrongCount,
+              timeStamp: getUTCUnixTimestamp(),
             })
           }
         }

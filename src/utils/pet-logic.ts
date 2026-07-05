@@ -2,13 +2,23 @@ import type { DropContext, DropRule, ItemDefinition, Pet, PetStage, PetVisualSta
 
 const HOURS_MS = 1000 * 60 * 60
 
+// 离线衰减下限：即使很久不照顾，随时间流逝的衰减也不会把属性压到该值以下，
+// 这样孩子假期归来时宠物只是"有点想你"，而不会"饿死/饿哭"。主动互动仍可正常
+// 把属性拉高到满值。
+const OFFLINE_DECAY_FLOOR = 30
+
+// 对随时间的衰减应用下限：不把已经低于下限的属性抬高，也不让衰减压到下限以下。
+function applyFloor(current: number, decayed: number): number {
+  return Math.min(current, Math.max(OFFLINE_DECAY_FLOOR, decayed))
+}
+
 export function calculateDecay(pet: Pet, now: number): { hunger: number; mood: number; cleanliness: number } {
   const elapsed = now - pet.lastInteractedAt
   const hours = elapsed / HOURS_MS
 
-  const hunger = Math.max(0, pet.hunger - Math.floor(hours * 3))
-  const mood = Math.max(0, pet.mood - Math.floor(hours * 2))
-  const cleanliness = Math.max(0, pet.cleanliness - Math.floor(hours * 1))
+  const hunger = applyFloor(pet.hunger, pet.hunger - Math.floor(hours * 3))
+  const mood = applyFloor(pet.mood, pet.mood - Math.floor(hours * 2))
+  const cleanliness = applyFloor(pet.cleanliness, pet.cleanliness - Math.floor(hours * 1))
 
   return { hunger, mood, cleanliness }
 }

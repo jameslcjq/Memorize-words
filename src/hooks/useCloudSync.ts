@@ -23,6 +23,13 @@ import dayjs from 'dayjs'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useCallback, useState } from 'react'
 
+// Incremental-upload cursor (Unix seconds). Module-scoped so it naturally resets
+// to a full sync on each app launch (page reload) and is shared across hook uses.
+// A full sync is forced when the cursor is null (start of session / after a manual
+// upload) or when the logged-in user changed.
+let uploadWatermark: number | null = null
+let watermarkUserId: string | null = null
+
 function getPetUpdatedAt(pet: Pet | null): number {
   if (!pet) return 0
   return Math.max(pet.lastInteractedAt || 0, pet.createdAt || 0)
@@ -90,6 +97,14 @@ export const useCloudSync = () => {
     const token = getAuthToken()
     if (!userInfo || !token) return
 
+    // Incremental sync: only push the per-record tables that changed at/after the
+    // last successful upload. A full sync (since = 0) runs on the first upload of a
+    // session or when the user changed. Server upserts are idempotent, so re-sending
+    // boundary rows is harmless.
+    const nowSec = Math.floor(Date.now() / 1000)
+    const isFullSync = uploadWatermark === null || watermarkUserId !== userInfo.userId
+    const since = isFullSync ? 0 : uploadWatermark ?? 0
+
     const records =
       localStats?.all.map((item) => ({
         date: item.date,
@@ -97,12 +112,16 @@ export const useCloudSync = () => {
         wordCount: item.totalWordsCount,
       })) || []
 
-    const wordRecords = await db.wordRecords.toArray()
-    const chapterRecords = await db.chapterRecords.toArray()
+    // Indexed timestamp fields let Dexie filter without scanning the whole table.
+    const wordRecords = await db.wordRecords.where('timeStamp').aboveOrEqual(since).toArray()
+    const chapterRecords = await db.chapterRecords.where('timeStamp').aboveOrEqual(since).toArray()
+    const smartLearningRecords = await db.smartLearningRecords.where('completedAt').aboveOrEqual(since).toArray()
+    const deletedWordRecords = await db.deletedWordRecords.where('deletedAt').aboveOrEqual(since).toArray()
+    // lastReviewDate is not indexed; filter in memory (same read cost as before).
+    const spacedRepetitionRecords = (await db.spacedRepetitionRecords.toArray()).filter((r) => (r.lastReviewDate || 0) >= since)
+    // Review records have no modification timestamp (isFinished can flip in place),
+    // so they are always sent in full. They are few in number.
     const reviewRecords = await db.reviewRecords.toArray()
-    const spacedRepetitionRecords = await db.spacedRepetitionRecords.toArray()
-    const smartLearningRecords = await db.smartLearningRecords.toArray()
-    const deletedWordRecords = await db.deletedWordRecords.toArray()
 
     const userSettings: UserSettingsPayload = {
       currentDict: localStorage.getItem('currentDict'),
@@ -141,6 +160,10 @@ export const useCloudSync = () => {
     if (!response.ok) {
       throw new Error(`Upload failed with status ${response.status}`)
     }
+
+    // Advance the cursor only after a successful upload.
+    uploadWatermark = nowSec
+    watermarkUserId = userInfo.userId
   }, [userInfo, localStats, pointsTransactions, unlockedAchievements, dailyChallenges, pet, petInventory])
 
   // Lightweight upload: only error book (word records)
@@ -402,6 +425,8 @@ export const useCloudSync = () => {
     if (!userInfo || isSyncing) return false
     setIsSyncing(true)
     try {
+      // Explicit/manual upload should push everything, not just the delta.
+      uploadWatermark = null
       await uploadData()
       return true
     } catch (e) {

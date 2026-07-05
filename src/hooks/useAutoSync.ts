@@ -7,13 +7,16 @@ import { userInfoAtom } from '@/store'
 import { useAtomValue } from 'jotai'
 import { useEffect, useRef } from 'react'
 
-const SYNC_INTERVAL_MS = 1 * 60 * 1000 // 1 minute
+const SYNC_INTERVAL_MS = 5 * 60 * 1000 // 5 minutes
+// 避免每次切回标签页都触发一次全量下载/合并：距上次同步不足该间隔时跳过。
+const VISIBILITY_MIN_GAP_MS = 2 * 60 * 1000 // 2 minutes
 
 export const useAutoSync = () => {
   const userInfo = useAtomValue(userInfoAtom)
   const { syncData, isSyncing, downloadOnly } = useCloudSync()
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const hasInitialSyncRef = useRef(false)
+  const lastSyncAtRef = useRef(0)
 
   useEffect(() => {
     // Only start sync if user is logged in
@@ -40,15 +43,18 @@ export const useAutoSync = () => {
       intervalRef.current = setInterval(() => {
         if (!isSyncing) {
           console.log('[AutoSync] Periodic sync triggered')
+          lastSyncAtRef.current = Date.now()
           syncData()
         }
       }, SYNC_INTERVAL_MS)
     }
 
-    // Sync when page becomes visible (user switches back to tab)
+    // Sync when page becomes visible (user switches back to tab), but not more
+    // often than VISIBILITY_MIN_GAP_MS to avoid hammering the sync endpoint.
     const handleVisibilityChange = () => {
-      if (!document.hidden && userInfo && !isSyncing) {
+      if (!document.hidden && userInfo && !isSyncing && Date.now() - lastSyncAtRef.current > VISIBILITY_MIN_GAP_MS) {
         console.log('[AutoSync] Page visible, triggering sync')
+        lastSyncAtRef.current = Date.now()
         syncData()
       }
     }
