@@ -1,4 +1,4 @@
-import { calculateDecay } from '../pet-logic'
+import { calculateDecay, resolvePetSync } from '../pet-logic'
 import type { Pet } from '@/typings/pet'
 import { describe, expect, it } from 'vitest'
 
@@ -48,5 +48,39 @@ describe('calculateDecay', () => {
     expect(decayed.hunger).toBe(20)
     expect(decayed.mood).toBe(25)
     expect(decayed.cleanliness).toBe(10)
+  })
+})
+
+describe('resolvePetSync', () => {
+  it('keeps the local pet when the cloud has none (regression: pet loss)', () => {
+    const local = makePet({ name: '本地', createdAt: 1000, lastInteractedAt: 2000 })
+    const { nextPet, localPetWins } = resolvePetSync(local, null)
+    expect(nextPet).toBe(local)
+    expect(localPetWins).toBe(true)
+  })
+
+  it('restores the cloud pet when there is no local pet', () => {
+    const cloud = makePet({ name: '云端', createdAt: 1000, lastInteractedAt: 2000 })
+    const { nextPet, localPetWins } = resolvePetSync(null, cloud)
+    expect(nextPet).toBe(cloud)
+    expect(localPetWins).toBe(false)
+  })
+
+  it('prefers the local pet when it was interacted with more recently', () => {
+    const local = makePet({ name: '本地', lastInteractedAt: 5000 })
+    const cloud = makePet({ name: '云端', lastInteractedAt: 3000 })
+    expect(resolvePetSync(local, cloud).nextPet).toBe(local)
+  })
+
+  it('prefers the cloud pet when it is newer', () => {
+    const local = makePet({ name: '本地', lastInteractedAt: 3000 })
+    const cloud = makePet({ name: '云端', lastInteractedAt: 5000 })
+    const { nextPet, localPetWins } = resolvePetSync(local, cloud)
+    expect(nextPet).toBe(cloud)
+    expect(localPetWins).toBe(false)
+  })
+
+  it('returns null only when neither side has a pet', () => {
+    expect(resolvePetSync(null, null).nextPet).toBeNull()
   })
 })

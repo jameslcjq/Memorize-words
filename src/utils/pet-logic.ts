@@ -28,6 +28,24 @@ export function applyDecayToPet(pet: Pet, now: number): Pet {
   return { ...pet, hunger, mood, cleanliness }
 }
 
+// 判断本地/云端哪份宠物更新：取最近一次互动或创建时间。
+export function getPetUpdatedAt(pet: Pet | null): number {
+  if (!pet) return 0
+  return Math.max(pet.lastInteractedAt || 0, pet.createdAt || 0)
+}
+
+/**
+ * 合并本地与云端宠物，决定采用哪一份。
+ * 关键不变量：云端缺失（尚未同步/被误删）时，绝不清空本地已领养的宠物；
+ * 只有当云端存在且比本地更新时，才用云端覆盖本地。
+ */
+export function resolvePetSync(localPet: Pet | null, cloudPet: Pet | null): { nextPet: Pet | null; localPetWins: boolean } {
+  const localPetWins = !!localPet && (!cloudPet || getPetUpdatedAt(localPet) > getPetUpdatedAt(cloudPet))
+  if (localPetWins) return { nextPet: localPet, localPetWins }
+  if (cloudPet) return { nextPet: cloudPet, localPetWins }
+  return { nextPet: localPet, localPetWins }
+}
+
 export function applyItemEffect(pet: Pet, item: ItemDefinition): Pet {
   const effect = item.effect
   if (effect.stat === 'decoration') return pet

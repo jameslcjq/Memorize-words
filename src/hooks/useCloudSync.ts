@@ -18,10 +18,11 @@ import type { IDeletedWordRecord } from '@/utils/db/deleted-word-record'
 import type { IChapterRecord, IReviewRecord, IWordRecord } from '@/utils/db/record'
 import type { SmartLearningRecord } from '@/utils/db/smart-learning-record'
 import type { ISpacedRepetitionRecord } from '@/utils/db/spaced-repetition-record'
+import { resolvePetSync } from '@/utils/pet-logic'
 import { saveToCloud } from '@/utils/saveToCloud'
 import dayjs from 'dayjs'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 // Incremental-upload cursor (Unix seconds). Module-scoped so it naturally resets
 // to a full sync on each app launch (page reload) and is shared across hook uses.
@@ -29,11 +30,6 @@ import { useCallback, useState } from 'react'
 // upload) or when the logged-in user changed.
 let uploadWatermark: number | null = null
 let watermarkUserId: string | null = null
-
-function getPetUpdatedAt(pet: Pet | null): number {
-  if (!pet) return 0
-  return Math.max(pet.lastInteractedAt || 0, pet.createdAt || 0)
-}
 
 type CloudStudyStat = {
   date: string
@@ -78,6 +74,18 @@ export const useCloudSync = () => {
   const dailyChallenges = useAtomValue(dailyChallengesAtom)
   const pet = useAtomValue(petAtom)
   const petInventory = useAtomValue(petInventoryAtom)
+
+  // Keep the freshest pet snapshot in refs so async sync callbacks never act on a
+  // stale closure. A stale/null `pet` could otherwise delete the cloud pet (the
+  // server treats `pet: null` as a delete) or wipe a locally adopted pet on merge.
+  const petRef = useRef(pet)
+  const petInventoryRef = useRef(petInventory)
+  useEffect(() => {
+    petRef.current = pet
+  }, [pet])
+  useEffect(() => {
+    petInventoryRef.current = petInventory
+  }, [petInventory])
 
   // Setters for download
   const setPointsTransactions = useSetAtom(pointsTransactionsAtom)
@@ -152,8 +160,11 @@ export const useCloudSync = () => {
         pointsTransactions,
         unlockedAchievements,
         dailyChallenges,
-        pet: pet || null,
-        petInventory,
+        // Only include the pet when we actually have one; sending `pet: null`
+        // makes the server delete it. Adoption/interactions already sync the pet
+        // immediately via saveToCloud, so omitting it here is safe.
+        ...(petRef.current ? { pet: petRef.current } : {}),
+        petInventory: petInventoryRef.current,
         userSettings,
       }),
     })
@@ -164,7 +175,7 @@ export const useCloudSync = () => {
     // Advance the cursor only after a successful upload.
     uploadWatermark = nowSec
     watermarkUserId = userInfo.userId
-  }, [userInfo, localStats, pointsTransactions, unlockedAchievements, dailyChallenges, pet, petInventory])
+  }, [userInfo, localStats, pointsTransactions, unlockedAchievements, dailyChallenges])
 
   // Lightweight upload: only error book (word records)
   const uploadErrorBook = useCallback(async () => {
@@ -215,15 +226,17 @@ export const useCloudSync = () => {
     // not erase a locally restored pet unless the cloud has a newer pet record.
     const cloudPet = (json.pet || null) as Pet | null
     const cloudPetInventory = (Array.isArray(json.petInventory) ? json.petInventory : []) as UserInventoryItem[]
-    const localPetWins = !!pet && (!cloudPet || getPetUpdatedAt(pet) > getPetUpdatedAt(cloudPet))
-    const nextPet = localPetWins ? pet : cloudPet
-    const nextPetInventory = localPetWins ? petInventory : cloudPetInventory
+    // Use the freshest local pet (ref, not a possibly-stale closure). resolvePetSync
+    // guarantees a missing cloud pet never wipes a locally adopted pet.
+    const localPetInventory = petInventoryRef.current
+    const { nextPet, localPetWins } = resolvePetSync(petRef.current, cloudPet)
+    const nextPetInventory = localPetWins || !cloudPet ? localPetInventory : cloudPetInventory
 
     setPet(nextPet)
     setHasPet(!!nextPet)
     setPetInventory(nextPetInventory)
 
-    if (localPetWins) {
+    if (localPetWins && nextPet) {
       await saveToCloud({ pet: nextPet, petInventory: nextPetInventory })
     }
 
@@ -394,18 +407,7 @@ export const useCloudSync = () => {
       },
     )
     return true
-  }, [
-    userInfo,
-    pet,
-    petInventory,
-    setPointsTransactions,
-    setUnlockedAchievements,
-    setDailyChallenges,
-    setPet,
-    setPetInventory,
-    setHasPet,
-    setCloudLoaded,
-  ])
+  }, [userInfo, setPointsTransactions, setUnlockedAchievements, setDailyChallenges, setPet, setPetInventory, setHasPet, setCloudLoaded])
 
   const downloadOnly = useCallback(async (): Promise<boolean> => {
     if (!userInfo || isSyncing) return false
