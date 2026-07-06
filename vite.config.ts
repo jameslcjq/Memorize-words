@@ -37,11 +37,14 @@ export default defineConfig(async ({ mode }) => {
         output: {
           manualChunks(id) {
             if (!id.includes('node_modules')) return undefined
+            // Only split out clearly independent, heavy libraries. Everything else
+            // (React, Radix, Headless UI, jotai, dexie, ...) stays in a single vendor
+            // chunk. Splitting the interdependent React ecosystem across chunks caused
+            // a cross-chunk initialization-order crash in the production bundle
+            // ("X is not a function" at startup → blank page).
             if (id.includes('echarts')) return 'charts'
-            if (id.includes('dexie') || id.includes('pako') || id.includes('xlsx')) return 'data'
-            if (id.includes('@radix-ui') || id.includes('@headlessui')) return 'ui'
-            if (id.includes('react') || id.includes('jotai') || id.includes('react-router-dom')) return 'vendor'
-            return undefined
+            if (id.includes('xlsx')) return 'data'
+            return 'vendor'
           },
         },
       },
