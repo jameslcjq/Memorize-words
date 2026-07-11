@@ -21,7 +21,7 @@ class RecordDB extends Dexie {
   chapterRecords!: Table<IChapterRecord, number>
   reviewRecords!: Table<IReviewRecord, number>
   spacedRepetitionRecords!: Table<ISpacedRepetitionRecord, number>
-  smartLearningRecords!: Table<SmartLearningRecord, number>
+  smartLearningRecords!: Table<SmartLearningRecord>
   deletedWordRecords!: Table<IDeletedWordRecord, number>
 
   revisionDictRecords!: Table<IRevisionDictRecord, number>
@@ -270,6 +270,7 @@ export function useDeleteWordRecord() {
         await markWordRecordDeleted(word, dict)
         return count
       })
+      scheduleErrorBookSync()
       return deletedCount
     } catch (error) {
       console.error(`删除单词记录时出错：`, error)
