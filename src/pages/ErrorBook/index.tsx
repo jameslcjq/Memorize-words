@@ -16,6 +16,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import IconX from '~icons/tabler/x'
 
+type DeleteTarget = { word: string; dict: string }
+
+const getRecordKey = (record: DeleteTarget) => `${record.dict}::${record.word}`
+
 export function ErrorBook() {
   const [groupedRecords, setGroupedRecords] = useState<groupedWordRecords[]>([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -30,7 +34,8 @@ export function ErrorBook() {
   const [passwordInput, setPasswordInput] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
-  const pendingDeleteRef = useRef<{ word: string; dict: string } | null>(null)
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(() => new Set())
+  const pendingDeleteRef = useRef<DeleteTarget[]>([])
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const onBack = useCallback(() => {
@@ -70,6 +75,39 @@ export function ErrorBook() {
     return sortedRecords.slice(start, end)
   }, [currentPage, sortedRecords])
 
+  const selectedRecords = useMemo(() => {
+    return sortedRecords.filter((record) => selectedKeys.has(getRecordKey(record)))
+  }, [selectedKeys, sortedRecords])
+
+  const isCurrentPageAllSelected = useMemo(() => {
+    return renderRecords.length > 0 && renderRecords.every((record) => selectedKeys.has(getRecordKey(record)))
+  }, [renderRecords, selectedKeys])
+
+  const toggleRecordSelection = useCallback((record: DeleteTarget) => {
+    const key = getRecordKey(record)
+    setSelectedKeys((prev) => {
+      const next = new Set(prev)
+      if (next.has(key)) {
+        next.delete(key)
+      } else {
+        next.add(key)
+      }
+      return next
+    })
+  }, [])
+
+  const toggleCurrentPageSelection = useCallback(() => {
+    setSelectedKeys((prev) => {
+      const next = new Set(prev)
+      if (isCurrentPageAllSelected) {
+        renderRecords.forEach((record) => next.delete(getRecordKey(record)))
+      } else {
+        renderRecords.forEach((record) => next.add(getRecordKey(record)))
+      }
+      return next
+    })
+  }, [isCurrentPageAllSelected, renderRecords])
+
   useEffect(() => {
     db.wordRecords
       .where('wrongCount')
@@ -98,19 +136,64 @@ export function ErrorBook() {
       })
   }, [reload])
 
-  const handleDelete = async (word: string, dict: string) => {
-    if (userInfo) {
-      // User is logged in, require password to delete
-      pendingDeleteRef.current = { word, dict }
-      setPasswordInput('')
-      setPasswordError('')
-      setShowPasswordDialog(true)
-      setTimeout(() => passwordInputRef.current?.focus(), 100)
-      return
+  useEffect(() => {
+    setSelectedKeys((prev) => {
+      const availableKeys = new Set(groupedRecords.map(getRecordKey))
+      const next = new Set([...prev].filter((key) => availableKeys.has(key)))
+      return next.size === prev.size ? prev : next
+    })
+  }, [groupedRecords])
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages)
     }
-    // Not logged in, allow direct deletion
-    await deleteWordRecord(word, dict)
-    setReload((prev) => !prev)
+  }, [currentPage, totalPages])
+
+  const deleteTargets = useCallback(
+    async (targets: DeleteTarget[]) => {
+      const uniqueTargets = Array.from(new Map(targets.map((target) => [getRecordKey(target), target])).values())
+      for (const target of uniqueTargets) {
+        await deleteWordRecord(target.word, target.dict)
+      }
+      setSelectedKeys(new Set())
+      setReload((prev) => !prev)
+    },
+    [deleteWordRecord],
+  )
+
+  const requestDeleteTargets = useCallback(
+    async (targets: DeleteTarget[]) => {
+      if (targets.length === 0) return
+
+      if (userInfo) {
+        pendingDeleteRef.current = targets
+        setPasswordInput('')
+        setPasswordError('')
+        setShowPasswordDialog(true)
+        setTimeout(() => passwordInputRef.current?.focus(), 100)
+        return
+      }
+
+      await deleteTargets(targets)
+    },
+    [deleteTargets, userInfo],
+  )
+
+  const handleDelete = async (word: string, dict: string) => {
+    await requestDeleteTargets([{ word, dict }])
+  }
+
+  const handleBatchDelete = async () => {
+    if (selectedRecords.length === 0) return
+    if (!confirm(`确定要删除选中的 ${selectedRecords.length} 个错题吗？`)) return
+    await requestDeleteTargets(selectedRecords)
+  }
+
+  const handleClearAll = async () => {
+    if (sortedRecords.length === 0) return
+    if (!confirm(`确定要清空全部 ${sortedRecords.length} 个错题吗？此操作不可撤销。`)) return
+    await requestDeleteTargets(sortedRecords)
   }
 
   const handlePasswordConfirm = async () => {
@@ -135,11 +218,10 @@ export function ErrorBook() {
       }
 
       // Password verified, proceed with deletion
-      if (pendingDeleteRef.current) {
-        await deleteWordRecord(pendingDeleteRef.current.word, pendingDeleteRef.current.dict)
-        pendingDeleteRef.current = null
+      if (pendingDeleteRef.current.length > 0) {
+        await deleteTargets(pendingDeleteRef.current)
+        pendingDeleteRef.current = []
         setShowPasswordDialog(false)
-        setReload((prev) => !prev)
       }
     } catch {
       setPasswordError('验证失败，请检查网络连接')
@@ -159,22 +241,59 @@ export function ErrorBook() {
         <div className="flex w-full flex-1 select-text items-start justify-center overflow-hidden px-4">
           <div className="flex h-full w-full max-w-6xl flex-col pt-10">
             <div className="flex w-full justify-between rounded-lg bg-white px-4 py-5 text-base text-black shadow-lg dark:bg-gray-800 dark:text-white md:px-6 md:text-lg">
+              <span className="basis-1/12">
+                <input
+                  type="checkbox"
+                  checked={isCurrentPageAllSelected}
+                  onChange={toggleCurrentPageSelection}
+                  className="h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  aria-label="选择本页错题"
+                />
+              </span>
               <span className="basis-3/12 md:basis-2/12">单词</span>
               <span className="basis-5/12 md:basis-6/12">释义</span>
               <HeadWrongNumber className="basis-2/12 md:basis-1/12" sortType={sortType} setSortType={setSort} />
               <span className="hidden basis-1/12 md:block">词典</span>
-              <DropdownExport renderRecords={sortedRecords} />
+              <div className="flex basis-2/12 items-center justify-end gap-2">
+                {selectedRecords.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleBatchDelete}
+                    className="rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600"
+                  >
+                    删除选中({selectedRecords.length})
+                  </button>
+                )}
+                {sortedRecords.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearAll}
+                    className="rounded border border-red-300 px-3 py-1 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
+                  >
+                    清空
+                  </button>
+                )}
+                <DropdownExport renderRecords={sortedRecords} />
+              </div>
             </div>
             <ScrollArea.Root className="flex-1 overflow-y-auto pt-5">
               <ScrollArea.Viewport className="h-full  ">
                 <div className="flex flex-col gap-3">
-                  {renderRecords.map((record) => (
-                    <ErrorRow
-                      key={`${record.dict}-${record.word}`}
-                      record={record}
-                      onDelete={() => handleDelete(record.word, record.dict)}
-                    />
-                  ))}
+                  {renderRecords.length > 0 ? (
+                    renderRecords.map((record) => (
+                      <ErrorRow
+                        key={`${record.dict}-${record.word}`}
+                        record={record}
+                        isSelected={selectedKeys.has(getRecordKey(record))}
+                        onToggleSelect={() => toggleRecordSelection(record)}
+                        onDelete={() => handleDelete(record.word, record.dict)}
+                      />
+                    ))
+                  ) : (
+                    <div className="rounded-lg bg-white py-12 text-center text-gray-500 shadow-md dark:bg-gray-800 dark:text-gray-400">
+                      暂无错题记录
+                    </div>
+                  )}
                 </div>
               </ScrollArea.Viewport>
               <ScrollArea.Scrollbar className="flex touch-none select-none bg-transparent" orientation="vertical"></ScrollArea.Scrollbar>
@@ -190,7 +309,8 @@ export function ErrorBook() {
           <DialogHeader>
             <DialogTitle>删除确认</DialogTitle>
             <DialogDescription>
-              请输入账号 <span className="font-medium text-gray-700 dark:text-gray-300">{userInfo?.username}</span> 的密码以删除该错题记录
+              请输入账号 <span className="font-medium text-gray-700 dark:text-gray-300">{userInfo?.username}</span>{' '}
+              的密码以删除 {pendingDeleteRef.current.length || 1} 个错题记录
             </DialogDescription>
           </DialogHeader>
           <div className="py-2">
