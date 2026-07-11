@@ -86,7 +86,7 @@ const ResultScreen = () => {
 
   const wrongWords = useMemo(() => {
     return state.chapterData.userInputLogs
-      .filter((log) => log.wrongCount >= 2)
+      .filter((log) => log.wrongCount > 0)
       .map((log) => state.chapterData.words[log.index])
       .filter((word) => word !== undefined)
   }, [state.chapterData.userInputLogs, state.chapterData.words])
@@ -96,11 +96,14 @@ const ResultScreen = () => {
     return maxChapter >= currentDictInfo.chapterCount - 1
   }, [selectedChapters, currentDictInfo])
 
+  const practicedWordCount = state.chapterData.wordCount || state.chapterData.words.length
+
   const correctRate = useMemo(() => {
-    const chapterLength = state.chapterData.words.length
-    const correctCount = chapterLength - wrongWords.length
+    const chapterLength = practicedWordCount || state.chapterData.words.length
+    if (chapterLength === 0) return 0
+    const correctCount = Math.max(chapterLength - wrongWords.length, 0)
     return Math.floor((correctCount / chapterLength) * 100)
-  }, [state.chapterData.words.length, wrongWords.length])
+  }, [practicedWordCount, state.chapterData.words.length, wrongWords.length])
 
   const mistakeLevel = useMemo(() => {
     if (correctRate >= 85) {
@@ -251,10 +254,28 @@ const ResultScreen = () => {
                 {exerciseMode !== 'speller' && <RemarkRing remark={state.timerData.wpm + ''} caption="WPM" />}
               </div>
               <div className="z-10 ml-6 flex-1 overflow-visible rounded-xl bg-indigo-50 dark:bg-gray-700">
-                <div className="customized-scrollbar z-20 ml-8 mr-1 flex h-80 flex-row flex-wrap content-start gap-4 overflow-y-auto overflow-x-hidden pr-7 pt-9">
-                  {wrongWords.map((word, index) => (
-                    <WordChip key={`${index}-${word.name}`} word={word} />
-                  ))}
+                <div className="grid grid-cols-3 gap-3 px-6 pt-5 text-center">
+                  <div className="rounded-xl bg-white px-3 py-3 shadow-sm dark:bg-gray-800">
+                    <div className="text-2xl font-bold tabular-nums text-gray-800 dark:text-gray-100">{practicedWordCount}</div>
+                    <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">练习单词</div>
+                  </div>
+                  <div className="rounded-xl bg-white px-3 py-3 shadow-sm dark:bg-gray-800">
+                    <div className="text-2xl font-bold tabular-nums text-red-500">{wrongWords.length}</div>
+                    <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">错词数</div>
+                  </div>
+                  <div className="rounded-xl bg-white px-3 py-3 shadow-sm dark:bg-gray-800">
+                    <div className="text-2xl font-bold tabular-nums text-gray-800 dark:text-gray-100">{timeString}</div>
+                    <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">用时</div>
+                  </div>
+                </div>
+                <div className="customized-scrollbar z-20 ml-8 mr-1 mt-2 flex h-56 flex-row flex-wrap content-start gap-4 overflow-y-auto overflow-x-hidden pr-7 pt-5">
+                  {wrongWords.length > 0 ? (
+                    wrongWords.map((word, index) => <WordChip key={`${index}-${word.name}`} word={word} />)
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-lg font-medium text-indigo-500 dark:text-indigo-300">
+                      本单元全对，继续保持！
+                    </div>
+                  )}
                 </div>
                 <div className="align-center flex w-full flex-row justify-start rounded-b-xl bg-indigo-200 px-4 dark:bg-indigo-400">
                   <ConclusionBar mistakeLevel={mistakeLevel} mistakeCount={wrongWords.length} />
