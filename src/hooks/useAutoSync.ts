@@ -7,7 +7,7 @@ import { userInfoAtom } from '@/store'
 import { useAtomValue } from 'jotai'
 import { useEffect, useRef } from 'react'
 
-const SYNC_INTERVAL_MS = 15 * 1000 // 15 seconds, keeping cross-device propagation below 30 seconds
+const SYNC_INTERVAL_MS = 10 * 1000 // 10 seconds; two-device upload/download propagation stays below 30 seconds
 // 避免每次切回标签页都触发一次全量下载/合并：距上次同步不足该间隔时跳过。
 const VISIBILITY_MIN_GAP_MS = 10 * 1000 // 10 seconds
 
@@ -39,7 +39,7 @@ export const useAutoSync = () => {
 
     // Set up periodic near-real-time sync.
     if (!intervalRef.current) {
-      console.log('[AutoSync] Starting periodic sync (every 15 seconds)')
+      console.log('[AutoSync] Starting periodic sync (every 10 seconds)')
       intervalRef.current = setInterval(() => {
         if (!isSyncing) {
           console.log('[AutoSync] Periodic sync triggered')
