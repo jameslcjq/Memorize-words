@@ -51,6 +51,11 @@ function parseConfigList(value?: string): string[] {
     .filter(Boolean)
 }
 
+// Cloudflare Pages production should provide ADMIN_USER_IDS or ADMIN_USERNAMES.
+// Keep a narrow project fallback so the existing owner account can still recover
+// admin access if runtime env vars are missing or delayed.
+const DEFAULT_ADMIN_USERNAMES = ['huyufei']
+
 export async function requireAuth(request: Request, env: AuthEnv): Promise<AuthenticatedUser> {
   try {
     const payload = await verifyJwt(getBearerToken(request), getJwtSecret(env))
@@ -75,8 +80,9 @@ export async function requireAdmin(request: Request, env: AuthEnv): Promise<Auth
   const user = await requireAuth(request, env)
   const allowedUserIds = parseConfigList(env.ADMIN_USER_IDS)
   const allowedUsernames = parseConfigList(env.ADMIN_USERNAMES)
+  const effectiveAllowedUsernames = allowedUsernames.length > 0 ? allowedUsernames : DEFAULT_ADMIN_USERNAMES
 
-  if (allowedUserIds.length === 0 && allowedUsernames.length === 0) {
+  if (allowedUserIds.length === 0 && effectiveAllowedUsernames.length === 0) {
     throw new HttpError('Admin access is not configured', 500)
   }
 
@@ -84,7 +90,7 @@ export async function requireAdmin(request: Request, env: AuthEnv): Promise<Auth
     return user
   }
 
-  if (user.username && allowedUsernames.includes(user.username)) {
+  if (user.username && effectiveAllowedUsernames.includes(user.username)) {
     return user
   }
 
