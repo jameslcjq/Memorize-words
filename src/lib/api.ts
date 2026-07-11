@@ -16,16 +16,16 @@ interface ApiResult<T = unknown> {
   updated_at?: number
 }
 
-export function getAuthToken(storage: Storage = localStorage, key = DEFAULT_AUTH_STORAGE_KEY): string | null {
-  return storage.getItem(key)
+export function getAuthToken(storage?: Storage, key = DEFAULT_AUTH_STORAGE_KEY): string | null {
+  return storage?.getItem(key) ?? null
 }
 
-export function setAuthToken(token: string, storage: Storage = localStorage, key = DEFAULT_AUTH_STORAGE_KEY): void {
-  storage.setItem(key, token)
+export function setAuthToken(token: string, storage?: Storage, key = DEFAULT_AUTH_STORAGE_KEY): void {
+  storage?.setItem(key, token)
 }
 
-export function clearAuthToken(storage: Storage = localStorage, key = DEFAULT_AUTH_STORAGE_KEY): void {
-  storage.removeItem(key)
+export function clearAuthToken(storage?: Storage, key = DEFAULT_AUTH_STORAGE_KEY): void {
+  storage?.removeItem(key)
 }
 
 export function buildAuthHeaders(headers: HeadersInit = {}, token: string | null = getAuthToken()): Headers {
@@ -46,6 +46,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   try {
     const response = await fetch(`${API_BASE}${endpoint}`, {
       ...options,
+      credentials: 'same-origin',
       headers: buildAuthHeaders(options.headers),
     })
 
@@ -68,6 +69,7 @@ export const api = {
       request('/auth/register', { method: 'POST', body: JSON.stringify({ username, password, nickname }) }),
 
     login: (username: string, password: string) => request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
+    logout: () => request('/auth/logout', { method: 'POST' }),
   },
   sync: {
     upload: (data: string) => request('/sync', { method: 'POST', body: JSON.stringify({ data }) }),

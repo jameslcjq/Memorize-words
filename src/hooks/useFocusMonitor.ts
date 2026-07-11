@@ -1,5 +1,6 @@
 // Focus Monitor Hook - Anti-procrastination/Distraction tracking
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { offlineStorage } from '@/lib/offlineStorage'
 
 interface FocusState {
   totalAwayMs: number
@@ -21,7 +22,7 @@ export function useFocusMonitor() {
   // Load from localStorage on mount
   useEffect(() => {
     const key = getStorageKey()
-    const saved = localStorage.getItem(key)
+    const saved = offlineStorage.getItem(key)
     if (saved) {
       const parsed = parseInt(saved, 10)
       if (!isNaN(parsed)) {
@@ -33,7 +34,7 @@ export function useFocusMonitor() {
   // Save to localStorage whenever totalAwayMs changes
   const saveData = useCallback((ms: number) => {
     const key = getStorageKey()
-    localStorage.setItem(key, ms.toString())
+    offlineStorage.setItem(key, ms.toString())
   }, [])
 
   // Handle leaving (page hidden or window blur)
@@ -146,7 +147,7 @@ export function useFocusMonitor() {
   // Reset today's stats
   const resetToday = useCallback(() => {
     const key = getStorageKey()
-    localStorage.removeItem(key)
+    offlineStorage.removeItem(key)
     setState((prev) => ({
       ...prev,
       totalAwayMs: 0,

@@ -10,6 +10,7 @@ import {
 } from '@/store'
 import type { DailyChallengeRecord, PointsTransaction, UnlockedAchievement } from '@/typings/gamification'
 import type { Pet, UserInventoryItem } from '@/typings/pet'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 
@@ -44,7 +45,7 @@ function getStorageKey(userId?: string): string {
 }
 
 function readPersistedState(storageKey: string): PersistedCloudState {
-  const raw = localStorage.getItem(storageKey)
+  const raw = offlineStorage.getItem(storageKey)
   if (!raw) return EMPTY_STATE
 
   try {
@@ -61,7 +62,7 @@ function readPersistedState(storageKey: string): PersistedCloudState {
       hasPet: typeof parsed.hasPet === 'boolean' ? parsed.hasPet : !!pet,
     }
   } catch {
-    localStorage.removeItem(storageKey)
+    offlineStorage.removeItem(storageKey)
     return EMPTY_STATE
   }
 }
@@ -110,6 +111,6 @@ export function useCloudStatePersistence() {
       hasPet: hasPet || !!pet,
     }
 
-    localStorage.setItem(storageKey, JSON.stringify(snapshot))
+    offlineStorage.setItem(storageKey, JSON.stringify(snapshot))
   }, [storageKey, pointsTransactions, unlockedAchievements, dailyChallenges, pet, petInventory, hasPet])
 }

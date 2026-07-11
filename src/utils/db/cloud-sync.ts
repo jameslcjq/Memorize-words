@@ -3,7 +3,8 @@
  * These can be called from anywhere, not dependent on React hooks
  */
 import { db } from './index'
-import { buildAuthHeaders, getAuthToken } from '@/lib/api'
+import { buildAuthHeaders } from '@/lib/api'
+import { offlineStorage } from '@/lib/offlineStorage'
 
 // Debounce timer for upload
 let uploadTimer: ReturnType<typeof setTimeout> | null = null
@@ -13,7 +14,7 @@ const DEBOUNCE_MS = 5000 // Wait 5 seconds after last change before uploading
  * Get user info from localStorage (matches userInfoAtom structure)
  */
 function getUserInfo(): { userId: string } | null {
-  const stored = localStorage.getItem('userInfo')
+  const stored = offlineStorage.getItem('userInfo')
   if (!stored) return null
   try {
     return JSON.parse(stored)
@@ -28,8 +29,7 @@ function getUserInfo(): { userId: string } | null {
  */
 async function doUploadErrorBook(): Promise<void> {
   const userInfo = getUserInfo()
-  const token = getAuthToken()
-  if (!userInfo || !token) return
+  if (!userInfo) return
 
   try {
     const wordRecords = await db.wordRecords.toArray()
@@ -44,7 +44,8 @@ async function doUploadErrorBook(): Promise<void> {
 
     const res = await fetch('/api/sync/upload', {
       method: 'POST',
-      headers: buildAuthHeaders({}, token),
+      headers: buildAuthHeaders(),
+      credentials: 'same-origin',
       body: JSON.stringify(payload),
     })
 

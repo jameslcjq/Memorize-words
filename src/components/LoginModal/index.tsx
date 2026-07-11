@@ -1,4 +1,3 @@
-import { setAuthToken } from '@/lib/api'
 import { userInfoAtom } from '@/store'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useAtom } from 'jotai'
@@ -66,7 +65,6 @@ const LoginModal = () => {
           throw new Error('登录响应缺少身份信息')
         }
 
-        setAuthToken(loginData.token)
         setUserInfo({
           userId: loginData.user.id,
           username: loginData.user.username,

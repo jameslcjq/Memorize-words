@@ -1,5 +1,6 @@
 import type { ReviewRecord } from '@/utils/db/record'
 import { putWordReviewRecord } from '@/utils/db/review-record'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
@@ -9,7 +10,14 @@ type TReviewInfoAtomData = {
 }
 
 export function reviewInfoAtom(initialValue: TReviewInfoAtomData) {
-  const storageAtom = atomWithStorage('reviewModeInfo', initialValue)
+  const storageAtom = atomWithStorage('reviewModeInfo', initialValue, {
+    getItem: (key, fallback) => {
+      const value = offlineStorage.getItem(key)
+      return value ? (JSON.parse(value) as TReviewInfoAtomData) : fallback
+    },
+    setItem: (key, value) => offlineStorage.setItem(key, JSON.stringify(value)),
+    removeItem: (key) => offlineStorage.removeItem(key),
+  })
 
   return atom(
     (get) => {

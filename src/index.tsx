@@ -8,6 +8,7 @@ import { ErrorBook } from './pages/ErrorBook'
 import { FriendLinks } from './pages/FriendLinks'
 import TypingPage from './pages/Typing'
 import { isOpenDarkModeAtom } from '@/store'
+import { initOfflineStorage } from '@/lib/offlineStorage'
 import 'animate.css'
 import { useAtomValue } from 'jotai'
 import React, { Suspense, lazy, useEffect, useState } from 'react'
@@ -99,4 +100,13 @@ function Root() {
 
 const container = document.getElementById('root')
 
-container && createRoot(container).render(<Root />)
+async function bootstrap() {
+  try {
+    await initOfflineStorage()
+  } catch (error) {
+    console.error('Failed to initialize offline storage', error)
+  }
+  container && createRoot(container).render(<Root />)
+}
+
+bootstrap()

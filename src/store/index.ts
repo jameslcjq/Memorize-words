@@ -16,11 +16,18 @@ import type {
 } from '@/typings'
 import type { DailyChallengeRecord, PointsTransaction, UnlockedAchievement } from '@/typings/gamification'
 import type { Pet, UserInventoryItem } from '@/typings/pet'
+import { offlineStorage } from '@/lib/offlineStorage'
 import type { ReviewRecord } from '@/utils/db/record'
 import { atom } from 'jotai'
-import { atomWithStorage } from 'jotai/utils'
+import { atomWithStorage, createJSONStorage } from 'jotai/utils'
 
-export const currentDictIdAtom = atomWithStorage('currentDict', 'Yilin9A')
+const indexedStorage = createJSONStorage<unknown>(() => offlineStorage)
+
+function atomWithOfflineStorage<T>(key: string, initialValue: T) {
+  return atomWithStorage<T>(key, initialValue, indexedStorage as ReturnType<typeof createJSONStorage<T>>)
+}
+
+export const currentDictIdAtom = atomWithOfflineStorage('currentDict', 'Yilin9A')
 export const currentDictInfoAtom = atom<Dictionary>((get) => {
   const id = get(currentDictIdAtom)
   let dict = idDictionaryMap[id]
@@ -31,7 +38,7 @@ export const currentDictInfoAtom = atom<Dictionary>((get) => {
   return dict
 })
 
-export const selectedChaptersAtom = atomWithStorage('selectedChapters', [0])
+export const selectedChaptersAtom = atomWithOfflineStorage('selectedChapters', [0])
 export const currentChapterAtom = atom(
   (get) => get(selectedChaptersAtom)[0] ?? 0,
   (get, set, newChapter: number) => {
@@ -80,13 +87,13 @@ export const randomConfigAtom = atomForConfig('randomConfig', {
   isOpen: false,
 })
 
-export const isShowPrevAndNextWordAtom = atomWithStorage('isShowPrevAndNextWord', true)
+export const isShowPrevAndNextWordAtom = atomWithOfflineStorage('isShowPrevAndNextWord', true)
 
-export const isIgnoreCaseAtom = atomWithStorage('isIgnoreCase', true)
+export const isIgnoreCaseAtom = atomWithOfflineStorage('isIgnoreCase', true)
 
-export const isShowAnswerOnHoverAtom = atomWithStorage('isShowAnswerOnHover', true)
+export const isShowAnswerOnHoverAtom = atomWithOfflineStorage('isShowAnswerOnHover', true)
 
-export const isTextSelectableAtom = atomWithStorage('isTextSelectable', false)
+export const isTextSelectableAtom = atomWithOfflineStorage('isTextSelectable', false)
 
 export const reviewModeInfoAtom = reviewInfoAtom({
   isReviewMode: false,
@@ -99,7 +106,7 @@ export const phoneticConfigAtom = atomForConfig('phoneticConfig', {
   type: 'us' as PhoneticType,
 })
 
-export const isOpenDarkModeAtom = atomWithStorage('isOpenDarkModeAtom', window.matchMedia('(prefers-color-scheme: dark)').matches)
+export const isOpenDarkModeAtom = atomWithOfflineStorage('isOpenDarkModeAtom', window.matchMedia('(prefers-color-scheme: dark)').matches)
 
 export const isShowSkipAtom = atom(false)
 
@@ -117,22 +124,22 @@ export const wordDictationConfigAtom = atomForConfig('wordDictationConfig', {
   openBy: 'auto' as WordDictationOpenBy,
 })
 
-export const dismissStartCardDateAtom = atomWithStorage<Date | null>(DISMISS_START_CARD_DATE_KEY, null)
+export const dismissStartCardDateAtom = atomWithOfflineStorage<Date | null>(DISMISS_START_CARD_DATE_KEY, null)
 
 // Enhanced version promotion popup state
-export const hasSeenEnhancedPromotionAtom = atomWithStorage('hasSeenEnhancedPromotion', false)
+export const hasSeenEnhancedPromotionAtom = atomWithOfflineStorage('hasSeenEnhancedPromotion', false)
 
 // for dev test
 //   dismissStartCardDateAtom = atom<Date | null>(new Date())
 
-export const exerciseModeAtom = atomWithStorage<ExerciseMode>('exerciseMode', 'speller')
+export const exerciseModeAtom = atomWithOfflineStorage<ExerciseMode>('exerciseMode', 'speller')
 
-export const quizConfigAtom = atomWithStorage<QuizConfig>('quizConfig', {
+export const quizConfigAtom = atomWithOfflineStorage<QuizConfig>('quizConfig', {
   scope: 'unit',
 })
 
 // Cloudflare Auth Atoms
-export const userInfoAtom = atomWithStorage<{ userId: string; username: string; nickname: string } | null>('userInfo', null)
+export const userInfoAtom = atomWithOfflineStorage<{ userId: string; username: string; nickname: string } | null>('userInfo', null)
 export const isSyncingAtom = atom(false)
 
 // Learning Plan Atoms (Phase 2)
@@ -142,7 +149,7 @@ export interface LearningPlanConfig {
   reminderTime: string // HH:mm format
 }
 
-export const learningPlanAtom = atomWithStorage<LearningPlanConfig>('learningPlan', {
+export const learningPlanAtom = atomWithOfflineStorage<LearningPlanConfig>('learningPlan', {
   dailyGoal: 20,
   reminderEnabled: false,
   reminderTime: '20:00',

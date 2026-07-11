@@ -30,18 +30,19 @@ export function getJwtSecret(env: AuthEnv): string {
   return secret
 }
 
-function getBearerToken(request: Request): string {
+function getAuthToken(request: Request): string {
   const authHeader = request.headers.get('Authorization')
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    throw new HttpError('Unauthorized', 401)
+  if (authHeader?.startsWith('Bearer ')) {
+    const token = authHeader.slice('Bearer '.length).trim()
+    if (token) return token
   }
 
-  const token = authHeader.slice('Bearer '.length).trim()
-  if (!token) {
-    throw new HttpError('Unauthorized', 401)
+  const cookie = request.headers.get('Cookie') || ''
+  for (const part of cookie.split(';')) {
+    const [name, ...value] = part.trim().split('=')
+    if (name === 'auth_token' && value.length) return decodeURIComponent(value.join('='))
   }
-
-  return token
+  throw new HttpError('Unauthorized', 401)
 }
 
 function parseConfigList(value?: string): string[] {
@@ -58,7 +59,7 @@ const DEFAULT_ADMIN_USERNAMES = ['huyufei']
 
 export async function requireAuth(request: Request, env: AuthEnv): Promise<AuthenticatedUser> {
   try {
-    const payload = await verifyJwt(getBearerToken(request), getJwtSecret(env))
+    const payload = await verifyJwt(getAuthToken(request), getJwtSecret(env))
     if (!payload?.sub || typeof payload.sub !== 'string') {
       throw new HttpError('Unauthorized', 401)
     }

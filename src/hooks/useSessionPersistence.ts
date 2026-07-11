@@ -1,6 +1,7 @@
 import { type TypingStateAction, TypingStateActionType } from '@/pages/Typing/store'
 import type { TypingState } from '@/pages/Typing/store/type'
 import { currentChapterAtom, currentDictIdAtom, exerciseModeAtom } from '@/store'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { useAtomValue } from 'jotai'
 import { useCallback, useEffect, useRef } from 'react'
 
@@ -49,7 +50,7 @@ export function useSessionPersistence(state: TypingState, dispatch: (action: Typ
     }
 
     try {
-      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(backup))
+      offlineStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(backup))
     } catch (error) {
       console.warn('Failed to save session backup:', error)
     }
@@ -58,7 +59,7 @@ export function useSessionPersistence(state: TypingState, dispatch: (action: Typ
   // Clear saved session
   const clearSession = useCallback(() => {
     try {
-      localStorage.removeItem(SESSION_STORAGE_KEY)
+      offlineStorage.removeItem(SESSION_STORAGE_KEY)
     } catch (error) {
       console.warn('Failed to clear session backup:', error)
     }
@@ -67,7 +68,7 @@ export function useSessionPersistence(state: TypingState, dispatch: (action: Typ
   // Get saved session
   const getSavedSession = useCallback((): SessionBackup | null => {
     try {
-      const saved = localStorage.getItem(SESSION_STORAGE_KEY)
+      const saved = offlineStorage.getItem(SESSION_STORAGE_KEY)
       if (!saved) return null
 
       const backup = JSON.parse(saved) as SessionBackup

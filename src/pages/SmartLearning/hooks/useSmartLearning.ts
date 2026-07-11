@@ -3,6 +3,7 @@ import { getUTCUnixTimestamp } from '@/utils'
 import { db } from '@/utils/db'
 import type { SmartLearningRecord, SmartLearningSession, WordProgress } from '@/utils/db/smart-learning-record'
 import { LearningStage, WordProgressRecord } from '@/utils/db/smart-learning-record'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { useCallback, useEffect, useState } from 'react'
 
 const SESSION_KEY = 'smartLearningSession'
@@ -217,7 +218,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
    */
   const initSession = useCallback(() => {
     // 尝试从localStorage恢复会话
-    const savedSession = localStorage.getItem(SESSION_KEY)
+    const savedSession = offlineStorage.getItem(SESSION_KEY)
     if (savedSession) {
       try {
         const parsed: SmartLearningSession = JSON.parse(savedSession)
@@ -264,7 +265,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     setStageStartTime(Date.now())
     setIsGroupFinished(false)
 
-    localStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
+    offlineStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
   }, [dict, chapter, allWords])
 
   /**
@@ -272,7 +273,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
    */
   const saveSession = useCallback((updatedSession: SmartLearningSession) => {
     setSession(updatedSession)
-    localStorage.setItem(SESSION_KEY, JSON.stringify(updatedSession))
+    offlineStorage.setItem(SESSION_KEY, JSON.stringify(updatedSession))
   }, [])
 
   /**
@@ -364,7 +365,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     const nextGroupIndex = session.currentGroup + 1
 
     if (nextGroupIndex >= groups.length) {
-      localStorage.removeItem(SESSION_KEY)
+      offlineStorage.removeItem(SESSION_KEY)
       setSession(null)
       return { finished: true }
     }
@@ -388,7 +389,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     setStageStartTime(Date.now())
     setIsGroupFinished(false)
 
-    localStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
+    offlineStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
     return { finished: false }
   }, [session, allWords])
 

@@ -9,6 +9,7 @@ import type { Word } from '@/typings'
 import type { SmartLearningRecord } from '@/utils/db/smart-learning-record'
 import { LearningStage } from '@/utils/db/smart-learning-record'
 import { wordListFetcher } from '@/utils/wordListFetcher'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -80,7 +81,7 @@ export default function SmartLearning() {
 
   const handleExit = () => {
     // 清除智能学习会话数据
-    localStorage.removeItem('smartLearningSession')
+    offlineStorage.removeItem('smartLearningSession')
     // 重置练习模式，防止自动跳转回智能学习
     setExerciseMode('speller')
     navigate('/typing')

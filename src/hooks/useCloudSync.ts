@@ -1,4 +1,5 @@
-import { buildAuthHeaders, getAuthToken } from '@/lib/api'
+import { buildAuthHeaders } from '@/lib/api'
+import { hasDirtyCloudSettings, markCloudSettingsSynced, offlineStorage, setOfflineValueFromCloud } from '@/lib/offlineStorage'
 import { useWordStats } from '@/pages/Analysis/hooks/useWordStats'
 import {
   cloudLoadedAtom,
@@ -102,8 +103,7 @@ export const useCloudSync = () => {
 
   // Upload all data: word records from Dexie + gamification/pet from atoms
   const uploadData = useCallback(async () => {
-    const token = getAuthToken()
-    if (!userInfo || !token) return
+    if (!userInfo) return
 
     // Incremental sync: only push the per-record tables that changed at/after the
     // last successful upload. A full sync (since = 0) runs on the first upload of a
@@ -132,21 +132,22 @@ export const useCloudSync = () => {
     const reviewRecords = await db.reviewRecords.toArray()
 
     const userSettings: UserSettingsPayload = {
-      currentDict: localStorage.getItem('currentDict'),
-      selectedChapters: localStorage.getItem('selectedChapters'),
-      exerciseMode: localStorage.getItem('exerciseMode'),
-      learningPlan: localStorage.getItem('learningPlan'),
-      loopWordConfig: localStorage.getItem('loopWordConfig'),
-      pronunciationConfig: localStorage.getItem('pronunciation'),
-      phoneticConfig: localStorage.getItem('phoneticConfig'),
-      randomConfig: localStorage.getItem('randomConfig'),
-      wordDictationConfig: localStorage.getItem('wordDictationConfig'),
-      isOpenDarkModeAtom: localStorage.getItem('isOpenDarkModeAtom'),
+      currentDict: offlineStorage.getItem('currentDict'),
+      selectedChapters: offlineStorage.getItem('selectedChapters'),
+      exerciseMode: offlineStorage.getItem('exerciseMode'),
+      learningPlan: offlineStorage.getItem('learningPlan'),
+      loopWordConfig: offlineStorage.getItem('loopWordConfig'),
+      pronunciationConfig: offlineStorage.getItem('pronunciation'),
+      phoneticConfig: offlineStorage.getItem('phoneticConfig'),
+      randomConfig: offlineStorage.getItem('randomConfig'),
+      wordDictationConfig: offlineStorage.getItem('wordDictationConfig'),
+      isOpenDarkModeAtom: offlineStorage.getItem('isOpenDarkModeAtom'),
     }
 
     const response = await fetch('/api/sync/upload', {
       method: 'POST',
-      headers: buildAuthHeaders({}, token),
+      headers: buildAuthHeaders(),
+      credentials: 'same-origin',
       body: JSON.stringify({
         timestamp: Date.now(),
         records,
@@ -165,7 +166,7 @@ export const useCloudSync = () => {
         // immediately via saveToCloud, so omitting it here is safe.
         ...(petRef.current ? { pet: petRef.current } : {}),
         petInventory: petInventoryRef.current,
-        userSettings,
+        ...(isFullSync || hasDirtyCloudSettings() ? { userSettings } : {}),
       }),
     })
     if (!response.ok) {
@@ -175,18 +176,19 @@ export const useCloudSync = () => {
     // Advance the cursor only after a successful upload.
     uploadWatermark = nowSec
     watermarkUserId = userInfo.userId
+    markCloudSettingsSynced()
   }, [userInfo, localStats, pointsTransactions, unlockedAchievements, dailyChallenges])
 
   // Lightweight upload: only error book (word records)
   const uploadErrorBook = useCallback(async () => {
-    const token = getAuthToken()
-    if (!userInfo || !token) return
+    if (!userInfo) return
     try {
       const wordRecords = await db.wordRecords.toArray()
       const deletedWordRecords = await db.deletedWordRecords.toArray()
       const response = await fetch('/api/sync/upload', {
         method: 'POST',
-        headers: buildAuthHeaders({}, token),
+        headers: buildAuthHeaders(),
+        credentials: 'same-origin',
         body: JSON.stringify({ timestamp: Date.now(), wordRecords, deletedWordRecords, records: [] }),
       })
       if (!response.ok) {
@@ -199,10 +201,10 @@ export const useCloudSync = () => {
 
   // Download: cloud is source of truth for gamification/pet; merge for word records
   const downloadData = useCallback(async (): Promise<boolean> => {
-    const token = getAuthToken()
-    if (!userInfo || !token) return false
+    if (!userInfo) return false
     const res = await fetch('/api/sync/download', {
-      headers: buildAuthHeaders({}, token),
+      headers: buildAuthHeaders(),
+      credentials: 'same-origin',
     })
     if (!res.ok) {
       setCloudLoaded(true)
@@ -245,16 +247,16 @@ export const useCloudSync = () => {
     // Restore user settings
     if (json.userSettings) {
       const s = json.userSettings
-      if (s.currentDict) localStorage.setItem('currentDict', s.currentDict)
-      if (s.selectedChapters) localStorage.setItem('selectedChapters', s.selectedChapters)
-      if (s.exerciseMode) localStorage.setItem('exerciseMode', s.exerciseMode)
-      if (s.learningPlan) localStorage.setItem('learningPlan', s.learningPlan)
-      if (s.loopWordConfig) localStorage.setItem('loopWordConfig', s.loopWordConfig)
-      if (s.pronunciationConfig) localStorage.setItem('pronunciation', s.pronunciationConfig)
-      if (s.phoneticConfig) localStorage.setItem('phoneticConfig', s.phoneticConfig)
-      if (s.randomConfig) localStorage.setItem('randomConfig', s.randomConfig)
-      if (s.wordDictationConfig) localStorage.setItem('wordDictationConfig', s.wordDictationConfig)
-      if (s.isOpenDarkModeAtom) localStorage.setItem('isOpenDarkModeAtom', s.isOpenDarkModeAtom)
+      if (s.currentDict) setOfflineValueFromCloud('currentDict', s.currentDict)
+      if (s.selectedChapters) setOfflineValueFromCloud('selectedChapters', s.selectedChapters)
+      if (s.exerciseMode) setOfflineValueFromCloud('exerciseMode', s.exerciseMode)
+      if (s.learningPlan) setOfflineValueFromCloud('learningPlan', s.learningPlan)
+      if (s.loopWordConfig) setOfflineValueFromCloud('loopWordConfig', s.loopWordConfig)
+      if (s.pronunciationConfig) setOfflineValueFromCloud('pronunciation', s.pronunciationConfig)
+      if (s.phoneticConfig) setOfflineValueFromCloud('phoneticConfig', s.phoneticConfig)
+      if (s.randomConfig) setOfflineValueFromCloud('randomConfig', s.randomConfig)
+      if (s.wordDictationConfig) setOfflineValueFromCloud('wordDictationConfig', s.wordDictationConfig)
+      if (s.isOpenDarkModeAtom) setOfflineValueFromCloud('isOpenDarkModeAtom', s.isOpenDarkModeAtom)
     }
 
     const deletedWordRecords = json.deletedWordRecords || []

@@ -38,11 +38,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const secret = getJwtSecret(env)
     const token = await createJwt({ sub: user.id, username: user.username }, secret)
 
-    return jsonResponse({
-      success: true,
-      token,
-      user: { id: user.id, username: user.username, nickname: user.nickname },
-    })
+    return new Response(
+      JSON.stringify({ success: true, token, user: { id: user.id, username: user.username, nickname: user.nickname } }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Set-Cookie': `auth_token=${encodeURIComponent(token)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`,
+        },
+      },
+    )
   } catch (err) {
     return errorResponse(err)
   }

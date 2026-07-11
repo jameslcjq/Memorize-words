@@ -1,7 +1,7 @@
 import Loading from '@/components/Loading'
 import { useFocusMonitor } from '@/hooks/useFocusMonitor'
 import { useGamification } from '@/hooks/useGamification'
-import { clearAuthToken } from '@/lib/api'
+import { api } from '@/lib/api'
 import AdvancedSetting from '@/pages/Typing/components/Setting/AdvancedSetting'
 import DataSetting from '@/pages/Typing/components/Setting/DataSetting'
 import SoundSetting from '@/pages/Typing/components/Setting/SoundSetting'
@@ -27,9 +27,9 @@ const Profile: React.FC = () => {
 
   const unlockedIds = useMemo(() => new Set(unlockedAchievements.map((a) => a.achievementId)), [unlockedAchievements])
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (confirm('确定要退出登录吗？退出后将无法自动同步数据。')) {
-      clearAuthToken()
+      await api.auth.logout().catch(() => undefined)
       setUserInfo(null)
       navigate('/')
     }

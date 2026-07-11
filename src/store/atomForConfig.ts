@@ -2,6 +2,7 @@ import type { WritableAtom } from 'jotai'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import type { RESET } from 'jotai/vanilla/utils/constants'
+import { offlineStorage } from '@/lib/offlineStorage'
 
 type SetStateActionWithReset<Value> = Value | typeof RESET | ((prev: Value) => Value | typeof RESET)
 
@@ -9,7 +10,14 @@ export default function atomForConfig<T extends Record<string, unknown>>(
   key: string,
   defaultValue: T,
 ): WritableAtom<T, [SetStateActionWithReset<T>], void> {
-  const storageAtom = atomWithStorage(key, defaultValue)
+  const storageAtom = atomWithStorage(key, defaultValue, {
+    getItem: (storageKey, initialValue) => {
+      const value = offlineStorage.getItem(storageKey)
+      return value ? (JSON.parse(value) as T) : initialValue
+    },
+    setItem: (storageKey, value) => offlineStorage.setItem(storageKey, JSON.stringify(value)),
+    removeItem: (storageKey) => offlineStorage.removeItem(storageKey),
+  })
   return atom((get) => {
     // Get the underlying object
     const config = get(storageAtom)
@@ -36,7 +44,7 @@ export default function atomForConfig<T extends Record<string, unknown>>(
 
     if (newConfig !== config) {
       const jsonString = JSON.stringify(newConfig)
-      localStorage.setItem(key, jsonString)
+      offlineStorage.setItem(key, jsonString)
     }
 
     return newConfig

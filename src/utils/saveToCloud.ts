@@ -1,4 +1,4 @@
-import { buildAuthHeaders, getAuthToken } from '@/lib/api'
+import { buildAuthHeaders } from '@/lib/api'
 
 /**
  * Fire-and-forget cloud save helper.
@@ -7,12 +7,10 @@ import { buildAuthHeaders, getAuthToken } from '@/lib/api'
  */
 export async function saveToCloud(payload: Record<string, unknown>): Promise<void> {
   try {
-    const token = getAuthToken()
-    if (!token) return
-
     const res = await fetch('/api/sync/upload', {
       method: 'POST',
-      headers: buildAuthHeaders({}, token),
+      headers: buildAuthHeaders(),
+      credentials: 'same-origin',
       body: JSON.stringify(payload),
     })
 
