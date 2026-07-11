@@ -13,9 +13,11 @@ import DeleteIcon from '~icons/weui/delete-filled'
 type IErrorRowProps = {
   record: groupedWordRecords
   onDelete: () => void
+  isSelected: boolean
+  onToggleSelect: () => void
 }
 
-const ErrorRow: FC<IErrorRowProps> = ({ record, onDelete }) => {
+const ErrorRow: FC<IErrorRowProps> = ({ record, onDelete, isSelected, onToggleSelect }) => {
   const setCurrentRowDetail = useSetAtom(currentRowDetailAtom)
   const dictInfo = idDictionaryMap[record.dict]
   const { word, isLoading, hasError } = useGetWord(record.word, dictInfo)
@@ -30,6 +32,19 @@ const ErrorRow: FC<IErrorRowProps> = ({ record, onDelete }) => {
       className="opacity-85 flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-black shadow-md dark:bg-gray-800 dark:text-white md:px-6"
       onClick={onClick}
     >
+      <span className="basis-1/12 break-normal">
+        <input
+          type="checkbox"
+          checked={isSelected}
+          onChange={(e) => {
+            e.stopPropagation()
+            onToggleSelect()
+          }}
+          onClick={(e) => e.stopPropagation()}
+          className="h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+          aria-label={`选择 ${record.word}`}
+        />
+      </span>
       <span className="basis-3/12 break-normal md:basis-2/12">{record.word}</span>
       <span className="basis-5/12 break-normal md:basis-6/12">
         {word ? word.trans.join('；') : <LoadingWordUI isLoading={isLoading} hasError={hasError} />}
