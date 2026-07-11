@@ -1,5 +1,5 @@
 /**
- * Auto Sync Hook - Provides periodic background sync every 1 minute
+ * Auto Sync Hook - Provides near-real-time background sync every 30 seconds
  * Use this hook in the main App component to enable automatic cloud sync
  */
 import { useCloudSync } from './useCloudSync'
@@ -7,9 +7,9 @@ import { userInfoAtom } from '@/store'
 import { useAtomValue } from 'jotai'
 import { useEffect, useRef } from 'react'
 
-const SYNC_INTERVAL_MS = 5 * 60 * 1000 // 5 minutes
+const SYNC_INTERVAL_MS = 30 * 1000 // 30 seconds
 // 避免每次切回标签页都触发一次全量下载/合并：距上次同步不足该间隔时跳过。
-const VISIBILITY_MIN_GAP_MS = 2 * 60 * 1000 // 2 minutes
+const VISIBILITY_MIN_GAP_MS = 10 * 1000 // 10 seconds
 
 export const useAutoSync = () => {
   const userInfo = useAtomValue(userInfoAtom)
@@ -37,9 +37,9 @@ export const useAutoSync = () => {
       downloadOnly()
     }
 
-    // Set up periodic sync every 1 minute
+    // Set up periodic near-real-time sync.
     if (!intervalRef.current) {
-      console.log('[AutoSync] Starting periodic sync (every 1 minute)')
+      console.log('[AutoSync] Starting periodic sync (every 30 seconds)')
       intervalRef.current = setInterval(() => {
         if (!isSyncing) {
           console.log('[AutoSync] Periodic sync triggered')
