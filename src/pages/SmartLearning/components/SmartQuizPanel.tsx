@@ -1,7 +1,11 @@
+import WordInsights from '@/components/WordInsights'
+import { useAnswerHintAdvance } from '@/hooks/useAnswerHintAdvance'
 import { useFastPronunciation } from '@/hooks/useFastPronunciation'
+import { answerHintDurationAtom } from '@/store'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
 import { generateQuizOptions } from '@/utils/quiz'
+import { useAtomValue } from 'jotai'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
@@ -29,6 +33,15 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
+  const answerHintDuration = useAtomValue(answerHintDurationAtom)
+
+  useAnswerHintAdvance({
+    isSuccess: isCorrect === true,
+    isWrong: isCorrect === false,
+    wrongDuration: answerHintDuration,
+    onSuccess: onComplete,
+    onWrong: onError,
+  })
 
   const isWordToTrans = mode === 'word-to-trans'
   const displayField = isWordToTrans ? 'trans' : 'name'
@@ -71,12 +84,6 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
           letterTimeArray: [],
           letterMistake: {},
         })
-        // 延迟进入下一阶段
-        setTimeout(() => {
-          onComplete()
-          setSelectedIdx(null)
-          setIsCorrect(null)
-        }, 1000)
       } else {
         saveWordRecord({
           word: word.name,
@@ -84,21 +91,13 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
           letterTimeArray: [],
           letterMistake: {},
         })
-        // 通知错误
-        onError()
         // 答错了，也播放一下正确发音帮助记忆
         setTimeout(() => {
           playWordRef.current()
         }, 500)
-        // 停留一下提示错误
-        setTimeout(() => {
-          onComplete()
-          setSelectedIdx(null)
-          setIsCorrect(null)
-        }, 2500)
       }
     },
-    [correctAnswer, onComplete, onError, selectedIdx, saveWordRecord, word.name],
+    [correctAnswer, selectedIdx, saveWordRecord, word.name],
   )
 
   // 快捷键支持
@@ -148,6 +147,7 @@ export default function SmartQuizPanel({ word, allWords, mode, onComplete, onErr
         {isCorrect === false && <p className="font-medium text-red-500">答错了，正解：{correctAnswer}</p>}
         {isCorrect === true && <p className="font-medium text-green-500">太棒了！</p>}
       </div>
+      {isCorrect === false && <WordInsights word={word} compact />}
     </div>
   )
 }

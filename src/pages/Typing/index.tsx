@@ -29,6 +29,7 @@ import {
   isReviewModeAtom,
   randomConfigAtom,
   reviewModeInfoAtom,
+  selectedChaptersAtom,
   wordDictationConfigAtom,
 } from '@/store'
 import { IsDesktop, isLegal } from '@/utils'
@@ -56,12 +57,13 @@ const App: React.FC = () => {
   const isReviewMode = useAtomValue(isReviewModeAtom)
   const [wordDictationConfig, setWordDictationConfig] = useAtom(wordDictationConfigAtom)
   const exerciseMode = useAtomValue(exerciseModeAtom)
+  const selectedChapters = useAtomValue(selectedChaptersAtom)
 
   useEffect(() => {
-    if (exerciseMode === 'smartLearning') {
+    if (exerciseMode === 'smartLearning' && (selectedChapters[0] ?? -1) >= 0) {
       navigate('/smart-learning')
     }
-  }, [exerciseMode, navigate])
+  }, [exerciseMode, navigate, selectedChapters])
 
   // Gamification
   const { awardChapterPoints, checkAchievements, newlyUnlockedAchievement, clearAchievementToast } = useGamification()

@@ -6,6 +6,7 @@ import Phonetic from './components/Phonetic'
 import QuizPanel from './components/QuizPanel'
 import Translation from './components/Translation'
 import WordComponent from './components/Word'
+import WordInsights from '@/components/WordInsights'
 import { usePrefetchPronunciationSound } from '@/hooks/usePronunciation'
 import {
   exerciseModeAtom,
@@ -204,6 +205,7 @@ export default function WordPanel() {
                 <>
                   <WordComponent word={currentWord} onFinish={onFinish} key={wordComponentKey} />
                   {phoneticConfig.isOpen && <Phonetic word={currentWord} />}
+                  <WordInsights word={currentWord} />
                   <Translation
                     trans={currentWord.trans.join('；')}
                     showTrans={shouldShowTranslation}

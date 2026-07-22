@@ -22,7 +22,7 @@ export function usePet() {
   }, [petRaw])
 
   const adoptPet = useCallback(
-    async (name: string, species: PetSpecies) => {
+    async (name: string, species: PetSpecies, color = 'natural') => {
       const now = Date.now()
       const newPet: Pet = {
         species,
@@ -36,6 +36,7 @@ export function usePet() {
         outfitJson: '[]',
         lastInteractedAt: now,
         createdAt: now,
+        color,
       }
       setPet(newPet)
       setPetInventory([])
@@ -185,6 +186,17 @@ export function usePet() {
     [petRaw, inventory, userInfo, setPet, setPetInventory],
   )
 
+  const changePetColor = useCallback(
+    async (color: string) => {
+      if (!petRaw) return { success: false, message: '没有宠物' }
+      const newPet: Pet = { ...petRaw, color, lastInteractedAt: Date.now() }
+      setPet(newPet)
+      if (userInfo) await saveToCloud({ pet: newPet })
+      return { success: true, message: '颜色已更新' }
+    },
+    [petRaw, setPet, userInfo],
+  )
+
   return {
     pet,
     petRaw,
@@ -194,6 +206,7 @@ export function usePet() {
     playWithPet,
     cleanPet,
     equipDecoration,
+    changePetColor,
   }
 }
 

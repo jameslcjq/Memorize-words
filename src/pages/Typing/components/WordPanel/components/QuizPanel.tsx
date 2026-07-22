@@ -1,7 +1,9 @@
 import { TypingContext, TypingStateActionType } from '../../../store'
+import WordInsights from '@/components/WordInsights'
+import { useAnswerHintAdvance } from '@/hooks/useAnswerHintAdvance'
 import usePronunciationSound from '@/hooks/usePronunciation'
 import useSpeech from '@/hooks/useSpeech'
-import { exerciseModeAtom } from '@/store'
+import { answerHintDurationAtom, exerciseModeAtom } from '@/store'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
 import { generateQuizOptions } from '@/utils/quiz'
@@ -19,6 +21,7 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { dispatch } = useContext(TypingContext)!
   const mode = useAtomValue(exerciseModeAtom)
+  const answerHintDuration = useAtomValue(answerHintDurationAtom)
   const saveWordRecord = useSaveWordRecord()
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
@@ -37,6 +40,20 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
   // Audio hooks
   const { play: playWord } = usePronunciationSound(word.name)
   const { speak: speakDef, cancel: cancelDef } = useSpeech(word.trans.join('；'))
+
+  useAnswerHintAdvance({
+    isSuccess: isCorrect === true,
+    isWrong: isCorrect === false,
+    wrongDuration: answerHintDuration,
+    onSuccess: () => {
+      onFinish()
+      cancelDef()
+    },
+    onWrong: () => {
+      onFinish()
+      cancelDef()
+    },
+  })
 
   const playSound = useCallback(() => {
     playWord()
@@ -74,13 +91,6 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
           letterTimeArray: [],
           letterMistake: {},
         })
-        // 延迟进入下一题 (increased delay to allow some audio to play)
-        setTimeout(() => {
-          onFinish()
-          setSelectedIdx(null)
-          setIsCorrect(null)
-          cancelDef()
-        }, 800)
       } else {
         dispatch({ type: TypingStateActionType.REPORT_WRONG_WORD, payload: { letterMistake: {} } })
         saveWordRecord({
@@ -89,16 +99,9 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
           letterTimeArray: [],
           letterMistake: {},
         })
-        // 如果答错，停留一下提示错误
-        setTimeout(() => {
-          onFinish()
-          setSelectedIdx(null)
-          setIsCorrect(null)
-          cancelDef()
-        }, 3500)
       }
     },
-    [correctAnswer, dispatch, onFinish, selectedIdx, saveWordRecord, word.name, playSound, cancelDef],
+    [correctAnswer, dispatch, selectedIdx, saveWordRecord, word.name, playSound],
   )
 
   // 快捷键支持
@@ -149,6 +152,7 @@ export default function QuizPanel({ word, allWords, onFinish }: QuizPanelProps) 
         {isCorrect === false && <p className="font-medium text-red-500">答错了，正解：{correctAnswer}</p>}
         {isCorrect === true && <p className="font-medium text-green-500">太棒了！</p>}
       </div>
+      {isCorrect === false && <WordInsights word={word} compact />}
     </div>
   )
 }

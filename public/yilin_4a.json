@@ -1,1083 +1,2440 @@
 [
   {
     "name": "subject",
-    "trans": ["学科，科目"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/subject.jpg"
+    "trans": [
+      "学科，科目"
+    ],
+    "usphone": "'sʌbdʒekt",
+    "ukphone": "'sʌbdʒekt",
+    "image": "/images/words/subject.jpg",
+    "wordFamily": "-ect",
+    "phonics": []
   },
   {
     "name": "Chinese",
-    "trans": ["语文（课）；中国的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/chinese.jpg"
+    "trans": [
+      "语文（课）；中国的"
+    ],
+    "usphone": "tʃai'ni:z",
+    "ukphone": "tʃai'ni:z",
+    "image": "/images/words/chinese.jpg",
+    "phonics": [
+      "ch"
+    ],
+    "wordFamily": "-ese"
   },
   {
     "name": "English",
-    "trans": ["英语（课）；英语的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/english.jpg"
+    "trans": [
+      "英语（课）；英语的"
+    ],
+    "usphone": "'iŋgliʃ",
+    "ukphone": "'iŋgliʃ",
+    "image": "/images/words/english.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-ish"
   },
   {
     "name": "Maths",
-    "trans": ["数学（课）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/maths.jpg"
+    "trans": [
+      "数学（课）"
+    ],
+    "usphone": "mæθs",
+    "ukphone": "mæθs",
+    "image": "/images/words/maths.jpg",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-ths"
   },
   {
     "name": "PE",
-    "trans": ["体育（课）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pe.jpg"
+    "trans": [
+      "体育（课）"
+    ],
+    "usphone": "pei",
+    "ukphone": "pei",
+    "image": "/images/words/pe.jpg",
+    "wordFamily": "-pe",
+    "phonics": []
   },
   {
     "name": "Art",
-    "trans": ["美术（课）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/art.jpg"
+    "trans": [
+      "美术（课）"
+    ],
+    "usphone": "ɑ:t",
+    "ukphone": "ɑ:t",
+    "image": "/images/words/art.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rt"
   },
   {
     "name": "Science",
-    "trans": ["科学（课）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/science.jpg"
+    "trans": [
+      "科学（课）"
+    ],
+    "usphone": "'saiәns",
+    "ukphone": "'saiәns",
+    "image": "/images/words/science.jpg",
+    "wordFamily": "-nce",
+    "phonics": []
   },
   {
     "name": "IT",
-    "trans": ["信息科技（课）"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "信息科技（课）"
+    ],
+    "usphone": "it",
+    "ukphone": "it",
+    "wordFamily": "-it",
+    "relatedWords": [
+      "It's OK"
+    ],
+    "phonics": []
   },
   {
     "name": "Music",
-    "trans": ["音乐（课）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/music.jpg"
+    "trans": [
+      "音乐（课）"
+    ],
+    "usphone": "'mju:zik",
+    "ukphone": "'mju:zik",
+    "image": "/images/words/music.jpg",
+    "wordFamily": "-sic",
+    "phonics": []
   },
   {
     "name": "Labour",
-    "trans": ["劳动（课）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/labour.jpg"
+    "trans": [
+      "劳动（课）"
+    ],
+    "usphone": "'leibә",
+    "ukphone": "'leibә",
+    "image": "/images/words/labour.jpg",
+    "wordFamily": "-our",
+    "phonics": []
   },
   {
     "name": "best",
-    "trans": ["最，最高程度地"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/best.jpg"
+    "trans": [
+      "最，最高程度地"
+    ],
+    "usphone": "best",
+    "ukphone": "best",
+    "image": "/images/words/best.jpg",
+    "wordFamily": "-st",
+    "phonics": []
   },
   {
     "name": "also",
-    "trans": ["也"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "也"
+    ],
+    "usphone": "'ɒ:lsәu",
+    "ukphone": "'ɒ:lsәu",
+    "wordFamily": "-so",
+    "relatedWords": [
+      "so"
+    ],
+    "phonics": []
   },
   {
     "name": "It's time for ..",
-    "trans": ["是……的时候了。"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "是……的时候了。"
+    ],
+    "usphone": "it es taim fɒ:",
+    "ukphone": "it es taim fɒ:",
+    "wordFamily": "-me",
+    "relatedWords": [
+      "Come on",
+      "It's time to .."
+    ],
+    "phonics": [
+      "i_e"
+    ]
   },
   {
     "name": "mouse (pl. mice)",
-    "trans": ["鼠标；老鼠"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "鼠标；老鼠"
+    ],
+    "usphone": "maus mais",
+    "ukphone": "maus mais",
+    "wordFamily": "-use",
+    "relatedWords": [
+      "because"
+    ],
+    "phonics": []
   },
   {
     "name": "Welcome back to ..",
-    "trans": ["欢迎回到……"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "欢迎回到……"
+    ],
+    "usphone": "'welkәm bæk tu:",
+    "ukphone": "'welkәm bæk tu:",
+    "phonics": [],
+    "wordFamily": "-ome"
   },
   {
     "name": "be good at",
-    "trans": ["擅长"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "擅长"
+    ],
+    "usphone": "bi: gud æt",
+    "ukphone": "bi: gud æt",
+    "wordFamily": "-od",
+    "phonics": [
+      "oo"
+    ]
   },
   {
     "name": "interesting",
-    "trans": ["有趣的，有吸引力的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/interesting.jpg"
+    "trans": [
+      "有趣的，有吸引力的"
+    ],
+    "usphone": "'intristiŋ",
+    "ukphone": "'intristiŋ",
+    "image": "/images/words/interesting.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ing",
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "relatedWords": [
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring",
+      "go boating"
+    ]
   },
   {
     "name": "learn about",
-    "trans": ["学习"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/learn_about.jpg"
+    "trans": [
+      "学习"
+    ],
+    "usphone": "lә:n ә'baut",
+    "ukphone": "lә:n ә'baut",
+    "image": "/images/words/learn_about.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-arn"
   },
   {
     "name": "culture",
-    "trans": ["文化，文明"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/culture.jpg"
+    "trans": [
+      "文化，文明"
+    ],
+    "usphone": "'kʌltʃә",
+    "ukphone": "'kʌltʃә",
+    "image": "/images/words/culture.jpg",
+    "wordFamily": "-ure",
+    "phonics": []
   },
   {
     "name": "read",
-    "trans": ["阅读"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/read.jpg"
+    "trans": [
+      "阅读"
+    ],
+    "usphone": "ri:d",
+    "ukphone": "ri:d",
+    "image": "/images/words/read.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-ad"
   },
   {
     "name": "story",
-    "trans": ["故事"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/story.jpg"
+    "trans": [
+      "故事"
+    ],
+    "usphone": "'stɒ:ri",
+    "ukphone": "'stɒ:ri",
+    "image": "/images/words/story.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-ory"
   },
   {
     "name": "all",
-    "trans": ["全部，都"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "全部，都"
+    ],
+    "usphone": "ɒ:l",
+    "ukphone": "ɒ:l",
+    "wordFamily": "-ll",
+    "relatedWords": [
+      "tall",
+      "doll"
+    ],
+    "phonics": []
   },
   {
     "name": "sports ground",
-    "trans": ["操场，运动场"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sports_ground.jpg"
+    "trans": [
+      "操场，运动场"
+    ],
+    "usphone": "spɔ:ts graund",
+    "ukphone": "spɔ:ts graund",
+    "image": "/images/words/sports_ground.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-rts",
+    "relatedWords": [
+      "shorts"
+    ]
   },
   {
     "name": "day",
-    "trans": ["一天，一日"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/day.jpg"
+    "trans": [
+      "一天，一日"
+    ],
+    "usphone": "dei",
+    "ukphone": "dei",
+    "image": "/images/words/day.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "get up",
-    "trans": ["起床"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/get_up.jpg"
+    "trans": [
+      "起床"
+    ],
+    "usphone": "get ʌp",
+    "ukphone": "get ʌp",
+    "image": "/images/words/get_up.jpg",
+    "wordFamily": "-et",
+    "relatedWords": [
+      "meet"
+    ],
+    "phonics": []
   },
   {
     "name": "wash",
-    "trans": ["洗"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/wash.jpg"
+    "trans": [
+      "洗"
+    ],
+    "usphone": "wɒʃ",
+    "ukphone": "wɒʃ",
+    "image": "/images/words/wash.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-sh"
   },
   {
     "name": "face",
-    "trans": ["脸，面孔"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/face.jpg"
+    "trans": [
+      "脸，面孔"
+    ],
+    "usphone": "feis",
+    "ukphone": "feis",
+    "image": "/images/words/face.jpg",
+    "phonics": [
+      "a_e"
+    ],
+    "wordFamily": "-ce",
+    "relatedWords": [
+      "ice cream"
+    ]
   },
   {
     "name": "have lessons",
-    "trans": ["上课"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/have_lessons.jpg"
+    "trans": [
+      "上课"
+    ],
+    "usphone": "hæv ˈlesənz",
+    "ukphone": "hæv ˈlesənz",
+    "image": "/images/words/have_lessons.jpg",
+    "phonics": [],
+    "wordFamily": "-ons",
+    "relatedWords": [
+      "have",
+      "Have a go",
+      "have",
+      "save ... for a rainy day"
+    ]
   },
   {
     "name": "have",
-    "trans": ["吃，喝"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "吃，喝"
+    ],
+    "usphone": "hæv",
+    "ukphone": "hæv",
+    "phonics": [],
+    "wordFamily": "-ve",
+    "relatedWords": [
+      "Have a go"
+    ]
   },
   {
     "name": "dinner",
-    "trans": ["正餐（常指晚餐）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/dinner.jpg"
+    "trans": [
+      "正餐（常指晚餐）"
+    ],
+    "usphone": "'dinә",
+    "ukphone": "'dinә",
+    "image": "/images/words/dinner.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ner"
   },
   {
     "name": "breakfast",
-    "trans": ["早餐，早饭"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/breakfast.jpg"
+    "trans": [
+      "早餐，早饭"
+    ],
+    "usphone": "'brekfәst",
+    "ukphone": "'brekfәst",
+    "image": "/images/words/breakfast.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-ast"
   },
   {
     "name": "lunch",
-    "trans": ["午餐，午饭"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/lunch.jpg"
+    "trans": [
+      "午餐，午饭"
+    ],
+    "usphone": "lʌntʃ",
+    "ukphone": "lʌntʃ",
+    "image": "/images/words/lunch.jpg",
+    "phonics": [
+      "ch"
+    ],
+    "wordFamily": "-nch"
   },
   {
     "name": "go to bed",
-    "trans": ["上床睡觉"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "上床睡觉"
+    ],
+    "usphone": "gou tu: bed",
+    "ukphone": "gou tu: bed",
+    "wordFamily": "-ed",
+    "relatedWords": [
+      "bed"
+    ],
+    "phonics": []
   },
   {
     "name": "o'clock",
-    "trans": ["……点钟"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/o_clock.jpg"
+    "trans": [
+      "……点钟"
+    ],
+    "usphone": "ә'klɔk",
+    "ukphone": "ә'klɔk",
+    "image": "/images/words/o_clock.jpg",
+    "wordFamily": "-ock",
+    "phonics": [
+      "ck"
+    ]
   },
   {
     "name": "early",
-    "trans": ["早的，早"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/early.jpg"
+    "trans": [
+      "早的，早"
+    ],
+    "usphone": "'ә:li",
+    "ukphone": "'ә:li",
+    "image": "/images/words/early.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-rly",
+    "morph": {
+      "suffix": {
+        "text": "ly",
+        "meaning": "以…方式"
+      }
+    }
   },
   {
     "name": "thirty",
-    "trans": ["三十"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/thirty.jpg"
+    "trans": [
+      "三十"
+    ],
+    "usphone": "'θә:ti",
+    "ukphone": "'θә:ti",
+    "image": "/images/words/thirty.jpg",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-rty"
   },
   {
     "name": "first",
-    "trans": ["首先，第一"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/first.jpg"
+    "trans": [
+      "首先，第一"
+    ],
+    "usphone": "fә:st",
+    "ukphone": "fә:st",
+    "image": "/images/words/first.jpg",
+    "wordFamily": "-rst",
+    "phonics": []
   },
   {
     "name": "hurry up",
-    "trans": ["快点"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/hurry_up.jpg"
+    "trans": [
+      "快点"
+    ],
+    "usphone": "'hʌri ʌp",
+    "ukphone": "'hʌri ʌp",
+    "image": "/images/words/hurry_up.jpg",
+    "wordFamily": "-rry",
+    "relatedWords": [
+      "worry"
+    ],
+    "phonics": []
   },
   {
     "name": "What time is it?",
-    "trans": ["几点了？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "几点了？"
+    ],
+    "usphone": "hwɒt taim iz it",
+    "ukphone": "hwɒt taim iz it",
+    "phonics": [
+      "wh"
+    ],
+    "wordFamily": "-at",
+    "relatedWords": [
+      "at",
+      "coat"
+    ]
   },
   {
     "name": "I'm coming",
-    "trans": ["我来了！"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/i_m_coming.jpg"
+    "trans": [
+      "我来了！"
+    ],
+    "usphone": "ai em 'kʌmiŋ",
+    "ukphone": "ai em 'kʌmiŋ",
+    "image": "/images/words/i_m_coming.jpg",
+    "wordFamily": "-ing",
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "phonics": [],
+    "relatedWords": [
+      "interesting",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring",
+      "go boating"
+    ]
   },
   {
     "name": "twenty",
-    "trans": ["二十"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/twenty.jpg"
+    "trans": [
+      "二十"
+    ],
+    "usphone": "'twenti",
+    "ukphone": "'twenti",
+    "image": "/images/words/twenty.jpg",
+    "wordFamily": "-nty",
+    "phonics": []
   },
   {
     "name": "Come on",
-    "trans": ["赶快！加把劲！"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/come_on.jpg"
+    "trans": [
+      "赶快！加把劲！"
+    ],
+    "usphone": "kʌm ɒn",
+    "ukphone": "kʌm ɒn",
+    "image": "/images/words/come_on.jpg",
+    "phonics": [],
+    "wordFamily": "-me",
+    "relatedWords": [
+      "It's time for ..",
+      "It's time to .."
+    ]
   },
   {
     "name": "class",
-    "trans": ["课，上课"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/class.jpg"
+    "trans": [
+      "课，上课"
+    ],
+    "usphone": "klɑ:s",
+    "ukphone": "klɑ:s",
+    "image": "/images/words/class.jpg",
+    "wordFamily": "-ass",
+    "phonics": []
   },
   {
     "name": "eleven",
-    "trans": ["十一"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/eleven.jpg"
+    "trans": [
+      "十一"
+    ],
+    "usphone": "i'levn",
+    "ukphone": "i'levn",
+    "image": "/images/words/eleven.jpg",
+    "wordFamily": "-en",
+    "relatedWords": [
+      "fifteen",
+      "when"
+    ],
+    "phonics": []
   },
   {
     "name": "sport",
-    "trans": ["体育运动"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sport.jpg"
+    "trans": [
+      "体育运动"
+    ],
+    "usphone": "spɒ:t",
+    "ukphone": "spɒ:t",
+    "image": "/images/words/sport.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-ort",
+    "relatedWords": [
+      "short"
+    ]
   },
   {
     "name": "fifteen",
-    "trans": ["十五"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/fifteen.jpg"
+    "trans": [
+      "十五"
+    ],
+    "usphone": "'fif'ti:n",
+    "ukphone": "'fif'ti:n",
+    "image": "/images/words/fifteen.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-en",
+    "relatedWords": [
+      "eleven",
+      "when"
+    ]
   },
   {
     "name": "It's time to ..",
-    "trans": ["到了……的时间了。"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "到了……的时间了。"
+    ],
+    "usphone": "it es taim tu:",
+    "ukphone": "it es taim tu:",
+    "wordFamily": "-me",
+    "relatedWords": [
+      "It's time for ..",
+      "Come on"
+    ],
+    "phonics": [
+      "i_e"
+    ]
   },
   {
     "name": "bed",
-    "trans": ["床"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/bed.jpg"
+    "trans": [
+      "床"
+    ],
+    "usphone": "bed",
+    "ukphone": "bed",
+    "image": "/images/words/bed.jpg",
+    "wordFamily": "-ed",
+    "phonics": [],
+    "relatedWords": [
+      "go to bed"
+    ]
   },
   {
     "name": "Good night",
-    "trans": ["晚安！"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/good_night.jpg"
+    "trans": [
+      "晚安！"
+    ],
+    "usphone": "gud nait",
+    "ukphone": "gud nait",
+    "image": "/images/words/good_night.jpg",
+    "phonics": [
+      "igh"
+    ],
+    "wordFamily": "-ight",
+    "relatedWords": [
+      "bright"
+    ]
   },
   {
     "name": "week",
-    "trans": ["周，星期"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/week.jpg"
+    "trans": [
+      "周，星期"
+    ],
+    "usphone": "wi:k",
+    "ukphone": "wi:k",
+    "image": "/images/words/week.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-ek"
   },
   {
     "name": "Monday",
-    "trans": ["星期一"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/monday.jpg"
+    "trans": [
+      "星期一"
+    ],
+    "usphone": "'mʌndi",
+    "ukphone": "'mʌndi",
+    "image": "/images/words/monday.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "Tuesday",
-    "trans": ["星期二"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/tuesday.jpg"
+    "trans": [
+      "星期二"
+    ],
+    "usphone": "'tju:zdi",
+    "ukphone": "'tju:zdi",
+    "image": "/images/words/tuesday.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "Wednesday",
-    "trans": ["星期三"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/wednesday.jpg"
+    "trans": [
+      "星期三"
+    ],
+    "usphone": "'wenzdi",
+    "ukphone": "'wenzdi",
+    "image": "/images/words/wednesday.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "Thursday",
-    "trans": ["星期四"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/thursday.jpg"
+    "trans": [
+      "星期四"
+    ],
+    "usphone": "'θә:zdi",
+    "ukphone": "'θә:zdi",
+    "image": "/images/words/thursday.jpg",
+    "phonics": [
+      "th",
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "Friday",
-    "trans": ["星期五"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/friday.jpg"
+    "trans": [
+      "星期五"
+    ],
+    "usphone": "'fraidi",
+    "ukphone": "'fraidi",
+    "image": "/images/words/friday.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Saturday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "Saturday",
-    "trans": ["星期六"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/saturday.jpg"
+    "trans": [
+      "星期六"
+    ],
+    "usphone": "'sætәdi",
+    "ukphone": "'sætәdi",
+    "image": "/images/words/saturday.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Sunday",
+      "today"
+    ]
   },
   {
     "name": "Sunday",
-    "trans": ["星期天"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sunday.jpg"
+    "trans": [
+      "星期天"
+    ],
+    "usphone": "'sʌndi",
+    "ukphone": "'sʌndi",
+    "image": "/images/words/sunday.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "today"
+    ]
   },
   {
     "name": "when",
-    "trans": ["什么时候"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "什么时候"
+    ],
+    "usphone": "hwen",
+    "ukphone": "hwen",
+    "phonics": [
+      "wh"
+    ],
+    "wordFamily": "-en",
+    "relatedWords": [
+      "eleven",
+      "fifteen"
+    ]
   },
   {
     "name": "every",
-    "trans": ["每一个，每个"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "每一个，每个"
+    ],
+    "usphone": "'evri",
+    "ukphone": "'evri",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ery"
   },
   {
     "name": "at",
-    "trans": ["在（某时间）"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "在（某时间）"
+    ],
+    "usphone": "æt",
+    "ukphone": "æt",
+    "wordFamily": "-at",
+    "relatedWords": [
+      "What time is it?",
+      "coat"
+    ],
+    "phonics": []
   },
   {
     "name": "up",
-    "trans": ["起床"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "起床"
+    ],
+    "usphone": "ʌp",
+    "ukphone": "ʌp",
+    "wordFamily": "-up",
+    "phonics": []
   },
   {
     "name": "early",
-    "trans": ["提早，提前"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/early.jpg"
+    "trans": [
+      "提早，提前"
+    ],
+    "usphone": "'ә:li",
+    "ukphone": "'ә:li",
+    "image": "/images/words/early.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-rly",
+    "morph": {
+      "suffix": {
+        "text": "ly",
+        "meaning": "以…方式"
+      }
+    }
   },
   {
     "name": "today",
-    "trans": ["在今天"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/today.jpg"
+    "trans": [
+      "在今天"
+    ],
+    "usphone": "tә'dei",
+    "ukphone": "tә'dei",
+    "image": "/images/words/today.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
   },
   {
     "name": "What day is it today?",
-    "trans": ["今天星期几？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "今天星期几？"
+    ],
+    "usphone": "hwɒt dei iz it tә'dei",
+    "ukphone": "hwɒt dei iz it tә'dei",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
   },
   {
     "name": "cinema",
-    "trans": ["电影院"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cinema.jpg"
+    "trans": [
+      "电影院"
+    ],
+    "usphone": "'sinәmә",
+    "ukphone": "'sinәmә",
+    "image": "/images/words/cinema.jpg",
+    "wordFamily": "-ema",
+    "phonics": []
   },
   {
     "name": "after school",
-    "trans": ["放学后"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/after_school.jpg"
+    "trans": [
+      "放学后"
+    ],
+    "usphone": "'ɑ:ftә sku:l",
+    "ukphone": "'ɑ:ftә sku:l",
+    "image": "/images/words/after_school.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-ool",
+    "relatedWords": [
+      "cool"
+    ]
   },
   {
     "name": "dancing",
-    "trans": ["跳舞，舞蹈"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/dancing.jpg"
+    "trans": [
+      "跳舞，舞蹈"
+    ],
+    "usphone": "'dænsiŋ",
+    "ukphone": "'dænsiŋ",
+    "image": "/images/words/dancing.jpg",
+    "wordFamily": "-ing",
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring",
+      "go boating"
+    ],
+    "phonics": []
   },
   {
     "name": "lesson",
-    "trans": ["一节课，一课时"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/lesson.jpg"
+    "trans": [
+      "一节课，一课时"
+    ],
+    "usphone": "'lesn",
+    "ukphone": "'lesn",
+    "image": "/images/words/lesson.jpg",
+    "wordFamily": "-son",
+    "relatedWords": [
+      "season"
+    ],
+    "phonics": []
   },
   {
     "name": "walk",
-    "trans": ["牵着（动物）走，遛"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/walk.jpg"
+    "trans": [
+      "牵着（动物）走，遛"
+    ],
+    "usphone": "wɒ:k",
+    "ukphone": "wɒ:k",
+    "image": "/images/words/walk.jpg",
+    "wordFamily": "-lk",
+    "phonics": []
   },
   {
     "name": "dog",
-    "trans": ["狗"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/dog.jpg"
+    "trans": [
+      "狗"
+    ],
+    "usphone": "dɒg",
+    "ukphone": "dɒg",
+    "image": "/images/words/dog.jpg",
+    "wordFamily": "-og",
+    "phonics": []
   },
   {
     "name": "tomorrow",
-    "trans": ["明天，在明天"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/tomorrow.jpg"
+    "trans": [
+      "明天，在明天"
+    ],
+    "usphone": "tә'mɒ:rәu",
+    "ukphone": "tә'mɒ:rәu",
+    "image": "/images/words/tomorrow.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-row",
+    "relatedWords": [
+      "See you tomorrow"
+    ]
   },
   {
     "name": "free",
-    "trans": ["空闲的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/free.jpg"
+    "trans": [
+      "空闲的"
+    ],
+    "usphone": "fri:",
+    "ukphone": "fri:",
+    "image": "/images/words/free.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-ee",
+    "relatedWords": [
+      "See you tomorrow"
+    ]
   },
   {
     "name": "See you tomorrow",
-    "trans": ["明天见！"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "明天见！"
+    ],
+    "usphone": "si: ju: tә'mɒ:rәu",
+    "ukphone": "si: ju: tә'mɒ:rәu",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-row",
+    "relatedWords": [
+      "tomorrow"
+    ]
   },
   {
     "name": "play",
-    "trans": ["打（球），踢（球）"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/play.jpg"
+    "trans": [
+      "打（球），踢（球）"
+    ],
+    "usphone": "plei",
+    "ukphone": "plei",
+    "image": "/images/words/play.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "day",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
   },
   {
     "name": "football",
-    "trans": ["足球运动；足球"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/football.jpg"
+    "trans": [
+      "足球运动；足球"
+    ],
+    "usphone": "'futbɒ:l",
+    "ukphone": "'futbɒ:l",
+    "image": "/images/words/football.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-all",
+    "relatedWords": [
+      "basketball",
+      "small"
+    ]
   },
   {
     "name": "ping-pong",
-    "trans": ["乒乓球运动"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/ping_pong.jpg"
+    "trans": [
+      "乒乓球运动"
+    ],
+    "usphone": "'piŋpɔŋ",
+    "ukphone": "'piŋpɔŋ",
+    "image": "/images/words/ping_pong.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring",
+      "go boating"
+    ],
+    "phonics": []
   },
   {
     "name": "basketball",
-    "trans": ["篮球运动；篮球"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/basketball.jpg"
+    "trans": [
+      "篮球运动；篮球"
+    ],
+    "usphone": "'bɑ:skitbɒ:l",
+    "ukphone": "'bɑ:skitbɒ:l",
+    "image": "/images/words/basketball.jpg",
+    "wordFamily": "-all",
+    "relatedWords": [
+      "football",
+      "small"
+    ],
+    "phonics": []
   },
   {
     "name": "great",
-    "trans": ["非常好的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/great.jpg"
+    "trans": [
+      "非常好的"
+    ],
+    "usphone": "greit",
+    "ukphone": "greit",
+    "image": "/images/words/great.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-eat"
   },
   {
     "name": "swimming",
-    "trans": ["游泳；游泳运动"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/swimming.jpg"
+    "trans": [
+      "游泳；游泳运动"
+    ],
+    "usphone": "'swimiŋ",
+    "ukphone": "'swimiŋ",
+    "image": "/images/words/swimming.jpg",
+    "wordFamily": "-ing",
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "bring",
+      "It's raining",
+      "spring",
+      "go boating"
+    ],
+    "phonics": []
   },
   {
     "name": "so",
-    "trans": ["（表示程度）这么，那么"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "（表示程度）这么，那么"
+    ],
+    "usphone": "sәu",
+    "ukphone": "sәu",
+    "wordFamily": "-so",
+    "relatedWords": [
+      "also"
+    ],
+    "phonics": []
   },
   {
     "name": "well",
-    "trans": ["好"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "好"
+    ],
+    "usphone": "wel",
+    "ukphone": "wel",
+    "wordFamily": "-ell",
+    "relatedWords": [
+      "Well played"
+    ],
+    "phonics": []
   },
   {
     "name": "Have a go",
-    "trans": ["试一试！"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "试一试！"
+    ],
+    "usphone": "hæv ə ɡəu",
+    "ukphone": "hæv ə ɡəu",
+    "phonics": [],
+    "wordFamily": "-ve",
+    "relatedWords": [
+      "have",
+      "have"
+    ]
   },
   {
     "name": "hard",
-    "trans": ["难做的，不易的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/hard.jpg"
+    "trans": [
+      "难做的，不易的"
+    ],
+    "usphone": "hɑ:d",
+    "ukphone": "hɑ:d",
+    "image": "/images/words/hard.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rd",
+    "relatedWords": [
+      "bird"
+    ]
   },
   {
     "name": "It's OK",
-    "trans": ["没关系。"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/it_s_ok.jpg"
+    "trans": [
+      "没关系。"
+    ],
+    "usphone": "it es 'әu'kei",
+    "ukphone": "it es 'әu'kei",
+    "image": "/images/words/it_s_ok.jpg",
+    "wordFamily": "-it",
+    "relatedWords": [
+      "IT"
+    ],
+    "phonics": []
   },
   {
     "name": "try",
-    "trans": ["试"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/try.jpg"
+    "trans": [
+      "试"
+    ],
+    "usphone": "trai",
+    "ukphone": "trai",
+    "image": "/images/words/try.jpg",
+    "wordFamily": "-ry",
+    "phonics": []
   },
   {
     "name": "Well played",
-    "trans": ["好球！"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/well_played.jpg"
+    "trans": [
+      "好球！"
+    ],
+    "usphone": "wel",
+    "ukphone": "wel",
+    "image": "/images/words/well_played.jpg",
+    "wordFamily": "-yed",
+    "relatedWords": [
+      "well"
+    ],
+    "phonics": [
+      "ay"
+    ],
+    "morph": {
+      "root": {
+        "text": "play",
+        "meaning": "玩；表演"
+      },
+      "suffix": {
+        "text": "ed",
+        "meaning": "已经…；过去的"
+      }
+    }
   },
   {
     "name": "different",
-    "trans": ["不同的，有区别的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/different.jpg"
+    "trans": [
+      "不同的，有区别的"
+    ],
+    "usphone": "'difәrәnt",
+    "ukphone": "'difәrәnt",
+    "image": "/images/words/different.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ent"
   },
   {
     "name": "same",
-    "trans": ["相同的，同一的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/same.jpg"
+    "trans": [
+      "相同的，同一的"
+    ],
+    "usphone": "seim",
+    "ukphone": "seim",
+    "image": "/images/words/same.jpg",
+    "phonics": [
+      "a_e"
+    ],
+    "wordFamily": "-ame"
   },
   {
     "name": "hair",
-    "trans": ["头发"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/hair.jpg"
+    "trans": [
+      "头发"
+    ],
+    "usphone": "hєә",
+    "ukphone": "hєә",
+    "image": "/images/words/hair.jpg",
+    "phonics": [
+      "ai"
+    ],
+    "wordFamily": "-ir"
   },
   {
     "name": "eye",
-    "trans": ["眼睛"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/eye.jpg"
+    "trans": [
+      "眼睛"
+    ],
+    "usphone": "ai",
+    "ukphone": "ai",
+    "image": "/images/words/eye.jpg",
+    "wordFamily": "-ye",
+    "phonics": []
   },
   {
     "name": "ear",
-    "trans": ["耳朵"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/ear.jpg"
+    "trans": [
+      "耳朵"
+    ],
+    "usphone": "iә",
+    "ukphone": "iә",
+    "image": "/images/words/ear.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-ar",
+    "relatedWords": [
+      "year",
+      "wear"
+    ]
   },
   {
     "name": "nose",
-    "trans": ["鼻子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/nose.jpg"
+    "trans": [
+      "鼻子"
+    ],
+    "usphone": "nәuz",
+    "ukphone": "nәuz",
+    "image": "/images/words/nose.jpg",
+    "phonics": [
+      "o_e"
+    ],
+    "wordFamily": "-se"
   },
   {
     "name": "mouth",
-    "trans": ["嘴，口"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/mouth.jpg"
+    "trans": [
+      "嘴，口"
+    ],
+    "usphone": "mauθ",
+    "ukphone": "mauθ",
+    "image": "/images/words/mouth.jpg",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-uth"
   },
   {
     "name": "arm",
-    "trans": ["手臂"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/arm.jpg"
+    "trans": [
+      "手臂"
+    ],
+    "usphone": "ɑ:m",
+    "ukphone": "ɑ:m",
+    "image": "/images/words/arm.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rm",
+    "relatedWords": [
+      "warm"
+    ]
   },
   {
     "name": "leg",
-    "trans": ["腿"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/leg.jpg"
+    "trans": [
+      "腿"
+    ],
+    "usphone": "leg",
+    "ukphone": "leg",
+    "image": "/images/words/leg.jpg",
+    "wordFamily": "-eg",
+    "phonics": []
   },
   {
     "name": "robot",
-    "trans": ["机器人"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/robot.jpg"
+    "trans": [
+      "机器人"
+    ],
+    "usphone": "'rәubәt",
+    "ukphone": "'rәubәt",
+    "image": "/images/words/robot.jpg",
+    "wordFamily": "-bot",
+    "phonics": []
   },
   {
     "name": "his",
-    "trans": ["他的"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "他的"
+    ],
+    "usphone": "hiz",
+    "ukphone": "hiz",
+    "wordFamily": "-is",
+    "phonics": []
   },
   {
     "name": "tall",
-    "trans": ["高的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/tall.jpg"
+    "trans": [
+      "高的"
+    ],
+    "usphone": "tɒ:l",
+    "ukphone": "tɒ:l",
+    "image": "/images/words/tall.jpg",
+    "wordFamily": "-ll",
+    "relatedWords": [
+      "all",
+      "doll"
+    ],
+    "phonics": []
   },
   {
     "name": "short",
-    "trans": ["短的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/short.jpg"
+    "trans": [
+      "短的"
+    ],
+    "usphone": "ʃɒ:t",
+    "ukphone": "ʃɒ:t",
+    "image": "/images/words/short.jpg",
+    "phonics": [
+      "sh",
+      "or"
+    ],
+    "wordFamily": "-ort",
+    "relatedWords": [
+      "sport"
+    ]
   },
   {
     "name": "doll",
-    "trans": ["玩具娃娃"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/doll.jpg"
+    "trans": [
+      "玩具娃娃"
+    ],
+    "usphone": "dɒl",
+    "ukphone": "dɒl",
+    "image": "/images/words/doll.jpg",
+    "wordFamily": "-ll",
+    "relatedWords": [
+      "all",
+      "tall"
+    ],
+    "phonics": []
   },
   {
     "name": "her",
-    "trans": ["她的"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "她的"
+    ],
+    "usphone": "hә:",
+    "ukphone": "hә:",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-er"
   },
   {
     "name": "small",
-    "trans": ["小的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/small.jpg"
+    "trans": [
+      "小的"
+    ],
+    "usphone": "smɒ:l",
+    "ukphone": "smɒ:l",
+    "image": "/images/words/small.jpg",
+    "wordFamily": "-all",
+    "relatedWords": [
+      "football",
+      "basketball"
+    ],
+    "phonics": []
   },
   {
     "name": "bring",
-    "trans": ["带来"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/bring.jpg"
+    "trans": [
+      "带来"
+    ],
+    "usphone": "briŋ",
+    "ukphone": "briŋ",
+    "image": "/images/words/bring.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "It's raining",
+      "spring",
+      "go boating"
+    ],
+    "phonics": []
   },
   {
     "name": "lots of",
-    "trans": ["大量，许多"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/lots_of.jpg"
+    "trans": [
+      "大量，许多"
+    ],
+    "usphone": "lɔts ɒv",
+    "ukphone": "lɔts ɒv",
+    "image": "/images/words/lots_of.jpg",
+    "wordFamily": "-ts",
+    "phonics": []
   },
   {
     "name": "have",
-    "trans": ["组织，举办"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "组织，举办"
+    ],
+    "usphone": "hæv",
+    "ukphone": "hæv",
+    "phonics": [],
+    "wordFamily": "-ve",
+    "relatedWords": [
+      "Have a go"
+    ]
   },
   {
     "name": "show",
-    "trans": ["表演，演出"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/show.jpg"
+    "trans": [
+      "表演，演出"
+    ],
+    "usphone": "ʃәu",
+    "ukphone": "ʃәu",
+    "image": "/images/words/show.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-ow",
+    "relatedWords": [
+      "snow"
+    ]
   },
   {
     "name": "weather",
-    "trans": ["天气，气象"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/weather.jpg"
+    "trans": [
+      "天气，气象"
+    ],
+    "usphone": "'weðә",
+    "ukphone": "'weðә",
+    "image": "/images/words/weather.jpg",
+    "phonics": [
+      "th",
+      "ea",
+      "er"
+    ],
+    "wordFamily": "-her",
+    "relatedWords": [
+      "What's the weather like?"
+    ]
   },
   {
     "name": "cloudy",
-    "trans": ["多云的，阴天的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cloudy.jpg"
+    "trans": [
+      "多云的，阴天的"
+    ],
+    "usphone": "'klaudi",
+    "ukphone": "'klaudi",
+    "image": "/images/words/cloudy.jpg",
+    "wordFamily": "-udy",
+    "phonics": []
   },
   {
     "name": "sunny",
-    "trans": ["晴朗的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sunny.jpg"
+    "trans": [
+      "晴朗的"
+    ],
+    "usphone": "'sʌni",
+    "ukphone": "'sʌni",
+    "image": "/images/words/sunny.jpg",
+    "wordFamily": "-nny",
+    "phonics": []
   },
   {
     "name": "cool",
-    "trans": ["凉的，凉爽的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cool.jpg"
+    "trans": [
+      "凉的，凉爽的"
+    ],
+    "usphone": "ku:l",
+    "ukphone": "ku:l",
+    "image": "/images/words/cool.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-ool",
+    "relatedWords": [
+      "after school"
+    ]
   },
   {
     "name": "rainy",
-    "trans": ["阴雨的，多雨的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/rainy.jpg"
+    "trans": [
+      "阴雨的，多雨的"
+    ],
+    "usphone": "'reini",
+    "ukphone": "'reini",
+    "image": "/images/words/rainy.jpg",
+    "phonics": [
+      "ai"
+    ],
+    "wordFamily": "-iny",
+    "relatedWords": [
+      "save ... for a rainy day"
+    ]
   },
   {
     "name": "hot",
-    "trans": ["温度高的，热的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/hot.jpg"
+    "trans": [
+      "温度高的，热的"
+    ],
+    "usphone": "hɒt",
+    "ukphone": "hɒt",
+    "image": "/images/words/hot.jpg",
+    "wordFamily": "-ot",
+    "phonics": []
   },
   {
     "name": "windy",
-    "trans": ["多风的，风大的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/windy.jpg"
+    "trans": [
+      "多风的，风大的"
+    ],
+    "usphone": "'windi",
+    "ukphone": "'windi",
+    "image": "/images/words/windy.jpg",
+    "wordFamily": "-ndy",
+    "phonics": []
   },
   {
     "name": "warm",
-    "trans": ["温暖的，暖和的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/warm.jpg"
+    "trans": [
+      "温暖的，暖和的"
+    ],
+    "usphone": "wɒ:m",
+    "ukphone": "wɒ:m",
+    "image": "/images/words/warm.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rm",
+    "relatedWords": [
+      "arm"
+    ]
   },
   {
     "name": "save ... for a rainy day",
-    "trans": ["未雨绸缪"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "未雨绸缪"
+    ],
+    "usphone": "seiv fɒ: ei 'reini dei",
+    "ukphone": "seiv fɒ: ei 'reini dei",
+    "phonics": [
+      "ai"
+    ],
+    "wordFamily": "-iny",
+    "relatedWords": [
+      "rainy"
+    ]
   },
   {
     "name": "money",
-    "trans": ["钱"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/money.jpg"
+    "trans": [
+      "钱"
+    ],
+    "usphone": "'mʌni",
+    "ukphone": "'mʌni",
+    "image": "/images/words/money.jpg",
+    "wordFamily": "-ney",
+    "phonics": []
   },
   {
     "name": "What's the weather like?",
-    "trans": ["今天天气怎么样？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "今天天气怎么样？"
+    ],
+    "usphone": "hwɒt es ðә 'weðә laik",
+    "ukphone": "hwɒt es ðә 'weðә laik",
+    "phonics": [
+      "th",
+      "ea",
+      "er"
+    ],
+    "wordFamily": "-her",
+    "relatedWords": [
+      "weather"
+    ]
   },
   {
     "name": "park",
-    "trans": ["公园"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/park.jpg"
+    "trans": [
+      "公园"
+    ],
+    "usphone": "pɑ:k",
+    "ukphone": "pɑ:k",
+    "image": "/images/words/park.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rk"
   },
   {
     "name": "meet",
-    "trans": ["（与……）会面，集合"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/meet.jpg"
+    "trans": [
+      "（与……）会面，集合"
+    ],
+    "usphone": "mi:t",
+    "ukphone": "mi:t",
+    "image": "/images/words/meet.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-et",
+    "relatedWords": [
+      "get up"
+    ]
   },
   {
     "name": "fly a kite",
-    "trans": ["放风筝"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "放风筝"
+    ],
+    "usphone": "flai ei kait",
+    "ukphone": "flai ei kait",
+    "wordFamily": "-te",
+    "phonics": [
+      "i_e"
+    ]
   },
   {
     "name": "It's raining",
-    "trans": ["下雨了。"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/it_s_raining.jpg"
+    "trans": [
+      "下雨了。"
+    ],
+    "usphone": "it es",
+    "ukphone": "it es",
+    "image": "/images/words/it_s_raining.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "spring",
+      "go boating"
+    ],
+    "phonics": [
+      "ai"
+    ],
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    }
   },
   {
     "name": "worry",
-    "trans": ["担心，担忧"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/worry.jpg"
+    "trans": [
+      "担心，担忧"
+    ],
+    "usphone": "'wʌri",
+    "ukphone": "'wʌri",
+    "image": "/images/words/worry.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-rry",
+    "relatedWords": [
+      "hurry up"
+    ]
   },
   {
     "name": "umbrella",
-    "trans": ["伞，雨伞"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/umbrella.jpg"
+    "trans": [
+      "伞，雨伞"
+    ],
+    "usphone": "ʌm'brelә",
+    "ukphone": "ʌm'brelә",
+    "image": "/images/words/umbrella.jpg",
+    "wordFamily": "-lla",
+    "phonics": []
   },
   {
     "name": "there",
-    "trans": ["到那里，在那里"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "到那里，在那里"
+    ],
+    "usphone": "ðєә",
+    "ukphone": "ðєә",
+    "phonics": [
+      "th",
+      "er"
+    ],
+    "wordFamily": "-ere"
   },
   {
     "name": "season",
-    "trans": ["季节"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/season.jpg"
+    "trans": [
+      "季节"
+    ],
+    "usphone": "'si:zn",
+    "ukphone": "'si:zn",
+    "image": "/images/words/season.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-son",
+    "relatedWords": [
+      "lesson"
+    ]
   },
   {
     "name": "spring",
-    "trans": ["春天，春季"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/spring.jpg"
+    "trans": [
+      "春天，春季"
+    ],
+    "usphone": "spriŋ",
+    "ukphone": "spriŋ",
+    "image": "/images/words/spring.jpg",
+    "wordFamily": "-ing",
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "go boating"
+    ],
+    "phonics": []
   },
   {
     "name": "go boating",
-    "trans": ["去划船"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/go_boating.jpg"
+    "trans": [
+      "去划船"
+    ],
+    "usphone": "gou 'bәutiŋ",
+    "ukphone": "gou 'bәutiŋ",
+    "image": "/images/words/go_boating.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring"
+    ],
+    "phonics": [
+      "oa"
+    ],
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    }
   },
   {
     "name": "winter",
-    "trans": ["冬天，冬季"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/winter.jpg"
+    "trans": [
+      "冬天，冬季"
+    ],
+    "usphone": "'wintә",
+    "ukphone": "'wintә",
+    "image": "/images/words/winter.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ter",
+    "relatedWords": [
+      "after school"
+    ]
   },
   {
     "name": "go skating",
-    "trans": ["去溜冰，去滑冰"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/go_skating.jpg"
+    "trans": [
+      "去溜冰，去滑冰"
+    ],
+    "usphone": "gou 'skeitiŋ",
+    "ukphone": "gou 'skeitiŋ",
+    "image": "/images/words/go_skating.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring"
+    ],
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "phonics": []
   },
   {
     "name": "summer",
-    "trans": ["夏天，夏季"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/summer.jpg"
+    "trans": [
+      "夏天，夏季"
+    ],
+    "usphone": "'sʌmә",
+    "ukphone": "'sʌmә",
+    "image": "/images/words/summer.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-mer"
   },
   {
     "name": "ice cream",
-    "trans": ["冰激凌"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/ice_cream.jpg"
+    "trans": [
+      "冰激凌"
+    ],
+    "usphone": "ais kri:m",
+    "ukphone": "ais kri:m",
+    "image": "/images/words/ice_cream.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-eam",
+    "relatedWords": [
+      "face"
+    ]
   },
   {
     "name": "go swimming",
-    "trans": ["去游泳"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/go_swimming.jpg"
+    "trans": [
+      "去游泳"
+    ],
+    "usphone": "gou 'swimiŋ",
+    "ukphone": "gou 'swimiŋ",
+    "image": "/images/words/go_swimming.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring"
+    ],
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "phonics": []
   },
   {
     "name": "autumn",
-    "trans": ["秋天，秋季"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/autumn.jpg"
+    "trans": [
+      "秋天，秋季"
+    ],
+    "usphone": "'ɒ:tәm",
+    "ukphone": "'ɒ:tәm",
+    "image": "/images/words/autumn.jpg",
+    "wordFamily": "-umn",
+    "phonics": []
   },
   {
     "name": "go climbing",
-    "trans": ["去爬山"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/go_climbing.jpg"
+    "trans": [
+      "去爬山"
+    ],
+    "usphone": "gou 'klaimiŋ",
+    "ukphone": "gou 'klaimiŋ",
+    "image": "/images/words/go_climbing.jpg",
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting",
+      "I'm coming",
+      "dancing",
+      "ping-pong",
+      "swimming",
+      "bring",
+      "It's raining",
+      "spring"
+    ],
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "phonics": []
   },
   {
     "name": "new",
-    "trans": ["新的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/new.jpg"
+    "trans": [
+      "新的"
+    ],
+    "usphone": "nju:",
+    "ukphone": "nju:",
+    "image": "/images/words/new.jpg",
+    "wordFamily": "-ew",
+    "phonics": []
   },
   {
     "name": "cold",
-    "trans": ["寒冷的，冷的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cold.jpg"
+    "trans": [
+      "寒冷的，冷的"
+    ],
+    "usphone": "kәuld",
+    "ukphone": "kәuld",
+    "image": "/images/words/cold.jpg",
+    "wordFamily": "-ld",
+    "phonics": []
   },
   {
     "name": "bird",
-    "trans": ["鸟"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/bird.jpg"
+    "trans": [
+      "鸟"
+    ],
+    "usphone": "bә:d",
+    "ukphone": "bә:d",
+    "image": "/images/words/bird.jpg",
+    "wordFamily": "-rd",
+    "relatedWords": [
+      "hard"
+    ],
+    "phonics": []
   },
   {
     "name": "back",
-    "trans": ["回原处"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "回原处"
+    ],
+    "usphone": "bæk",
+    "ukphone": "bæk",
+    "phonics": [
+      "ck"
+    ],
+    "wordFamily": "-ck",
+    "relatedWords": [
+      "pick"
+    ]
   },
   {
     "name": "in",
-    "trans": ["在（某段时间）内"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "在（某段时间）内"
+    ],
+    "usphone": "in",
+    "ukphone": "in",
+    "wordFamily": "-in",
+    "phonics": []
   },
   {
     "name": "year",
-    "trans": ["年"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/year.jpg"
+    "trans": [
+      "年"
+    ],
+    "usphone": "jiә",
+    "ukphone": "jiә",
+    "image": "/images/words/year.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-ar",
+    "relatedWords": [
+      "ear",
+      "wear"
+    ]
   },
   {
     "name": "plant",
-    "trans": ["栽种，种植"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/plant.jpg"
+    "trans": [
+      "栽种，种植"
+    ],
+    "usphone": "plænt. plɑ:nt",
+    "ukphone": "plænt. plɑ:nt",
+    "image": "/images/words/plant.jpg",
+    "wordFamily": "-ant",
+    "phonics": []
   },
   {
     "name": "pick",
-    "trans": ["采，摘"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pick.jpg"
+    "trans": [
+      "采，摘"
+    ],
+    "usphone": "pik",
+    "ukphone": "pik",
+    "image": "/images/words/pick.jpg",
+    "phonics": [
+      "ck"
+    ],
+    "wordFamily": "-ck",
+    "relatedWords": [
+      "back"
+    ]
   },
   {
     "name": "snow",
-    "trans": ["雪，积雪"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/snow.jpg"
+    "trans": [
+      "雪，积雪"
+    ],
+    "usphone": "snәu",
+    "ukphone": "snәu",
+    "image": "/images/words/snow.jpg",
+    "wordFamily": "-ow",
+    "relatedWords": [
+      "show"
+    ],
+    "phonics": []
   },
   {
     "name": "wear",
-    "trans": ["穿，戴"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/wear.jpg"
+    "trans": [
+      "穿，戴"
+    ],
+    "usphone": "wєә",
+    "ukphone": "wєә",
+    "image": "/images/words/wear.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-ar",
+    "relatedWords": [
+      "ear",
+      "year"
+    ]
   },
   {
     "name": "cap",
-    "trans": ["（尤指有帽舌的）便帽"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cap.jpg"
+    "trans": [
+      "（尤指有帽舌的）便帽"
+    ],
+    "usphone": "kæp",
+    "ukphone": "kæp",
+    "image": "/images/words/cap.jpg",
+    "wordFamily": "-ap",
+    "phonics": []
   },
   {
     "name": "coat",
-    "trans": ["外套，外衣"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/coat.jpg"
+    "trans": [
+      "外套，外衣"
+    ],
+    "usphone": "kәut",
+    "ukphone": "kәut",
+    "image": "/images/words/coat.jpg",
+    "phonics": [
+      "oa"
+    ],
+    "wordFamily": "-at",
+    "relatedWords": [
+      "What time is it?",
+      "at"
+    ]
   },
   {
     "name": "skirt",
-    "trans": ["半身裙"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/skirt.jpg"
+    "trans": [
+      "半身裙"
+    ],
+    "usphone": "skә:t",
+    "ukphone": "skә:t",
+    "image": "/images/words/skirt.jpg",
+    "wordFamily": "-irt",
+    "relatedWords": [
+      "shirt"
+    ],
+    "phonics": []
   },
   {
     "name": "trousers",
-    "trans": ["裤子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/trousers.jpg"
+    "trans": [
+      "裤子"
+    ],
+    "usphone": "'trauzәz",
+    "ukphone": "'trauzәz",
+    "image": "/images/words/trousers.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ers"
   },
   {
     "name": "dress",
-    "trans": ["连衣裙"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/dress.jpg"
+    "trans": [
+      "连衣裙"
+    ],
+    "usphone": "dres",
+    "ukphone": "dres",
+    "image": "/images/words/dress.jpg",
+    "wordFamily": "-ess",
+    "phonics": []
   },
   {
     "name": "shirt",
-    "trans": ["（男式）衬衫"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/shirt.jpg"
+    "trans": [
+      "（男式）衬衫"
+    ],
+    "usphone": "ʃә:t",
+    "ukphone": "ʃә:t",
+    "image": "/images/words/shirt.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-irt",
+    "relatedWords": [
+      "skirt"
+    ]
   },
   {
     "name": "whose",
-    "trans": ["谁的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/whose.jpg"
+    "trans": [
+      "谁的"
+    ],
+    "usphone": "hu:z",
+    "ukphone": "hu:z",
+    "image": "/images/words/whose.jpg",
+    "phonics": [
+      "o_e",
+      "wh"
+    ],
+    "wordFamily": "-ose"
   },
   {
     "name": "shorts",
-    "trans": ["短裤"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/shorts.jpg"
+    "trans": [
+      "短裤"
+    ],
+    "usphone": "ʃɔ:ts",
+    "ukphone": "ʃɔ:ts",
+    "image": "/images/words/shorts.jpg",
+    "phonics": [
+      "sh",
+      "or"
+    ],
+    "wordFamily": "-rts",
+    "relatedWords": [
+      "sports ground"
+    ]
   },
   {
     "name": "look",
-    "trans": ["看来好像，显得"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/look.jpg"
+    "trans": [
+      "看来好像，显得"
+    ],
+    "usphone": "luk",
+    "ukphone": "luk",
+    "image": "/images/words/look.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-ook"
   },
   {
     "name": "in",
-    "trans": ["穿着，戴着"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "穿着，戴着"
+    ],
+    "usphone": "in",
+    "ukphone": "in",
+    "wordFamily": "-in",
+    "phonics": []
   },
   {
     "name": "sunglasses",
-    "trans": ["太阳镜，墨镜"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sunglasses.jpg"
+    "trans": [
+      "太阳镜，墨镜"
+    ],
+    "usphone": "ˈsʌnˌɡlæsɪz",
+    "ukphone": "ˈsʌnɡlɑːsɪz",
+    "image": "/images/words/sunglasses.jpg",
+    "wordFamily": "-ses",
+    "phonics": []
   },
   {
     "name": "why",
-    "trans": ["为什么"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "为什么"
+    ],
+    "usphone": "hwai",
+    "ukphone": "hwai",
+    "phonics": [
+      "wh"
+    ],
+    "wordFamily": "-hy"
   },
   {
     "name": "because",
-    "trans": ["因为"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "因为"
+    ],
+    "usphone": "bi'kɒ:z",
+    "ukphone": "bi'kɒ:z",
+    "wordFamily": "-use",
+    "relatedWords": [
+      "mouse (pl. mice)"
+    ],
+    "phonics": []
   },
   {
     "name": "bright",
-    "trans": ["聪明的；明亮的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/bright.jpg"
+    "trans": [
+      "聪明的；明亮的"
+    ],
+    "usphone": "brait",
+    "ukphone": "brait",
+    "image": "/images/words/bright.jpg",
+    "phonics": [
+      "igh"
+    ],
+    "wordFamily": "-ight",
+    "relatedWords": [
+      "Good night"
+    ]
   },
   {
     "name": "clothes",
-    "trans": ["衣服"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/clothes.jpg"
+    "trans": [
+      "衣服"
+    ],
+    "usphone": "klәuðz",
+    "ukphone": "klәuðz",
+    "image": "/images/words/clothes.jpg",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-hes"
   }
 ]

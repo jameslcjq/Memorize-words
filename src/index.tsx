@@ -7,8 +7,8 @@ import './index.css'
 import { ErrorBook } from './pages/ErrorBook'
 import { FriendLinks } from './pages/FriendLinks'
 import TypingPage from './pages/Typing'
-import { isOpenDarkModeAtom } from '@/store'
 import { initOfflineStorage } from '@/lib/offlineStorage'
+import { isOpenDarkModeAtom } from '@/store'
 import 'animate.css'
 import { useAtomValue } from 'jotai'
 import React, { Suspense, lazy, useEffect, useState } from 'react'
@@ -18,6 +18,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 const StatisticsPage = lazy(() => import('./pages/Statistics'))
 const GalleryPage = lazy(() => import('./pages/Gallery-N'))
+const PatternsPage = lazy(() => import('./pages/Patterns'))
 const AdminPage = lazy(() => import('./pages/Admin'))
 const ProfilePage = lazy(() => import('./pages/Profile'))
 const AchievementsPage = lazy(() => import('./pages/Achievements'))
@@ -78,6 +79,7 @@ function Root() {
             <Route index element={<TypingPage />} />
             <Route path="/statistics" element={<StatisticsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/patterns" element={<PatternsPage />} />
             <Route path="/error-book" element={<ErrorBook />} />
             <Route path="/friend-links" element={<FriendLinks />} />
             <Route path="/admin" element={<AdminPage />} />

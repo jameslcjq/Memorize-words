@@ -17,6 +17,7 @@ const CLOUD_SETTING_KEYS = new Set([
   'randomConfig',
   'wordDictationConfig',
   'isOpenDarkModeAtom',
+  'answerHintDuration',
 ])
 
 function openDatabase(): Promise<IDBDatabase> {

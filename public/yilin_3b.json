@@ -1,906 +1,1756 @@
 [
   {
     "name": "school",
-    "trans": ["学校"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/school.jpg"
+    "trans": [
+      "学校"
+    ],
+    "usphone": "sku:l",
+    "ukphone": "sku:l",
+    "image": "/images/words/school.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-ool"
   },
   {
     "name": "thing",
-    "trans": ["用品，用具"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/thing.jpg"
+    "trans": [
+      "用品，用具"
+    ],
+    "usphone": "θiŋ",
+    "ukphone": "θiŋ",
+    "image": "/images/words/thing.jpg",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-ing",
+    "relatedWords": [
+      "interesting"
+    ]
   },
   {
     "name": "pen",
-    "trans": ["笔，钢笔"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pen.jpg"
+    "trans": [
+      "笔，钢笔"
+    ],
+    "usphone": "pen",
+    "ukphone": "pen",
+    "image": "/images/words/pen.jpg",
+    "wordFamily": "-en",
+    "relatedWords": [
+      "garden",
+      "chicken",
+      "green"
+    ],
+    "phonics": []
   },
   {
     "name": "pencil",
-    "trans": ["铅笔"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pencil.jpg"
+    "trans": [
+      "铅笔"
+    ],
+    "usphone": "'pensl",
+    "ukphone": "'pensl",
+    "image": "/images/words/pencil.jpg",
+    "wordFamily": "-cil",
+    "relatedWords": [
+      "pencil case"
+    ],
+    "phonics": []
   },
   {
     "name": "ruler",
-    "trans": ["直尺"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/ruler.jpg"
+    "trans": [
+      "直尺"
+    ],
+    "usphone": "'ru:lә",
+    "ukphone": "'ru:lә",
+    "image": "/images/words/ruler.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ler"
   },
   {
     "name": "rubber",
-    "trans": ["橡皮"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/rubber.jpg"
+    "trans": [
+      "橡皮"
+    ],
+    "usphone": "'rʌbә",
+    "ukphone": "'rʌbә",
+    "image": "/images/words/rubber.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ber"
   },
   {
     "name": "schoolbag",
-    "trans": ["书包"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/schoolbag.jpg"
+    "trans": [
+      "书包"
+    ],
+    "usphone": "'sku:lbæ^",
+    "ukphone": "'sku:lbæ^",
+    "image": "/images/words/schoolbag.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-bag"
   },
   {
     "name": "pencil case",
-    "trans": ["铅笔盒，铅笔袋"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pencil_case.jpg"
+    "trans": [
+      "铅笔盒，铅笔袋"
+    ],
+    "usphone": "'pensl keis",
+    "ukphone": "'pensl keis",
+    "image": "/images/words/pencil_case.jpg",
+    "wordFamily": "-cil",
+    "relatedWords": [
+      "pencil"
+    ],
+    "phonics": []
   },
   {
     "name": "that",
-    "trans": ["那，那个"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "那，那个"
+    ],
+    "usphone": "ðæt",
+    "ukphone": "ðæt",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-at",
+    "relatedWords": [
+      "That's all right.",
+      "What colour is...?",
+      "What's the matter?"
+    ]
   },
   {
     "name": "put",
-    "trans": ["放，安置"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/put.jpg"
+    "trans": [
+      "放，安置"
+    ],
+    "usphone": "put",
+    "ukphone": "put",
+    "image": "/images/words/put.jpg",
+    "wordFamily": "-ut",
+    "relatedWords": [
+      "put away"
+    ],
+    "phonics": []
   },
   {
     "name": "guess",
-    "trans": ["猜测，估计"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/guess.jpg"
+    "trans": [
+      "猜测，估计"
+    ],
+    "usphone": "ges",
+    "ukphone": "ges",
+    "image": "/images/words/guess.jpg",
+    "wordFamily": "-ess",
+    "phonics": []
   },
   {
     "name": "again",
-    "trans": ["再一次，又一次"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "再一次，又一次"
+    ],
+    "usphone": "ә'gein",
+    "ukphone": "ә'gein",
+    "phonics": [
+      "ai"
+    ],
+    "wordFamily": "-ain"
   },
   {
     "name": "long",
-    "trans": ["长的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/long.jpg"
+    "trans": [
+      "长的"
+    ],
+    "usphone": "lɒŋ",
+    "ukphone": "lɒŋ",
+    "image": "/images/words/long.jpg",
+    "wordFamily": "-ng",
+    "phonics": []
   },
   {
     "name": "Good idea!",
-    "trans": ["好主意！"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/good_idea.jpg"
+    "trans": [
+      "好主意！"
+    ],
+    "usphone": "gud ai'diә",
+    "ukphone": "gud ai'diә",
+    "image": "/images/words/good_idea.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-od"
   },
   {
     "name": "our",
-    "trans": ["我们的"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "我们的"
+    ],
+    "usphone": "'auә",
+    "ukphone": "'auә",
+    "wordFamily": "-ur",
+    "phonics": []
   },
   {
     "name": "classroom",
-    "trans": ["教室，课堂"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/classroom.jpg"
+    "trans": [
+      "教室，课堂"
+    ],
+    "usphone": "'klɑ:sru:m",
+    "ukphone": "'klɑ:sru:m",
+    "image": "/images/words/classroom.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-oom"
   },
   {
     "name": "put away",
-    "trans": ["将……收起，把……放回原处"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/put_away.jpg"
+    "trans": [
+      "将……收起，把……放回原处"
+    ],
+    "usphone": "put ә'wei",
+    "ukphone": "put ә'wei",
+    "image": "/images/words/put_away.jpg",
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "play"
+    ],
+    "phonics": [
+      "ay"
+    ]
   },
   {
     "name": "close",
-    "trans": ["关，关闭"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/close.jpg"
+    "trans": [
+      "关，关闭"
+    ],
+    "usphone": "klәuz",
+    "ukphone": "klәuz",
+    "image": "/images/words/close.jpg",
+    "phonics": [
+      "o_e"
+    ],
+    "wordFamily": "-ose",
+    "relatedWords": [
+      "those"
+    ]
   },
   {
     "name": "window",
-    "trans": ["窗，窗户"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/window.jpg"
+    "trans": [
+      "窗，窗户"
+    ],
+    "usphone": "'windәu",
+    "ukphone": "'windәu",
+    "image": "/images/words/window.jpg",
+    "wordFamily": "-dow",
+    "phonics": []
   },
   {
     "name": "blackboard",
-    "trans": ["黑板"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/blackboard.jpg"
+    "trans": [
+      "黑板"
+    ],
+    "usphone": "'blækbɒ:d",
+    "ukphone": "'blækbɒ:d",
+    "image": "/images/words/blackboard.jpg",
+    "phonics": [
+      "ck",
+      "oa",
+      "ar"
+    ],
+    "wordFamily": "-ard"
   },
   {
     "name": "chair",
-    "trans": ["椅子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/chair.jpg"
+    "trans": [
+      "椅子"
+    ],
+    "usphone": "tʃєә",
+    "ukphone": "tʃєә",
+    "image": "/images/words/chair.jpg",
+    "phonics": [
+      "ch",
+      "ai"
+    ],
+    "wordFamily": "-air"
   },
   {
     "name": "sweep",
-    "trans": ["打扫，清扫"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sweep.jpg"
+    "trans": [
+      "打扫，清扫"
+    ],
+    "usphone": "swi:p",
+    "ukphone": "swi:p",
+    "image": "/images/words/sweep.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-eep",
+    "relatedWords": [
+      "sheep"
+    ]
   },
   {
     "name": "floor",
-    "trans": ["地板，地面"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/floor.jpg"
+    "trans": [
+      "地板，地面"
+    ],
+    "usphone": "flɒ:",
+    "ukphone": "flɒ:",
+    "image": "/images/words/floor.jpg",
+    "phonics": [
+      "oo",
+      "or"
+    ],
+    "wordFamily": "-oor"
   },
   {
     "name": "let",
-    "trans": ["让"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/let.jpg"
+    "trans": [
+      "让"
+    ],
+    "usphone": "let",
+    "ukphone": "let",
+    "image": "/images/words/let.jpg",
+    "wordFamily": "-et",
+    "phonics": []
   },
   {
     "name": "us",
-    "trans": ["我们"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "我们"
+    ],
+    "usphone": "ʌs",
+    "ukphone": "ʌs",
+    "wordFamily": "-us",
+    "phonics": []
   },
   {
     "name": "desk",
-    "trans": ["课桌，书桌"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/desk.jpg"
+    "trans": [
+      "课桌，书桌"
+    ],
+    "usphone": "desk",
+    "ukphone": "desk",
+    "image": "/images/words/desk.jpg",
+    "wordFamily": "-sk",
+    "phonics": []
   },
   {
     "name": "dirty",
-    "trans": ["脏的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/dirty.jpg"
+    "trans": [
+      "脏的"
+    ],
+    "usphone": "'dә:ti",
+    "ukphone": "'dә:ti",
+    "image": "/images/words/dirty.jpg",
+    "wordFamily": "-rty",
+    "phonics": []
   },
   {
     "name": "Me too!",
-    "trans": ["我也是！"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/me_too.jpg"
+    "trans": [
+      "我也是！"
+    ],
+    "usphone": "mi: tu:",
+    "ukphone": "mi: tu:",
+    "image": "/images/words/me_too.jpg",
+    "wordFamily": "-oo",
+    "relatedWords": [
+      "zoo"
+    ],
+    "phonics": [
+      "oo"
+    ]
   },
   {
     "name": "OK",
-    "trans": ["好的。"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "好的。"
+    ],
+    "usphone": "'әu'kei",
+    "ukphone": "'әu'kei",
+    "wordFamily": "-ok",
+    "phonics": []
   },
   {
     "name": "clean",
-    "trans": ["洁净的，干净的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/clean.jpg"
+    "trans": [
+      "洁净的，干净的"
+    ],
+    "usphone": "kli:n",
+    "ukphone": "kli:n",
+    "image": "/images/words/clean.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-an"
   },
   {
     "name": "keep",
-    "trans": ["（使）保持，处于"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/keep.jpg"
+    "trans": [
+      "（使）保持，处于"
+    ],
+    "usphone": "ki:p",
+    "ukphone": "ki:p",
+    "image": "/images/words/keep.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-ep"
   },
   {
     "name": "rule",
-    "trans": ["规则，规章"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/rule.jpg"
+    "trans": [
+      "规则，规章"
+    ],
+    "usphone": "ru:l",
+    "ukphone": "ru:l",
+    "image": "/images/words/rule.jpg",
+    "wordFamily": "-le",
+    "phonics": []
   },
   {
     "name": "library",
-    "trans": ["图书馆"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/library.jpg"
+    "trans": [
+      "图书馆"
+    ],
+    "usphone": "'laibrәri",
+    "ukphone": "'laibrәri",
+    "image": "/images/words/library.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-ary"
   },
   {
     "name": "shout",
-    "trans": ["大声说，叫，嚷"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/shout.jpg"
+    "trans": [
+      "大声说，叫，嚷"
+    ],
+    "usphone": "ʃaut",
+    "ukphone": "ʃaut",
+    "image": "/images/words/shout.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-out",
+    "relatedWords": [
+      "How about you?"
+    ]
   },
   {
     "name": "talk",
-    "trans": ["说话，讲话"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/talk.jpg"
+    "trans": [
+      "说话，讲话"
+    ],
+    "usphone": "tɒ:k",
+    "ukphone": "tɒ:k",
+    "image": "/images/words/talk.jpg",
+    "wordFamily": "-lk",
+    "phonics": []
   },
   {
     "name": "eat",
-    "trans": ["吃"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/eat.jpg"
+    "trans": [
+      "吃"
+    ],
+    "usphone": "i:t",
+    "ukphone": "i:t",
+    "image": "/images/words/eat.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-eat"
   },
   {
     "name": "run",
-    "trans": ["跑，奔跑"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/run.jpg"
+    "trans": [
+      "跑，奔跑"
+    ],
+    "usphone": "rʌn",
+    "ukphone": "rʌn",
+    "image": "/images/words/run.jpg",
+    "wordFamily": "-un",
+    "phonics": []
   },
   {
     "name": "Mrs",
-    "trans": ["太太，夫人"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "太太，夫人"
+    ],
+    "usphone": "'misiz",
+    "ukphone": "'misiz",
+    "wordFamily": "-rs",
+    "phonics": []
   },
   {
     "name": "sit down",
-    "trans": ["坐下"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sit_down.jpg"
+    "trans": [
+      "坐下"
+    ],
+    "usphone": "sit daun",
+    "ukphone": "sit daun",
+    "image": "/images/words/sit_down.jpg",
+    "wordFamily": "-wn",
+    "relatedWords": [
+      "fruit",
+      "rabbit"
+    ],
+    "phonics": []
   },
   {
     "name": "late",
-    "trans": ["迟的，晚的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/late.jpg"
+    "trans": [
+      "迟的，晚的"
+    ],
+    "usphone": "leit",
+    "ukphone": "leit",
+    "image": "/images/words/late.jpg",
+    "phonics": [
+      "a_e"
+    ],
+    "wordFamily": "-ate"
   },
   {
     "name": "look out",
-    "trans": ["朝……外看"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/look_out.jpg"
+    "trans": [
+      "朝……外看"
+    ],
+    "usphone": "luk aut",
+    "ukphone": "luk aut",
+    "image": "/images/words/look_out.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-ook",
+    "relatedWords": [
+      "look"
+    ]
   },
   {
     "name": "on",
-    "trans": ["在……上面"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "在……上面"
+    ],
+    "usphone": "ɒn",
+    "ukphone": "ɒn",
+    "wordFamily": "-on",
+    "relatedWords": [
+      "lion"
+    ],
+    "phonics": []
   },
   {
     "name": "shh",
-    "trans": ["嘘"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/shh.jpg"
+    "trans": [
+      "嘘"
+    ],
+    "usphone": "ʃ",
+    "ukphone": "ʃ",
+    "image": "/images/words/shh.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-hh"
   },
   {
     "name": "interesting",
-    "trans": ["有趣的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/interesting.jpg"
+    "trans": [
+      "有趣的"
+    ],
+    "usphone": "'intristiŋ",
+    "ukphone": "'intristiŋ",
+    "image": "/images/words/interesting.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ing",
+    "morph": {
+      "suffix": {
+        "text": "ing",
+        "meaning": "正在…；动作"
+      }
+    },
+    "relatedWords": [
+      "thing"
+    ]
   },
   {
     "name": "quiet",
-    "trans": ["安静的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/quiet.jpg"
+    "trans": [
+      "安静的"
+    ],
+    "usphone": "'kwaiәt",
+    "ukphone": "'kwaiәt",
+    "image": "/images/words/quiet.jpg",
+    "wordFamily": "-iet",
+    "phonics": []
   },
   {
     "name": "follow",
-    "trans": ["遵循，听从"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/follow.jpg"
+    "trans": [
+      "遵循，听从"
+    ],
+    "usphone": "'fɒlәu",
+    "ukphone": "'fɒlәu",
+    "image": "/images/words/follow.jpg",
+    "wordFamily": "-low",
+    "relatedWords": [
+      "yellow"
+    ],
+    "phonics": []
   },
   {
     "name": "Would you like...?",
-    "trans": ["你想要……吗？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "你想要……吗？"
+    ],
+    "usphone": "wud ju: laik",
+    "ukphone": "wud ju: laik",
+    "wordFamily": "-uld",
+    "phonics": []
   },
   {
     "name": "sweet",
-    "trans": ["糖果"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sweet.jpg"
+    "trans": [
+      "糖果"
+    ],
+    "usphone": "swi:t",
+    "ukphone": "swi:t",
+    "image": "/images/words/sweet.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-eet"
   },
   {
     "name": "look",
-    "trans": ["看，瞧"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/look.jpg"
+    "trans": [
+      "看，瞧"
+    ],
+    "usphone": "luk",
+    "ukphone": "luk",
+    "image": "/images/words/look.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-ook",
+    "relatedWords": [
+      "look out"
+    ]
   },
   {
     "name": "That's all right.",
-    "trans": ["不要紧"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "不要紧"
+    ],
+    "usphone": "ðæt es ɒ:l rait",
+    "ukphone": "ðæt es ɒ:l rait",
+    "phonics": [
+      "igh"
+    ],
+    "wordFamily": "-ight",
+    "relatedWords": [
+      "that",
+      "What colour is...?",
+      "What's the matter?"
+    ]
   },
   {
     "name": "have fun",
-    "trans": ["玩得高兴"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/have_fun.jpg"
+    "trans": [
+      "玩得高兴"
+    ],
+    "usphone": "hæv fʌn",
+    "ukphone": "hæv fʌn",
+    "image": "/images/words/have_fun.jpg",
+    "phonics": [],
+    "wordFamily": "-ve",
+    "relatedWords": [
+      "move"
+    ]
   },
   {
     "name": "after class",
-    "trans": ["课后"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/after_class.jpg"
+    "trans": [
+      "课后"
+    ],
+    "usphone": "'ɑ:ftә klɑ:s",
+    "ukphone": "'ɑ:ftә klɑ:s",
+    "image": "/images/words/after_class.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ter",
+    "relatedWords": [
+      "What's the matter?"
+    ]
   },
   {
     "name": "behind",
-    "trans": ["在……后面"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/behind.jpg"
+    "trans": [
+      "在……后面"
+    ],
+    "usphone": "bi'haind",
+    "ukphone": "bi'haind",
+    "image": "/images/words/behind.jpg",
+    "wordFamily": "-ind",
+    "phonics": []
   },
   {
     "name": "tree",
-    "trans": ["树，树木"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/tree.jpg"
+    "trans": [
+      "树，树木"
+    ],
+    "usphone": "tri:",
+    "ukphone": "tri:",
+    "image": "/images/words/tree.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-ee",
+    "relatedWords": [
+      "see"
+    ]
   },
   {
     "name": "by",
-    "trans": ["在……旁边"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/beside.jpg"
+    "trans": [
+      "在……旁边"
+    ],
+    "usphone": "bai",
+    "ukphone": "bai",
+    "image": "/images/words/beside.jpg",
+    "wordFamily": "-by",
+    "phonics": []
   },
   {
     "name": "under",
-    "trans": ["在……下面"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/under.jpg"
+    "trans": [
+      "在……下面"
+    ],
+    "usphone": "'ʌndә",
+    "ukphone": "'ʌndә",
+    "image": "/images/words/under.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-der"
   },
   {
     "name": "flower",
-    "trans": ["花，花朵"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/flower.jpg"
+    "trans": [
+      "花，花朵"
+    ],
+    "usphone": "'flauә",
+    "ukphone": "'flauә",
+    "image": "/images/words/flower.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-wer"
   },
   {
     "name": "over",
-    "trans": ["结束"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "结束"
+    ],
+    "usphone": "'әuvә",
+    "ukphone": "'әuvә",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-er"
   },
   {
     "name": "play",
-    "trans": ["玩耍"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/play.jpg"
+    "trans": [
+      "玩耍"
+    ],
+    "usphone": "plei",
+    "ukphone": "plei",
+    "image": "/images/words/play.jpg",
+    "phonics": [
+      "ay"
+    ],
+    "wordFamily": "-ay",
+    "relatedWords": [
+      "put away"
+    ]
   },
   {
     "name": "go",
-    "trans": ["开始；移动"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/go.jpg"
+    "trans": [
+      "开始；移动"
+    ],
+    "usphone": "gou",
+    "ukphone": "gou",
+    "image": "/images/words/go.jpg",
+    "wordFamily": "-go",
+    "phonics": []
   },
   {
     "name": "plane",
-    "trans": ["飞机"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/plane.jpg"
+    "trans": [
+      "飞机"
+    ],
+    "usphone": "plein",
+    "ukphone": "plein",
+    "image": "/images/words/plane.jpg",
+    "phonics": [
+      "a_e"
+    ],
+    "wordFamily": "-ane"
   },
   {
     "name": "very",
-    "trans": ["很，非常"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "很，非常"
+    ],
+    "usphone": "'veri",
+    "ukphone": "'veri",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ry"
   },
   {
     "name": "far",
-    "trans": ["远"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/far.jpg"
+    "trans": [
+      "远"
+    ],
+    "usphone": "fɑ:",
+    "ukphone": "fɑ:",
+    "image": "/images/words/far.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-ar",
+    "relatedWords": [
+      "bear"
+    ]
   },
   {
     "name": "where",
-    "trans": ["在哪里，到哪里"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "在哪里，到哪里"
+    ],
+    "usphone": "hwєә",
+    "ukphone": "hwєә",
+    "phonics": [
+      "wh",
+      "er"
+    ],
+    "wordFamily": "-ere"
   },
   {
     "name": "find",
-    "trans": ["找到"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/find.jpg"
+    "trans": [
+      "找到"
+    ],
+    "usphone": "faind",
+    "ukphone": "faind",
+    "image": "/images/words/find.jpg",
+    "wordFamily": "-nd",
+    "phonics": []
   },
   {
     "name": "student",
-    "trans": ["学生"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/student.jpg"
+    "trans": [
+      "学生"
+    ],
+    "usphone": "'stju:dnt",
+    "ukphone": "'stju:dnt",
+    "image": "/images/words/student.jpg",
+    "wordFamily": "-ent",
+    "phonics": []
   },
   {
     "name": "garden",
-    "trans": ["花园，园圃"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/garden.jpg"
+    "trans": [
+      "花园，园圃"
+    ],
+    "usphone": "'gɑ:dn",
+    "ukphone": "'gɑ:dn",
+    "image": "/images/words/garden.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-en",
+    "relatedWords": [
+      "pen",
+      "chicken",
+      "green"
+    ]
   },
   {
     "name": "butterfly",
-    "trans": ["蝴蝶"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/butterfly.jpg"
+    "trans": [
+      "蝴蝶"
+    ],
+    "usphone": "'bʌtәflai",
+    "ukphone": "'bʌtәflai",
+    "image": "/images/words/butterfly.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-fly",
+    "morph": {
+      "suffix": {
+        "text": "ly",
+        "meaning": "以…方式"
+      }
+    }
   },
   {
     "name": "beautiful",
-    "trans": ["美丽的，美好的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/beautiful.jpg"
+    "trans": [
+      "美丽的，美好的"
+    ],
+    "usphone": "'bju:tiful",
+    "ukphone": "'bju:tiful",
+    "image": "/images/words/beautiful.jpg",
+    "phonics": [
+      "ea"
+    ],
+    "wordFamily": "-ful",
+    "morph": {
+      "suffix": {
+        "text": "ful",
+        "meaning": "充满…的"
+      }
+    }
   },
   {
     "name": "duck",
-    "trans": ["鸭子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/duck.jpg"
+    "trans": [
+      "鸭子"
+    ],
+    "usphone": "dʌk",
+    "ukphone": "dʌk",
+    "image": "/images/words/duck.jpg",
+    "phonics": [
+      "ck"
+    ],
+    "wordFamily": "-ck"
   },
   {
     "name": "of",
-    "trans": ["关于"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "关于"
+    ],
+    "usphone": "ɒv",
+    "ukphone": "ɒv",
+    "wordFamily": "-of",
+    "phonics": []
   },
   {
     "name": "fruit",
-    "trans": ["水果"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/fruit.jpg"
+    "trans": [
+      "水果"
+    ],
+    "usphone": "fru:t",
+    "ukphone": "fru:t",
+    "image": "/images/words/fruit.jpg",
+    "wordFamily": "-it",
+    "relatedWords": [
+      "rabbit"
+    ],
+    "phonics": []
   },
   {
     "name": "orange",
-    "trans": ["橙子，柑橘"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/orange.jpg"
+    "trans": [
+      "橙子，柑橘"
+    ],
+    "usphone": "'ɒ:rindʒ",
+    "ukphone": "'ɒ:rindʒ",
+    "image": "/images/words/orange.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-nge"
   },
   {
     "name": "grape",
-    "trans": ["葡萄"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/grape.jpg"
+    "trans": [
+      "葡萄"
+    ],
+    "usphone": "greip",
+    "ukphone": "greip",
+    "image": "/images/words/grape.jpg",
+    "phonics": [
+      "a_e"
+    ],
+    "wordFamily": "-ape"
   },
   {
     "name": "banana",
-    "trans": ["香蕉"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/banana.jpg"
+    "trans": [
+      "香蕉"
+    ],
+    "usphone": "bә'nɑ:nә",
+    "ukphone": "bә'nɑ:nә",
+    "image": "/images/words/banana.jpg",
+    "wordFamily": "-ana",
+    "phonics": []
   },
   {
     "name": "apple",
-    "trans": ["苹果"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/apple.jpg"
+    "trans": [
+      "苹果"
+    ],
+    "usphone": "'æpl",
+    "ukphone": "'æpl",
+    "image": "/images/words/apple.jpg",
+    "wordFamily": "-ple",
+    "phonics": []
   },
   {
     "name": "mango",
-    "trans": ["芒果"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/mango.jpg"
+    "trans": [
+      "芒果"
+    ],
+    "usphone": "'mæŋgәu",
+    "ukphone": "'mæŋgәu",
+    "image": "/images/words/mango.jpg",
+    "wordFamily": "-ngo",
+    "phonics": []
   },
   {
     "name": "share",
-    "trans": ["分享，共享"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/share.jpg"
+    "trans": [
+      "分享，共享"
+    ],
+    "usphone": "ʃєә",
+    "ukphone": "ʃєә",
+    "image": "/images/words/share.jpg",
+    "phonics": [
+      "sh",
+      "ar"
+    ],
+    "wordFamily": "-are"
   },
   {
     "name": "like",
-    "trans": ["喜欢，喜爱"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/like.jpg"
+    "trans": [
+      "喜欢，喜爱"
+    ],
+    "usphone": "laik",
+    "ukphone": "laik",
+    "image": "/images/words/like.jpg",
+    "phonics": [
+      "i_e"
+    ],
+    "wordFamily": "-ke"
   },
   {
     "name": "them",
-    "trans": ["它们，他们，她们"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "它们，他们，她们"
+    ],
+    "usphone": "ðem",
+    "ukphone": "ðem",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-em"
   },
   {
     "name": "sweet",
-    "trans": ["甜的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sweet.jpg"
+    "trans": [
+      "甜的"
+    ],
+    "usphone": "swi:t",
+    "ukphone": "swi:t",
+    "image": "/images/words/sweet.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-eet"
   },
   {
     "name": "make",
-    "trans": ["做，制造"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/make.jpg"
+    "trans": [
+      "做，制造"
+    ],
+    "usphone": "meik",
+    "ukphone": "meik",
+    "image": "/images/words/make.jpg",
+    "phonics": [
+      "a_e"
+    ],
+    "wordFamily": "-ake"
   },
   {
     "name": "salad",
-    "trans": ["色拉，沙拉"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/salad.jpg"
+    "trans": [
+      "色拉，沙拉"
+    ],
+    "usphone": "'sælәd",
+    "ukphone": "'sælәd",
+    "image": "/images/words/salad.jpg",
+    "wordFamily": "-lad",
+    "phonics": []
   },
   {
     "name": "together",
-    "trans": ["在一起，共同"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/together.jpg"
+    "trans": [
+      "在一起，共同"
+    ],
+    "usphone": "tә'geðә",
+    "ukphone": "tә'geðә",
+    "image": "/images/words/together.jpg",
+    "phonics": [
+      "th",
+      "er"
+    ],
+    "wordFamily": "-her"
   },
   {
     "name": "a",
-    "trans": ["一（个）"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "一（个）"
+    ],
+    "usphone": "ei",
+    "ukphone": "ei",
+    "wordFamily": "-a",
+    "phonics": []
   },
   {
     "name": "How about you?",
-    "trans": ["你呢？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "你呢？"
+    ],
+    "usphone": "hau ә'baut ju:",
+    "ukphone": "hau ә'baut ju:",
+    "wordFamily": "-out",
+    "relatedWords": [
+      "shout"
+    ],
+    "phonics": []
   },
   {
     "name": "nice",
-    "trans": ["好的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/nice.jpg"
+    "trans": [
+      "好的"
+    ],
+    "usphone": "nais",
+    "ukphone": "nais",
+    "image": "/images/words/nice.jpg",
+    "phonics": [
+      "i_e"
+    ],
+    "wordFamily": "-ce"
   },
   {
     "name": "farm",
-    "trans": ["农场"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/farm.jpg"
+    "trans": [
+      "农场"
+    ],
+    "usphone": "fɑ:m",
+    "ukphone": "fɑ:m",
+    "image": "/images/words/farm.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rm"
   },
   {
     "name": "cow",
-    "trans": ["奶牛"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cow.jpg"
+    "trans": [
+      "奶牛"
+    ],
+    "usphone": "kau",
+    "ukphone": "kau",
+    "image": "/images/words/cow.jpg",
+    "wordFamily": "-ow",
+    "relatedWords": [
+      "How about you?"
+    ],
+    "phonics": []
   },
   {
     "name": "sheep",
-    "trans": ["羊，绵羊"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sheep.jpg"
+    "trans": [
+      "羊，绵羊"
+    ],
+    "usphone": "ʃi:p",
+    "ukphone": "ʃi:p",
+    "image": "/images/words/sheep.jpg",
+    "phonics": [
+      "sh",
+      "ee"
+    ],
+    "wordFamily": "-eep",
+    "relatedWords": [
+      "sweep"
+    ]
   },
   {
     "name": "rabbit",
-    "trans": ["兔子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/rabbit.jpg"
+    "trans": [
+      "兔子"
+    ],
+    "usphone": "'ræbit",
+    "ukphone": "'ræbit",
+    "image": "/images/words/rabbit.jpg",
+    "wordFamily": "-it",
+    "relatedWords": [
+      "fruit"
+    ],
+    "phonics": []
   },
   {
     "name": "chicken",
-    "trans": ["鸡"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/chicken.jpg"
+    "trans": [
+      "鸡"
+    ],
+    "usphone": "'tʃikin",
+    "ukphone": "'tʃikin",
+    "image": "/images/words/chicken.jpg",
+    "phonics": [
+      "ch",
+      "ck"
+    ],
+    "wordFamily": "-en",
+    "relatedWords": [
+      "pen",
+      "garden",
+      "green"
+    ]
   },
   {
     "name": "carrot",
-    "trans": ["胡萝卜"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/carrot.jpg"
+    "trans": [
+      "胡萝卜"
+    ],
+    "usphone": "'kærәt",
+    "ukphone": "'kærәt",
+    "image": "/images/words/carrot.jpg",
+    "phonics": [
+      "ar"
+    ],
+    "wordFamily": "-rot"
   },
   {
     "name": "pig",
-    "trans": ["猪"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pig.jpg"
+    "trans": [
+      "猪"
+    ],
+    "usphone": "pig",
+    "ukphone": "pig",
+    "image": "/images/words/pig.jpg",
+    "wordFamily": "-ig",
+    "phonics": []
   },
   {
     "name": "Welcome to...",
-    "trans": ["欢迎来到……"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/welcome_to.jpg"
+    "trans": [
+      "欢迎来到……"
+    ],
+    "usphone": "'welkәm tu:",
+    "ukphone": "'welkәm tu:",
+    "image": "/images/words/welcome_to.jpg",
+    "phonics": [],
+    "wordFamily": "-ome"
   },
   {
     "name": "home",
-    "trans": ["家，住所"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/home.jpg"
+    "trans": [
+      "家，住所"
+    ],
+    "usphone": "hәum",
+    "ukphone": "hәum",
+    "image": "/images/words/home.jpg",
+    "phonics": [
+      "o_e"
+    ],
+    "wordFamily": "-me",
+    "relatedWords": [
+      "Me too!"
+    ]
   },
   {
     "name": "these",
-    "trans": ["这些"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "这些"
+    ],
+    "usphone": "ði:z",
+    "ukphone": "ði:z",
+    "phonics": [
+      "th"
+    ],
+    "wordFamily": "-ese"
   },
   {
     "name": "those",
-    "trans": ["那些"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "那些"
+    ],
+    "usphone": "ðәuz",
+    "ukphone": "ðәuz",
+    "phonics": [
+      "o_e",
+      "th"
+    ],
+    "wordFamily": "-ose",
+    "relatedWords": [
+      "close"
+    ]
   },
   {
     "name": "help",
-    "trans": ["帮助，协助"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/help.jpg"
+    "trans": [
+      "帮助，协助"
+    ],
+    "usphone": "help",
+    "ukphone": "help",
+    "image": "/images/words/help.jpg",
+    "wordFamily": "-lp",
+    "phonics": []
   },
   {
     "name": "cute",
-    "trans": ["可爱的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/cute.jpg"
+    "trans": [
+      "可爱的"
+    ],
+    "usphone": "kju:t",
+    "ukphone": "kju:t",
+    "image": "/images/words/cute.jpg",
+    "wordFamily": "-te",
+    "phonics": []
   },
   {
     "name": "move",
-    "trans": ["移动"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/move.jpg"
+    "trans": [
+      "移动"
+    ],
+    "usphone": "mu:v",
+    "ukphone": "mu:v",
+    "image": "/images/words/move.jpg",
+    "phonics": [],
+    "wordFamily": "-ve",
+    "relatedWords": [
+      "have fun"
+    ]
   },
   {
     "name": "animal",
-    "trans": ["动物"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/animal.jpg"
+    "trans": [
+      "动物"
+    ],
+    "usphone": "'ænimәl",
+    "ukphone": "'ænimәl",
+    "image": "/images/words/animal.jpg",
+    "wordFamily": "-mal",
+    "phonics": []
   },
   {
     "name": "monkey",
-    "trans": ["猴子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/monkey.jpg"
+    "trans": [
+      "猴子"
+    ],
+    "usphone": "'mʌŋki",
+    "ukphone": "'mʌŋki",
+    "image": "/images/words/monkey.jpg",
+    "wordFamily": "-key",
+    "phonics": []
   },
   {
     "name": "lion",
-    "trans": ["狮子"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/lion.jpg"
+    "trans": [
+      "狮子"
+    ],
+    "usphone": "'laiәn",
+    "ukphone": "'laiәn",
+    "image": "/images/words/lion.jpg",
+    "wordFamily": "-on",
+    "relatedWords": [
+      "on"
+    ],
+    "phonics": []
   },
   {
     "name": "bear",
-    "trans": ["熊"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/bear.jpg"
+    "trans": [
+      "熊"
+    ],
+    "usphone": "bєә",
+    "ukphone": "bєә",
+    "image": "/images/words/bear.jpg",
+    "phonics": [
+      "ea",
+      "ar"
+    ],
+    "wordFamily": "-ar",
+    "relatedWords": [
+      "far"
+    ]
   },
   {
     "name": "tiger",
-    "trans": ["老虎"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/tiger.jpg"
+    "trans": [
+      "老虎"
+    ],
+    "usphone": "'taigә",
+    "ukphone": "'taigә",
+    "image": "/images/words/tiger.jpg",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ger"
   },
   {
     "name": "panda",
-    "trans": ["大熊猫"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/panda.jpg"
+    "trans": [
+      "大熊猫"
+    ],
+    "usphone": "'pændә",
+    "ukphone": "'pændә",
+    "image": "/images/words/panda.jpg",
+    "wordFamily": "-nda",
+    "phonics": []
   },
   {
     "name": "elephant",
-    "trans": ["大象"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/elephant.jpg"
+    "trans": [
+      "大象"
+    ],
+    "usphone": "'elifәnt",
+    "ukphone": "'elifәnt",
+    "image": "/images/words/elephant.jpg",
+    "wordFamily": "-ant",
+    "phonics": []
   },
   {
     "name": "lunchtime",
-    "trans": ["午餐时间"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/lunchtime.jpg"
+    "trans": [
+      "午餐时间"
+    ],
+    "usphone": "'lʌntʃtaim",
+    "ukphone": "'lʌntʃtaim",
+    "image": "/images/words/lunchtime.jpg",
+    "phonics": [
+      "i_e",
+      "ch"
+    ],
+    "wordFamily": "-ime"
   },
   {
     "name": "fish",
-    "trans": ["鱼；鱼肉"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/fish.jpg"
+    "trans": [
+      "鱼；鱼肉"
+    ],
+    "usphone": "fiʃ",
+    "ukphone": "fiʃ",
+    "image": "/images/words/fish.jpg",
+    "phonics": [
+      "sh"
+    ],
+    "wordFamily": "-sh"
   },
   {
     "name": "high five",
-    "trans": ["互相高举胳膊击掌"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/high_five.jpg"
+    "trans": [
+      "互相高举胳膊击掌"
+    ],
+    "usphone": "hai faɪv",
+    "ukphone": "hai faɪv",
+    "image": "/images/words/high_five.jpg",
+    "phonics": [
+      "igh"
+    ],
+    "wordFamily": "-gh"
   },
   {
     "name": "feed",
-    "trans": ["给食物，喂养"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/feed.jpg"
+    "trans": [
+      "给食物，喂养"
+    ],
+    "usphone": "fi:d",
+    "ukphone": "fi:d",
+    "image": "/images/words/feed.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-ed",
+    "relatedWords": [
+      "red"
+    ]
   },
   {
     "name": "zoo",
-    "trans": ["动物园"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/zoo.jpg"
+    "trans": [
+      "动物园"
+    ],
+    "usphone": "zu:",
+    "ukphone": "zu:",
+    "image": "/images/words/zoo.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-oo",
+    "relatedWords": [
+      "Me too!"
+    ]
   },
   {
     "name": "go",
-    "trans": ["去，走"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/go.jpg"
+    "trans": [
+      "去，走"
+    ],
+    "usphone": "gou",
+    "ukphone": "gou",
+    "image": "/images/words/go.jpg",
+    "wordFamily": "-go",
+    "phonics": []
   },
   {
     "name": "see",
-    "trans": ["看，见"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/see.jpg"
+    "trans": [
+      "看，见"
+    ],
+    "usphone": "si:",
+    "ukphone": "si:",
+    "image": "/images/words/see.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-ee",
+    "relatedWords": [
+      "tree"
+    ]
   },
   {
     "name": "colour",
-    "trans": ["颜色，色彩"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/colour.jpg"
+    "trans": [
+      "颜色，色彩"
+    ],
+    "usphone": "'kʌlә",
+    "ukphone": "'kʌlә",
+    "image": "/images/words/colour.jpg",
+    "wordFamily": "-our",
+    "phonics": [],
+    "relatedWords": [
+      "What colour is...?"
+    ]
   },
   {
     "name": "yellow",
-    "trans": ["黄色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/yellow.jpg"
+    "trans": [
+      "黄色的"
+    ],
+    "usphone": "'jelәu",
+    "ukphone": "'jelәu",
+    "image": "/images/words/yellow.jpg",
+    "wordFamily": "-low",
+    "relatedWords": [
+      "follow"
+    ],
+    "phonics": []
   },
   {
     "name": "blue",
-    "trans": ["蓝色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/blue.jpg"
+    "trans": [
+      "蓝色的"
+    ],
+    "usphone": "blu:",
+    "ukphone": "blu:",
+    "image": "/images/words/blue.jpg",
+    "wordFamily": "-ue",
+    "phonics": []
   },
   {
     "name": "red",
-    "trans": ["红色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/red.jpg"
+    "trans": [
+      "红色的"
+    ],
+    "usphone": "red",
+    "ukphone": "red",
+    "image": "/images/words/red.jpg",
+    "wordFamily": "-ed",
+    "relatedWords": [
+      "feed"
+    ],
+    "phonics": []
   },
   {
     "name": "orange",
-    "trans": ["橙红色的，橘黄色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/orange.jpg"
+    "trans": [
+      "橙红色的，橘黄色的"
+    ],
+    "usphone": "'ɒ:rindʒ",
+    "ukphone": "'ɒ:rindʒ",
+    "image": "/images/words/orange.jpg",
+    "phonics": [
+      "or"
+    ],
+    "wordFamily": "-nge"
   },
   {
     "name": "pink",
-    "trans": ["粉红色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/pink.jpg"
+    "trans": [
+      "粉红色的"
+    ],
+    "usphone": "piŋk",
+    "ukphone": "piŋk",
+    "image": "/images/words/pink.jpg",
+    "wordFamily": "-nk",
+    "phonics": []
   },
   {
     "name": "green",
-    "trans": ["绿色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/green.jpg"
+    "trans": [
+      "绿色的"
+    ],
+    "usphone": "gri:n",
+    "ukphone": "gri:n",
+    "image": "/images/words/green.jpg",
+    "phonics": [
+      "ee"
+    ],
+    "wordFamily": "-en",
+    "relatedWords": [
+      "pen",
+      "garden",
+      "chicken"
+    ]
   },
   {
     "name": "brown",
-    "trans": ["棕色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/brown.jpg"
+    "trans": [
+      "棕色的"
+    ],
+    "usphone": "braun",
+    "ukphone": "braun",
+    "image": "/images/words/brown.jpg",
+    "wordFamily": "-own",
+    "phonics": []
   },
   {
     "name": "black",
-    "trans": ["黑色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/black.jpg"
+    "trans": [
+      "黑色的"
+    ],
+    "usphone": "blæk",
+    "ukphone": "blæk",
+    "image": "/images/words/black.jpg",
+    "phonics": [
+      "ck"
+    ],
+    "wordFamily": "-ack"
   },
   {
     "name": "white",
-    "trans": ["白色的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/white.jpg"
+    "trans": [
+      "白色的"
+    ],
+    "usphone": "hwait",
+    "ukphone": "hwait",
+    "image": "/images/words/white.jpg",
+    "phonics": [
+      "i_e",
+      "wh"
+    ],
+    "wordFamily": "-ite"
   },
   {
     "name": "buy",
-    "trans": ["买"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/buy.jpg"
+    "trans": [
+      "买"
+    ],
+    "usphone": "bai",
+    "ukphone": "bai",
+    "image": "/images/words/buy.jpg",
+    "wordFamily": "-uy",
+    "phonics": []
   },
   {
     "name": "balloon",
-    "trans": ["气球"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/balloon.jpg"
+    "trans": [
+      "气球"
+    ],
+    "usphone": "bә'lu:n",
+    "ukphone": "bә'lu:n",
+    "image": "/images/words/balloon.jpg",
+    "phonics": [
+      "oo"
+    ],
+    "wordFamily": "-oon"
   },
   {
     "name": "sure",
-    "trans": ["（表示同意）当然"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/sure.jpg"
+    "trans": [
+      "（表示同意）当然"
+    ],
+    "usphone": "ʃuә",
+    "ukphone": "ʃuә",
+    "image": "/images/words/sure.jpg",
+    "wordFamily": "-re",
+    "phonics": []
   },
   {
     "name": "chameleon",
-    "trans": ["变色龙"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/chameleon.jpg"
+    "trans": [
+      "变色龙"
+    ],
+    "usphone": "kә'mi:liәn",
+    "ukphone": "kә'mi:liәn",
+    "image": "/images/words/chameleon.jpg",
+    "phonics": [
+      "ch"
+    ],
+    "wordFamily": "-eon"
   },
   {
     "name": "small",
-    "trans": ["小的"],
-    "usphone": "",
-    "ukphone": "",
-    "image": "/images/words/small.jpg"
+    "trans": [
+      "小的"
+    ],
+    "usphone": "smɒ:l",
+    "ukphone": "smɒ:l",
+    "image": "/images/words/small.jpg",
+    "wordFamily": "-all",
+    "phonics": []
   },
   {
     "name": "What colour is...?",
-    "trans": ["……是什么颜色的？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "……是什么颜色的？"
+    ],
+    "usphone": "hwɒt 'kʌlә iz",
+    "ukphone": "hwɒt 'kʌlә iz",
+    "phonics": [],
+    "wordFamily": "-our",
+    "relatedWords": [
+      "colour"
+    ]
   },
   {
     "name": "What's the matter?",
-    "trans": ["怎么回事？"],
-    "usphone": "",
-    "ukphone": ""
+    "trans": [
+      "怎么回事？"
+    ],
+    "usphone": "hwɒt es ðә 'mætә",
+    "ukphone": "hwɒt es ðә 'mætә",
+    "phonics": [
+      "er"
+    ],
+    "wordFamily": "-ter",
+    "relatedWords": [
+      "after class"
+    ]
   }
 ]

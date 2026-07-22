@@ -65,6 +65,7 @@ type PetRow = {
   outfitJson: string
   lastInteractedAt: number
   createdAt: number
+  color: string
 }
 
 type UserSettingsRow = {
@@ -158,7 +159,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
     // 10. Pet Data
     const petRow = await env.DB.prepare(
-      'SELECT species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json as outfitJson, last_interacted_at as lastInteractedAt, created_at as createdAt FROM pets WHERE user_id = ?',
+      "SELECT species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json as outfitJson, last_interacted_at as lastInteractedAt, created_at as createdAt, COALESCE(color, 'natural') as color FROM pets WHERE user_id = ?",
     )
       .bind(userId)
       .first<PetRow>()

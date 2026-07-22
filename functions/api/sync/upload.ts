@@ -102,6 +102,7 @@ type PetPayload = {
   outfitJson?: string
   lastInteractedAt: number
   createdAt: number
+  color?: string
 }
 
 type PetInventoryPayload = {
@@ -363,8 +364,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       if (pet) {
         await env.DB.prepare(
           `
-          INSERT INTO pets (user_id, species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json, last_interacted_at, created_at, updated_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO pets (user_id, species, name, level, exp, stage, mood, hunger, cleanliness, outfit_json, last_interacted_at, created_at, color, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(user_id) DO UPDATE SET
             species = excluded.species,
             name = excluded.name,
@@ -376,6 +377,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             cleanliness = excluded.cleanliness,
             outfit_json = excluded.outfit_json,
             last_interacted_at = excluded.last_interacted_at,
+            color = excluded.color,
             updated_at = excluded.updated_at
         `,
         )
@@ -392,6 +394,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             pet.outfitJson || '[]',
             pet.lastInteractedAt,
             pet.createdAt,
+            pet.color || 'natural',
             Date.now(),
           )
           .run()

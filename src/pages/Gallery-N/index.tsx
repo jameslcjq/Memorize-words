@@ -66,7 +66,14 @@ export default function GalleryPage() {
           <IconX className="absolute right-6 top-10 mr-2 h-7 w-7 cursor-pointer text-gray-400 md:right-12 lg:right-20" onClick={onBack} />
           <div className="mt-16 flex w-full flex-1 flex-col items-center justify-center overflow-y-auto md:mt-20">
             <div className="flex h-full w-full max-w-5xl flex-col overflow-y-auto">
-              <div className="flex h-16 w-full items-center justify-between pb-4 md:h-20 md:pb-6"></div>
+              <div className="flex h-16 w-full items-center justify-end pb-4 md:h-20 md:pb-6">
+                <button
+                  onClick={() => navigate('/patterns')}
+                  className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-600"
+                >
+                  规律浏览
+                </button>
+              </div>
               <ScrollArea.Root className="flex-1 overflow-y-auto">
                 <ScrollArea.Viewport className="h-full w-full">
                   <div className="flex flex-1 flex-col items-start justify-start gap-10 overflow-y-auto md:gap-14">

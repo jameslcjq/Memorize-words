@@ -1,5 +1,7 @@
 import styles from './index.module.css'
+import { ANSWER_HINT_MAX_SECONDS, ANSWER_HINT_MIN_SECONDS } from '@/constants/game'
 import {
+  answerHintDurationAtom,
   isIgnoreCaseAtom,
   isShowAnswerOnHoverAtom,
   isShowPrevAndNextWordAtom,
@@ -19,6 +21,7 @@ export default function AdvancedSetting() {
   const [isTextSelectable, setIsTextSelectable] = useAtom(isTextSelectableAtom)
   const [isShowAnswerOnHover, setIsShowAnswerOnHover] = useAtom(isShowAnswerOnHoverAtom)
   const [learningPlan, setLearningPlan] = useAtom(learningPlanAtom)
+  const [answerHintDuration, setAnswerHintDuration] = useAtom(answerHintDurationAtom)
 
   const onToggleRandom = useCallback(
     (checked: boolean) => {
@@ -121,6 +124,23 @@ export default function AdvancedSetting() {
               <span className="text-right text-xs font-normal leading-tight text-gray-600">{`显示提示已${
                 isShowAnswerOnHover ? '开启' : '关闭'
               }`}</span>
+            </div>
+          </div>
+
+          <div className={styles.section}>
+            <span className={styles.sectionLabel}>答错提示时长</span>
+            <span className={styles.sectionDescription}>答错后保留正确答案和学习提示；按回车或点击提示可提前继续</span>
+            <div className="mt-2 flex items-center gap-4">
+              <input
+                type="range"
+                min={ANSWER_HINT_MIN_SECONDS}
+                max={ANSWER_HINT_MAX_SECONDS}
+                step="1"
+                value={Math.round(answerHintDuration / 1000)}
+                onChange={(event) => setAnswerHintDuration(Number(event.target.value) * 1000)}
+                className="h-2 w-48 cursor-pointer appearance-none rounded-lg bg-gray-200 accent-indigo-500"
+              />
+              <span className="min-w-[52px] text-lg font-bold text-indigo-600">{Math.round(answerHintDuration / 1000)} 秒</span>
             </div>
           </div>
 

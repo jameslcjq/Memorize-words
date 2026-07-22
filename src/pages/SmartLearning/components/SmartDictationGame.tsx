@@ -1,7 +1,11 @@
+import WordInsights from '@/components/WordInsights'
+import { useAnswerHintAdvance } from '@/hooks/useAnswerHintAdvance'
 import { useFastPronunciation } from '@/hooks/useFastPronunciation'
 import useKeySounds from '@/hooks/useKeySounds'
+import { answerHintDurationAtom } from '@/store'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
+import { useAtomValue } from 'jotai'
 import type React from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import IconVolume from '~icons/tabler/volume'
@@ -40,6 +44,7 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
   const [isSuccess, setIsSuccess] = useState(false)
   const [isShowAnswer, setIsShowAnswer] = useState(false)
   const [isShake, setIsShake] = useState(false)
+  const answerHintDuration = useAtomValue(answerHintDurationAtom)
 
   const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: string }[]>([])
 
@@ -121,18 +126,13 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
     }, 50)
   }, [currentWordObj?.name])
 
-  // Auto-advance
-  useEffect(() => {
-    if (!isSuccess && !isShowAnswer) return
-
-    const delay = isSuccess ? 1300 : 2500
-
-    const timer = setTimeout(() => {
-      onCompleteRef.current()
-    }, delay)
-
-    return () => clearTimeout(timer)
-  }, [isSuccess, isShowAnswer])
+  useAnswerHintAdvance({
+    isSuccess,
+    isWrong: isShowAnswer,
+    wrongDuration: answerHintDuration,
+    onSuccess: () => onCompleteRef.current(),
+    onWrong: () => onErrorRef.current(),
+  })
 
   const checkAnswer = useCallback(
     (inputs: string[]) => {
@@ -171,7 +171,6 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
           letterMistake,
         })
 
-        onErrorRef.current()
         playWordRef.current()
         setTimeout(() => setIsShake(false), 500)
       }
@@ -443,15 +442,17 @@ const SmartDictationGame: React.FC<SmartDictationGameProps> = ({ word, onComplet
             <span className="text-9xl">✗</span>
           </div>
         )}
-
-        {isShowAnswer && (
-          <div className="absolute -bottom-16 left-0 right-0 animate-bounce text-center">
-            <span className="rounded bg-white px-4 py-2 text-2xl font-bold text-green-600 shadow dark:bg-gray-800 dark:text-green-400">
-              {currentWordObj.name}
-            </span>
-          </div>
-        )}
       </div>
+
+      {isShowAnswer && (
+        <div className="mt-4 text-center">
+          <span className="rounded bg-white px-4 py-2 text-2xl font-bold text-green-600 shadow dark:bg-gray-800 dark:text-green-400">
+            {currentWordObj.name}
+          </span>
+          <WordInsights word={currentWordObj} compact />
+          <p className="mt-2 text-xs text-gray-400">按回车或点击空白处继续</p>
+        </div>
+      )}
 
       {/* Shuffle Letters Bank */}
       <div className="mt-8 flex flex-wrap justify-center gap-4">

@@ -1,5 +1,6 @@
 import AdoptionFlow from './components/AdoptionFlow'
 import ItemPicker from './components/ItemPicker'
+import PetColorPicker from './components/PetColorPicker'
 import PetDisplay from './components/PetDisplay'
 import { useGamification } from '@/hooks/useGamification'
 import { usePet } from '@/hooks/usePet'
@@ -13,7 +14,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function PetPage() {
   const navigate = useNavigate()
-  const { pet, inventory, adoptPet, feedPet, playWithPet, cleanPet, equipDecoration } = usePet()
+  const { pet, inventory, adoptPet, feedPet, playWithPet, cleanPet, equipDecoration, changePetColor } = usePet()
   const { totalPoints } = useGamification()
   const userInfo = useAtomValue(userInfoAtom)
   const cloudLoaded = useAtomValue(cloudLoadedAtom)
@@ -129,6 +130,19 @@ export default function PetPage() {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Attribute bars */}
+            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
+              <h3 className="mb-1 font-semibold text-gray-800 dark:text-white">外观</h3>
+              <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">选择颜色后会立即保存并同步到其他设备</p>
+              <PetColorPicker
+                value={pet.color || 'natural'}
+                onChange={async (color) => {
+                  const result = await changePetColor(color)
+                  showFeedback(result.message, result.success ? '🎨' : '❌')
+                }}
+              />
             </div>
 
             {/* Attribute bars */}

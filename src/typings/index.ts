@@ -26,6 +26,14 @@ export type Word = {
   ukphone: string
   notation?: string
   image?: string
+  phonics?: string[]
+  wordFamily?: string
+  morph?: {
+    prefix?: { text: string; meaning: string }
+    root?: { text: string; meaning: string }
+    suffix?: { text: string; meaning: string }
+  }
+  relatedWords?: string[]
 }
 
 export type WordWithIndex = Word & {

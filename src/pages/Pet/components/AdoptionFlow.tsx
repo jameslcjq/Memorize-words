@@ -1,3 +1,4 @@
+import PetColorPicker from './PetColorPicker'
 import { userInfoAtom } from '@/store'
 import type { PetSpecies } from '@/typings/pet'
 import confetti from 'canvas-confetti'
@@ -5,12 +6,13 @@ import { useAtomValue } from 'jotai'
 import { useState } from 'react'
 
 interface AdoptionFlowProps {
-  onAdopt: (name: string, species: PetSpecies) => Promise<void>
+  onAdopt: (name: string, species: PetSpecies, color: string) => Promise<void>
 }
 
 export default function AdoptionFlow({ onAdopt }: AdoptionFlowProps) {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [color, setColor] = useState('natural')
   const userInfo = useAtomValue(userInfoAtom)
 
   const handleAdopt = async () => {
@@ -21,7 +23,7 @@ export default function AdoptionFlow({ onAdopt }: AdoptionFlowProps) {
     }
     setLoading(true)
     try {
-      await onAdopt(name.trim(), 'cat')
+      await onAdopt(name.trim(), 'cat', color)
       confetti({
         particleCount: 100,
         spread: 70,
@@ -91,6 +93,11 @@ export default function AdoptionFlow({ onAdopt }: AdoptionFlowProps) {
             <span className="text-xs text-gray-400">即将开放</span>
           </button>
         </div>
+      </div>
+
+      <div className="w-full max-w-sm">
+        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">选择初始颜色</label>
+        <PetColorPicker value={color} onChange={setColor} disabled={loading} />
       </div>
 
       {/* Login hint */}

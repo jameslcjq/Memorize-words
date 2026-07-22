@@ -4,6 +4,7 @@ import {
   exerciseModeAtom,
   loopWordConfigAtom,
   quizConfigAtom,
+  practiceWordListAtom,
   reviewModeInfoAtom,
   selectedChaptersAtom,
 } from '@/store'
@@ -65,6 +66,7 @@ export function useWordList(): UseWordListResult {
   const quizConfig = useAtomValue(quizConfigAtom)
   const exerciseMode = useAtomValue(exerciseModeAtom)
   const loopWordConfig = useAtomValue(loopWordConfigAtom)
+  const practiceWordList = useAtomValue(practiceWordListAtom)
 
   // Ensure selectedChapters are valid
   // If max is out of bounds, reset to [0]
@@ -119,7 +121,9 @@ export function useWordList(): UseWordListResult {
 
   const words: WordWithIndex[] = useMemo(() => {
     let newWords: Word[]
-    if (isFirstChapter) {
+    if (selectedChapters.includes(-3) && practiceWordList) {
+      newWords = applyLoopAndShuffle(practiceWordList.words, loopWordConfig.times || 1)
+    } else if (isFirstChapter) {
       newWords = firstChapter
     } else if (isReviewMode) {
       newWords = reviewRecord?.words ?? []
@@ -171,9 +175,20 @@ export function useWordList(): UseWordListResult {
         trans,
       }
     })
-  }, [isFirstChapter, isReviewMode, wordList, reviewRecord?.words, selectedChapters, errorWords, currentDictInfo, loopWordConfig.times])
+  }, [
+    isFirstChapter,
+    isReviewMode,
+    wordList,
+    reviewRecord?.words,
+    selectedChapters,
+    errorWords,
+    currentDictInfo,
+    loopWordConfig.times,
+    practiceWordList,
+  ])
 
-  const isLoading = selectedChapters.includes(-2) ? isDatabaseLoading : isSwrLoading
+  const isLoading =
+    selectedChapters.includes(-3) && practiceWordList ? false : selectedChapters.includes(-2) ? isDatabaseLoading : isSwrLoading
 
   return { words, isLoading, error: swrError }
 }

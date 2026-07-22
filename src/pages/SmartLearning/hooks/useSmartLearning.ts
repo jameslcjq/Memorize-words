@@ -1,10 +1,11 @@
+import { getSmartLearningInitializationKey } from './smartLearningInitialization'
+import { offlineStorage } from '@/lib/offlineStorage'
 import type { Word } from '@/typings'
 import { getUTCUnixTimestamp } from '@/utils'
 import { db } from '@/utils/db'
 import type { SmartLearningRecord, SmartLearningSession, WordProgress } from '@/utils/db/smart-learning-record'
 import { LearningStage, WordProgressRecord } from '@/utils/db/smart-learning-record'
-import { offlineStorage } from '@/lib/offlineStorage'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const SESSION_KEY = 'smartLearningSession'
 const WORDS_PER_GROUP = 10
@@ -212,6 +213,8 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
   const [currentTask, setCurrentTask] = useState<LearningTask | null>(null)
   const [stageStartTime, setStageStartTime] = useState<number>(Date.now())
   const [isGroupFinished, setIsGroupFinished] = useState(false)
+  const [taskRevision, setTaskRevision] = useState(0)
+  const initializedKeyRef = useRef<string | null>(null)
 
   /**
    * 初始化学习会话
@@ -332,6 +335,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     // 获取下一个任务
     const next = queue.getNext()
     setCurrentTask(next)
+    setTaskRevision((value) => value + 1)
     setStageStartTime(Date.now())
   }, [queue, session, currentTask, saveSession, saveCompletedGroup])
 
@@ -352,6 +356,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     // 获取下一个任务
     const next = queue.getNext()
     setCurrentTask(next)
+    setTaskRevision((value) => value + 1)
     setStageStartTime(Date.now())
   }, [queue, session, currentTask, saveSession])
 
@@ -386,6 +391,7 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     const q = new SmartLearningQueue(wordProgresses)
     setQueue(q)
     setCurrentTask(q.getNext())
+    setTaskRevision((value) => value + 1)
     setStageStartTime(Date.now())
     setIsGroupFinished(false)
 
@@ -397,10 +403,12 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
    * 初始化
    */
   useEffect(() => {
-    if (allWords.length > 0) {
-      initSession()
-    }
-  }, [initSession, allWords.length])
+    const initializationKey = getSmartLearningInitializationKey(dict, chapter, allWords.length)
+    if (!initializationKey) return
+    if (initializedKeyRef.current === initializationKey) return
+    initializedKeyRef.current = initializationKey
+    initSession()
+  }, [dict, chapter, initSession, allWords.length])
 
   // 构造当前单词进度对象（用于渲染 StageIndicator）
   const currentWord = currentTask
@@ -428,5 +436,6 @@ export function useSmartLearning(dict: string, chapter: number, allWords: Word[]
     moveToNextGroup,
     isGroupFinished,
     remainingTasks: queue?.getRemainingTasks() || 0,
+    taskRevision,
   }
 }

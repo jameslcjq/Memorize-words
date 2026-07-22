@@ -1,3 +1,4 @@
+import { getPetColor } from '@/constants/pet-colors'
 import type { Pet } from '@/typings/pet'
 import { getPetVisualState, getStageEmoji, getStageLabel } from '@/utils/pet-logic'
 import 'animate.css'
@@ -11,6 +12,7 @@ interface PetDisplayProps {
 export default function PetDisplay({ pet, size = 'lg', showStatus = true }: PetDisplayProps) {
   const visualState = getPetVisualState(pet)
   const emoji = getStageEmoji(pet.stage, pet.species, visualState)
+  const color = getPetColor(pet.color)
 
   const sizeClasses = {
     sm: 'text-6xl',
@@ -30,7 +32,8 @@ export default function PetDisplay({ pet, size = 'lg', showStatus = true }: PetD
       {/* Pet emoji with animation */}
       <div
         className={`${sizeClasses[size]} ${animationClass} select-none`}
-        style={{ animationDuration: visualState === 'happy' ? '2s' : '3s' }}
+        style={{ animationDuration: visualState === 'happy' ? '2s' : '3s', filter: color.filter }}
+        title={`${pet.name} · ${color.name}`}
       >
         {emoji}
       </div>

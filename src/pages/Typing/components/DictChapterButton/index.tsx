@@ -1,8 +1,8 @@
 import Tooltip from '@/components/Tooltip'
-import { currentDictInfoAtom, isReviewModeAtom, selectedChaptersAtom } from '@/store'
+import { currentDictInfoAtom, isReviewModeAtom, practiceWordListAtom, selectedChaptersAtom } from '@/store'
 import range from '@/utils/range'
 import { Listbox, Transition } from '@headlessui/react'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import IconCheck from '~icons/tabler/check'
@@ -12,6 +12,8 @@ export const DictChapterButton = () => {
   const [selectedChapters, setSelectedChapters] = useAtom(selectedChaptersAtom)
   const chapterCount = currentDictInfo.chapterCount
   const isReviewMode = useAtomValue(isReviewModeAtom)
+  const practiceWordList = useAtomValue(practiceWordListAtom)
+  const setPracticeWordList = useSetAtom(practiceWordListAtom)
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (event) => {
     if (event.key === ' ') {
@@ -33,6 +35,7 @@ export const DictChapterButton = () => {
           <Listbox
             value={selectedChapters}
             onChange={(selected: number[]) => {
+              setPracticeWordList(null)
               // Get the newly selected item (the last one added)
               // Note: This logic assumes simple clicks on options.
               // Logic:
@@ -76,6 +79,7 @@ export const DictChapterButton = () => {
 
               const prevHasErrorBook = selectedChapters.includes(-2)
               const prevHasWholeDict = selectedChapters.includes(-1)
+              const prevHasPractice = selectedChapters.includes(-3)
 
               if (newSelection.includes(-2) && !prevHasErrorBook) {
                 // User just clicked Error Book.
@@ -83,7 +87,7 @@ export const DictChapterButton = () => {
               } else if (newSelection.includes(-1) && !prevHasWholeDict) {
                 // User just clicked Whole Dict.
                 newSelection = [-1]
-              } else if ((prevHasErrorBook || prevHasWholeDict) && newSelection.length > 1) {
+              } else if ((prevHasErrorBook || prevHasWholeDict || prevHasPractice) && newSelection.length > 1) {
                 // User was in special mode, and just clicked something else (regular chapter).
                 // Remove the special modes.
                 newSelection = newSelection.filter((i) => i >= 0)
@@ -114,8 +118,10 @@ export const DictChapterButton = () => {
             >
               {selectedChapters.includes(-1) && '整个词库'}
               {selectedChapters.includes(-2) && '错题本'}
+              {selectedChapters.includes(-3) && (practiceWordList?.label || '规律练习')}
               {!selectedChapters.includes(-1) &&
                 !selectedChapters.includes(-2) &&
+                !selectedChapters.includes(-3) &&
                 (selectedChapters.length === 1 ? `第 ${selectedChapters[0] + 1} 单元` : `${selectedChapters.length} 个单元`)}
             </Listbox.Button>
             <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">

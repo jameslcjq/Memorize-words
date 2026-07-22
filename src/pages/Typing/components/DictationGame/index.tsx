@@ -1,8 +1,12 @@
+import WordInsights from '@/components/WordInsights'
+import { useAnswerHintAdvance } from '@/hooks/useAnswerHintAdvance'
 import useKeySounds from '@/hooks/useKeySounds'
 import usePronunciationSound, { usePrefetchPronunciationSound } from '@/hooks/usePronunciation'
 import { TypingContext, TypingStateActionType } from '@/pages/Typing/store'
+import { answerHintDurationAtom } from '@/store'
 import type { Word } from '@/typings'
 import { useSaveWordRecord } from '@/utils/db'
+import { useAtomValue } from 'jotai'
 import type React from 'react'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import IconVolume from '~icons/tabler/volume'
@@ -32,6 +36,7 @@ const DictationGame: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false)
   const [isShowAnswer, setIsShowAnswer] = useState(false)
   const [isShake, setIsShake] = useState(false)
+  const answerHintDuration = useAtomValue(answerHintDurationAtom)
 
   // Shuffled letters for the bottom bank
   const [shuffledLetters, setShuffledLetters] = useState<{ char: string; rotation: number; id: string }[]>([])
@@ -124,25 +129,20 @@ const DictationGame: React.FC = () => {
     }, 100)
   }, [currentWordObj?.name, dispatch, state.chapterData.index])
 
-  // Auto-advance to next word when isSuccess or isShowAnswer becomes true
-  useEffect(() => {
-    if (!isSuccess && !isShowAnswer) return
+  const advanceToNextWord = useCallback(() => {
+    const currentState = stateRef.current
+    const currentDispatch = dispatchRef.current
+    const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
+    currentDispatch({ type: isLastWord ? TypingStateActionType.FINISH_CHAPTER : TypingStateActionType.NEXT_WORD })
+  }, [])
 
-    const delay = isSuccess ? 1300 : 2500 // Success: 1.3s, Wrong: 2.5s
-
-    const timer = setTimeout(() => {
-      const currentState = stateRef.current
-      const currentDispatch = dispatchRef.current
-      const isLastWord = currentState.chapterData.index >= currentState.chapterData.words.length - 1
-      if (isLastWord) {
-        currentDispatch({ type: TypingStateActionType.FINISH_CHAPTER })
-      } else {
-        currentDispatch({ type: TypingStateActionType.NEXT_WORD })
-      }
-    }, delay)
-
-    return () => clearTimeout(timer)
-  }, [isSuccess, isShowAnswer])
+  useAnswerHintAdvance({
+    isSuccess,
+    isWrong: isShowAnswer,
+    wrongDuration: answerHintDuration,
+    onSuccess: advanceToNextWord,
+    onWrong: advanceToNextWord,
+  })
 
   const checkAnswer = useCallback(
     (inputs: string[]) => {
@@ -510,16 +510,17 @@ const DictationGame: React.FC = () => {
             <span className="text-9xl">✗</span>
           </div>
         )}
-
-        {/* Show Correct Answer when failed */}
-        {isShowAnswer && (
-          <div className="absolute -bottom-16 left-0 right-0 animate-bounce text-center">
-            <span className="rounded bg-white px-4 py-2 text-2xl font-bold text-green-600 shadow dark:bg-gray-800 dark:text-green-400">
-              {currentWordObj.name}
-            </span>
-          </div>
-        )}
       </div>
+
+      {isShowAnswer && (
+        <div className="mt-4 text-center">
+          <span className="rounded bg-white px-4 py-2 text-2xl font-bold text-green-600 shadow dark:bg-gray-800 dark:text-green-400">
+            {currentWordObj.name}
+          </span>
+          <WordInsights word={currentWordObj} compact />
+          <p className="mt-2 text-xs text-gray-400">按回车或点击空白处继续</p>
+        </div>
+      )}
 
       {/* Shuffle Letters Bank */}
       <div className="mt-8 flex flex-wrap justify-center gap-4">

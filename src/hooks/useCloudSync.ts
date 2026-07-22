@@ -142,6 +142,7 @@ export const useCloudSync = () => {
       randomConfig: offlineStorage.getItem('randomConfig'),
       wordDictationConfig: offlineStorage.getItem('wordDictationConfig'),
       isOpenDarkModeAtom: offlineStorage.getItem('isOpenDarkModeAtom'),
+      answerHintDuration: offlineStorage.getItem('answerHintDuration'),
     }
 
     const response = await fetch('/api/sync/upload', {
@@ -257,6 +258,7 @@ export const useCloudSync = () => {
       if (s.randomConfig) setOfflineValueFromCloud('randomConfig', s.randomConfig)
       if (s.wordDictationConfig) setOfflineValueFromCloud('wordDictationConfig', s.wordDictationConfig)
       if (s.isOpenDarkModeAtom) setOfflineValueFromCloud('isOpenDarkModeAtom', s.isOpenDarkModeAtom)
+      if (s.answerHintDuration) setOfflineValueFromCloud('answerHintDuration', s.answerHintDuration)
     }
 
     const deletedWordRecords = json.deletedWordRecords || []

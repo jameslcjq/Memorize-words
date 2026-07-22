@@ -67,9 +67,10 @@ describe('resolvePetSync', () => {
   })
 
   it('prefers the local pet when it was interacted with more recently', () => {
-    const local = makePet({ name: '本地', lastInteractedAt: 5000 })
+    const local = makePet({ name: '本地', color: 'sky', lastInteractedAt: 5000 })
     const cloud = makePet({ name: '云端', lastInteractedAt: 3000 })
     expect(resolvePetSync(local, cloud).nextPet).toBe(local)
+    expect(resolvePetSync(local, cloud).nextPet?.color).toBe('sky')
   })
 
   it('prefers the cloud pet when it is newer', () => {

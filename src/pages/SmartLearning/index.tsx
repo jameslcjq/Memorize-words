@@ -4,12 +4,12 @@ import SmartSpellerGame from './components/SmartSpellerGame'
 import StageIndicator from './components/StageIndicator'
 import Summary from './components/Summary'
 import { useSmartLearning } from './hooks/useSmartLearning'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { currentDictInfoAtom, exerciseModeAtom, selectedChaptersAtom } from '@/store'
 import type { Word } from '@/typings'
 import type { SmartLearningRecord } from '@/utils/db/smart-learning-record'
 import { LearningStage } from '@/utils/db/smart-learning-record'
 import { wordListFetcher } from '@/utils/wordListFetcher'
-import { offlineStorage } from '@/lib/offlineStorage'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +20,10 @@ export default function SmartLearning() {
   const currentDictInfo = useAtomValue(currentDictInfoAtom)
   const selectedChapters = useAtomValue(selectedChaptersAtom)
   const setExerciseMode = useSetAtom(exerciseModeAtom)
-  const { data: wordList } = useSWR(currentDictInfo.url, wordListFetcher)
+  const { data: wordList } = useSWR(currentDictInfo.url, wordListFetcher, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+  })
 
   const [chapterWords, setChapterWords] = useState<Word[]>([])
   const [completedRecord, setCompletedRecord] = useState<SmartLearningRecord | null>(null)
@@ -33,6 +36,7 @@ export default function SmartLearning() {
     const chapter = selectedChapters[0]
     if (chapter < 0) {
       // 特殊模式，回到主页
+      setExerciseMode('speller')
       navigate('/typing')
       return
     }
@@ -43,13 +47,10 @@ export default function SmartLearning() {
     const end = (chapter + 1) * CHAPTER_LENGTH
     const words = wordList.slice(start, end)
     setChapterWords(words)
-  }, [wordList, selectedChapters, navigate])
+  }, [wordList, selectedChapters, navigate, setExerciseMode])
 
-  const { session, currentWord, handleCorrect, handleWrong, getProgress, moveToNextGroup, isGroupFinished } = useSmartLearning(
-    currentDictInfo.id,
-    selectedChapters[0] || 0,
-    chapterWords,
-  )
+  const { session, currentWord, handleCorrect, handleWrong, getProgress, moveToNextGroup, isGroupFinished, taskRevision } =
+    useSmartLearning(currentDictInfo.id, selectedChapters[0] || 0, chapterWords)
 
   // 处理组完成
   useEffect(() => {
@@ -180,6 +181,7 @@ export default function SmartLearning() {
           {(currentWord.currentStage === LearningStage.ENGLISH_TO_CHINESE ||
             currentWord.currentStage === LearningStage.CHINESE_TO_ENGLISH) && (
             <SmartQuizPanel
+              key={`${currentWord.word}-${currentWord.currentStage}-${taskRevision}`}
               word={wordData}
               allWords={chapterWords}
               mode={getQuizMode(currentWord.currentStage)}
@@ -189,11 +191,21 @@ export default function SmartLearning() {
           )}
 
           {currentWord.currentStage === LearningStage.SPELLER && (
-            <SmartSpellerGame word={wordData} onComplete={handleCorrect} onError={handleWrong} />
+            <SmartSpellerGame
+              key={`${currentWord.word}-${currentWord.currentStage}-${taskRevision}`}
+              word={wordData}
+              onComplete={handleCorrect}
+              onError={handleWrong}
+            />
           )}
 
           {currentWord.currentStage === LearningStage.TYPING && (
-            <SmartDictationGame word={wordData} onComplete={handleCorrect} onError={handleWrong} />
+            <SmartDictationGame
+              key={`${currentWord.word}-${currentWord.currentStage}-${taskRevision}`}
+              word={wordData}
+              onComplete={handleCorrect}
+              onError={handleWrong}
+            />
           )}
         </div>
       </div>

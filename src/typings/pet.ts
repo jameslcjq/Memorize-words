@@ -16,6 +16,7 @@ export interface Pet {
   outfitJson: string // JSON array of equipped decoration IDs
   lastInteractedAt: number // timestamp, for decay calculation
   createdAt: number
+  color?: string // preset color id; missing legacy values are treated as "natural"
 }
 
 export type ItemType = 'food' | 'toy' | 'cleaning' | 'decoration'

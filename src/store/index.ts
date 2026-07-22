@@ -1,6 +1,8 @@
 import atomForConfig from './atomForConfig'
 import { reviewInfoAtom } from './reviewInfoAtom'
 import { DISMISS_START_CARD_DATE_KEY, defaultFontSizeConfig } from '@/constants'
+import { ANSWER_HINT_WRONG_MS } from '@/constants/game'
+import { offlineStorage } from '@/lib/offlineStorage'
 import { idDictionaryMap } from '@/resources/dictionary'
 import { correctSoundResources, keySoundResources, wrongSoundResources } from '@/resources/soundResource'
 import type {
@@ -13,10 +15,10 @@ import type {
   QuizConfig,
   WordDictationOpenBy,
   WordDictationType,
+  Word,
 } from '@/typings'
 import type { DailyChallengeRecord, PointsTransaction, UnlockedAchievement } from '@/typings/gamification'
 import type { Pet, UserInventoryItem } from '@/typings/pet'
-import { offlineStorage } from '@/lib/offlineStorage'
 import type { ReviewRecord } from '@/utils/db/record'
 import { atom } from 'jotai'
 import { atomWithStorage, createJSONStorage } from 'jotai/utils'
@@ -93,6 +95,8 @@ export const isIgnoreCaseAtom = atomWithOfflineStorage('isIgnoreCase', true)
 
 export const isShowAnswerOnHoverAtom = atomWithOfflineStorage('isShowAnswerOnHover', true)
 
+export const answerHintDurationAtom = atomWithOfflineStorage('answerHintDuration', ANSWER_HINT_WRONG_MS)
+
 export const isTextSelectableAtom = atomWithOfflineStorage('isTextSelectable', false)
 
 export const reviewModeInfoAtom = reviewInfoAtom({
@@ -137,6 +141,8 @@ export const exerciseModeAtom = atomWithOfflineStorage<ExerciseMode>('exerciseMo
 export const quizConfigAtom = atomWithOfflineStorage<QuizConfig>('quizConfig', {
   scope: 'unit',
 })
+
+export const practiceWordListAtom = atom<{ label: string; words: Word[] } | null>(null)
 
 // Cloudflare Auth Atoms
 export const userInfoAtom = atomWithOfflineStorage<{ userId: string; username: string; nickname: string } | null>('userInfo', null)

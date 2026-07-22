@@ -1,0 +1,4 @@
+export const ANSWER_HINT_SUCCESS_MS = 1300
+export const ANSWER_HINT_WRONG_MS = 4500
+export const ANSWER_HINT_MIN_SECONDS = 3
+export const ANSWER_HINT_MAX_SECONDS = 8
